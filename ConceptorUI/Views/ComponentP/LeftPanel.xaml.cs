@@ -1,8 +1,10 @@
-﻿using ConceptorUI.Models;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Interfaces;
+using ConceptorUI.ViewModels;
 using MaterialDesignThemes.Wpf;
 
 
@@ -11,50 +13,86 @@ namespace ConceptorUI.Views.ComponentP
     /// <summary>
     /// Logique d'interaction pour LeftPanel.xaml
     /// </summary>
-    public partial class LeftPanel
+    public partial class LeftPanel : IComponentButton
     {
+        public event EventHandler? PreMouseDownEvent;
+        private readonly object _mouseDownLock = new();
+        
         public LeftPanel()
         {
             InitializeComponent();
+        }
+        
+        event EventHandler IComponentButton.OnMouseDown
+        {
+            add
+            {
+                lock (_mouseDownLock)
+                {
+                    PreMouseDownEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_mouseDownLock)
+                {
+                    PreMouseDownEvent -= value;
+                }
+            }
         }
 
         private void BtnClick(object sender, MouseButtonEventArgs e)
         {
             var tag = (sender as FrameworkElement)!.Tag.ToString()!;
+            var componentName = string.Empty;
+            
             switch (tag)
             {
                 case "Menu":
-                    //PageView.Instance.OnSaved();
-                    //PageView.Instance.OnDuplicated();
-                    MainWindow.Instance.DisplayCompPage(); //Process P = Process.Start(@"C:\Program Files\Sublime Text 3\sublime_text.exe");
+                    componentName = "Menu";
                     break;
                 case "Text":
-                    PageView.Instance.AddComponent(0, ComponentList.TextSingle); break;
+                    componentName = nameof(TextSingleModel);
+                    break;
                 case "Grid":
-                    PageView.Instance.AddComponent(0, ComponentList.Grid); break;
+                    componentName = nameof(GridModel);
+                    break;
                 case "Table":
-                    PageView.Instance.AddComponent(0, ComponentList.Table); break;
+                    componentName = nameof(TableModel);
+                    break;
                 case "Row":
-                    PageView.Instance.AddComponent(0, ComponentList.Row); break;
+                    componentName = nameof(RowModel);
+                    break;
                 case "Column":
-                    PageView.Instance.AddComponent(0, ComponentList.Column); break;
+                    componentName = nameof(ColumnModel);
+                    break;
                 case "Container":
-                    PageView.Instance.AddComponent(0, ComponentList.Container); break;
+                    componentName = nameof(ContainerModel);
+                    break;
                 case "Stack":
-                    PageView.Instance.AddComponent(0, ComponentList.Stack); break;
+                    componentName = nameof(StackModel);
+                    break;
                 case "ListV":
-                    PageView.Instance.AddComponent(0, ComponentList.ListV); break;
+                    componentName = nameof(ListVModel);
+                    break;
                 case "ListH":
-                    PageView.Instance.AddComponent(0, ComponentList.ListH); break;
+                    componentName = nameof(ListHModel);
+                    break;
                 case "Image":
-                    PageView.Instance.AddComponent(0, ComponentList.Image); break;
+                    componentName = nameof(ImageModel);
+                    break;
                 case "Icon":
-                    PageView.Instance.AddComponent(0, ComponentList.Icon); break;
+                    componentName = nameof(IconModel);
+                    break;
                 case "Shape":
-                    /*PageView.Instance.OnDuplicated();*/ break;
+                    componentName = string.Empty;
+                    break;
                 case "Setting":
-                    PageView.Instance.AddComponent(0, ComponentList.Table); break;
+                    componentName = string.Empty;
+                    break;
             }
+            
+            PreMouseDownEvent!.Invoke(componentName, EventArgs.Empty);
         }
 
         private void BtnMouseEnter(object sender, MouseEventArgs e)

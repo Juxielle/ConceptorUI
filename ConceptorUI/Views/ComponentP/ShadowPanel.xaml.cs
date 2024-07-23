@@ -74,7 +74,7 @@ public partial class ShadowPanel
         }
         if (idP != PropertyNames.None)
         {
-            PanelProperty.Instance.ReactToProps(GroupNames.Shadow, idP, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value);
+            PanelProperty.ReactToProps(GroupNames.Shadow, idP, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value);
         }
     }
 
@@ -97,12 +97,12 @@ public partial class ShadowPanel
         var cb = (sender as CheckBox)!;
         if (cb.IsChecked != false) return;
         BColor.Background = Brushes.Transparent;
-        PanelProperty.Instance.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent");
+        PanelProperty.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent");
     }
 
     public void SetColor(Brush color, int id)
     {
         BColor.Background = color;
-        PanelProperty.Instance.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString());
+        PanelProperty.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString());
     }
 }

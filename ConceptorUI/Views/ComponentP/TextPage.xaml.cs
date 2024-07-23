@@ -40,7 +40,7 @@ namespace ConceptorUI.Views.ComponentP
             string text = (sender as TextBox).Text;
             if (textFormated != null) { 
                 textFormated.Text = text;
-                PanelProperty.Instance.ReactToProps(GroupNames.Text, PropertyNames.Text, text);
+                PanelProperty.ReactToProps(GroupNames.Text, PropertyNames.Text, text);
             }
         }
 

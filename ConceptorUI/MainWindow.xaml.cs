@@ -25,8 +25,14 @@ namespace ConceptorUI
             InitializeComponent();
             _obj = this;
 
+            ComponentButtons.PreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
             ContentPages.PreviewMouseDown += OnMouseDown;
+        }
+
+        private void OnComponentButtonMouseClick(object sender, EventArgs e)
+        {
+            Console.WriteLine(@"Button name: "+ sender);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)

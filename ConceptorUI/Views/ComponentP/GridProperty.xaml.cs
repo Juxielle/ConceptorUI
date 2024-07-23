@@ -75,13 +75,13 @@ namespace ConceptorUI.Views.ComponentP
             int idG = pos[0], idP = pos[1];
             switch (tag)
             {
-                case "Add": PanelProperty.Instance.ReactToProps(GroupNames.GridProperty, PropertyNames.Add, "1"); break;
-                case "Merge": PanelProperty.Instance.ReactToProps(GroupNames.GridProperty, PropertyNames.Merged, "1"); break;
+                case "Add": PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.Add, "1"); break;
+                case "Merge": PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.Merged, "1"); break;
                 case "HideBorder":
                     string OldValue = Properties.groupProps![idG].Properties[idP].Value;
                     BHideBorder.BorderBrush = HideBorder.Foreground = new BrushConverter().ConvertFrom(OldValue == "1" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     HideBorder.Kind = OldValue == "0" ? PackIconKind.EyeOutline : PackIconKind.EyeOffOutline;
-                    PanelProperty.Instance.ReactToProps(GroupNames.GridProperty, PropertyNames.HideBorder, OldValue == "0" ? "1" : "0");
+                    PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.HideBorder, OldValue == "0" ? "1" : "0");
                     break;
             }
         }
@@ -99,7 +99,7 @@ namespace ConceptorUI.Views.ComponentP
                 {
                     case "SelectedElement":
                         var value = comboBox.SelectedIndex == 0 ? ESelectedElement.Cell : (comboBox.SelectedIndex == 1 ? ESelectedElement.Row : ESelectedElement.Column);
-                        PanelProperty.Instance.ReactToProps(GroupNames.GridProperty, PropertyNames.SelectedElement, value.ToString()); break;
+                        PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.SelectedElement, value.ToString()); break;
                 }
             }
             else firstCount3++;

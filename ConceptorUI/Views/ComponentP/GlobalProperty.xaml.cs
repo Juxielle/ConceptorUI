@@ -92,22 +92,22 @@ namespace ConceptorUI.Views.ComponentP
             {
                 case "SelectedMode":
                     var value = Properties.groupProps![idG].Properties[idP].Value == ESelectedMode.Single.ToString() ? ESelectedMode.Multiple : ESelectedMode.Single;
-                    PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.SelectedMode, value.ToString());
+                    PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.SelectedMode, value.ToString());
                     SelectedMode.Foreground =
                         BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(value == ESelectedMode.Single ? "#8c8c8a" : "#6739b7") as SolidColorBrush; break;
-                case "MoveLeft": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveLeft, "0"); break;
-                case "MoveRight": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveRight, "0"); break;
-                case "MoveTop": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveTop, "0"); break;
-                case "MoveBottom": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveBottom, "0"); break;
-                case "MoveParentToChild": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveParentToChild, "0"); break;
-                case "MoveChildToParent": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.MoveChildToParent, "0"); break;
-                case "Trash": PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.Trash, "0"); break;
+                case "MoveLeft": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveLeft, "0"); break;
+                case "MoveRight": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveRight, "0"); break;
+                case "MoveTop": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveTop, "0"); break;
+                case "MoveBottom": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveBottom, "0"); break;
+                case "MoveParentToChild": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveParentToChild, "0"); break;
+                case "MoveChildToParent": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveChildToParent, "0"); break;
+                case "Trash": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.Trash, "0"); break;
                 case "FilePicker":
                     if (Properties.ComponentName == ComponentList.Icon)
                     {
                         var dbIcon = new DbIcons(data =>
                         {
-                            PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, data);
+                            PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, data);
                         });
                         dbIcon.ShowDialog();
                     }
@@ -122,7 +122,7 @@ namespace ConceptorUI.Views.ComponentP
                         if(!File.Exists(path))
                             File.Copy(filePath, path);
                         
-                        PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, fileName);
+                        PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, fileName);
                     }
                     break;
                 case "Copy":
@@ -146,7 +146,7 @@ namespace ConceptorUI.Views.ComponentP
                 switch (tag)
                 {
                     case "Focus":
-                        PanelProperty.Instance.ReactToProps(GroupNames.Global, PropertyNames.Focus, value == "0" ? "1" : "0");
+                        PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.Focus, value == "0" ? "1" : "0");
                         break;
                 }
             }

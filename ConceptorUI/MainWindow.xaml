@@ -131,7 +131,8 @@
         <DockPanel>
             <!--<component:TopPanel DockPanel.Dock="Top"/>-->
 
-            <component:LeftPanel Margin="0 2" Background="White" DockPanel.Dock="Left"/>
+            <component:LeftPanel Margin="0 2" Background="White" DockPanel.Dock="Left" x:Name="ComponentButtons"/>
+            
             <component:RightPanel Margin="0 2" Background="White" DockPanel.Dock="Right"/>
 
             <component:PanelProperty Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300"

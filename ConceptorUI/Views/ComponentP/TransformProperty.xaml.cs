@@ -98,7 +98,7 @@ namespace ConceptorUI.Views.ComponentP
                     if (Properties.ComponentName == ComponentList.Icon && WTB.Text != HTB.Text)
                     {
                         var vd = value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value;
-                        PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.Height, vd);
+                        PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.Height, vd);
                         HTB.Text = vd;
                     }
                     break;
@@ -109,7 +109,7 @@ namespace ConceptorUI.Views.ComponentP
                     if (Properties.ComponentName == ComponentList.Icon && WTB.Text != HTB.Text)
                     {
                         var vd = value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value;
-                        PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.Width, vd);
+                        PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.Width, vd);
                         WTB.Text = vd;
                     }
                     break;
@@ -119,7 +119,7 @@ namespace ConceptorUI.Views.ComponentP
             }
             if (idP != PropertyNames.None)
             {
-                PanelProperty.Instance.ReactToProps(GroupNames.Transform, idP, value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value);
+                PanelProperty.ReactToProps(GroupNames.Transform, idP, value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value);
             }
         }
 
@@ -133,14 +133,14 @@ namespace ConceptorUI.Views.ComponentP
                 case "HE":
                     WTB.Text = "";
                     value = Properties.groupProps![1].Properties[5].Value;
-                    PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.Width, value == "0" ? "Expand" : "Auto");
-                    PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.HE, value == "0" ? "1" : "0");
+                    PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.Width, value == "0" ? "Expand" : "Auto");
+                    PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.HE, value == "0" ? "1" : "0");
                     HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush; break;
                 case "VE":
                     HTB.Text = "";
                     value = Properties.groupProps![1].Properties[6].Value;
-                    PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.VE, value == "0" ? "1" : "0");
-                    PanelProperty.Instance.ReactToProps(GroupNames.Transform, PropertyNames.Height, value == "0" ? "Expand" : "Auto");
+                    PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.VE, value == "0" ? "1" : "0");
+                    PanelProperty.ReactToProps(GroupNames.Transform, PropertyNames.Height, value == "0" ? "Expand" : "Auto");
                     VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush; break;
                 case "HVE": idP = PropertyNames.HVE; break;
                 case "UpValueW": WTB.Text = ManageEnums.SetNumber(WTB.Text).Replace(",", "."); break;
@@ -166,7 +166,7 @@ namespace ConceptorUI.Views.ComponentP
             
             if (idP == PropertyNames.None && value != null!) return;
             if(_firstCount > 1 && value != null)
-                PanelProperty.Instance.ReactToProps(GroupNames.Transform, idP, value!);
+                PanelProperty.ReactToProps(GroupNames.Transform, idP, value!);
             if (_firstCount < 2)  _firstCount++;
         }
 

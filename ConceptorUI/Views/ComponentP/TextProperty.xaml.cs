@@ -170,7 +170,7 @@ namespace ConceptorUI.Views.ComponentP
             {
                 textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
                 var value = textBox.Text == "" ? "0" : textBox.Text;
-                PanelProperty.Instance.ReactToProps(GroupNames.Text, idP, value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value);
+                PanelProperty.ReactToProps(GroupNames.Text, idP, value[value.Length - 1] == '.' ? value.Substring(0, value.Length - 1) : value);
             }
         }
 
@@ -193,7 +193,7 @@ namespace ConceptorUI.Views.ComponentP
             }
             if (idP != PropertyNames.None)
             {
-                if(_firstCount > 1 && value != null) PanelProperty.Instance.ReactToProps(GroupNames.Text, idP, value);
+                if(_firstCount > 1 && value != null) PanelProperty.ReactToProps(GroupNames.Text, idP, value);
                 if (_firstCount < 2)  _firstCount++;
             }
         }
@@ -232,7 +232,7 @@ namespace ConceptorUI.Views.ComponentP
             }
             if (idP != -1 && idP != 18)
             {
-                PanelProperty.Instance.ReactToProps(GroupNames.Text, idPN, index + "");
+                PanelProperty.ReactToProps(GroupNames.Text, idPN, index + "");
                 LoadValue(idP, index + "", btnName);
             }
         }
@@ -259,7 +259,7 @@ namespace ConceptorUI.Views.ComponentP
             }
             if (idPN != PropertyNames.None)
             {
-                PanelProperty.Instance.ReactToProps(GroupNames.Text, idPN, index + "");
+                PanelProperty.ReactToProps(GroupNames.Text, idPN, index + "");
                 LoadValue(idP, index + "", btnName);
 
             }
@@ -271,7 +271,7 @@ namespace ConceptorUI.Views.ComponentP
             if (cb.IsChecked == false)
             {
                 BColor.Background = Brushes.Transparent;
-                PanelProperty.Instance.ReactToProps(GroupNames.Text, PropertyNames.Color, "Transparent");
+                PanelProperty.ReactToProps(GroupNames.Text, PropertyNames.Color, "Transparent");
             }
         }
 
@@ -348,7 +348,7 @@ namespace ConceptorUI.Views.ComponentP
         public void SetColor(Brush color)
         {
             BColor.Background = color;
-            PanelProperty.Instance.ReactToProps(GroupNames.Text, PropertyNames.Color, color.ToString());
+            PanelProperty.ReactToProps(GroupNames.Text, PropertyNames.Color, color.ToString());
         }
     }
 }
