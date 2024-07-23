@@ -1,0 +1,5 @@
+.vs/*
+.idea/*
+ConceptorUI.sln
+ConceptorUI/bin/*
+ConceptorUI/obj/*

@@ -1,0 +1,157 @@
+﻿<UserControl x:Class="ConceptorUI.Views.ComponentP.AlignmentProperty"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ConceptorUI.Views.ComponentP"
+             mc:Ignorable="d"
+             d:DesignHeight="105" d:DesignWidth="800">
+    <Border Height="105" BorderBrush="#c2c2c2" BorderThickness="0 0 0 2" Background="White" x:Name="content">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+
+            <TextBlock Text="CONTENT ALIGNMENT" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
+                       FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="5" x:Name="Title"/>
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="6"
+                    Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="ContentPaste" Width="15" Height="15" Foreground="#8c8c8a"/>
+            </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="6"
+                    Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="ContentCopy" Width="15" Height="15" Foreground="#8c8c8a"/>
+            </Button>
+
+            <Border Grid.Row="1" BorderBrush="#c2c2c2" BorderThickness="0 0 0 0.5">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="VT" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVT">
+                        <materialDesign:PackIcon Kind="AlignVerticalTop" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="VT" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="1" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="VC" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVC">
+                        <materialDesign:PackIcon Kind="AlignHorizontalDistribute" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="VC" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="2" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="VB" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVB">
+                        <materialDesign:PackIcon Kind="AlignVerticalBottom" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="VB" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                    
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="3" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="HL" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BHL">
+                        <materialDesign:PackIcon Kind="AlignHorizontalLeft" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="HL" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="4" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="HC" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BHC">
+                        <materialDesign:PackIcon Kind="AlignVerticalDistribute" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="HC" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="5" Grid.Row="1"
+                        MouseDown="BtnClick" Tag="HR" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BHR">
+                        <materialDesign:PackIcon Kind="AlignHorizontalRight" Width="15" Height="15"
+                                         Foreground="#8c8c8a" x:Name="HR" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center"/>
+                    </Border>
+                </Grid>
+            </Border>
+
+            <Grid Grid.Row="3" x:Name="gridSpace">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+
+                <Border Background="Transparent" BorderBrush="#8c8c8a" MouseDown="BtnClick" Tag="SB" Cursor="Hand" Width="80" Height="25"
+                        CornerRadius="0" BorderThickness="0.2" x:Name="BSB">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Left"
+                                         VerticalAlignment="Center" Margin="-2" Grid.Column="0" x:Name="BSB1"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="1" x:Name="BSB2"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="2" x:Name="BSB3"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Right"
+                                         VerticalAlignment="Center" Margin="-2" Grid.Column="3" x:Name="BSB4"/>
+                    </Grid>
+                </Border>
+
+
+                <Border Background="Transparent" BorderBrush="#6739b7" MouseDown="BtnClick" Tag="SA" Cursor="Hand" Width="80" Height="25"
+                        CornerRadius="0" Grid.Column="1" BorderThickness="0.2" x:Name="BSA">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#6739b7" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Grid.Column="0" x:Name="BSA1"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#6739b7" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Grid.Column="1" x:Name="BSA2"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#6739b7" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Grid.Column="2" x:Name="BSA3"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#6739b7" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Grid.Column="3" x:Name="BSA4"/>
+                    </Grid>
+                </Border>
+
+
+                <Border Background="Transparent" BorderBrush="#8c8c8a" MouseDown="BtnClick" Tag="SE" Cursor="Hand" Width="80" Height="25"
+                        CornerRadius="0" Grid.Column="2" BorderThickness="0.2" x:Name="BSE">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Right"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="0" x:Name="BSE1"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="1" x:Name="BSE2"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Center"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="2" x:Name="BSE3"/>
+                        <materialDesign:PackIcon Kind="Square" Width="15" Height="15" Foreground="#8c8c8a" HorizontalAlignment="Left"
+                                         VerticalAlignment="Center" Margin="0" Grid.Column="3" x:Name="BSE4"/>
+                    </Grid>
+                </Border>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>

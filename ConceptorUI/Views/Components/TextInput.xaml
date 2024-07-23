@@ -1,0 +1,41 @@
+﻿<UserControl x:Class="ConceptorUI.Views.Components.TextInput"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ConceptorUI.Views.Components"
+             mc:Ignorable="d" 
+             d:DesignHeight="200" d:DesignWidth="600">
+    <Grid>
+        <DockPanel Margin="0 8 0 0">
+            <DockPanel DockPanel.Dock="Bottom" Margin="0 2">
+                <TextBlock Text="Ce champ est requis *" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="10"/>
+                <TextBlock Text="Caractères 140" HorizontalAlignment="Center" VerticalAlignment="Center"
+                   FontSize="10" DockPanel.Dock="Right"/>
+                <Grid/>
+            </DockPanel>
+            <Border Background="White" CornerRadius="4" BorderBrush="Gray" BorderThickness="1">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto"/>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <materialDesign:PackIcon Kind="Smiley" Width="24" Height="24" Foreground="Gray"
+                                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 6"/>
+                    <TextBlock Text="Placeholder" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                       FontSize="12" Margin="4 10" Foreground="Gray" Grid.Column="1"/>
+                    <materialDesign:PackIcon Kind="Smiley" Width="24" Height="24" Foreground="Gray"
+                                 HorizontalAlignment="Center" VerticalAlignment="Bottom" Margin="0 0 0 6"
+                                 Grid.Column="2"/>
+                </Grid>
+            </Border>
+        </DockPanel>
+        <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Background="White"
+               Margin="10 8 0 0" Height="4" Width="40"/>
+        <TextBlock Text="Hint Text" FontSize="10" Margin="10 0 0 0" Foreground="Gray"
+                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+    </Grid>
+</UserControl>

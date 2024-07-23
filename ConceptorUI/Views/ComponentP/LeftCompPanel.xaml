@@ -1,0 +1,47 @@
+﻿<UserControl x:Class="ConceptorUI.Views.ComponentP.LeftCompPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:ConceptorUI.Views.ComponentP"
+             mc:Ignorable="d" 
+             d:DesignHeight="400" d:DesignWidth="500">
+    <Border Background="White" BorderBrush="#c2c2c2" BorderThickness="0 1.5 2 0">
+        <Grid>
+            <StackPanel Margin="0 0 0 10">
+                <!--<Button Background="Transparent" BorderBrush="Transparent" DockPanel.Dock="Top" Click="BtnClick" Tag="Close"
+                        Margin="0 -10 0 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right">
+                    <materialDesign:PackIcon Kind="Close" Width="15" Height="15" Foreground="IndianRed"/>
+                </Button>-->
+
+                <Border Height="48" BorderBrush="#c2c2c2" BorderThickness="0 0 0 0.5" Background="White" Padding="2 6" x:Name="btns" DockPanel.Dock="Top">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Button Content="Natives" FontSize="12" FontWeight="Bold" Foreground="#000000" Background="Transparent" Margin="0 0 2 0" 
+                                BorderBrush="#c2c2c2" BorderThickness="0" Cursor="Hand" Click="BtnClick" Tag="Component" x:Name="BComponent"/>
+                        <Button Content="Pages" FontSize="12" FontWeight="Bold" Foreground="#1960ea" Background="Transparent" Margin="0 0 2 0" 
+                                BorderBrush="#c2c2c2" BorderThickness="0" Grid.Column="1" Cursor="Hand" Click="BtnClick" Tag="Report" x:Name="BReport"/>
+                        <Button Content="Composants" FontSize="12" FontWeight="Bold" Foreground="#000000" Background="Transparent" Margin="0 0 2 0" 
+                                BorderBrush="#c2c2c2" BorderThickness="0" Grid.Column="2" Cursor="Hand" Click="BtnClick" Tag="Personnel" x:Name="BPersonnel"/>
+                    </Grid>
+                </Border>
+
+                <Grid x:Name="SContentComponent">
+                    <local:NativeComponentPanel />
+                </Grid>
+                <StackPanel x:Name="SContentReport"/>
+                <StackPanel x:Name="SPersonnel"/>
+            </StackPanel>
+
+            <Border Background="#f4f6f8" BorderBrush="#1960ea" BorderThickness="0.5" Tag="Add" Grid.Column="5" Grid.RowSpan="2" CornerRadius="10"
+                Cursor="Hand" Width="50" Height="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" Margin="20" MouseDown="OnMouseDown" x:Name="BtnAdd">
+                <materialDesign:PackIcon Kind="Add" Width="30" Height="30" Foreground="#1960ea" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+            </Border>
+        </Grid>
+    </Border>
+</UserControl>

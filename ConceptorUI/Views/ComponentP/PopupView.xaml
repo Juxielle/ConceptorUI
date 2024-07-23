@@ -1,0 +1,28 @@
+﻿<UserControl x:Class="ConceptorUI.Views.ComponentP.PopupView"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:ed="http://schemas.microsoft.com/expression/2010/drawing"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ConceptorUI.Views.ComponentP"
+             mc:Ignorable="d" 
+             d:DesignHeight="60" d:DesignWidth="500">
+    <Grid Background="#1a8b3c" x:Name="Popup">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <ed:Arc Grid.Column="0" Margin="10 5" Width="40" Height="40" Fill="Gray" HorizontalAlignment="Left" x:Name="Indication"
+                Stretch="None" ArcThickness="6" ArcThicknessUnit="Pixel" EndAngle="360" Opacity="0.6"/>
+        <ed:Arc Grid.Column="0" Margin="10 5" Width="40" Height="40" Fill="#ffffff" HorizontalAlignment="Left" x:Name="RIndication"
+                Stretch="None" ArcThickness="6" ArcThicknessUnit="Pixel" StartAngle="0" EndAngle="60"/>
+        <TextBlock Text="Enregistrement effectué avec succès." FontSize="14" HorizontalAlignment="Left"
+                   VerticalAlignment="Center" Foreground="#ffffff" Grid.Column="1" x:Name="Message"/>
+        <Border Background="Transparent" BorderBrush="Transparent" BorderThickness="0.5" Tag="Add" CornerRadius="4" Grid.Column="1"
+                Cursor="Hand" MouseDown="OnMouseDown" Width="30" Height="30" HorizontalAlignment="Right" Margin="10">
+            <materialDesign:PackIcon Kind="Close" Width="20" Height="20" Foreground="#ffffff" HorizontalAlignment="Center" 
+                                     VerticalAlignment="Center" x:Name="Close"/>
+        </Border>
+    </Grid>
+</UserControl>

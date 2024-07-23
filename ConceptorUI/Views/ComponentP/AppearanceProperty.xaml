@@ -1,0 +1,285 @@
+﻿<UserControl x:Class="ConceptorUI.Views.ComponentP.AppearanceProperty"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:local="clr-namespace:ConceptorUI.Views.ComponentP"
+             mc:Ignorable="d" 
+             d:DesignHeight="195" d:DesignWidth="800">
+    <Border Height="195" BorderBrush="#c2c2c2" BorderThickness="0 0 0 2" Background="White">
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="25"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="40"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="APPEARANCE" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
+                       FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="2"/>
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="2"
+                    Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="ContentPaste" Width="15" Height="15"
+                                             Foreground="#8c8c8a"/>
+            </Button>
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="2"
+                    Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
+                    VerticalAlignment="Center">
+                <materialDesign:PackIcon Kind="ContentCopy" Width="15" Height="15"
+                                             Foreground="#8c8c8a"/>
+            </Button>
+
+            <Grid Grid.Row="1" Grid.ColumnSpan="3" x:Name="SMargin">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Margin="10 0">
+                    <TextBlock Text="Margin" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueM">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueM">
+                                <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueM" Grid.Row="1">
+                                <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                        </Grid>
+                        <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" TextChanged="OnTextChanged"
+                                 Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="TMargin" Tag="Margin"
+                                 Text="0" FontSize="14" FontWeight="Bold"/>
+                    </DockPanel>
+                </StackPanel>
+                <DockPanel Grid.Column="1" Width="30" Height="30" HorizontalAlignment="Left" x:Name="SMarginBtn">
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" x:Name="BMarginLeft" Tag="MarginLeft" Click="BtnClick"/>
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Right" x:Name="BMarginRight" Tag="MarginRight" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Top" Margin="1 0" x:Name="BMarginTop" Tag="MarginTop" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Bottom" Margin="1 0" x:Name="BMarginBot" Tag="MarginBot" Click="BtnClick"/>
+                    <Grid></Grid>
+                </DockPanel>
+                <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" 
+                          Margin="0 6 0 0" Cursor="Hand" Foreground="DodgerBlue" Grid.Column="2"
+                          x:Name="CMargin" Tag="Margin" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+            </Grid>
+
+            <Grid Grid.Row="2" Grid.ColumnSpan="3" x:Name="SPadding">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="10 0">
+                    <TextBlock Text="Padding" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueP">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueP">
+                                <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueP" Grid.Row="1">
+                                <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                        </Grid>
+                        <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" TextChanged="OnTextChanged"
+                                 Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="TPadding" Tag="Padding"
+                                 Text="0" FontSize="14" FontWeight="Bold"/>
+                    </DockPanel>
+                </StackPanel>
+                <DockPanel Grid.Column="1" Width="30" Height="30" HorizontalAlignment="Left" x:Name="SPaddingBtn">
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" x:Name="BPaddingLeft" Tag="PaddingLeft" Click="BtnClick"/>
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Right" x:Name="BPaddingRight" Tag="PaddingRight" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Top" Margin="1 0" x:Name="BPaddingTop" Tag="PaddingTop" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Bottom" Margin="1 0" x:Name="BPaddingBot" Tag="PaddingBot" Click="BtnClick"/>
+                    <Grid></Grid>
+                </DockPanel>
+                <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" 
+                          Margin="0 6 0 0" Cursor="Hand" Foreground="DodgerBlue" Grid.Column="2"
+                          x:Name="CPadding" Tag="Padding" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+            </Grid>
+
+            <Grid Grid.Row="3" Grid.ColumnSpan="3" x:Name="SBorder">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="70"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="10 0 0 0">
+                    <TextBlock Text="Border Color" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" 
+                                  Margin="0 6 0 0" Cursor="Hand" Foreground="DodgerBlue" 
+                                  x:Name="CBorderC" Tag="BorderC" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+                        <Button Width="20" Height="20" Background="#8c8c8a" Cursor="Hand" Margin="15 0 0 0" 
+                                x:Name="BBorderC" Tag="BorderC" Click="BtnClick"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="5 0" x:Name="SBorderW">
+                    <TextBlock Text="Border Width" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueB">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueB">
+                                <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueB" Grid.Row="1">
+                                <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                        </Grid>
+                        <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" TextChanged="OnTextChanged"
+                                 Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="TBorderW" Tag="BorderW"
+                                 Text="0" FontSize="14" FontWeight="Bold"/>
+                    </DockPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Margin="0 0 5 0" x:Name="SBorderStyle">
+                    <TextBlock Text="Style" Foreground="#8c8c8a" FontSize="10"
+                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                    <ComboBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" Background="Transparent"
+                         Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom"
+                         Text="0" FontSize="10" FontWeight="Bold" SelectedIndex="0"
+                         Tag="BorderStyle" SelectionChanged="OnSelectedChanged" x:Name="CBorderStyle">
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Minus" Width="15" Height="15"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="15" Height="15" Margin="-7 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="15" Height="15" Margin="-7 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="15" Height="15" Margin="-7 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="DotsHorizontal" Width="15" Height="15"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="DotsHorizontal" Width="15" Height="15" Margin="-3 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="DotsHorizontal" Width="15" Height="15" Margin="-3 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                        <ComboBoxItem>
+                            <StackPanel Orientation="Horizontal">
+                                <materialDesign:PackIcon Kind="Minus" Width="15" Height="15"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="13" Height="15" Margin="-3 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="13" Height="15" Margin="-3 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                                <materialDesign:PackIcon Kind="Minus" Width="13" Height="15" Margin="-3 0 0 0"
+                                             Foreground="#8c8c8a" VerticalAlignment="Center"/>
+                            </StackPanel>
+                        </ComboBoxItem>
+                    </ComboBox>
+                </StackPanel>
+                <DockPanel Grid.Column="3" Width="30" Height="30" HorizontalAlignment="Left" x:Name="SBorderBtn">
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" x:Name="BBorderLeft" Tag="BorderLeft" Click="BtnClick"/>
+                    <Button Width="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Right" x:Name="BBorderRight" Tag="BorderRight" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Top" Margin="1 0" x:Name="BBorderTop" Tag="BorderTop" Click="BtnClick"/>
+                    <Button Height="4" Background="#8c8c8a" Cursor="Hand" DockPanel.Dock="Bottom" Margin="1 0" x:Name="BBorderBot" Tag="BorderBot" Click="BtnClick"/>
+                    <Grid></Grid>
+                </DockPanel>
+                <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" 
+                          Margin="0 6 0 0" Cursor="Hand" Foreground="DodgerBlue" Grid.Column="4"
+                          x:Name="CBorder" Tag="Border" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+            </Grid>
+
+            <Grid Grid.Row="4" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto"/>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="35"/>
+                    <ColumnDefinition Width="30"/>
+                </Grid.ColumnDefinitions>
+
+                <StackPanel Margin="10 0 0 0" x:Name="SFillColor">
+                    <TextBlock Text="Fill Color" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" VerticalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal">
+                        <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" Margin="0 6 0 0" Cursor="Hand" 
+                                  x:Name="CFillColor" Tag="FillColor" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+                        <Button Width="20" Height="20" Background="#6739b7" Cursor="Hand" Margin="15 0 0 0"
+                                x:Name="BFillColor" Tag="FillColor" Click="BtnClick"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <StackPanel Grid.Column="1" Margin="10 0" x:Name="SBorderRad">
+                    <TextBlock Text="Border Radius" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+                    <DockPanel>
+                        <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueBR">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueBR">
+                                <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueBR" Grid.Row="1">
+                                <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a"/>
+                            </Button>
+                        </Grid>
+                        <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" TextChanged="OnTextChanged"
+                                 Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="TBorderRad" Tag="BorderRad"
+                                 Text="0" FontSize="14" FontWeight="Bold"/>
+                    </DockPanel>
+                </StackPanel>
+                <StackPanel Grid.Column="2" Width="30" Height="30" Orientation="Horizontal" Margin="-6 0 0 0" x:Name="SBorderRadBtn">
+                    <StackPanel Width="14">
+                        <Button Height="14" Background="Transparent" Cursor="Hand"
+                                BorderBrush="#6739b7" BorderThickness="4 4 0 0" x:Name="BBorderRadTL" Tag="BorderRadTL" Click="BtnClick"/>
+                        <Button Height="14" Background="Transparent" Cursor="Hand" Margin="0 2 0 0"
+                                BorderBrush="#8c8c8a" BorderThickness="4 0 0 4" x:Name="BBorderRadBL" Tag="BorderRadBL" Click="BtnClick"/>
+                    </StackPanel>
+                    <StackPanel Width="14" Margin="2 0 0 0">
+                        <Button Height="14" Background="Transparent" Cursor="Hand"
+                                BorderBrush="#8c8c8a" BorderThickness="0 4 4 0" x:Name="BBorderRadTR" Tag="BorderRadTR" Click="BtnClick"/>
+                        <Button Height="14" Background="Transparent" Cursor="Hand" Margin="0 2 0 0"
+                                BorderBrush="#8c8c8a" BorderThickness="0 0 4 4" x:Name="BBorderRadBR" Tag="BorderRadBR" Click="BtnClick"/>
+                    </StackPanel>
+                </StackPanel>
+
+                <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" 
+                          Margin="0 6 0 0" Cursor="Hand" Foreground="DodgerBlue" Grid.Column="3"
+                          x:Name="CBorderRad" Tag="BorderRad" Checked="OnColorChecked" Unchecked="OnColorChecked"/>
+            </Grid>
+        </Grid>
+    </Border>
+</UserControl>
