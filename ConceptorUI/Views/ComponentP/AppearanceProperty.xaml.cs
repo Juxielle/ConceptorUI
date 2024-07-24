@@ -119,7 +119,7 @@ namespace ConceptorUI.Views.ComponentP
                 else if (prop.Name == PropertyNames.Margin.ToString())
                 {
                     SMargin.Visibility = Visibility.Visible;
-                    if (prop.Value == "1")
+                    if (_properties.GetValue(PropertyNames.CMargin) == "1")
                     {
                         BMarginLeft.Background = BMarginTop.Background =  BMarginRight.Background = 
                             BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
@@ -133,38 +133,40 @@ namespace ConceptorUI.Views.ComponentP
                 }
                 else if (prop.Name == PropertyNames.MarginLeft.ToString())
                 {
-                    if (prop.Value != "1") continue;
+                    if (_properties.GetValue(PropertyNames.CMargin) != "0" || 
+                        _properties.GetValue(PropertyNames.MarginBtnActif) != "MarginLeft") continue;
                     BMarginLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                     BMarginTop.Background = BMarginRight.Background =  BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
                     TMargin.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.MarginTop.ToString())
                 {
-                    if (prop.Value != "1") continue;
+                    if (_properties.GetValue(PropertyNames.CMargin) != "0" || 
+                        _properties.GetValue(PropertyNames.MarginBtnActif) != "MarginTop") continue;
                     BMarginTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                     BMarginLeft.Background = BMarginRight.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
                     TMargin.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.MarginRight.ToString())
                 {
-                    if (prop.Value != "1") continue;
+                    if (_properties.GetValue(PropertyNames.CMargin) != "0" || 
+                        _properties.GetValue(PropertyNames.MarginBtnActif) != "MarginRight") continue;
                     BMarginRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                     BMarginLeft.Background = BMarginTop.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
                     TMargin.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.MarginBottom.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[1].Value == "0" && Properties.groupProps[idG].Properties[2].Value == "MarginBottom")
-                    {
-                        BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BMarginLeft.Background = BMarginRight.Background = BMarginTop.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TMargin.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CMargin) != "0" || 
+                        _properties.GetValue(PropertyNames.MarginBtnActif) != "MarginBottom") continue;
+                    BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BMarginLeft.Background = BMarginRight.Background = BMarginTop.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TMargin.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.Padding.ToString())
                 {
                     SPadding.Visibility = Visibility.Visible;
-                    if (Properties.groupProps[idG].Properties[8].Value == "1")
+                    if (_properties.GetValue(PropertyNames.CPadding) == "1")
                     {
                         BPaddingLeft.Background = BPaddingTop.Background = BPaddingRight.Background =
                             BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
@@ -178,44 +180,40 @@ namespace ConceptorUI.Views.ComponentP
                 }
                 else if (prop.Name == PropertyNames.PaddingLeft.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[8].Value == "0" && Properties.groupProps[idG].Properties[9].Value == "PaddingLeft")
-                    {
-                        BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TPadding.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CPadding) != "0" || 
+                        _properties.GetValue(PropertyNames.PaddingBtnActif) != "PaddingLeft") continue;
+                    BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TPadding.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.PaddingTop.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[8].Value == "0" && Properties.groupProps[idG].Properties[9].Value == "PaddingTop")
-                    {
-                        BPaddingTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BPaddingLeft.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TPadding.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CPadding) != "0" || 
+                        _properties.GetValue(PropertyNames.PaddingBtnActif) != "PaddingTop") continue;
+                    BPaddingTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BPaddingLeft.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TPadding.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.PaddingRight.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[8].Value == "0" && Properties.groupProps[idG].Properties[9].Value == "PaddingRight")
-                    {
-                        BPaddingRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BPaddingTop.Background = BPaddingLeft.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TPadding.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CPadding) != "0" || 
+                        _properties.GetValue(PropertyNames.PaddingBtnActif) != "PaddingRight") continue;
+                    BPaddingRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BPaddingTop.Background = BPaddingLeft.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TPadding.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.PaddingBottom.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[8].Value == "0" && Properties.groupProps[idG].Properties[9].Value == "PaddingBottom")
-                    {
-                        BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BPaddingTop.Background = BPaddingRight.Background = BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TPadding.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CPadding) != "0" || 
+                        _properties.GetValue(PropertyNames.PaddingBtnActif) != "PaddingBottom") continue;
+                    BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BPaddingTop.Background = BPaddingRight.Background = BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TPadding.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderWidth.ToString())
                 {
                     SBorder.Visibility = Visibility.Visible;
-                    if (Properties.groupProps[idG].Properties[15].Value == "1")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "1")
                     {
                         BBorderLeft.Background = BBorderTop.Background = BBorderRight.Background =
                             BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
@@ -235,68 +233,65 @@ namespace ConceptorUI.Views.ComponentP
                 }
                 else if (prop.Name == PropertyNames.BorderStyle.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "1")  CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
+                    if (_properties.GetValue(PropertyNames.CBorder) == "1")
+                        CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.BorderLeftWidth.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderLeft")
-                    {
-                        BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderTop.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderW.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorder) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderBtnActif) != "BorderLeft") continue;
+                    BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderTop.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderW.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderLeftStyle.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderLeft")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0" && _properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft")
                         CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.BorderTopWidth.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderTop")
-                    {
-                        BBorderTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderLeft.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderW.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorder) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderBtnActif) != "BorderTop") continue;
+                    BBorderTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderLeft.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderW.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderTopStyle.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderTop")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0" && _properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop")
                         CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.BorderRightWidth.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderRight")
-                    {
-                        BBorderRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderLeft.Background = BBorderLeft.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderW.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorder) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderBtnActif) != "BorderRight") continue;
+                    BBorderRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderLeft.Background = BBorderLeft.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderW.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderRightStyle.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderRight")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0" && _properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight")
                         CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.BorderBottomWidth.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderBottom")
-                    {
-                        BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderTop.Background = BBorderRight.Background = BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderW.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorder) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderBtnActif) != "BorderBottom") continue;
+                    BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderTop.Background = BBorderRight.Background = BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderW.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderBottomStyle.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[15].Value == "0" && Properties.groupProps[idG].Properties[16].Value == "BorderBottom")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0" && _properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom")
                         CBorderStyle.SelectedIndex = Convert.ToInt32(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.BorderRadius.ToString())
                 {
                     SBorderRad.Visibility = SBorderRadBtn.Visibility = CBorderRad.Visibility = Visibility.Visible;
-                    if (Properties.groupProps[idG].Properties[32].Value == "1")
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
                     {
                         BBorderRadTL.BorderBrush = BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush =
                             BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
@@ -310,39 +305,35 @@ namespace ConceptorUI.Views.ComponentP
                 }
                 else if (prop.Name == PropertyNames.BorderRadiusTopLeft.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[32].Value == "0" && Properties.groupProps[idG].Properties[33].Value == "BorderRadiusTopLeft")
-                    {
-                        BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderRad.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderRadBtnActif) != "BorderRadiusTopLeft") continue;
+                    BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderRad.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderRadiusBottomLeft.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[32].Value == "0" && Properties.groupProps[idG].Properties[33].Value == "BorderRadiusBottomLeft")
-                    {
-                        BBorderRadBL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderRadTL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderRad.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderRadBtnActif) != "BorderRadiusBottomLeft") continue;
+                    BBorderRadBL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderRadTL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderRad.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderRadiusTopRight.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[32].Value == "0" && Properties.groupProps[idG].Properties[33].Value == "BorderRadiusTopRight")
-                    {
-                        BBorderRadTR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderRadBL.BorderBrush = BBorderRadTL.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderRad.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderRadBtnActif) != "BorderRadiusTopRight") continue;
+                    BBorderRadTR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderRadBL.BorderBrush = BBorderRadTL.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderRad.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.BorderRadiusBottomRight.ToString())
                 {
-                    if (Properties.groupProps[idG].Properties[32].Value == "0" && Properties.groupProps[idG].Properties[33].Value == "BorderRadiusBottomRight")
-                    {
-                        BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                        BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        TBorderRad.Text = prop.Value.Replace(",", ".");
-                    }
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) != "0" || 
+                        _properties.GetValue(PropertyNames.BorderRadBtnActif) != "BorderRadiusBottomRight") continue;
+                    BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
+                    BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
+                    TBorderRad.Text = prop.Value.Replace(",", ".");
                 }
             }
             #endregion
@@ -351,35 +342,34 @@ namespace ConceptorUI.Views.ComponentP
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
             var comboBox = (sender as ComboBox)!;
-            var tag = comboBox!.Tag != null ? comboBox.Tag.ToString()! : "";
+            var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
             var idP = PropertyNames.None;
-
+            
             if (_firstCount3 > 0)
             {
-                var pos = Properties.GetPosition(GroupNames.Appearance, PropertyNames.FillColor);
-                var idG = pos[0];
                 switch (tag)
                 {
                     case "BorderStyle":
-                        if (Properties.groupProps![3].Properties[15].Value == "1")
+                        if (_properties.GetValue(PropertyNames.CBorder) == "1")
                         {
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderStyle, comboBox.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftStyle, comboBox.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopStyle, comboBox.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightStyle, comboBox.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomStyle, comboBox.SelectedIndex + "");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderStyle, comboBox.SelectedIndex.ToString()},
+                                EventArgs.Empty
+                            );
                         }
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderLeft") idP = PropertyNames.BorderLeftStyle;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderTop") idP = PropertyNames.BorderTopStyle;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderRight") idP = PropertyNames.BorderRightStyle;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderBottom") idP = PropertyNames.BorderBottomStyle;
-                        idP = PropertyNames.BorderColor; break;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") idP = PropertyNames.BorderLeftStyle;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") idP = PropertyNames.BorderTopStyle;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") idP = PropertyNames.BorderRightStyle;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") idP = PropertyNames.BorderBottomStyle;
+                        break;
                 }
             }
-            if (idP != PropertyNames.None)
+            if (idP != PropertyNames.None && _firstCount3 > 0)
             {
-                var value = (comboBox.SelectedValue as ComboBoxItem)!.Content.ToString()!;
-                if (_firstCount3 > 0) PanelProperty.ReactToProps(GroupNames.Appearance, idP, comboBox.SelectedIndex + "");
+                PreMouseDownEvent!.Invoke(
+                    new dynamic[]{GroupNames.Appearance, idP, comboBox.SelectedIndex.ToString()},
+                    EventArgs.Empty
+                );
             }
             if (_firstCount3 < 1) _firstCount++;
         }
@@ -400,216 +390,260 @@ namespace ConceptorUI.Views.ComponentP
             
             if (_firstCount2 >= 4)
             {
-                var pos = Properties.GetPosition(GroupNames.Appearance, PropertyNames.FillColor);
-                var idG = pos[0];
                 switch (tag)
                 {
                     case "Margin":
-                        if (Properties.groupProps![idG].Properties[1].Value == "1")
+                        if (_properties.GetValue(PropertyNames.CMargin) == "1")
                         {
                             found = false;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Margin, vd + "");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture)},
+                                EventArgs.Empty
+                            );
                         }
-                        else if (Properties.groupProps[idG].Properties[2].Value == "MarginLeft") idP = PropertyNames.MarginLeft;
-                        else if (Properties.groupProps[idG].Properties[2].Value == "MarginTop") idP = PropertyNames.MarginTop;
-                        else if (Properties.groupProps[idG].Properties[2].Value == "MarginRight") idP = PropertyNames.MarginRight;
-                        else if (Properties.groupProps[idG].Properties[2].Value == "MarginBottom") idP = PropertyNames.MarginBottom;
+                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginLeft") idP = PropertyNames.MarginLeft;
+                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginTop") idP = PropertyNames.MarginTop;
+                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginRight") idP = PropertyNames.MarginRight;
+                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginBottom") idP = PropertyNames.MarginBottom;
                         break;
                     case "Padding":
-                        if (Properties.groupProps![idG].Properties[8].Value == "1")
+                        if (_properties.GetValue(PropertyNames.CPadding) == "1")
                         {
                             found = false;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Padding, vd + "");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture)},
+                                EventArgs.Empty
+                            );
                         }
-                        else if (Properties.groupProps[idG].Properties[9].Value == "PaddingLeft") idP = PropertyNames.PaddingLeft;
-                        else if (Properties.groupProps[idG].Properties[9].Value == "PaddingTop") idP = PropertyNames.PaddingTop;
-                        else if (Properties.groupProps[idG].Properties[9].Value == "PaddingRight") idP = PropertyNames.PaddingRight;
-                        else if (Properties.groupProps[idG].Properties[9].Value == "PaddingBottom") idP = PropertyNames.PaddingBottom;
+                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingLeft") idP = PropertyNames.PaddingLeft;
+                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingTop") idP = PropertyNames.PaddingTop;
+                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingRight") idP = PropertyNames.PaddingRight;
+                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingBottom") idP = PropertyNames.PaddingBottom;
                         break;
                     case "BorderW":
-                        if (Properties.groupProps![idG].Properties[15].Value == "1")
+                        if (_properties.GetValue(PropertyNames.CBorder) == "1")
                         {
                             found = false;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderWidth, vd + "");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderWidth, vd.ToString(CultureInfo.InvariantCulture)},
+                                EventArgs.Empty
+                            );
                         }
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderLeft") idP = PropertyNames.BorderLeftWidth;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderTop") idP = PropertyNames.BorderTopWidth;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderRight") idP = PropertyNames.BorderRightWidth;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderBottom") idP = PropertyNames.BorderBottomWidth;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") idP = PropertyNames.BorderLeftWidth;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") idP = PropertyNames.BorderTopWidth;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") idP = PropertyNames.BorderRightWidth;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") idP = PropertyNames.BorderBottomWidth;
                         break;
                     case "BorderRad":
-                        if (Properties.groupProps![idG].Properties[32].Value == "1")
+                        if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
                         {
                             found = false;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadius, vd + "");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderRadius, vd.ToString(CultureInfo.InvariantCulture)},
+                                EventArgs.Empty
+                            );
                         }
-                        else if (Properties.groupProps[idG].Properties[33].Value == "BorderRadiusTopLeft") idP = PropertyNames.BorderRadiusTopLeft;
-                        else if (Properties.groupProps[idG].Properties[33].Value == "BorderRadiusBottomLeft") idP = PropertyNames.BorderRadiusBottomLeft;
-                        else if (Properties.groupProps[idG].Properties[33].Value == "BorderRadiusTopRight") idP = PropertyNames.BorderRadiusTopRight;
-                        else if (Properties.groupProps[idG].Properties[33].Value == "BorderRadiusBottomRight") idP = PropertyNames.BorderRadiusBottomRight;
+                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopLeft") idP = PropertyNames.BorderRadiusTopLeft;
+                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomLeft") idP = PropertyNames.BorderRadiusBottomLeft;
+                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopRight") idP = PropertyNames.BorderRadiusTopRight;
+                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomRight") idP = PropertyNames.BorderRadiusBottomRight;
                         break;
                 }
             }
-            
-            if (found)
-            {
-                if(_firstCount2 >= 4) PanelProperty.ReactToProps(GroupNames.Appearance, idP, vd+"");
-                if (_firstCount2 < 5) _firstCount2++;
-            }
+
+            if (!found) return;
+            if(_firstCount2 >= 4)
+                PreMouseDownEvent!.Invoke(
+                    new dynamic[]{GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture)},
+                    EventArgs.Empty
+                );
+            if (_firstCount2 < 5) _firstCount2++;
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
         {
             var tag = (sender as Button)!.Tag.ToString()!;
-
-            var pos = Properties.GetPosition(GroupNames.Appearance, PropertyNames.FillColor);
-            var idG = pos[0];
+            var found = false;
+            var propertyName = PropertyNames.None;
+            var value = string.Empty;
+            
             #region
             switch (tag)
             {
                 case "MarginLeft":
-                    if (Properties.groupProps![idG].Properties[1].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginRight.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginLeft");
-                        TMargin.Text = Properties.groupProps[idG].Properties[4].Value.Replace(",", ".");
-
+                        TMargin.Text = _properties.GetValue(PropertyNames.MarginLeft).Replace(",", ".");
+                        propertyName = PropertyNames.MarginBtnActif;
+                        value = PropertyNames.MarginLeft.ToString();
+                        found = true;
                     }
                     break;
                 case "MarginRight":
-                    if (Properties.groupProps![idG].Properties[1].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginLeft.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginRight");
-                        TMargin.Text = Properties.groupProps[idG].Properties[6].Value.Replace(",", ".");
+                        TMargin.Text = _properties.GetValue(PropertyNames.MarginRight).Replace(",", ".");
+                        propertyName = PropertyNames.MarginBtnActif;
+                        value = PropertyNames.MarginRight.ToString();
+                        found = true;
                     }
                     break;
                 case "MarginTop":
-                    if (Properties.groupProps![idG].Properties[1].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginLeft.Background = BMarginRight.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginTop");
-                        TMargin.Text = Properties.groupProps[idG].Properties[5].Value.Replace(",", ".");
+                        TMargin.Text = _properties.GetValue(PropertyNames.MarginTop).Replace(",", ".");
+                        propertyName = PropertyNames.MarginBtnActif;
+                        value = PropertyNames.MarginTop.ToString();
+                        found = true;
                     }
                     break;
                 case "MarginBot":
-                    if (Properties.groupProps![idG].Properties[1].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginRight.Background = BMarginLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginBottom");
-                        TMargin.Text = Properties.groupProps[idG].Properties[7].Value.Replace(",", ".");
+                        TMargin.Text = _properties.GetValue(PropertyNames.MarginBottom).Replace(",", ".");
+                        propertyName = PropertyNames.MarginBtnActif;
+                        value = PropertyNames.MarginBottom.ToString();
+                        found = true;
                     }
                     break;
                 case "PaddingLeft":
-                    if (Properties.groupProps![idG].Properties[8].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBtnActif, "PaddingLeft");
-                        TPadding.Text = Properties.groupProps[idG].Properties[11].Value.Replace(",", ".");
+                        TPadding.Text = _properties.GetValue(PropertyNames.PaddingLeft).Replace(",", ".");
+                        propertyName = PropertyNames.PaddingBtnActif;
+                        value = PropertyNames.PaddingLeft.ToString();
+                        found = true;
                     }
                     break;
                 case "PaddingRight":
-                    if (Properties.groupProps![idG].Properties[8].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingLeft.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBtnActif, "PaddingRight");
-                        TPadding.Text = Properties.groupProps[idG].Properties[13].Value;
+                        TPadding.Text = _properties.GetValue(PropertyNames.PaddingRight);
+                        propertyName = PropertyNames.PaddingBtnActif;
+                        value = PropertyNames.PaddingRight.ToString();
+                        found = true;
                     }
                     break;
                 case "PaddingTop":
-                    if (Properties.groupProps![idG].Properties[8].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingLeft.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBtnActif, "PaddingTop");
-                        TPadding.Text = Properties.groupProps[idG].Properties[12].Value.Replace(",", ".");
+                        TPadding.Text = _properties.GetValue(PropertyNames.PaddingTop).Replace(",", ".");
+                        propertyName = PropertyNames.PaddingBtnActif;
+                        value = PropertyNames.PaddingTop.ToString();
+                        found = true;
                     }
                     break;
                 case "PaddingBot":
-                    if (Properties.groupProps![idG].Properties[8].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingRight.Background = BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBtnActif, "PaddingBottom");
-                        TPadding.Text = Properties.groupProps[idG].Properties[14].Value.Replace(",", ".");
+                        TPadding.Text = _properties.GetValue(PropertyNames.PaddingBottom).Replace(",", ".");
+                        propertyName = PropertyNames.PaddingBtnActif;
+                        value = PropertyNames.PaddingBottom.ToString();
+                        found = true;
                     }
                     break;
                 case "BorderLeft":
-                    if (Properties.groupProps![idG].Properties[15].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderLeft");
-                        TBorderW.Text = Properties.groupProps[idG].Properties[20].Value.Replace(",", ".");
+                        TBorderW.Text = _properties.GetValue(PropertyNames.BorderLeftWidth).Replace(",", ".");
+                        propertyName = PropertyNames.BorderBtnActif;
+                        value = "BorderLeft";
+                        found = true;
                     }
                     break;
                 case "BorderRight":
-                    if (Properties.groupProps![idG].Properties[15].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderLeft.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderRight");
-                        TBorderW.Text = Properties.groupProps[idG].Properties[26].Value.Replace(",", ".");
+                        TBorderW.Text = _properties.GetValue(PropertyNames.BorderRightWidth).Replace(",", ".");
+                        propertyName = PropertyNames.BorderBtnActif;
+                        value = "BorderRight";
+                        found = true;
                     }
                     break;
                 case "BorderTop":
-                    if (Properties.groupProps![idG].Properties[15].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderLeft.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderTop");
-                        TBorderW.Text = Properties.groupProps[idG].Properties[23].Value.Replace(",", ".");
+                        TBorderW.Text = _properties.GetValue(PropertyNames.BorderTopWidth).Replace(",", ".");
+                        propertyName = PropertyNames.BorderBtnActif;
+                        value = "BorderTop";
+                        found = true;
                     }
                     break;
                 case "BorderBot":
-                    if (Properties.groupProps![idG].Properties[15].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderRight.Background = BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderBottom");
-                        TBorderW.Text = Properties.groupProps[idG].Properties[29].Value.Replace(",", ".");
+                        TBorderW.Text = _properties.GetValue(PropertyNames.BorderBottomWidth).Replace(",", ".");
+                        propertyName = PropertyNames.BorderBtnActif;
+                        value = "BorderBottom";
+                        found = true;
                     }
                     break;
                 case "BorderRadTL":
-                    if (Properties.groupProps![idG].Properties[32].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadBtnActif, "BorderRadiusTopLeft");
-                        TBorderRad.Text = Properties.groupProps[idG].Properties[35].Value.Replace(",", ".");
+                        TBorderRad.Text = _properties.GetValue(PropertyNames.BorderRadiusTopLeft).Replace(",", ".");
+                        propertyName = PropertyNames.BorderRadBtnActif;
+                        value = PropertyNames.BorderRadiusTopLeft.ToString();
+                        found = true;
                     }
                     break;
                 case "BorderRadBL":
-                    if (Properties.groupProps![idG].Properties[32].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadBL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadTL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadBtnActif, "BorderRadiusBottomLeft");
-                        TBorderRad.Text = Properties.groupProps[idG].Properties[36].Value.Replace(",", ".");
+                        TBorderRad.Text = _properties.GetValue(PropertyNames.BorderRadiusBottomLeft).Replace(",", ".");
+                        propertyName = PropertyNames.BorderRadBtnActif;
+                        value = PropertyNames.BorderRadiusBottomLeft.ToString();
+                        found = true;
                     }
                     break;
                 case "BorderRadTR":
-                    if (Properties.groupProps![idG].Properties[32].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadTR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTL.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadBtnActif, "BorderRadiusTopRight");
-                        TBorderRad.Text = Properties.groupProps[idG].Properties[37].Value.Replace(",", ".");
+                        TBorderRad.Text = _properties.GetValue(PropertyNames.BorderRadiusTopRight).Replace(",", ".");
+                        propertyName = PropertyNames.BorderRadBtnActif;
+                        value = PropertyNames.BorderRadiusTopRight.ToString();
+                        found = true;
                     }
                     break;
                 case "BorderRadBR":
-                    if (Properties.groupProps![idG].Properties[32].Value == "0")
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                        PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadBtnActif, "BorderRadiusBottomRight");
-                        TBorderRad.Text = Properties.groupProps[idG].Properties[38].Value.Replace(",", ".");
+                        TBorderRad.Text = _properties.GetValue(PropertyNames.BorderRadiusBottomRight).Replace(",", ".");
+                        propertyName = PropertyNames.BorderRadBtnActif;
+                        value = PropertyNames.BorderRadiusBottomRight.ToString();
+                        found = true;
                     }
                     break;
                 case "BorderC":
@@ -622,10 +656,15 @@ namespace ConceptorUI.Views.ComponentP
                     if(CFillColor.IsChecked == true)
                     {
                         MainWindow.Instance.DisplayColorPalette(BFillColor.Background, !ColorPalette.Instance.IsOpened, tag, _opacity);
-                        //Modals.ColorPicker.Instance.Show();
                     }
                     break;
             }
+            
+            if(!found) return;
+            PreMouseDownEvent!.Invoke(
+                new dynamic[]{GroupNames.Appearance, propertyName, value},
+                EventArgs.Empty
+            );
             #endregion
         }
 
@@ -638,9 +677,7 @@ namespace ConceptorUI.Views.ComponentP
             var found = false;
 
             if (_firstCount > 6)
-            {//Souce potentielle de bug
-                var pos = Properties.GetPosition(GroupNames.Appearance, PropertyNames.FillColor);
-                var idG = pos[0];
+            {
                 switch (tag)
                 {
                     case "Margin":
@@ -648,20 +685,28 @@ namespace ConceptorUI.Views.ComponentP
                         {
                             BMarginLeft.Background = BMarginTop.Background = BMarginRight.Background =
                                                       BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                            double vd = 0; double.TryParse(TMargin.Text, out vd);
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Margin, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginLeft, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginTop, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginRight, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBottom, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "1");
+                            double.TryParse(TMargin.Text, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Margin, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginLeft, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginTop, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginRight, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBottom, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "1");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.CMargin, "1"},
+                                EventArgs.Empty
+                            );
                         }
                         else
                         {
                             BMarginLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                             BMarginTop.Background = BMarginRight.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "0");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginLeft");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "0");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginLeft");
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.CMargin, "0"},
+                                EventArgs.Empty
+                            );
                         }
                         break;
                     case "Padding":
@@ -669,21 +714,16 @@ namespace ConceptorUI.Views.ComponentP
                         {
                             BPaddingLeft.Background = BPaddingTop.Background = BPaddingRight.Background =
                                                       BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                            double vd = 0; double.TryParse(TPadding.Text, out vd);
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Padding, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingLeft, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingTop, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingRight, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBottom, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CPadding, "1");
                         }
                         else
                         {
                             BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                             BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CPadding, "0");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.PaddingBtnActif, "PaddingLeft");
                         }
+                        PreMouseDownEvent!.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.CPadding, cb.IsChecked == true ? "1" : "0"},
+                            EventArgs.Empty
+                        );
                         break;
                     case "Border":
                         if (cb.IsChecked == true)
@@ -759,6 +799,7 @@ namespace ConceptorUI.Views.ComponentP
                         break;
                 }
             }
+            
             if (found)
             {
                 if (_firstCount > 6) PanelProperty.ReactToProps(GroupNames.Appearance, idP, value);
