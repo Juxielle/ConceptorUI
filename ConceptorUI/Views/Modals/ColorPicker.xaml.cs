@@ -5,26 +5,33 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
 using ConceptorUI.Views.ComponentP;
 
 namespace ConceptorUI.Views.Modals;
 
 
-public partial class ColorPicker
+public partial class ColorPicker : IColorPicker
 {
     static ColorPicker? _obj;
     public string propOriginColor { get; set; }
     private Brush _brush;
     private Button _btnIntermed;
     public bool IsOpened;
-    private Dictionary<int, string[]> colors;
+    private Dictionary<int, string[]> _colors;
     private List<Button> colorButtons;
     private bool _canSetFieldColor;
     private int _pasteCount;
     private List<ColorModel> _gradientColors;
+        
+    public event EventHandler? PreColorSelectedEvent;
+    private readonly object _colorSelectedLock = new();
+        
+    public event EventHandler? PreOpacityChangedEvent;
+    private readonly object _opacityChangedLock = new();
 
-    public ColorPicker()
+    public ColorPicker(Brush color, double opacity)
     {
         InitializeComponent();
         _obj = this;
@@ -44,25 +51,42 @@ public partial class ColorPicker
         };
         LvColors.ItemsSource = _gradientColors;
         
+        LoadColorValue(color, false, opacity);
         InitColors();
     }
-
-    public static ColorPicker Instance => _obj == null! ? new ColorPicker() : _obj;
-
-    public void FeedProps()
+        
+    event EventHandler IColorPicker.OnColorSelected
     {
-        foreach (var prop in Properties.groupProps![0].Properties)
+        add
         {
-            if (prop.Visibility == VisibilityValue.Visible.ToString())
+            lock (_colorSelectedLock)
             {
-                if (prop.Name == GroupNames.Alignment.ToString())
-                {
-
-                }
-                else if (prop.Name == GroupNames.Transform.ToString())
-                {
-
-                }
+                PreColorSelectedEvent += value;
+            }
+        }
+        remove
+        {
+            lock (_colorSelectedLock)
+            {
+                PreColorSelectedEvent -= value;
+            }
+        }
+    }
+        
+    event EventHandler IColorPicker.OnOpacityChanged
+    {
+        add
+        {
+            lock (_opacityChangedLock)
+            {
+                PreOpacityChangedEvent += value;
+            }
+        }
+        remove
+        {
+            lock (_opacityChangedLock)
+            {
+                PreOpacityChangedEvent -= value;
             }
         }
     }
@@ -77,12 +101,7 @@ public partial class ColorPicker
         colorBox.Background.Opacity = vd;
         TbA.Text = colorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
 
-        switch (propOriginColor)
-        {
-            case "FillColor":
-                AppearanceProperty.Instance.SetOpacity(vd);
-                break;
-        }
+        PreOpacityChangedEvent!.Invoke(vd, EventArgs.Empty);
     }
 
     private void BtnClick(object sender, RoutedEventArgs e)
@@ -107,32 +126,15 @@ public partial class ColorPicker
 
     private void SendColorValue(Brush color)
     {
-        switch (propOriginColor)
-        {
-            case "Color":
-                TextProperty.Instance.SetColor(color);
-                break;
-            case "BorderC":
-                AppearanceProperty.Instance.SetColor(color, 0);
-                break;
-            case "FillColor":
-                AppearanceProperty.Instance.SetColor(color, 1);
-                break;
-            case "ShadowColor":
-                ShadowPanel.Instance.SetColor(color, 0);
-                break;
-            default:
-                if (_btnIntermed != null!)
-                {
-                    _btnIntermed.BorderBrush = _brush;
-                    _btnIntermed.BorderThickness = new Thickness(1);
-                    _brush = null!; _btnIntermed = null!;
-                }
-                break;
-        }
+        PreColorSelectedEvent!.Invoke(color, EventArgs.Empty);
+        
+        if (_btnIntermed == null!) return;
+        _btnIntermed.BorderBrush = _brush;
+        _btnIntermed.BorderThickness = new Thickness(1);
+        _brush = null!; _btnIntermed = null!;
     }
 
-    public void LoadColorValue(Brush color, bool isInterne, double opacity = 1.0)
+    private void LoadColorValue(Brush color, bool isInterne, double opacity = 1.0)
     {
         _canSetFieldColor = false;
         TbHexa.Text = color.ToString();
@@ -215,7 +217,6 @@ public partial class ColorPicker
     private void InitColors()
     {
         #region MyRegion
-
         colorButtons = new List<Button>
         {
             Btn00, Btn01, Btn02, Btn03, Btn04, Btn05, Btn06, Btn07, Btn08, Btn09, Btn010, Btn011, Btn012, Btn013, Btn014,
@@ -238,7 +239,6 @@ public partial class ColorPicker
             Btn170, Btn171, Btn172, Btn173, Btn174, Btn175, Btn176, Btn177, Btn178, Btn179, Btn1710,
             Btn180, Btn181, Btn182, Btn183, Btn184, Btn185, Btn186, Btn187, Btn188, Btn189, Btn1810,
         };
-
         #endregion
     }
     

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
 using ConceptorUI.Utils;
+using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI.Views.ComponentP
@@ -26,12 +27,6 @@ namespace ConceptorUI.Views.ComponentP
         
         public event EventHandler? PreMouseDownEvent;
         private readonly object _mouseDownLock = new();
-        
-        public event EventHandler? PreTextChangeEvent;
-        private readonly object _textChangeLock = new();
-        
-        public event EventHandler? PreCheckEvent;
-        private readonly object _checkLock = new();
 
         public AppearanceProperty()
         {
@@ -55,42 +50,6 @@ namespace ConceptorUI.Views.ComponentP
                 lock (_mouseDownLock)
                 {
                     PreMouseDownEvent -= value;
-                }
-            }
-        }
-        
-        event EventHandler IAppearance.OnTextChange
-        {
-            add
-            {
-                lock (_textChangeLock)
-                {
-                    PreTextChangeEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_textChangeLock)
-                {
-                    PreTextChangeEvent -= value;
-                }
-            }
-        }
-        
-        event EventHandler IAppearance.OnCheck
-        {
-            add
-            {
-                lock (_checkLock)
-                {
-                    PreCheckEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_checkLock)
-                {
-                    PreCheckEvent -= value;
                 }
             }
         }
@@ -451,8 +410,7 @@ namespace ConceptorUI.Views.ComponentP
                 }
             }
 
-            if (!found) return;
-            if(_firstCount2 >= 4)
+            if(found && _firstCount2 >= 4)
                 PreMouseDownEvent!.Invoke(
                     new dynamic[]{GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture)},
                     EventArgs.Empty
@@ -649,13 +607,30 @@ namespace ConceptorUI.Views.ComponentP
                 case "BorderC":
                     if(CBorderC.IsChecked == true)
                     {
-                        MainWindow.Instance.DisplayColorPalette(BBorderC.Background, !ColorPalette.Instance.IsOpened, tag);
+                        var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
+                        colorPicker.PreColorSelectedEvent += (color, _) =>
+                        {
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderColor, color!.ToString()!},
+                                EventArgs.Empty
+                            );
+                        };
+                        colorPicker.Show();
                     }
                     break;
                 case "FillColor":
                     if(CFillColor.IsChecked == true)
                     {
                         MainWindow.Instance.DisplayColorPalette(BFillColor.Background, !ColorPalette.Instance.IsOpened, tag, _opacity);
+                        var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
+                        colorPicker.PreOpacityChangedEvent += (opacity, _) =>
+                        {
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.Opacity, opacity!.ToString()!},
+                                EventArgs.Empty
+                            );
+                        };
+                        colorPicker.Show();
                     }
                     break;
             }
@@ -670,10 +645,10 @@ namespace ConceptorUI.Views.ComponentP
 
         private void OnColorChecked(object sender, RoutedEventArgs e)
         {
-            var cb = (sender as CheckBox)!;
-            var tag = cb!.Tag != null ? cb.Tag.ToString()! : "";
-            var value = "";
-            var idP = PropertyNames.ElementSize;
+            var checkBox = (sender as CheckBox)!;
+            var tag = checkBox.Tag != null ? checkBox.Tag.ToString()! : "";
+            var value = checkBox.IsChecked == true ? "1" : "0";
+            var propertyName = PropertyNames.None;
             var found = false;
 
             if (_firstCount > 6)
@@ -681,21 +656,16 @@ namespace ConceptorUI.Views.ComponentP
                 switch (tag)
                 {
                     case "Margin":
-                        if (cb.IsChecked == true)
+                        if (checkBox.IsChecked == true)
                         {
                             BMarginLeft.Background = BMarginTop.Background = BMarginRight.Background =
                                                       BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                            double.TryParse(TMargin.Text, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.Margin, vd + "");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginLeft, vd + "");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginTop, vd + "");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginRight, vd + "");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBottom, vd + "");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "1");
-                            PreMouseDownEvent!.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.CMargin, "1"},
-                                EventArgs.Empty
-                            );
                         }
                         else
                         {
@@ -703,14 +673,12 @@ namespace ConceptorUI.Views.ComponentP
                             BMarginTop.Background = BMarginRight.Background = BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CMargin, "0");
                             // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.MarginBtnActif, "MarginLeft");
-                            PreMouseDownEvent!.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.CMargin, "0"},
-                                EventArgs.Empty
-                            );
                         }
+                        propertyName = PropertyNames.CMargin;
+                        found = true;
                         break;
                     case "Padding":
-                        if (cb.IsChecked == true)
+                        if (checkBox.IsChecked == true)
                         {
                             BPaddingLeft.Background = BPaddingTop.Background = BPaddingRight.Background =
                                                       BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
@@ -720,78 +688,71 @@ namespace ConceptorUI.Views.ComponentP
                             BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                             BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
                         }
-                        PreMouseDownEvent!.Invoke(
-                            new dynamic[]{GroupNames.Appearance, PropertyNames.CPadding, cb.IsChecked == true ? "1" : "0"},
-                            EventArgs.Empty
-                        );
+                        propertyName = PropertyNames.CPadding;
+                        found = true;
                         break;
                     case "Border":
-                        if (cb.IsChecked == true)
+                        if (checkBox.IsChecked == true)
                         {
                             BBorderLeft.Background = BBorderTop.Background = BBorderRight.Background =
                                                      BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                            double vd = 0; double.TryParse(TPadding.Text, out vd);
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderWidth, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderStyle, CBorderStyle.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftWidth, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftStyle, CBorderStyle.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopWidth, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopStyle, CBorderStyle.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightWidth, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightStyle, CBorderStyle.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomWidth, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomStyle, CBorderStyle.SelectedIndex + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorder, "1");
+                            // double vd = 0; double.TryParse(TPadding.Text, out vd);
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderWidth, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderStyle, CBorderStyle.SelectedIndex + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftWidth, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftStyle, CBorderStyle.SelectedIndex + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopWidth, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopStyle, CBorderStyle.SelectedIndex + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightWidth, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightStyle, CBorderStyle.SelectedIndex + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomWidth, vd + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomColor, ManageEnums.GetColor(BBorderC.Background.ToString()).ToString());
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomStyle, CBorderStyle.SelectedIndex + "");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorder, "1");
                         }
                         else
                         {
                             BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                             BBorderTop.Background = BBorderRight.Background = BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorder, "0");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderLeft");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorder, "0");
+                            // PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBtnActif, "BorderLeft");
                         }
+                        propertyName = PropertyNames.CBorder;
+                        found = true;
                         break;
                     case "BorderRad":
-                        if (cb.IsChecked == true)
+                        if (checkBox.IsChecked == true)
                         {
                             BBorderRadTL.BorderBrush = BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush =
                                                        BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
-                            double vd = 0; double.TryParse(TBorderRad.Text, out vd);
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadius, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadiusTopLeft, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadiusTopRight, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadiusBottomLeft, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadiusBottomRight, vd + "");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorderRadius, "1");
                         }
                         else
                         {
                             BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                             BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOff) as SolidColorBrush;
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.CBorderRadius, "0");
-                            PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRadBtnActif, "BorderRadiusTopLeft");
                         }
+                        propertyName = PropertyNames.CBorderRadius;
+                        found = true;
                         break;
                     case "BorderC":
-                        if (Properties.groupProps![idG].Properties[15].Value == "1") idP = PropertyNames.BorderColor;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderLeft") idP = PropertyNames.BorderLeftColor;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderTop") idP = PropertyNames.BorderTopColor;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderRight") idP = PropertyNames.BorderRightColor;
-                        else if (Properties.groupProps[idG].Properties[16].Value == "BorderBottom") idP = PropertyNames.BorderBottomColor;
-                        if (cb.IsChecked == false)
+                        if (_properties.GetValue(PropertyNames.CBorder) == "1") propertyName = PropertyNames.BorderColor;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") propertyName = PropertyNames.BorderLeftColor;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") propertyName = PropertyNames.BorderTopColor;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") propertyName = PropertyNames.BorderRightColor;
+                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") propertyName = PropertyNames.BorderBottomColor;
+                        if (checkBox.IsChecked == false)
                         {
                             BBorderC.Background = Brushes.Transparent;
                             value = "Transparent"; found = true;
                         }
                         break;
                     case "FillColor":
-                        idP = PropertyNames.FillColor;
-                        if (cb.IsChecked == false)
+                        propertyName = PropertyNames.FillColor;
+                        if (checkBox.IsChecked == false)
                         {
                             BFillColor.Background = Brushes.Transparent;
                             value = "Transparent"; found = true;
@@ -800,27 +761,23 @@ namespace ConceptorUI.Views.ComponentP
                 }
             }
             
-            if (found)
-            {
-                if (_firstCount > 6) PanelProperty.ReactToProps(GroupNames.Appearance, idP, value);
-            }
-            if (_firstCount < 7) _firstCount++;
-        }
-
-        public void LoadValue(int idP, string value, string btnName)
-        {
-
+            if (found && _firstCount > 6)
+                PreMouseDownEvent!.Invoke(
+                    new dynamic[]{GroupNames.Appearance, propertyName, value},
+                    EventArgs.Empty
+                );
+            
+            if (_firstCount < 7)
+                _firstCount++;
         }
 
         public void SetColor(Brush color, int id)
         {
-            var pos = Properties.GetPosition(GroupNames.Appearance, PropertyNames.FillColor);
-            var idG = pos[0];
-            var idP = PropertyNames.FillColor;
+            var propertyName = PropertyNames.FillColor;
             if (id == 0)
             {
                 BBorderC.Background = color;
-                if (Properties.groupProps![idG].Properties[15].Value == "1")
+                if (_properties.GetValue(PropertyNames.CBorder) == "1")
                 {
                     PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderColor, color.ToString());
                     PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftColor, color.ToString());
@@ -828,11 +785,13 @@ namespace ConceptorUI.Views.ComponentP
                     PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightColor, color.ToString());
                     PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomColor, color.ToString());
                 }
-                else if (Properties.groupProps[idG].Properties[16].Value == "BorderLeft") idP = PropertyNames.BorderColor;
-                else if (Properties.groupProps[idG].Properties[16].Value == "BorderTop") idP = PropertyNames.BorderColor;
-                else if (Properties.groupProps[idG].Properties[16].Value == "BorderRight") idP = PropertyNames.BorderColor;
-                else if (Properties.groupProps[idG].Properties[16].Value == "BorderBottom") idP = PropertyNames.BorderColor;
-                if(idP != PropertyNames.FillColor) PanelProperty.ReactToProps(GroupNames.Appearance, idP, color.ToString());
+                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") propertyName = PropertyNames.BorderColor;
+                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") propertyName = PropertyNames.BorderColor;
+                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") propertyName = PropertyNames.BorderColor;
+                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") propertyName = PropertyNames.BorderColor;
+                
+                if(propertyName != PropertyNames.FillColor)
+                    PanelProperty.ReactToProps(GroupNames.Appearance, propertyName, color.ToString());
             }
             else if (id == 1)
             {
