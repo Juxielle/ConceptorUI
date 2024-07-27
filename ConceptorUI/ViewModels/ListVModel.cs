@@ -950,33 +950,55 @@ namespace ConceptorUI.ViewModels
             }
         }
 
-        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
+        protected override void SelfConstraints()
+        {
+            /* Global */
+            /* Content Alignment */
+            SetGroupVisibility(GroupNames.Alignment, false);
+            /* Self Alignment */
+            /* Transform */
+            /* Text */
+            SetGroupVisibility(GroupNames.Text);
+            /* Appearance */
+            /* Shadow */
+        }
+
+        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
         {
             Children[id].Parent = this;
-            //Restrictions actuelles de columns
-            Children[id].OnAddConfig(GroupNames.SelfAlignment, PropertyNames.HL, VisibilityValue.Collapsed.ToString());
-            Children[id].OnAddConfig(GroupNames.SelfAlignment, PropertyNames.HL, VisibilityValue.Visible.ToString());
-            Children[id].OnAddConfig(GroupNames.SelfAlignment, PropertyNames.HL, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.SelfAlignment, PropertyNames.HC, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.SelfAlignment, PropertyNames.HR, VisibilityValue.Visible.ToString(), false);
+            /* Global */
+            Children[id].SetGroupVisibility(GroupNames.Global);
+            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             
-            Children[id].OnAddConfig(GroupNames.Transform, PropertyNames.Width, VisibilityValue.Collapsed.ToString());
-            Children[id].OnAddConfig(GroupNames.Transform, PropertyNames.Width, VisibilityValue.Visible.ToString());
-            Children[id].OnAddConfig(GroupNames.Transform, PropertyNames.Width, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Transform, PropertyNames.Height, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Transform, PropertyNames.HE, VisibilityValue.Visible.ToString(), false);
+            /* Content Alignment */
+            /* Self Alignment */
+            Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VT, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VB, false);
             
-            Children[id].OnAddConfig(GroupNames.Global, PropertyNames.MoveTop, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Global, PropertyNames.MoveBottom, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Global, PropertyNames.MoveLeft, VisibilityValue.Collapsed.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Global, PropertyNames.MoveRight, VisibilityValue.Collapsed.ToString(), false);
-            Children[id].OnAddConfig(GroupNames.Global, PropertyNames.Trash, VisibilityValue.Visible.ToString(), false);
-            Children[id].OnInitialized();
-
-            var h = Children[id].groupProps![Children[id].Ids![GroupNames.Transform.ToString()].IdGroup].Properties[Children[id].Ids![GroupNames.Transform.ToString()].Props![PropertyNames.Height.ToString()]].Value;
-
-            if (Children[id].AllowFixSize() && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
-                Children[id].OnUpdated(GroupNames.Transform, PropertyNames.Height, "20", true);
+            /* Transform */
+            Children[id].SetGroupVisibility(GroupNames.Transform);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.HVE, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
+            
+            /* Appearance */
+            Children[id].SetGroupVisibility(GroupNames.Appearance);
+            /* Shadow */
+            Children[id].SetGroupVisibility(GroupNames.Shadow);
+            
+            Children[id].OnInitialize();
+            Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+            
+            var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
+                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
         }
 
         public override bool AllowFixSize(bool isHeight = true)

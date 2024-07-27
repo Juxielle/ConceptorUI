@@ -24,6 +24,8 @@ namespace ConceptorUI.ViewModels
         protected bool HasChildren = false;
         protected bool IsVertical = true;
         protected int AddedChildrenCount = 0;
+        protected bool CanAdd_IntoChildContent = true;
+        protected int ChildContentLimit = 100;
         
         protected FrameworkElement ComponentView;
         public Component Parent;
@@ -31,8 +33,7 @@ namespace ConceptorUI.ViewModels
         
         protected Border SelectedContent;
         protected Border Content;
-        protected Grid ChildrenContent;
-        protected FrameworkElement SingleChild;
+        protected FrameworkElement ChildContent;
         
         public event EventHandler? PreSelectedEvent;
         private readonly object _selectedLock = new();
@@ -45,7 +46,10 @@ namespace ConceptorUI.ViewModels
 
         protected Component()
         {
-            Content = new Border();
+            // ReSharper disable once VirtualMemberCallInConstructor
+            InitChildContent();
+            
+            Content = new Border{ Child = ChildContent };
             SelectedContent = new Border{ Child = Content };
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;
@@ -112,9 +116,12 @@ namespace ConceptorUI.ViewModels
             }
         }
         
+        protected abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
-        protected abstract void WhenTextChanged(PropertyNames propertyName, string value);
+        protected abstract void WhenTextChanged(string propertyName, string value);
+        protected abstract void InitChildContent();
+        protected abstract void AddIntoChildContent(FrameworkElement child);
         protected abstract void Delete();
         protected abstract void WhenWidthChanged();
         protected abstract void WhenHeightChanged();
@@ -165,7 +172,7 @@ namespace ConceptorUI.ViewModels
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if ((GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
-                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildrenContent)))) return;
+                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildContent)))) return;
             
             OnSelected();
             PreSelectedEvent!.Invoke(
@@ -218,6 +225,10 @@ namespace ConceptorUI.ViewModels
                                 : HorizontalAlignment.Center,
                             _ => value == "0" ? SelectedContent.HorizontalAlignment : HorizontalAlignment.Right
                         };
+                        
+                        var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                        if(hl == "0" && hc == "0" && hr == "0" && w == SizeValue.Expand.ToString())
+                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                     }
                     else if (propertyName is PropertyNames.VT or  PropertyNames.VC or  PropertyNames.VB)
                     {
@@ -335,9 +346,9 @@ namespace ConceptorUI.ViewModels
                 #endregion
                 
                 #region Text
-                if (groupName == GroupNames.Text)
+                else if (groupName == GroupNames.Text)
                 {
-                    WhenTextChanged(propertyName, value);
+                    WhenTextChanged(propertyName.ToString(), value);
                     if (propertyName == PropertyNames.FontFamily)
                     {
                         SetPropertyValue(groupName, propertyName, value);
@@ -410,7 +421,6 @@ namespace ConceptorUI.ViewModels
                 #endregion
 
                 #region Appearance
-
                 else if (propertyName == PropertyNames.FillColor)
                 {
                     Content.Background = value == ColorValue.Transparent.ToString() ? Brushes.Transparent :
@@ -727,39 +737,51 @@ namespace ConceptorUI.ViewModels
                         continue;
 
                     #region Alignement
-                    if (prop.Name == PropertyNames.HL.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
+                    if (group.Name == GroupNames.SelfAlignment.ToString())
                     {
-                        if (prop.Value == "1")
+                        if (prop.Name == PropertyNames.HL.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
-                    }
-                    else if (prop.Name == PropertyNames.HC.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
-                    {
-                        if (prop.Value == "1")
+                        }
+                        else if (prop.Name == PropertyNames.HC.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
-                    }
-                    else if (prop.Name == PropertyNames.HR.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
-                    {
-                        if (prop.Value == "1")
+                        }
+                        else if (prop.Name == PropertyNames.HR.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
-                    }
-                    else if (prop.Name == PropertyNames.VT.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
-                    {
-                        if (prop.Value == "1")
+                        }
+                        else if (prop.Name == PropertyNames.VT.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Top;
-                    }
-                    else if (prop.Name == PropertyNames.VC.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
-                    {
-                        if (prop.Value == "1")
+                        }
+                        else if (prop.Name == PropertyNames.VC.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Center;
-                    }
-                    else if (prop.Name == PropertyNames.VB.ToString() && group.Name == GroupNames.SelfAlignment.ToString())
-                    {
-                        if (prop.Value == "1")
+                        }
+                        else if (prop.Name == PropertyNames.VB.ToString() && prop.Value == "1")
+                        {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
+                        }
+                        
+                        var hl = group.GetValue(PropertyNames.HL);
+                        var hc = group.GetValue(PropertyNames.HC);
+                        var hr = group.GetValue(PropertyNames.HR);
+                        var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                        if(hl == "0" && hc == "0" && hr == "0" && w == SizeValue.Expand.ToString())
+                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        
+                        var vt = group.GetValue(PropertyNames.VT);
+                        var vc = group.GetValue(PropertyNames.VC);
+                        var vb = group.GetValue(PropertyNames.VB);
+                        var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                        if(vt == "0" && vc == "0" && vb == "0" && h == SizeValue.Expand.ToString())
+                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                     #endregion
-                    
+
                     #region Transform
+
                     else if (prop.Name == PropertyNames.Width.ToString())
                     {
                         var selfAlignGroup = GetGroupProperties(GroupNames.SelfAlignment);
@@ -817,79 +839,7 @@ namespace ConceptorUI.ViewModels
                     #region Text
                     if (group.Name == GroupNames.Text.ToString())
                     {
-                        var text = SingleChild as TextBlock;
-                        if (prop.Name == PropertyNames.FontFamily.ToString())
-                        {
-                            text!.FontFamily = ManageEnums.Instance.GetFontFamily(prop.Value);
-                        }
-                        else if (prop.Name == PropertyNames.FontWeight.ToString())
-                        {
-                            text!.FontWeight = prop.Value == "0" ? FontWeights.Normal : FontWeights.Bold;
-                        }
-                        else if (prop.Name == PropertyNames.FontStyle.ToString())
-                        {
-                            text!.FontStyle = prop.Value == "0" ? FontStyles.Normal : FontStyles.Italic;
-                        }
-                        else if (prop.Name == PropertyNames.FontSize.ToString())
-                        {
-                            var vd = Helper.ConvertToDouble(prop.Value);
-                            text!.FontSize = vd;
-                        }
-                        else if (prop.Name == PropertyNames.AlignLeft.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextAlignment = TextAlignment.Left;
-                        }
-                        else if (prop.Name == PropertyNames.AlignCenter.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextAlignment = TextAlignment.Center;
-                        }
-                        else if (prop.Name == PropertyNames.AlignRight.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextAlignment = TextAlignment.Right;
-                        }
-                        else if (prop.Name == PropertyNames.AlignJustify.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextAlignment = TextAlignment.Justify;
-                        }
-                        else if (prop.Name == PropertyNames.TextUnderline.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextDecorations = TextDecorations.Underline;
-                        }
-                        else if (prop.Name == PropertyNames.TextOverline.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextDecorations = TextDecorations.OverLine;
-                        }
-                        else if (prop.Name == PropertyNames.TextThrough.ToString())
-                        {
-                            if (prop.Value == "1")
-                                text!.TextDecorations = TextDecorations.Strikethrough;
-                        }
-                        else if (prop.Name == PropertyNames.Color.ToString())
-                        {
-                            text!.Foreground = prop.Value == ColorValue.Transparent.ToString()
-                                ? Brushes.Transparent
-                                : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
-                        }
-                        else if (prop.Name == PropertyNames.Text.ToString())
-                        {
-                            text!.Text = prop.Value;
-                        }
-                        else if (prop.Name == PropertyNames.TextWrap.ToString())
-                        {
-                            text!.TextWrapping = prop.Value == "0" ? TextWrapping.NoWrap : TextWrapping.Wrap;
-                        }
-                        else if (prop.Name == PropertyNames.LineSpacing.ToString())
-                        {
-                            var vd = Helper.ConvertToDouble(prop.Value);
-                            vd = vd == 0 ? 1 : vd;
-                            text!.LineHeight = vd;
-                        }
+                        WhenTextChanged(prop.Name, prop.Value);
                     }
                     #endregion
                     
@@ -1052,7 +1002,7 @@ namespace ConceptorUI.ViewModels
             if(value != null!)
                 valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerialiser>(value)!;
 
-            if (Selected && isPaste && valueD != null!)
+            if (Selected && isPaste && valueD != null! && CanAdd_IntoChildContent && Children.Count < ChildContentLimit)
             {
                 var name = valueD.Name!;
                 var component = ManageEnums.Instance.GetComponent(name);
@@ -1062,11 +1012,11 @@ namespace ConceptorUI.ViewModels
                 var expanded = false;
                 foreach (var child in Children)
                 {
-                    var w = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                    expanded = expanded || w == SizeValue.Expand.ToString();
+                    var d = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                    expanded = expanded || d == SizeValue.Expand.ToString();
                 }
 
-                ChildrenContent.Children.Add(component.ComponentView!);
+                AddIntoChildContent(component.ComponentView);
                 Children.Add(component);
 
                 LayoutConstraints(Children.Count - 1, false, expanded);
@@ -1112,13 +1062,13 @@ namespace ConceptorUI.ViewModels
                     component.Parent = this;
                     component.OnDeserializer(child);
                     components.Add(component);
-                    var w = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                    expanded = expanded || w == SizeValue.Expand.ToString();
+                    var d = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                    expanded = expanded || d == SizeValue.Expand.ToString();
                 }
 
                 foreach (var component in components)
                 {
-                    ChildrenContent.Children.Add(component.ComponentView);
+                    AddIntoChildContent(component.ComponentView);
                     Children.Add(component);
                     LayoutConstraints(Children.Count - 1, true, expanded);
                 }
@@ -1193,9 +1143,15 @@ namespace ConceptorUI.ViewModels
             foreach (var group in PropertyGroups!)
             {
                 i++;
+                var j = -1;
                 if(group.Name != groupName.ToString()) continue;
                 PropertyGroups[i].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
-                break;
+                foreach (var property in group.Properties)
+                {
+                    j++;
+                    PropertyGroups[i].Properties[j].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
+                }
+                return;
             }
         }
 
@@ -1215,6 +1171,25 @@ namespace ConceptorUI.ViewModels
                     return;
                 }
             }
+        }
+
+        public bool IsNullAlignment(GroupNames align, string direction)
+        {
+            var group = GetGroupProperties(align == GroupNames.Alignment ? align : GroupNames.SelfAlignment);
+            var propNames = direction == "Horizontal" ? new List<string> { "HL", "HC", "HR" } : new List<string> { "VT", "VC", "VB" };
+            
+            var isNull = false;
+            foreach (var property in group.Properties)
+            {
+                var found = propNames.Any(name => property.Name == name);
+
+                if(found) continue;
+                
+                isNull = property.Value == "0";
+                if (!isNull) break;
+            }
+
+            return isNull;
         }
 
         protected void OnInit()

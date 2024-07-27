@@ -63,70 +63,70 @@ namespace ConceptorUI.ViewModels
             }
         }
 
-        protected override void WhenTextChanged(PropertyNames propertyName, string value)
+        protected override void WhenTextChanged(string propertyName, string value)
         {
-            var text = SingleChild as TextBlock;
-            if (propertyName == PropertyNames.FontFamily)
+            var text = ChildContent as TextBlock;
+            if (propertyName == PropertyNames.FontFamily.ToString())
             {
                 text!.FontFamily = ManageEnums.Instance.GetFontFamily(value);
             }
-            else if (propertyName == PropertyNames.FontWeight)
+            else if (propertyName == PropertyNames.FontWeight.ToString())
             {
                 text!.FontWeight = value == "0" ? FontWeights.Normal : FontWeights.Bold;
             }
-            else if (propertyName == PropertyNames.FontStyle)
+            else if (propertyName == PropertyNames.FontStyle.ToString())
             {
                 text!.FontStyle = value == "0" ? FontStyles.Normal : FontStyles.Italic;
             }
-            else if (propertyName == PropertyNames.FontSize)
+            else if (propertyName == PropertyNames.FontSize.ToString())
             {
                 var vd = Helper.ConvertToDouble(value);
                 vd = vd == 0 ? 10 : vd;
                 text!.FontSize = vd;
             }
-            else if (propertyName == PropertyNames.AlignLeft)
+            else if (propertyName == PropertyNames.AlignLeft.ToString())
             {
                 text!.TextAlignment = TextAlignment.Left;
             }
-            else if (propertyName == PropertyNames.AlignCenter)
+            else if (propertyName == PropertyNames.AlignCenter.ToString())
             {
                 text!.TextAlignment = TextAlignment.Center;
             }
-            else if (propertyName == PropertyNames.AlignRight)
+            else if (propertyName == PropertyNames.AlignRight.ToString())
             {
                 text!.TextAlignment = TextAlignment.Right;
             }
-            else if (propertyName == PropertyNames.AlignJustify)
+            else if (propertyName == PropertyNames.AlignJustify.ToString())
             {
                 text!.TextAlignment = TextAlignment.Justify;
             }
-            else if (propertyName == PropertyNames.TextUnderline)
+            else if (propertyName == PropertyNames.TextUnderline.ToString())
             {
                 text!.TextDecorations = value == "1" ? TextDecorations.Underline : null;
             }
-            else if (propertyName == PropertyNames.TextOverline)
+            else if (propertyName == PropertyNames.TextOverline.ToString())
             {
                 text!.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
             }
-            else if (propertyName == PropertyNames.TextThrough)
+            else if (propertyName == PropertyNames.TextThrough.ToString())
             {
                 text!.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
             }
-            else if (propertyName == PropertyNames.Color)
+            else if (propertyName == PropertyNames.Color.ToString())
             {
                 text!.Foreground = value == ColorValue.Transparent.ToString()
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
             }
-            else if (propertyName == PropertyNames.Text)
+            else if (propertyName == PropertyNames.Text.ToString())
             {
                 text!.Text = value;
             }
-            else if (propertyName == PropertyNames.TextWrap)
+            else if (propertyName == PropertyNames.TextWrap.ToString())
             {
                 text!.TextWrapping = value == "0" ? TextWrapping.NoWrap : TextWrapping.Wrap;
             }
-            else if (propertyName == PropertyNames.LineSpacing)
+            else if (propertyName == PropertyNames.LineSpacing.ToString())
             {
                 var vd = Helper.ConvertToDouble(value);
                 vd = vd == 0 ? 1 : vd;
