@@ -7,18 +7,17 @@ using System.Windows.Media;
 using System.Windows;
 using System.Globalization;
 using System;
+using ConceptorUI.Utils;
 
 namespace ConceptorUI.ViewModels
 {
     internal class TextSingleModel : Component
     {
 
-        Border border;
-        TextBlock text;
+        Border border;!
         public TextSingleModel(bool isConstraints = false)
         {
-            border = new Border();
-            text = new TextBlock();
+            border = new Border();!
             border.Child = text;
             //border.HorizontalAlignment = HorizontalAlignment.Left;
             ComponentView = border; EnumName = ComponentList.TextSingle;
@@ -61,6 +60,77 @@ namespace ConceptorUI.ViewModels
                 OnSelected();
                 PageView.Instance.OnSelected();
                 PageView.Instance.RefreshStructuralView();
+            }
+        }
+
+        protected override void WhenTextChanged(PropertyNames propertyName, string value)
+        {
+            var text = SingleChild as TextBlock;
+            if (propertyName == PropertyNames.FontFamily)
+            {
+                text!.FontFamily = ManageEnums.Instance.GetFontFamily(value);
+            }
+            else if (propertyName == PropertyNames.FontWeight)
+            {
+                text!.FontWeight = value == "0" ? FontWeights.Normal : FontWeights.Bold;
+            }
+            else if (propertyName == PropertyNames.FontStyle)
+            {
+                text!.FontStyle = value == "0" ? FontStyles.Normal : FontStyles.Italic;
+            }
+            else if (propertyName == PropertyNames.FontSize)
+            {
+                var vd = Helper.ConvertToDouble(value);
+                vd = vd == 0 ? 10 : vd;
+                text!.FontSize = vd;
+            }
+            else if (propertyName == PropertyNames.AlignLeft)
+            {
+                text!.TextAlignment = TextAlignment.Left;
+            }
+            else if (propertyName == PropertyNames.AlignCenter)
+            {
+                text!.TextAlignment = TextAlignment.Center;
+            }
+            else if (propertyName == PropertyNames.AlignRight)
+            {
+                text!.TextAlignment = TextAlignment.Right;
+            }
+            else if (propertyName == PropertyNames.AlignJustify)
+            {
+                text!.TextAlignment = TextAlignment.Justify;
+            }
+            else if (propertyName == PropertyNames.TextUnderline)
+            {
+                text!.TextDecorations = value == "1" ? TextDecorations.Underline : null;
+            }
+            else if (propertyName == PropertyNames.TextOverline)
+            {
+                text!.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
+            }
+            else if (propertyName == PropertyNames.TextThrough)
+            {
+                text!.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
+            }
+            else if (propertyName == PropertyNames.Color)
+            {
+                text!.Foreground = value == ColorValue.Transparent.ToString()
+                    ? Brushes.Transparent
+                    : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
+            }
+            else if (propertyName == PropertyNames.Text)
+            {
+                text!.Text = value;
+            }
+            else if (propertyName == PropertyNames.TextWrap)
+            {
+                text!.TextWrapping = value == "0" ? TextWrapping.NoWrap : TextWrapping.Wrap;
+            }
+            else if (propertyName == PropertyNames.LineSpacing)
+            {
+                var vd = Helper.ConvertToDouble(value);
+                vd = vd == 0 ? 1 : vd;
+                text!.LineHeight = vd;
             }
         }
 

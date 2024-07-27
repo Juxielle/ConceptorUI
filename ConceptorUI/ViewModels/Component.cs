@@ -114,6 +114,7 @@ namespace ConceptorUI.ViewModels
         
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
+        protected abstract void WhenTextChanged(PropertyNames propertyName, string value);
         protected abstract void Delete();
         protected abstract void WhenWidthChanged();
         protected abstract void WhenHeightChanged();
@@ -121,7 +122,6 @@ namespace ConceptorUI.ViewModels
         protected abstract void OnMoveRight();
         protected abstract void OnMoveTop();
         protected abstract void OnMoveBottom();
-        protected abstract void OnMouseEnter(object sender, MouseEventArgs e);
         
         protected bool OnSelected(bool isInterne = false)
         {
@@ -177,6 +177,11 @@ namespace ConceptorUI.ViewModels
                 },
                 EventArgs.Empty
             );
+        }
+
+        private void OnMouseEnter(object sender, MouseEventArgs e)
+        {
+            
         }
         
         public void OnUpdated(GroupNames groupName, PropertyNames propertyName, string value, bool allow = false)
@@ -329,7 +334,83 @@ namespace ConceptorUI.ViewModels
                 }
                 #endregion
                 
+                #region Text
+                if (groupName == GroupNames.Text)
+                {
+                    WhenTextChanged(propertyName, value);
+                    if (propertyName == PropertyNames.FontFamily)
+                    {
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.FontWeight)
+                    {
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.FontStyle)
+                    {
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.FontSize)
+                    {
+                        var vd = Helper.ConvertToDouble(value);
+                        vd = vd == 0 ? 10 : vd;
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.AlignLeft)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.AlignRight, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignCenter, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignJustify, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.AlignCenter)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.AlignLeft, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignRight, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignJustify, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.AlignRight)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.AlignLeft, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignCenter, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignJustify, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.AlignJustify)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.AlignLeft, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignRight, "0");
+                        SetPropertyValue(groupName, PropertyNames.AlignCenter, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.TextUnderline)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.TextOverline, "0");
+                        SetPropertyValue(groupName, PropertyNames.TextThrough, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.TextOverline)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.TextUnderline, "0");
+                        SetPropertyValue(groupName, PropertyNames.TextThrough, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.TextThrough)
+                    {
+                        SetPropertyValue(groupName, PropertyNames.TextUnderline, "0");
+                        SetPropertyValue(groupName, PropertyNames.TextOverline, "0");
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.Color){ }
+                    else if (propertyName == PropertyNames.Text){ }
+                    else if (propertyName == PropertyNames.TextWrap){ }
+                    else if (propertyName == PropertyNames.LineSpacing){ }
+                }
+                #endregion
+
                 #region Appearance
+
                 else if (propertyName == PropertyNames.FillColor)
                 {
                     Content.Background = value == ColorValue.Transparent.ToString() ? Brushes.Transparent :
