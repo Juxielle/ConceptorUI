@@ -21,13 +21,13 @@ namespace ConceptorUI.ViewModels
 
         public bool Selected = false;
         protected bool CanSelect = true;
-        protected bool HasChildren = false;
+        protected bool HasChildren = true;
         protected bool IsVertical = true;
         protected int AddedChildrenCount = 0;
         protected bool CanAdd_IntoChildContent = true;
         protected int ChildContentLimit = 100;
-        
-        protected FrameworkElement ComponentView;
+
+        public FrameworkElement ComponentView;
         public Component Parent;
         protected List<Component> Children;
         
@@ -59,7 +59,6 @@ namespace ConceptorUI.ViewModels
             Children = new List<Component>();
             
             OnInit();
-            OnInitialize();
         }
         
         event EventHandler IRefreshPropertyView.OnSelected
@@ -120,8 +119,10 @@ namespace ConceptorUI.ViewModels
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
         protected abstract void WhenTextChanged(string propertyName, string value);
+        protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();
         protected abstract void AddIntoChildContent(FrameworkElement child);
+        protected abstract bool AllowExpanded(bool isWidth = true);
         protected abstract void Delete();
         protected abstract void WhenWidthChanged();
         protected abstract void WhenHeightChanged();
@@ -130,7 +131,7 @@ namespace ConceptorUI.ViewModels
         protected abstract void OnMoveTop();
         protected abstract void OnMoveBottom();
         
-        protected bool OnSelected(bool isInterne = false)
+        public bool OnSelected(bool isInterne = false)
         {
             SelectedContent.BorderBrush = Brushes.DodgerBlue;
             SelectedContent.BorderThickness = new Thickness(1);
@@ -159,7 +160,7 @@ namespace ConceptorUI.ViewModels
             return Selected || found;
         }
 
-        protected void OnUnselected(bool isInterne = false)
+        public void OnUnselected(bool isInterne = false)
         {
             Selected = false;
             SelectedContent.BorderBrush = Brushes.Transparent;
@@ -227,7 +228,7 @@ namespace ConceptorUI.ViewModels
                         };
                         
                         var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                        if(hl == "0" && hc == "0" && hr == "0" && w == SizeValue.Expand.ToString())
+                        if(value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && w == SizeValue.Expand.ToString())
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                     }
                     else if (propertyName is PropertyNames.VT or  PropertyNames.VC or  PropertyNames.VB)
@@ -251,6 +252,10 @@ namespace ConceptorUI.ViewModels
                                 : VerticalAlignment.Center,
                             _ => value == "0" ? SelectedContent.VerticalAlignment : VerticalAlignment.Bottom
                         };
+                        
+                        var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                        if(value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && h == SizeValue.Expand.ToString())
+                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                 }
                 #endregion
@@ -258,7 +263,7 @@ namespace ConceptorUI.ViewModels
                 #region Transform
                 else if (propertyName == PropertyNames.Width)
                 {
-                    if (value == SizeValue.Expand.ToString())
+                    if (value == SizeValue.Expand.ToString() && AllowExpanded())
                     {
                         SelectedContent.Width = double.NaN;
                         SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
@@ -297,7 +302,7 @@ namespace ConceptorUI.ViewModels
                 }
                 else if (propertyName == PropertyNames.Height)
                 {
-                    if (value == SizeValue.Expand.ToString())
+                    if (value == SizeValue.Expand.ToString() && AllowExpanded(false))
                     {
                         SelectedContent.Height = double.NaN;
                         SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
@@ -638,6 +643,11 @@ namespace ConceptorUI.ViewModels
                 {
                     SetPropertyValue(groupName, propertyName, value);
                 }
+                else if (propertyName == PropertyNames.FilePicker)
+                {
+                    SetPropertyValue(groupName, propertyName, value);
+                    WhenFileLoaded(value);
+                }
                 #endregion
                 
                 #region Shadow Property
@@ -781,7 +791,6 @@ namespace ConceptorUI.ViewModels
                     #endregion
 
                     #region Transform
-
                     else if (prop.Name == PropertyNames.Width.ToString())
                     {
                         var selfAlignGroup = GetGroupProperties(GroupNames.SelfAlignment);
@@ -837,7 +846,7 @@ namespace ConceptorUI.ViewModels
                     #endregion
                     
                     #region Text
-                    if (group.Name == GroupNames.Text.ToString())
+                    else if (group.Name == GroupNames.Text.ToString())
                     {
                         WhenTextChanged(prop.Name, prop.Value);
                     }
@@ -965,6 +974,13 @@ namespace ConceptorUI.ViewModels
                     }
                     #endregion
                     
+                    #region Global
+                    else if (prop.Name == PropertyNames.FilePicker.ToString())
+                    {
+                        WhenFileLoaded(prop.Value);
+                    }
+                    #endregion
+                    
                     #region Shadow Property
                     else if (prop.Name == PropertyNames.ShadowDepth.ToString())
                     {
@@ -1083,6 +1099,8 @@ namespace ConceptorUI.ViewModels
             structuralElement.Node = Name.ToString()!;
             structuralElement.Selected = Selected;
             structuralElement.Children = new List<StructuralElement>();
+            
+            structuralElement.IsSimpleElement = HasChildren;
             
             foreach (var child in Children)
                 structuralElement.Children.Add(child.AddToStructuralView());
@@ -1285,7 +1303,7 @@ namespace ConceptorUI.ViewModels
                         {
                             Name = PropertyNames.Height.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "100",
+                            Value = SizeValue.Expand.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new ()
@@ -1363,7 +1381,7 @@ namespace ConceptorUI.ViewModels
                         {
                             Name = PropertyNames.FontSize.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "20",
+                            Value = "12",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
@@ -1507,280 +1525,280 @@ namespace ConceptorUI.ViewModels
                     Visibility = VisibilityValue.Visible.ToString(),
                     Properties = new List<Property>
                     {
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.FillColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "#FFE0E0E0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.CMargin.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MarginBtnActif.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = PropertyNames.MarginLeft.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Margin.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MarginLeft.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MarginTop.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MarginRight.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MarginBottom.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.CPadding.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.PaddingBtnActif.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = PropertyNames.PaddingLeft.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Padding.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.PaddingLeft.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.PaddingTop.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.PaddingRight.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.PaddingBottom.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.CBorder.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderBtnActif.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "BorderLeft",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderWidth.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderStyle.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderLeftWidth.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderLeftColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderLeftStyle.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderTopWidth.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderTopColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderTopStyle.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRightWidth.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRightColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRightStyle.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderBottomWidth.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderBottomColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderBottomStyle.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.CBorderRadius.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadBtnActif.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = PropertyNames.BorderRadiusTopLeft.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadius.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadiusTopLeft.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadiusBottomLeft.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadiusTopRight.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.BorderRadiusBottomRight.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Opacity.ToString(),
                             Type = PropertyTypes.String.ToString(),
@@ -1795,42 +1813,42 @@ namespace ConceptorUI.ViewModels
                     Visibility = VisibilityValue.Collapsed.ToString(),
                     Properties = new List<Property>
                     {
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.HL.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.HC.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.HR.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.VT.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.VC.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.VB.ToString(),
                             Type = PropertyTypes.Action.ToString(),
@@ -1845,56 +1863,56 @@ namespace ConceptorUI.ViewModels
                     Visibility = VisibilityValue.Collapsed.ToString(),
                     Properties = new List<Property>
                     {
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Row.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Column.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Fusion.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Merged.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.ColumnSpan.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.RowSpan.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.SelectedElement.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = ESelectedElement.Cell.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.HideBorder.ToString(),
                             Type = PropertyTypes.Action.ToString(),
@@ -1909,77 +1927,77 @@ namespace ConceptorUI.ViewModels
                     Visibility = VisibilityValue.Visible.ToString(),
                     Properties = new List<Property>
                     {
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.SelectedMode.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = ESelectedMode.Single.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.FilePicker.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveLeft.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveRight.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveTop.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveBottom.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Focus.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveParentToChild.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.MoveChildToParent.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.Trash.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
-                        new Property()
+                        new()
                         {
                             Name = PropertyNames.CanSelect.ToString(),
                             Type = PropertyTypes.Action.ToString(),
