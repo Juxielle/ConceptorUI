@@ -119,12 +119,12 @@ namespace ConceptorUI.ViewModels
             
         }
         
-        protected override void WhenWidthChanged()
+        protected override void WhenWidthChanged(string value)
         {
             
         }
         
-        protected override void WhenHeightChanged()
+        protected override void WhenHeightChanged(string value)
         {
             
         }

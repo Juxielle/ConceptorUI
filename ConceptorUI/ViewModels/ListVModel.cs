@@ -12,10 +12,11 @@ namespace ConceptorUI.ViewModels
     {
         private readonly StackPanel _stack;
 
-        public ListVModel()
+        public ListVModel(bool isVertical = true)
         {
             _stack = new StackPanel{ Orientation = Orientation.Vertical };
             Children = new List<Component>();
+            IsVertical = isVertical;
 
             ChildContent = new ScrollViewer
             {
@@ -33,7 +34,8 @@ namespace ConceptorUI.ViewModels
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             var scrollView = ComponentView as ScrollViewer;
-            scrollView!.ScrollToVerticalOffset(scrollView.VerticalOffset - e.Delta);
+            if(IsVertical) scrollView!.ScrollToVerticalOffset(scrollView.VerticalOffset - e.Delta);
+            else scrollView!.ScrollToHorizontalOffset(scrollView.HorizontalOffset - e.Delta);
         }
         
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
@@ -58,7 +60,7 @@ namespace ConceptorUI.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            
+            _stack.Children.Add(child);
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -81,24 +83,24 @@ namespace ConceptorUI.ViewModels
             OnSelected();
         }
         
-        protected override void WhenWidthChanged()
+        protected override void WhenWidthChanged(string value)
         {
             
         }
         
-        protected override void WhenHeightChanged()
+        protected override void WhenHeightChanged(string value)
         {
             
         }
         
         protected override void OnMoveLeft()
         {
-            
+            OnMoveTop();
         }
         
         protected override void OnMoveRight()
         {
-            
+            OnMoveBottom();
         }
         
         protected override void OnMoveTop()
@@ -172,16 +174,16 @@ namespace ConceptorUI.ViewModels
             Children[id].Parent = this;
             /* Global */
             Children[id].SetGroupVisibility(GroupNames.Global);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveRight : PropertyNames.MoveBottom, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             
             /* Content Alignment */
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VT, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VB, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
             
             /* Transform */
             Children[id].SetGroupVisibility(GroupNames.Transform);
@@ -190,18 +192,18 @@ namespace ConceptorUI.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.HVE, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.VE : PropertyNames.HE, false);
             
             /* Appearance */
             Children[id].SetGroupVisibility(GroupNames.Appearance);
             /* Shadow */
             
             Children[id].OnInitialize();
-            Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+            Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
             
-            var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
-                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
+            var d = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
+            if(d != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, IsVertical ? "Vertical" : "Horizontal"))
+                Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1", true);
         }
     }
 }

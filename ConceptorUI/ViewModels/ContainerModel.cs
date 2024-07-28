@@ -166,16 +166,14 @@ namespace ConceptorUI.ViewModels
             OnSelected();
         }
         
-        protected override void WhenWidthChanged()
+        protected override void WhenWidthChanged(string value)
         {
-            var value = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
             OnUpdated(GroupNames.Alignment, PropertyNames.HL, "0", true);
         }
         
-        protected override void WhenHeightChanged()
+        protected override void WhenHeightChanged(string value)
         {
-            var value = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
             OnUpdated(GroupNames.Alignment, PropertyNames.VT, "0", true);
         }

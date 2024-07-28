@@ -124,8 +124,8 @@ namespace ConceptorUI.ViewModels
         protected abstract void AddIntoChildContent(FrameworkElement child);
         protected abstract bool AllowExpanded(bool isWidth = true);
         protected abstract void Delete();
-        protected abstract void WhenWidthChanged();
-        protected abstract void WhenHeightChanged();
+        protected abstract void WhenWidthChanged(string value);
+        protected abstract void WhenHeightChanged(string value);
         protected abstract void OnMoveLeft();
         protected abstract void OnMoveRight();
         protected abstract void OnMoveTop();
@@ -370,7 +370,7 @@ namespace ConceptorUI.ViewModels
                     {
                         var vd = Helper.ConvertToDouble(value);
                         vd = vd == 0 ? 10 : vd;
-                        SetPropertyValue(groupName, propertyName, value);
+                        SetPropertyValue(groupName, propertyName, vd+"");
                     }
                     else if (propertyName == PropertyNames.AlignLeft)
                     {
@@ -708,11 +708,11 @@ namespace ConceptorUI.ViewModels
                 }
                 else if (propertyName == PropertyNames.Height)
                 {
-                    WhenHeightChanged();
+                    WhenHeightChanged(value);
                 }
                 else if (propertyName == PropertyNames.Width)
                 {
-                    WhenWidthChanged();
+                    WhenWidthChanged(value);
                 }
                 else if (propertyName == PropertyNames.MoveLeft)
                 {
