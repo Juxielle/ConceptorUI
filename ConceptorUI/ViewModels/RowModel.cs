@@ -471,22 +471,22 @@ namespace ConceptorUI.ViewModels
         
         protected override void OnMoveLeft()
         {
-            
+            OnMoveTop();
         }
         
         protected override void OnMoveRight()
         {
-            
+            OnMoveBottom();
         }
         
         protected override void OnMoveTop()
         {
-            var nl = _grid.RowDefinitions.Count;
+            var nl = GetSpaceCount();
             var nc = Children.Count;
             
-            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
             
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
@@ -503,15 +503,23 @@ namespace ConceptorUI.ViewModels
                 {
                     var fvbc = vb == "1" || vc == "1";
                     var child = Children[k];
-                    var rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
+
+                    var rd = new RowDefinition();
+                    var cd = new ColumnDefinition();
+                    if(IsVertical) rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
+                    else cd = _grid.ColumnDefinitions[fvbc ? k + 1 : k];
+                    
                     Children.RemoveAt(k);
                     Children.Insert(k - 1, child);
                     _grid.Children.RemoveAt(k);
                     _grid.Children.Insert(k - 1, child.ComponentView);
-                    _grid.RowDefinitions.RemoveAt(fvbc ? k + 1 : k);
-                    _grid.RowDefinitions.Insert(fvbc ? k : k - 1, rd);
-                    Grid.SetRow(Children[k - 1].ComponentView, fvbc ? k : k - 1);
-                    Grid.SetRow(Children[k].ComponentView, fvbc ? k + 1 : k);
+                    
+                    RemoveSpace(fvbc ? k + 1 : k);
+                    if(IsVertical) _grid.RowDefinitions.Insert(fvbc ? k : k - 1, rd);
+                    else _grid.ColumnDefinitions.Insert(fvbc ? k : k - 1, cd);
+                    
+                    SetPosition(fvbc ? k : k - 1, Children[k - 1].ComponentView);
+                    SetPosition(fvbc ? k + 1 : k, Children[k].ComponentView);
                 }
                 else
                 {
@@ -526,9 +534,9 @@ namespace ConceptorUI.ViewModels
             var nl = _grid.RowDefinitions.Count;
             var nc = Children.Count;
             
-            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
             
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
@@ -544,15 +552,24 @@ namespace ConceptorUI.ViewModels
                 {
                     var fvbc = vb == "1" || vc == "1";
                     var child = Children[k];
-                    var rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
+                    
+                    var rd = new RowDefinition();
+                    var cd = new ColumnDefinition();
+                    if(IsVertical) rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
+                    else cd = _grid.ColumnDefinitions[fvbc ? k + 1 : k];
+                    
                     Children.RemoveAt(k);
                     Children.Insert(k + 1, child);
                     _grid.Children.RemoveAt(k);
                     _grid.Children.Insert(k + 1, child.ComponentView);
-                    _grid.RowDefinitions.RemoveAt(fvbc ? k + 1 : k);
-                    _grid.RowDefinitions.Insert(fvbc ? k + 2 : k + 1, rd);
-                    Grid.SetRow(Children[k + 1].ComponentView, fvbc ? k + 2 : k + 1);
-                    Grid.SetRow(Children[k].ComponentView, fvbc ? k + 1 : k);
+                    
+                    RemoveSpace(fvbc ? k + 1 : k);
+                    
+                    if(IsVertical) _grid.RowDefinitions.Insert(fvbc ? k + 2 : k + 1, rd);
+                    else _grid.ColumnDefinitions.Insert(fvbc ? k + 2 : k + 1, cd);
+                    
+                    SetPosition(fvbc ? k + 2 : k + 1, Children[k + 1].ComponentView);
+                    SetPosition(fvbc ? k + 1 : k, Children[k].ComponentView);
                 }
                 else
                 {
@@ -568,16 +585,16 @@ namespace ConceptorUI.ViewModels
             Children[id].Parent = this;
             /* Global */
             Children[id].SetGroupVisibility(GroupNames.Global);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveRight : PropertyNames.MoveBottom, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             
             /* Content Alignment */
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VT, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VB, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
             
             /* Transform */
             Children[id].SetGroupVisibility(GroupNames.Transform);
@@ -591,7 +608,7 @@ namespace ConceptorUI.ViewModels
             /* Shadow */
             
             Children[id].OnInitialize();
-            Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+            Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
             
             // var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             // if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
@@ -602,29 +619,29 @@ namespace ConceptorUI.ViewModels
 
             var component = Children[id];
 
-            var nl = _grid.RowDefinitions.Count;
+            var nl = GetSpaceCount();
             var nc = Children.Count - 1;
-            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
 
             var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
             var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
             var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
 
-            var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.HL);
-            var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.HC);
-            var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.HR);
+            var hl = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.HL : PropertyNames.VT);
+            var hc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.HC : PropertyNames.VC);
+            var hr = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.HR : PropertyNames.VB);
 
-            var w = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            var h = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+            var w = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
+            var h = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
             
-            if (hl == "1") component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, hl, true);
-            if (hc == "1") component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HC, hc, true);
-            if (hr == "1") component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HR, hr, true);
+            if (hl == "1") component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, hl, true);
+            if (hc == "1") component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, hc, true);
+            if (hr == "1") component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, hr, true);
             else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString())
             {
-                component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1", true);
             }
 
 
@@ -735,29 +752,42 @@ namespace ConceptorUI.ViewModels
             #endregion
         }
 
-        private void AddSpace(int i, bool isAdding = true)
+        private void AddSpace(GridLength dimension, int i, bool isAdding = true)
         {
-            
+            if (IsVertical)
+            {
+                if(isAdding) _grid.RowDefinitions.Add(new RowDefinition { Height = dimension });
+                else _grid.RowDefinitions.Insert(i, new RowDefinition { Height = dimension });
+            }
+            else
+            {
+                if(isAdding) _grid.ColumnDefinitions.Add(new ColumnDefinition { Width = dimension });
+                else _grid.ColumnDefinitions.Insert(i, new ColumnDefinition { Width = dimension });
+            }
         }
 
         private void RemoveSpace(int i)
         {
-            
+            if(IsVertical) _grid.RowDefinitions.RemoveAt(i);
+            else _grid.ColumnDefinitions.RemoveAt(i);
         }
 
-        private void GetSpaceCount()
+        private int GetSpaceCount()
         {
-            
+            return IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count;
         }
 
-        private void SetPosition(int i, bool isAdding = false)
+        private void SetPosition(int i, UIElement view)
         {
-            
+            if(IsVertical) Grid.SetRow(view, i);
+            else Grid.SetColumn(view, i);
         }
 
-        private void SetDimension(double value, GridUnitType type)
+        private void SetDimension(int i, GridLength dimension)
         {
-            
+            if (IsVertical)
+                _grid.RowDefinitions[i].Height = dimension;
+            else _grid.ColumnDefinitions[i].Width = dimension;
         }
     }
 }
