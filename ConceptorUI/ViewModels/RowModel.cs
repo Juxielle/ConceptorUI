@@ -48,144 +48,147 @@ namespace ConceptorUI.ViewModels
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             #region When Alignment Changed
-            if (propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR)
+            if ((IsVertical && propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR) || 
+                propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
             {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HC, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HR, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, "0");
                 SetPropertyValue(GroupNames.Alignment, propertyName, value);
-                
-                var alignment = propertyName switch
-                {
-                    PropertyNames.HL => PropertyNames.HL,
-                    PropertyNames.HC => PropertyNames.HC,
-                    _ => PropertyNames.HR
-                };
                 
                 foreach (var child in Children)
                 {
-                    var w = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                    var d = child.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
                     if (value == "1")
                     {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, "1", true);
-                        if (w == SizeValue.Expand.ToString())
-                            child.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString(), true);
+                        child.OnUpdated(GroupNames.SelfAlignment, propertyName, "1", true);
+                        if (d == SizeValue.Expand.ToString())
+                            child.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Width : PropertyNames.Height, SizeValue.Auto.ToString(), true);
                     }
-                    else if (w != SizeValue.Expand.ToString())
-                        child.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
+                    else if (d != SizeValue.Expand.ToString())
+                        child.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1", true);
                 }
             }
-            else if (propertyName == PropertyNames.VT)
+            else if ((IsVertical && propertyName == PropertyNames.VT) || propertyName == PropertyNames.HL)
             {
                 if (Children.Count > 0)
                 {
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (value == "1" && nc != 0 && nl == nc)
                     {
-                        foreach (var row in _grid.RowDefinitions)
-                        {
-                            row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
-                                row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
-                        }
-                        _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        if(IsVertical)
+                            foreach (var row in _grid.RowDefinitions)
+                                row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
+                                    row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
+                        else
+                            foreach (var column in _grid.ColumnDefinitions)
+                                column.Width = new GridLength(column.Width.GridUnitType == GridUnitType.Star ? 0 : column.Width.Value,
+                                    column.Width.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : column.Width.GridUnitType);
+                        
+                        AddSpace(new GridLength(1, GridUnitType.Star), 0);
                     }
-                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB) == "1")
+                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR) == "1")
                     {
                         _grid.RowDefinitions.RemoveAt(0);
-                        _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        RemoveSpace(0);
+                        AddSpace(new GridLength(1, GridUnitType.Star), 0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
-                    else if (value == "1" && nc != 0 && nl == nc + 2 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC) == "1")
+                    else if (value == "1" && nc != 0 && nl == nc + 2 && GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC) == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
             }
-            else if (propertyName == PropertyNames.VC)
+            else if ((IsVertical && propertyName == PropertyNames.VC) || propertyName == PropertyNames.HC)
             {
                 if (Children.Count > 0)
                 {
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (value == "1" && nc != 0 && nl == nc)
                     {
-                        foreach (var row in _grid.RowDefinitions)
-                        {
-                            row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
-                                row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
-                        }
-                        _grid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                        _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        if (IsVertical)
+                            foreach (var row in _grid.RowDefinitions)
+                                row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
+                                    row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
+                        else
+                            foreach (var column in _grid.ColumnDefinitions)
+                                column.Width = new GridLength(column.Width.GridUnitType == GridUnitType.Star ? 0 : column.Width.Value,
+                                    column.Width.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : column.Width.GridUnitType);
+                        
+                        AddSpace(new GridLength(1, GridUnitType.Star), 0, false);
+                        AddSpace( new GridLength(1, GridUnitType.Star), 0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i + 1);
+                            SetPosition(i + 1, Children[i].ComponentView);
                     }
-                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT) == "1")
+                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL) == "1")
                     {
-                        _grid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        AddSpace(new GridLength(1, GridUnitType.Star) , 0, false);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i + 1);
+                            SetPosition(i + 1, Children[i].ComponentView);
                     }
-                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB) == "1")
-                    {
-                        _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                    }
+                    else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR) == "1")
+                        AddSpace(new GridLength(1, GridUnitType.Star) , 0);
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
             }
-            else if (propertyName == PropertyNames.VB)
+            else if ((IsVertical && propertyName == PropertyNames.VB) || propertyName == PropertyNames.HR)
             {
                 if (Children.Count > 0)
                 {
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (value == "1" && nc != 0 && nl == nc)
                     {
-                        foreach (var row in _grid.RowDefinitions)
-                        {
-                            row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
-                                row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
-                        }
-                        _grid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        if(IsVertical)
+                            foreach (var row in _grid.RowDefinitions)
+                                row.Height = new GridLength(row.Height.GridUnitType == GridUnitType.Star ? 0 : row.Height.Value,
+                                    row.Height.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : row.Height.GridUnitType);
+                        else
+                            foreach (var column in _grid.ColumnDefinitions)
+                                column.Width = new GridLength(column.Width.GridUnitType == GridUnitType.Star ? 0 : column.Width.Value,
+                                    column.Width.GridUnitType == GridUnitType.Star ? GridUnitType.Auto : column.Width.GridUnitType);
+                        
+                        AddSpace(new GridLength(1, GridUnitType.Star), 0, false);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i + 1);
+                            SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT) == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
-                        _grid.RowDefinitions.Insert(0, new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                        RemoveSpace(nl - 1);
+                        AddSpace(new GridLength(1, GridUnitType.Star), 0, false);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i + 1);
+                            SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 2 && GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC) == "1")
-                    {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
-                    }
+                        RemoveSpace(nl - 1);
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -196,47 +199,51 @@ namespace ConceptorUI.ViewModels
             {
                 if (Children.Count > 0)
                 {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                     
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (nl == nc + 1 && vt == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
+                        RemoveSpace(nl - 1);
                     }
                     else if (nl == nc + 1 && vb == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(0);
                         for(var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
                     else if (nl == nc + 2 && vc == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(nl - 1);
+                        RemoveSpace(0);
+                        
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
-                    foreach (var rd in _grid.RowDefinitions)
+                    
+                    for (var i = 0; i < (IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count); i++)
                     {
-                        rd.Height = new GridLength(1, GridUnitType.Star);
-                        var i = _grid.RowDefinitions.IndexOf(rd);
+                        if(IsVertical) _grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+                        else _grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                        
                         if (i == 0)
-                            Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
-                        else if (i == _grid.RowDefinitions.Count - 1)
-                            Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VB, "1", true);
-                        else Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                            Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
+                        else if (i == (IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count) - 1)
+                            Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HC, "1", true);
+                        else
+                            Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HR, "1", true);
                     }
                 }
             }
@@ -244,42 +251,45 @@ namespace ConceptorUI.ViewModels
             {
                 if (Children.Count > 0)
                 {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                     
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (nl == nc + 1 && vt == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
+                        RemoveSpace(nl - 1);
                     }
                     else if (nl == nc + 1 && vb == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
                     else if (nl == nc + 2 && vc == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(nl - 1);
+                        RemoveSpace(0);
+                        
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
-                    foreach (var rd in _grid.RowDefinitions)
+                    
+                    for (var i = 0; i < (IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count); i++)
                     {
-                        rd.Height = new GridLength(1, GridUnitType.Star);
-                        Children[_grid.RowDefinitions.IndexOf(rd)].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                        if(IsVertical) _grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+                        else _grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                        Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                     }
                 }
             }
@@ -287,47 +297,49 @@ namespace ConceptorUI.ViewModels
             {
                 if (Children.Count > 0)
                 {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB);
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
                     
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                     
-                    var nl = _grid.RowDefinitions.Count;
+                    var nl = GetSpaceCount();
                     var nc = Children.Count;
                     
                     if (nl == nc + 1 && vt == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
+                        RemoveSpace(nl - 1);
                     }
                     else if (nl == nc + 1 && vb == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
                     else if (nl == nc + 2 && vc == "1")
                     {
-                        _grid.RowDefinitions.RemoveAt(nl - 1);
-                        _grid.RowDefinitions.RemoveAt(0);
+                        RemoveSpace(nl - 1);
+                        RemoveSpace(0);
                         for (var i = 0; i < Children.Count; i++)
-                            Grid.SetRow(Children[i].ComponentView, i);
+                            SetPosition(i, Children[i].ComponentView);
                     }
-                    foreach (var rd in _grid.RowDefinitions)
+                    
+                    for (var i = 0; i < (IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count); i++)
                     {
-                        rd.Height = new GridLength(1, GridUnitType.Star);
-                        var i = _grid.RowDefinitions.IndexOf(rd);
+                        if(IsVertical) _grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+                        else _grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                        
                         if (i == 0)
-                            Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VB, "1", true);
-                        else if (i == _grid.RowDefinitions.Count - 1)
-                            Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
-                        else Children[i].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                            Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1", true);
+                        else if (i == GetSpaceCount() - 1)
+                            Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
+                        else Children[i].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                     }
                 }
             }
@@ -410,7 +422,7 @@ namespace ConceptorUI.ViewModels
         protected override void WhenHeightChanged(string value)
         {
             var i = -1;
-            var nl = IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count;
+            var nl = GetSpaceCount();
             var nc = Children.Count;
             
             var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -424,17 +436,18 @@ namespace ConceptorUI.ViewModels
             foreach (var child in Children)
             {
                 if (child.Selected) i = Children.IndexOf(child);
-                found = found || GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height) == SizeValue.Expand.ToString();
+                found = found || GetGroupProperties(GroupNames.Transform)
+                    .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width) == SizeValue.Expand.ToString();
             }
 
             if (i != -1 && value == SizeValue.Expand.ToString())
             {
-                if (nl == nc + 1 && vt == "1") _grid.RowDefinitions.RemoveAt(nl - 1);
-                else if (nl == nc + 1 && vb == "1") _grid.RowDefinitions.RemoveAt(0);
+                if (nl == nc + 1 && vt == "1") RemoveSpace(nl - 1);
+                else if (nl == nc + 1 && vb == "1") RemoveSpace(0);
                 else if (nl == nc + 2 && vc == "1")
                 {
-                    _grid.RowDefinitions.RemoveAt(nl - 1);
-                    _grid.RowDefinitions.RemoveAt(0);
+                    RemoveSpace(nl - 1);
+                    RemoveSpace(0);
                 }
                 
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
@@ -443,23 +456,23 @@ namespace ConceptorUI.ViewModels
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+
+                for (var k =0; k < GetSpaceCount(); k++)
+                    SetDimension(k, new GridLength(0, GridUnitType.Auto));
                 
-                foreach (var row in _grid.RowDefinitions)
-                    row.Height = new GridLength(0, GridUnitType.Auto);
-                _grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
+                SetDimension(i, new GridLength(1, GridUnitType.Star));
             }
             else if (i != -1 && value == SizeValue.Auto.ToString())
             {
                 i = i == 0 && nl >= nc + 1 && (vb == "1" || vc == "1") ? 1 : i;
-                _grid.RowDefinitions[i].Height = new GridLength(0, GridUnitType.Auto);
+                SetDimension(i, new GridLength(0, GridUnitType.Auto));
             }
             else if (i != -1 && value != SizeValue.Old.ToString())
             {
                 if(sb == "0" && sa == "0" && se == "0")
                 {
-                    //var vd = Helper.ConvertToDouble(value);
                     i = i == 0 && nl >= nc + 1 && (vb == "1" || vc == "1") ? 1 : i;
-                    _grid.RowDefinitions[i].Height = new GridLength(0, GridUnitType.Auto);
+                    SetDimension(i, new GridLength(0, GridUnitType.Auto));
                 }
             }
             
@@ -610,17 +623,13 @@ namespace ConceptorUI.ViewModels
             Children[id].OnInitialize();
             Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
             
-            // var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            // if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
-            //     Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
-            
-            var rd = new RowDefinition();
-            rd.Height = new GridLength(0, GridUnitType.Auto);
+            var rd = new RowDefinition{ Height = new GridLength(0, GridUnitType.Auto) };
 
             var component = Children[id];
 
             var nl = GetSpaceCount();
             var nc = Children.Count - 1;
+            
             var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
             var vc = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
             var vb = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
@@ -640,115 +649,115 @@ namespace ConceptorUI.ViewModels
             if (hc == "1") component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, hc, true);
             if (hr == "1") component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, hr, true);
             else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString())
-            {
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1", true);
-            }
 
 
             if ((nl == nc + 1 && vt == "1") || (isDeserialize && vt == "1"))
             {
-                Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
-                _grid.RowDefinitions.Insert(isDeserialize ? id : _grid.RowDefinitions.Count - 1, rd);
+                SetPosition(isDeserialize ? id : GetSpaceCount() - 1, component.ComponentView);
+                AddSpace(rd.Height, isDeserialize ? id : GetSpaceCount() - 1, false);
                 
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
-                    component.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
+                    component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width, SizeValue.Auto.ToString(), true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
             }
             else if ((nl == nc + 1 && vb == "1") && (isDeserialize && vb == "1"))
             {
                 if (isDeserialize && id == 0)
-                    _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
-                _grid.RowDefinitions.Add(rd);
-                Grid.SetRow(component.ComponentView, isDeserialize ? id + 1 : _grid.RowDefinitions.Count - 1);
+                AddSpace(rd.Height, 0);
+                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 1, component.ComponentView);
                 
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
-                    component.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
+                    component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width, SizeValue.Auto.ToString(), true);
             }
             else if ((nl == nc + 2 && vc == "1") || (isDeserialize && vc == "1"))
             {
                 if (isDeserialize && id == 0)
-                    _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
-                if (isDeserialize) _grid.RowDefinitions.Add(rd);
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
+                
+                AddSpace(rd.Height, 0);
 
-                Grid.SetRow(component.ComponentView, isDeserialize ? id + 1 : _grid.RowDefinitions.Count);
+                SetPosition(isDeserialize ? id + 1 : _grid.RowDefinitions.Count, component.ComponentView);
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
-                    component.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
+                    component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width, SizeValue.Auto.ToString(), true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    _grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
             }
             else if (sb == "1")
             {
                 if (isDeserialize && id == 0)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VB, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1", true);
                 else if (isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
 
                 if (!isDeserialize && Children.Count > 0)
-                    Children[^1].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                    Children[^1].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                 
-                rd.Height = new GridLength(1, GridUnitType.Star);
-                _grid.RowDefinitions.Insert(isDeserialize ? id : _grid.RowDefinitions.Count - 1, rd);
+                AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : GetSpaceCount() - 1, false);
                 
-                Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
+                SetPosition(isDeserialize ? id : GetSpaceCount() - 1, component.ComponentView);
                 
                 if (!isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VB, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1", true);
             }
             else if (sa == "1")
             {
-                rd.Height = new GridLength(1, GridUnitType.Star);
-                _grid.RowDefinitions.Insert(isDeserialize ? id : _grid.RowDefinitions.Count - 1, rd);
-                Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
-                component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HC, "1", true);
+                if(IsVertical)
+                    AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : _grid.RowDefinitions.Count - 1, false);
+                else
+                    AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : _grid.ColumnDefinitions.Count - 1, false);
+                
+                SetPosition(isDeserialize ? id : _grid.RowDefinitions.Count - 1, component.ComponentView);
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "1", true);
             }
             else if (se == "1")
             {
                 if (isDeserialize && id == 0)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VB, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1", true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
                 else if (isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
 
                 if (!isDeserialize && Children.Count > 0)
-                    Children[^1].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VC, "1", true);
+                    Children[^1].OnUpdated(GroupNames.SelfAlignment,IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                 
-                rd.Height = new GridLength(1, GridUnitType.Star);
-                _grid.RowDefinitions.Insert(isDeserialize ? id : _grid.RowDefinitions.Count - 1, rd);
-                Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
+                AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : _grid.RowDefinitions.Count - 1, false);
+                SetPosition(isDeserialize ? id : _grid.RowDefinitions.Count - 1, component.ComponentView);
                 
                 if (!isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, PropertyNames.HR, "1", true);
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, "1", true);
             }
             else if (nl == nc)
             {
                 if (h == SizeValue.Expand.ToString())
                 {
-                    rd.Height = new GridLength(1, GridUnitType.Star);
-                    _grid.RowDefinitions.Add(rd);
-                    Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
+                    SetPosition(isDeserialize ? id : GetSpaceCount() - 1, component.ComponentView);
                 }
                 else if ((h == SizeValue.Auto.ToString() || h != SizeValue.Old.ToString()) && existExpand)
                 {
-                    _grid.RowDefinitions.Add(rd);
-                    Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count - 1);
+                    AddSpace(rd.Height, 0);
+                    SetPosition(isDeserialize ? id : GetSpaceCount() - 1, component.ComponentView);
                 }
                 else
                 {
-                    Grid.SetRow(component.ComponentView, isDeserialize ? id : _grid.RowDefinitions.Count);
-                    _grid.RowDefinitions.Add(rd);
-                    var cd2 = new RowDefinition { Height = new GridLength(1, GridUnitType.Star) };
-                    _grid.RowDefinitions.Add(cd2);
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "1");
+                    SetPosition(isDeserialize ? id : _grid.RowDefinitions.Count, component.ComponentView);
+                    
+                    AddSpace(rd.Height, 0);
+                    AddSpace(new GridLength(1, GridUnitType.Star), 0);
+                    
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
                 }
             }
             
             if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
-                Children[id].OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
+                Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width, SizeValue.Auto.ToString(), true);
             #endregion
         }
 

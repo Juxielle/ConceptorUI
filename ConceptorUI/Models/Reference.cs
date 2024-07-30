@@ -8,6 +8,7 @@ class Reference
     public string Address { get; set; }
     public ReferenceType Type { get; set; }
     public string File { get; set; }
+    public Reference ReferenceValue { get; set; }
     /*
      * Créer une liste de références Component indépendante
      * Créer une liste de références Couleurs indépendante

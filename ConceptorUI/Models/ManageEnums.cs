@@ -1,73 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Media;
+﻿using System.Windows.Media;
 using System.Windows;
 using ConceptorUI.ViewModels;
-using System.Data.Common;
-using ConceptorUI.Views.Components;
 using System.Globalization;
+
 
 namespace ConceptorUI.Models
 {
     class ManageEnums
     {
-        private static ManageEnums _obj;
-        public static double CellHeight = 23;
+        private static ManageEnums? _obj;
+        public static readonly double CellHeight = 23;
 
         public ManageEnums()
         {
             _obj = this;
         }
 
-        public static ManageEnums Instance
-        {
-            get { return _obj == null ? new ManageEnums() : _obj; }
-        }
+        public static ManageEnums Instance => _obj == null! ? new ManageEnums() : _obj;
 
         public static HorizontalAlignment HAlignment(Alignments value)
         {
-            switch (value)
+            return value switch
             {
-                case Alignments.Start: return HorizontalAlignment.Left;
-                case Alignments.Center: return HorizontalAlignment.Center;
-                case Alignments.End: return HorizontalAlignment.Right;
-                case Alignments.Stretch: return HorizontalAlignment.Stretch;
-                default: return HorizontalAlignment.Stretch;
-            }
+                Alignments.Start => HorizontalAlignment.Left,
+                Alignments.Center => HorizontalAlignment.Center,
+                Alignments.End => HorizontalAlignment.Right,
+                Alignments.Stretch => HorizontalAlignment.Stretch,
+                _ => HorizontalAlignment.Stretch
+            };
         }
 
         public static VerticalAlignment VAlignment(Alignments value)
         {
-            switch (value)
+            return value switch
             {
-                case Alignments.Start: return VerticalAlignment.Top;
-                case Alignments.Center: return VerticalAlignment.Center;
-                case Alignments.End: return VerticalAlignment.Bottom;
-                case Alignments.Stretch: return VerticalAlignment.Stretch;
-                default: return VerticalAlignment.Stretch;
-            }
+                Alignments.Start => VerticalAlignment.Top,
+                Alignments.Center => VerticalAlignment.Center,
+                Alignments.End => VerticalAlignment.Bottom,
+                Alignments.Stretch => VerticalAlignment.Stretch,
+                _ => VerticalAlignment.Stretch
+            };
         }
 
         public static double GetSize(SizeValue value, double d)
         {
-            switch (value)
+            return value switch
             {
-                case SizeValue.Define: return d;
-                case SizeValue.Auto: return double.NaN;
-                default: return double.NaN;
-            }
+                SizeValue.Define => d,
+                SizeValue.Auto => double.NaN,
+                _ => double.NaN
+            };
         }
 
         public static Brush GetColor(string color)
         {
-            switch (color)
+            return color switch
             {
-                case "Transparent": return Brushes.Transparent;
-                default: return (new BrushConverter().ConvertFrom(color) as SolidColorBrush)!;
-            }
+                "Transparent" => Brushes.Transparent,
+                _ => (new BrushConverter().ConvertFrom(color) as SolidColorBrush)!
+            };
         }
 
         public static bool IsSelectedModeValue(string value)
@@ -82,20 +73,19 @@ namespace ConceptorUI.Models
 
         public static string GetNumberFieldValue(string value)
         {
-            string sd = "";
-            int k = 0;
+            var sd = "";
+            var k = 0;
+            
             const string characters = ".-0123456789";
-            for (int i = 0; i < value.Length; i++)
+            for (var i = 0; i < value.Length; i++)
             {
-                for (int j = 0; j < characters.Length; j++)
+                for (var j = 0; j < characters.Length; j++)
                 {
                     if ((value[i] == '-' && i != 0) || (value[i] == '.' && k > 0) ||
                         (i == 0 && value[i] == '.')) break;
-                    if (value[i] == characters[j])
-                    {
-                        if (value[i] == '.') k++;
-                        sd += value[i]; break;
-                    }
+                    if (value[i] != characters[j]) continue;
+                    if (value[i] == '.') k++;
+                    sd += value[i]; break;
                 }
             }
             return sd;
@@ -103,17 +93,16 @@ namespace ConceptorUI.Models
 
         public static string GetIntegerFieldValue(string value)
         {
-            string sd = "";
+            var sd = "";
             const string characters = "-0123456789";
-            for (int i = 0; i < value.Length; i++)
+            
+            for (var i = 0; i < value.Length; i++)
             {
-                for (int j = 0; j < characters.Length; j++)
+                for (var j = 0; j < characters.Length; j++)
                 {
                     if (value[i] == '-' && i != 0) break;
-                    if (value[i] == characters[j])
-                    {
-                        sd += value[i]; break;
-                    }
+                    if (value[i] != characters[j]) continue;
+                    sd += value[i]; break;
                 }
             }
             return sd;
@@ -121,39 +110,35 @@ namespace ConceptorUI.Models
 
         public static string SetNumber(string value, bool up = true, bool allowNagativeValue = false)
         {
-            double number = 0;
-            double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out number);
-            if (number.ToString(CultureInfo.InvariantCulture) == value)
-            {
-                number = up ? number + 1 : (allowNagativeValue ? number - 1 : (number == 0 ? number : number - 1));
-                return number.ToString(CultureInfo.InvariantCulture);
-            } else return value;
+            double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var number);
+            if (number.ToString(CultureInfo.InvariantCulture) != value) return value;
+            number = up ? number + 1 : (allowNagativeValue ? number - 1 : (number == 0 ? number : number - 1));
+            return number.ToString(CultureInfo.InvariantCulture);
+
         }
 
         public Component GetComponent(string name)
         {
-            if (name == ComponentList.TextSingle.ToString()) return new TextSingleModel(true);
-            if (name == ComponentList.Text.ToString()) return new TextSingleModel(true);
-            if (name == ComponentList.Image.ToString()) return new ImageModel(true);
-            if (name == ComponentList.Column.ToString()) return new ColumnModel(true);
-            if (name == ComponentList.Row.ToString()) return new RowModel(true);
-            if (name == ComponentList.Container.ToString()) return new ContainerModel(true);
-            if (name == ComponentList.Button.ToString()) return new ButtonModel(true);
-            if (name == ComponentList.Icon.ToString()) return new IconModel(true);
-            if (name == ComponentList.Grid.ToString()) return new GridModel(true);
-            if (name == ComponentList.Page.ToString()) return new PageModel(true);
-            if (name == ComponentList.Window.ToString()) return new WindowModel(true);
-            if (name == ComponentList.Table.ToString()) return new TableModel(true);
-            if (name == ComponentList.Stack.ToString()) return new StackModel(true);
-            if (name == ComponentList.ListV.ToString()) return new ListVModel(true);
-            return name == ComponentList.ListH.ToString() ? new ListHModel(true) : null!;
+            if (name == ComponentList.TextSingle.ToString()) return new TextSingleModel();
+            if (name == ComponentList.Text.ToString()) return new TextSingleModel();
+            if (name == ComponentList.Image.ToString()) return new ImageModel();
+            if (name == ComponentList.Column.ToString()) return new ColumnModel();
+            if (name == ComponentList.Row.ToString()) return new RowModel();
+            if (name == ComponentList.Container.ToString()) return new ContainerModel();
+            if (name == ComponentList.Icon.ToString()) return new IconModel();
+            if (name == ComponentList.Grid.ToString()) return new GridModel();
+            if (name == ComponentList.Window.ToString()) return new WindowModel();
+            if (name == ComponentList.Stack.ToString()) return new StackModel();
+            if (name == ComponentList.ListV.ToString()) return new ListVModel();
+            return name == ComponentList.ListH.ToString() ? new ListHModel() : null!;
         }
 
         public FontFamily GetFontFamily(string source)
         {
-            FontFamily ff = new FontFamily();
-            int i = 0;
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            var ff = new FontFamily();
+            var i = 0;
+            
+            foreach (var fontFamily in Fonts.SystemFontFamilies)
             {
                 if(fontFamily.Source == source) return fontFamily;
                 if(i == 0) ff = fontFamily;
@@ -161,10 +146,11 @@ namespace ConceptorUI.Models
             }
             return ff;
         }
-        public int GetFFIndex(string source)
+        public static int GetFfIndex(string source)
         {
-            int i = 0;
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+            var i = 0;
+            
+            foreach (var fontFamily in Fonts.SystemFontFamilies)
             {
                 if (fontFamily.Source == source) return i;
                 i++;

@@ -6,19 +6,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI
 {
-    /// <summary>
-    /// Interaction logic for MainWindow.xaml
-    /// </summary>
     public partial class MainWindow
     {
-
         private static MainWindow? _obj;
-        private readonly HttpClient _httpClient = new HttpClient();
+        // private readonly HttpClient _httpClient = new HttpClient();
 
         public MainWindow()
         {
@@ -66,11 +61,11 @@ namespace ConceptorUI
             }
         }
 
-        public async void TestMethod()
-        {
-            var stringData = await _httpClient.GetStringAsync("http://127.0.0.1:8000/api/users-list");
-            Console.WriteLine("Datas: " + stringData);
-        }
+        // public async void TestMethod()
+        // {
+        //     var stringData = await _httpClient.GetStringAsync("http://127.0.0.1:8000/api/users-list");
+        //     Console.WriteLine("Datas: " + stringData);
+        // }
 
         public static MainWindow Instance
         {
@@ -83,14 +78,14 @@ namespace ConceptorUI
             pageView.application = app;
         }
 
-        public void FillFontComboBox(ComboBox comboBoxFonts)
-        {
-            foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
-            {
-                //comboBoxFonts.Items.Add(fontFamily.Source);
-            }
-            //comboBoxFonts.SelectedIndex = 0;
-        }
+        // public void FillFontComboBox(ComboBox comboBoxFonts)
+        // {
+        //     foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
+        //     {
+        //         comboBoxFonts.Items.Add(fontFamily.Source);
+        //     }
+        //     comboBoxFonts.SelectedIndex = 0;
+        // }
 
         public void DisplayColorPalette(Brush color, bool display, string propOrigin, double opacity = 1.0)
         {

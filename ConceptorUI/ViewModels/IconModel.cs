@@ -27,7 +27,7 @@ namespace ConceptorUI.ViewModels
             
             Name = ComponentList.Icon;
             HasChildren = false;
-            CanAdd_IntoChildContent = false;
+            CanAddIntoChildContent = false;
             ChildContentLimit = 0;
             
             OnInitialize();
@@ -41,7 +41,7 @@ namespace ConceptorUI.ViewModels
             /* Self Alignment */
             /* Transform */
             SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "20");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "20");
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
@@ -68,7 +68,7 @@ namespace ConceptorUI.ViewModels
             myBinding.Source = myDataObject;
 
             if(iValue!.Length > 0)
-                switch (iValue![1])
+                switch (iValue[1])
                 {
                     case "Material":
                         _awesomeIcon.Visibility = Visibility.Collapsed;

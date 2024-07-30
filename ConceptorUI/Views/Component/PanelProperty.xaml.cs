@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Linq;
+using System.Windows;
 using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -15,7 +17,6 @@ namespace ConceptorUI.Views.ComponentP
             InitializeComponent();
             _obj = this;
             AlignSelf.Refresh(false);
-            Properties.InitProps();
 
             Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
             Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
@@ -23,27 +24,27 @@ namespace ConceptorUI.Views.ComponentP
 
         public static PanelProperty Instance => _obj == null! ? new PanelProperty() : _obj;
 
-        public void FeedProps()
+        public void FeedProps(object value)
         {
             Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility = Grid.Visibility =
             Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
+            var groups = value as List<GroupProperties>;
             
-            foreach(var group in Properties.groupProps!)
+            foreach (var group in groups!.Where(group => group.Visibility == VisibilityValue.Visible.ToString()))
             {
-                if (group.Visibility != VisibilityValue.Visible.ToString()) continue;
                 if(group.Name == GroupNames.Alignment.ToString())
                 {
-                    Align.FeedProps();
+                    Align.FeedProps(group);
                     Align.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
-                    AlignSelf.FeedProps();
+                    AlignSelf.FeedProps(group);
                     AlignSelf.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
-                    TransformProperty.Instance.FeedProps();
+                    TransformProperty.Instance.FeedProps(group);
                     Transform.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.Text.ToString())
@@ -53,22 +54,22 @@ namespace ConceptorUI.Views.ComponentP
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
-                    AppearanceProperty.Instance.FeedProps();
+                    AppearanceProperty.Instance.FeedProps(group);
                     Appearance.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
                 {
-                    GridProperty.Instance.FeedProps();
+                    GridProperty.Instance.FeedProps(group);
                     Grid.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    GlobalProperty.Instance.FeedProps();
+                    GlobalProperty.Instance.FeedProps(group);
                     Global.Visibility = Visibility.Visible;
                 }
                 else if (group.Name == GroupNames.Shadow.ToString())
                 {
-                    ShadowPanel.Instance.FeedProps();
+                    ShadowPanel.Instance.FeedProps(group);
                     Shadow.Visibility = Visibility.Visible;
                 }
             }

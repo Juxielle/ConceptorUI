@@ -46,7 +46,7 @@ namespace ConceptorUI.Views.ComponentP
                     if (prop.Name == PropertyNames.FontFamily.ToString())
                     {
                         SFontFamily.Visibility = Visibility.Visible;
-                        CFontFamily.SelectedIndex = Convert.ToInt32(ManageEnums.Instance.GetFFIndex(prop.Value));
+                        CFontFamily.SelectedIndex = Convert.ToInt32(ManageEnums.GetFfIndex(prop.Value));
                     }
                     else if (prop.Name == PropertyNames.FontWeight.ToString())
                     {

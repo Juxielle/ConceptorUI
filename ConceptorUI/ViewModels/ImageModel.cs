@@ -23,7 +23,7 @@ namespace ConceptorUI.ViewModels
             
             Name = ComponentList.Image;
             HasChildren = false;
-            CanAdd_IntoChildContent = false;
+            CanAddIntoChildContent = false;
             ChildContentLimit = 0;
             
             OnInitialize();
@@ -63,7 +63,7 @@ namespace ConceptorUI.ViewModels
             /* Self Alignment */
             /* Transform */
             SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "40");
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch);
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);

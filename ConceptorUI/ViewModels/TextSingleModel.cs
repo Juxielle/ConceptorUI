@@ -15,7 +15,7 @@ namespace ConceptorUI.ViewModels
             
             Name = ComponentList.TextSingle;
             HasChildren = false;
-            CanAdd_IntoChildContent = false;
+            CanAddIntoChildContent = false;
             ChildContentLimit = 0;
             
             OnInitialize();

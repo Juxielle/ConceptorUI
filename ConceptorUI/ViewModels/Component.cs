@@ -16,23 +16,26 @@ namespace ConceptorUI.ViewModels
 {
     abstract class Component : IRefreshPropertyView
     {
-        public ComponentList Name { get; set; }
-        public List<GroupProperties>? PropertyGroups { get; set; }
+        protected ComponentList Name { get; set; }
+        private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
-        protected bool CanSelect = true;
+        private bool _canSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
         protected int AddedChildrenCount = 0;
-        protected bool CanAdd_IntoChildContent = true;
+        protected bool CanAddIntoChildContent = true;
         protected int ChildContentLimit = 100;
+        
+        protected bool IsInComponent = false;
+        protected bool IsOriginalComponent = false;
 
-        public FrameworkElement ComponentView;
+        public readonly FrameworkElement ComponentView;
         public Component Parent;
         protected List<Component> Children;
-        
-        protected Border SelectedContent;
-        protected Border Content;
+
+        private readonly Border _selectedContent;
+        protected readonly Border Content;
         protected FrameworkElement ChildContent;
         
         public event EventHandler? PreSelectedEvent;
@@ -50,8 +53,8 @@ namespace ConceptorUI.ViewModels
             InitChildContent();
             
             Content = new Border{ Child = ChildContent };
-            SelectedContent = new Border{ Child = Content };
-            ComponentView = SelectedContent;
+            _selectedContent = new Border{ Child = Content };
+            ComponentView = _selectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;
             
@@ -133,8 +136,8 @@ namespace ConceptorUI.ViewModels
         
         public bool OnSelected(bool isInterne = false)
         {
-            SelectedContent.BorderBrush = Brushes.DodgerBlue;
-            SelectedContent.BorderThickness = new Thickness(1);
+            _selectedContent.BorderBrush = Brushes.DodgerBlue;
+            _selectedContent.BorderThickness = new Thickness(1);
             
             PreSelectedEvent!.Invoke(
                 new Dictionary<string, dynamic>
@@ -163,8 +166,8 @@ namespace ConceptorUI.ViewModels
         public void OnUnselected(bool isInterne = false)
         {
             Selected = false;
-            SelectedContent.BorderBrush = Brushes.Transparent;
-            SelectedContent.BorderThickness = new Thickness(0);
+            _selectedContent.BorderBrush = Brushes.Transparent;
+            _selectedContent.BorderThickness = new Thickness(0);
             
             foreach (var child in Children)
                 child.OnUnselected(isInterne);
@@ -173,7 +176,7 @@ namespace ConceptorUI.ViewModels
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if ((GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
-                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildContent)))) return;
+                 (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildContent)))) return;
             
             OnSelected();
             PreSelectedEvent!.Invoke(
@@ -216,20 +219,20 @@ namespace ConceptorUI.ViewModels
                         SetPropertyValue(groupName, PropertyNames.HR, value2);
                         SetPropertyValue(groupName, propertyName, value);
 
-                        SelectedContent.HorizontalAlignment = propertyName switch
+                        _selectedContent.HorizontalAlignment = propertyName switch
                         {
                             PropertyNames.HL => value == "0"
-                                ? SelectedContent.HorizontalAlignment
+                                ? _selectedContent.HorizontalAlignment
                                 : HorizontalAlignment.Left,
                             PropertyNames.HC => value == "0"
-                                ? SelectedContent.HorizontalAlignment
+                                ? _selectedContent.HorizontalAlignment
                                 : HorizontalAlignment.Center,
-                            _ => value == "0" ? SelectedContent.HorizontalAlignment : HorizontalAlignment.Right
+                            _ => value == "0" ? _selectedContent.HorizontalAlignment : HorizontalAlignment.Right
                         };
                         
                         var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if(value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && w == SizeValue.Expand.ToString())
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                     }
                     else if (propertyName is PropertyNames.VT or  PropertyNames.VC or  PropertyNames.VB)
                     {
@@ -242,20 +245,20 @@ namespace ConceptorUI.ViewModels
                         SetPropertyValue(groupName, PropertyNames.VB, value2);
                         SetPropertyValue(groupName, propertyName, value);
 
-                        SelectedContent.VerticalAlignment = propertyName switch
+                        _selectedContent.VerticalAlignment = propertyName switch
                         {
                             PropertyNames.VT => value == "0"
-                                ? SelectedContent.VerticalAlignment
+                                ? _selectedContent.VerticalAlignment
                                 : VerticalAlignment.Top,
                             PropertyNames.VC => value == "0"
-                                ? SelectedContent.VerticalAlignment
+                                ? _selectedContent.VerticalAlignment
                                 : VerticalAlignment.Center,
-                            _ => value == "0" ? SelectedContent.VerticalAlignment : VerticalAlignment.Bottom
+                            _ => value == "0" ? _selectedContent.VerticalAlignment : VerticalAlignment.Bottom
                         };
                         
                         var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         if(value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && h == SizeValue.Expand.ToString())
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                 }
                 #endregion
@@ -265,8 +268,8 @@ namespace ConceptorUI.ViewModels
                 {
                     if (value == SizeValue.Expand.ToString() && AllowExpanded())
                     {
-                        SelectedContent.Width = double.NaN;
-                        SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                        _selectedContent.Width = double.NaN;
+                        _selectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                         
                         SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "0");
@@ -277,24 +280,24 @@ namespace ConceptorUI.ViewModels
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
-                            SelectedContent.Width = double.NaN;
+                            _selectedContent.Width = double.NaN;
                             SetPropertyValue(groupName, propertyName, SizeValue.Auto.ToString());
                         }
                         else
                         {
                             var vd = Helper.ConvertToDouble(value);
-                            SelectedContent.Width = vd;
+                            _selectedContent.Width = vd;
                         }
                         
                         if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HL) == "1")
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                         else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HC) == "1")
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Center;
                         else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HR) == "1")
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Right;
                         else
                         {
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "1");
                             //Evenement pour remplacer la vue des props
                         }
@@ -304,8 +307,8 @@ namespace ConceptorUI.ViewModels
                 {
                     if (value == SizeValue.Expand.ToString() && AllowExpanded(false))
                     {
-                        SelectedContent.Height = double.NaN;
-                        SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                        _selectedContent.Height = double.NaN;
+                        _selectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                         
                         SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "0");
@@ -316,24 +319,24 @@ namespace ConceptorUI.ViewModels
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
-                            SelectedContent.Height = double.NaN;
+                            _selectedContent.Height = double.NaN;
                             SetPropertyValue(groupName, propertyName, SizeValue.Auto.ToString());
                         }
                         else
                         {
                             var vd = Helper.ConvertToDouble(value);
-                            SelectedContent.Height = vd;
+                            _selectedContent.Height = vd;
                         }
                         
                         if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VT) == "1")
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Top;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Top;
                         else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VC) == "1")
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Center;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Center;
                         else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VB) == "1")
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Bottom;
                         else
                         {
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Top;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Top;
                             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
                         }
                     }
@@ -457,31 +460,31 @@ namespace ConceptorUI.ViewModels
                     
                     SetPropertyValue(groupName, PropertyNames.CMargin, "1");
                     
-                    SelectedContent.Margin = new Thickness(vd);
+                    _selectedContent.Margin = new Thickness(vd);
                 }
                 else if (propertyName == PropertyNames.MarginLeft)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    SelectedContent.Margin = new Thickness(vd, SelectedContent.Margin.Top, SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
+                    _selectedContent.Margin = new Thickness(vd, _selectedContent.Margin.Top, _selectedContent.Margin.Right, _selectedContent.Margin.Bottom);
                 }
                 else if (propertyName == PropertyNames.MarginTop)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, vd, SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
+                    _selectedContent.Margin = new Thickness(_selectedContent.Margin.Left, vd, _selectedContent.Margin.Right, _selectedContent.Margin.Bottom);
                 }
                 else if (propertyName == PropertyNames.MarginRight)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top, vd, SelectedContent.Margin.Bottom);
+                    _selectedContent.Margin = new Thickness(_selectedContent.Margin.Left, _selectedContent.Margin.Top, vd, _selectedContent.Margin.Bottom);
                 }
                 else if (propertyName == PropertyNames.MarginBottom)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top, SelectedContent.Margin.Right, vd);
+                    _selectedContent.Margin = new Thickness(_selectedContent.Margin.Left, _selectedContent.Margin.Top, _selectedContent.Margin.Right, vd);
                 }
                 else if (propertyName == PropertyNames.CPadding)
                 {
@@ -751,27 +754,27 @@ namespace ConceptorUI.ViewModels
                     {
                         if (prop.Name == PropertyNames.HL.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                         }
                         else if (prop.Name == PropertyNames.HC.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Center;
                         }
                         else if (prop.Name == PropertyNames.HR.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Right;
                         }
                         else if (prop.Name == PropertyNames.VT.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Top;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Top;
                         }
                         else if (prop.Name == PropertyNames.VC.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Center;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Center;
                         }
                         else if (prop.Name == PropertyNames.VB.ToString() && prop.Value == "1")
                         {
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Bottom;
                         }
                         
                         var hl = group.GetValue(PropertyNames.HL);
@@ -779,14 +782,14 @@ namespace ConceptorUI.ViewModels
                         var hr = group.GetValue(PropertyNames.HR);
                         var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if(hl == "0" && hc == "0" && hr == "0" && w == SizeValue.Expand.ToString())
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                         
                         var vt = group.GetValue(PropertyNames.VT);
                         var vc = group.GetValue(PropertyNames.VC);
                         var vb = group.GetValue(PropertyNames.VB);
                         var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         if(vt == "0" && vc == "0" && vb == "0" && h == SizeValue.Expand.ToString())
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                     #endregion
 
@@ -796,25 +799,25 @@ namespace ConceptorUI.ViewModels
                         var selfAlignGroup = GetGroupProperties(GroupNames.SelfAlignment);
                         if (prop.Value == SizeValue.Expand.ToString())
                         {
-                            SelectedContent.Width = double.NaN;
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                            _selectedContent.Width = double.NaN;
+                            _selectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                         }
                         else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Old.ToString())
                         {
                             if (prop.Value != SizeValue.Old.ToString())
                             {
                                 var vd = Helper.ConvertToDouble(prop.Value);
-                                SelectedContent.Width = vd;
+                                _selectedContent.Width = vd;
                             }
-                            else SelectedContent.Width = double.NaN;
+                            else _selectedContent.Width = double.NaN;
                                 
                             if (selfAlignGroup.GetValue(PropertyNames.HL) == "1")
-                                SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
+                                _selectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                             else if (selfAlignGroup.GetValue(PropertyNames.HC) == "1")
-                                SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
+                                _selectedContent.HorizontalAlignment = HorizontalAlignment.Center;
                             else if (selfAlignGroup.GetValue(PropertyNames.HR) == "1")
-                                SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
-                            else SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
+                                _selectedContent.HorizontalAlignment = HorizontalAlignment.Right;
+                            else _selectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                         }
                     }
                     else if (prop.Name == PropertyNames.Height.ToString())
@@ -822,25 +825,25 @@ namespace ConceptorUI.ViewModels
                         var selfAlignGroup = GetGroupProperties(GroupNames.SelfAlignment);
                         if (prop.Value == SizeValue.Expand.ToString())
                         {
-                            SelectedContent.Height = double.NaN;
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                            _selectedContent.Height = double.NaN;
+                            _selectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                         }
                         else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Old.ToString())
                         {
                             if (prop.Value != SizeValue.Old.ToString())
                             {
                                 var vd = Helper.ConvertToDouble(prop.Value);
-                                SelectedContent.Height = vd;
+                                _selectedContent.Height = vd;
                             }
-                            else SelectedContent.Height = double.NaN;
+                            else _selectedContent.Height = double.NaN;
                                 
                             if (selfAlignGroup.GetValue(PropertyNames.VT) == "1")
-                                SelectedContent.VerticalAlignment = VerticalAlignment.Top;
+                                _selectedContent.VerticalAlignment = VerticalAlignment.Top;
                             else if (selfAlignGroup.GetValue(PropertyNames.VC) == "1")
-                                SelectedContent.VerticalAlignment = VerticalAlignment.Center;
+                                _selectedContent.VerticalAlignment = VerticalAlignment.Center;
                             else if (selfAlignGroup.GetValue(PropertyNames.VB) == "1")
-                                SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
-                            else SelectedContent.VerticalAlignment = VerticalAlignment.Top;
+                                _selectedContent.VerticalAlignment = VerticalAlignment.Bottom;
+                            else _selectedContent.VerticalAlignment = VerticalAlignment.Top;
                         }
                     }
                     #endregion
@@ -855,33 +858,33 @@ namespace ConceptorUI.ViewModels
                     #region Appearance
                     else if (prop.Name == PropertyNames.FillColor.ToString())
                     {
-                        SelectedContent.Background = prop.Value == ColorValue.Transparent.ToString() ? Brushes.Transparent :
+                        _selectedContent.Background = prop.Value == ColorValue.Transparent.ToString() ? Brushes.Transparent :
                             new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
                     }
                     else if (prop.Name == PropertyNames.Opacity.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Opacity = vd;
+                        _selectedContent.Opacity = vd;
                     }
                     else if (prop.Name == PropertyNames.Margin.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(vd);
+                        _selectedContent.Margin = new Thickness(vd);
                     }
                     else if (prop.Name == PropertyNames.MarginLeft.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(vd, SelectedContent.Margin.Top, SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
+                        _selectedContent.Margin = new Thickness(vd, _selectedContent.Margin.Top, _selectedContent.Margin.Right, _selectedContent.Margin.Bottom);
                     }
                     else if (prop.Name == PropertyNames.MarginTop.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, vd, SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
+                        _selectedContent.Margin = new Thickness(_selectedContent.Margin.Left, vd, _selectedContent.Margin.Right, _selectedContent.Margin.Bottom);
                     }
                     else if (prop.Name == PropertyNames.MarginRight.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top, vd, SelectedContent.Margin.Bottom);
+                        _selectedContent.Margin = new Thickness(_selectedContent.Margin.Left, _selectedContent.Margin.Top, vd, _selectedContent.Margin.Bottom);
                     }
                     else if (prop.Name == PropertyNames.MarginBottom.ToString())
                     {
@@ -1012,13 +1015,30 @@ namespace ConceptorUI.ViewModels
             }
         }
 
+        public void OnAdd(Component component)
+        {
+            if (!HasChildren || Children.Count >= ChildContentLimit) return;
+            component.Parent = this;
+            AddIntoChildContent(component.ComponentView);
+            Children.Add(component);
+
+            var expanded = false;
+            foreach (var child in Children)
+            {
+                var d = child.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                expanded = expanded || d == SizeValue.Expand.ToString();
+            }
+            
+            LayoutConstraints(Children.Count - 1, false, expanded);
+        }
+
         public string OnCopyOrPaste(string value = null!, bool isPaste = false)
         {
             CompSerialiser valueD = null!;
             if(value != null!)
                 valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerialiser>(value)!;
 
-            if (Selected && isPaste && valueD != null! && CanAdd_IntoChildContent && Children.Count < ChildContentLimit)
+            if (Selected && isPaste && valueD != null! && CanAddIntoChildContent && Children.Count < ChildContentLimit)
             {
                 var name = valueD.Name!;
                 var component = ManageEnums.Instance.GetComponent(name);
@@ -1028,7 +1048,7 @@ namespace ConceptorUI.ViewModels
                 var expanded = false;
                 foreach (var child in Children)
                 {
-                    var d = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                    var d = child.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
 
@@ -1096,7 +1116,7 @@ namespace ConceptorUI.ViewModels
         public StructuralElement AddToStructuralView()
         {
             var structuralElement = new StructuralElement();
-            structuralElement.Node = Name.ToString()!;
+            structuralElement.Node = Name.ToString();
             structuralElement.Selected = Selected;
             structuralElement.Children = new List<StructuralElement>();
             
@@ -1125,7 +1145,7 @@ namespace ConceptorUI.ViewModels
             }
             else if (structuralElement.Children != null! && structuralElement.Children.Count == Children.Count)
             {
-                for (var i = 0; i < structuralElement.Children!.Count; i++)
+                for (var i = 0; i < structuralElement.Children.Count; i++)
                     Children[i].SelectFromStructuralView(structuralElement.Children[i]);
             }
         }
@@ -1210,7 +1230,7 @@ namespace ConceptorUI.ViewModels
             return isNull;
         }
 
-        protected void OnInit()
+        private void OnInit()
         {
             #region
             PropertyGroups = new List<GroupProperties>

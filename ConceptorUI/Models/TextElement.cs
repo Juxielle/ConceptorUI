@@ -1,36 +1,29 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows;
+
 
 namespace ConceptorUI.Models
 {
     class TextElement
     {
-        public TextBlock componentElement;
-        public List<GroupProperties> groupProps;
+        public TextBlock ComponentElement;
+        public List<GroupProperties> GroupProps;
         public TextElement()
         {
             configureProps();
-            initialize();
+            Initialize();
         }
 
         public TextElement(List<GroupProperties> groupProps)
         {
             CopyConfigureProps(groupProps);
-            initialize();
+            Initialize();
         }
 
-        private void initialize()
+        private void Initialize()
         {
-            componentElement = new TextBlock();
-            componentElement.Text = "My texte";
+            ComponentElement = new TextBlock();
+            ComponentElement.Text = "My text";
         }
 
         public void Update(int idG, int idP, string value)
