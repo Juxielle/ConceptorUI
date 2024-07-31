@@ -5,77 +5,79 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     /// <summary>
     /// Logique d'interaction pour TransformProperty.xaml
     /// </summary>
-    public partial class TransformProperty
+    public class TransformProperty
     {
-        private static TransformProperty _obj;
-        private int index;
+        private static TransformProperty? _obj;
+        private GroupProperties _properties;
+        private int _index;
         private int _firstCount;
 
         public TransformProperty()
         {
             _firstCount = 0;
             InitializeComponent();
+            
             _obj = this;
-            index = 0;
+            _properties = new GroupProperties();
+            _index = 0;
         }
 
         public static TransformProperty Instance => _obj == null! ? new TransformProperty() : _obj;
 
-        public void FeedProps()
+        public void FeedProps(object properties)
         {
             W.Visibility = H.Visibility = X.Visibility = SStretch.Visibility = 
                 Y.Visibility = R.Visibility = BHE.Visibility = BVE.Visibility = BHVE.Visibility = Visibility.Collapsed;
-            var pos = Properties.GetPosition(GroupNames.Transform, PropertyNames.Width);
+            _properties = (properties as GroupProperties)!;
+            
             #region
-            foreach (var prop in Properties.groupProps![pos[0]].Properties)
+            foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
             {
-                if (prop.Visibility == VisibilityValue.Visible.ToString())
+                if (prop.Name == PropertyNames.Width.ToString())
                 {
-                    if (prop.Name == PropertyNames.Width.ToString())
-                    {
-                        W.Visibility = Visibility.Visible; WTB.Text = prop.Value.Replace(",", ".");
-                        HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == SizeValue.Expand.ToString() ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
-                    }
-                    else if (prop.Name == PropertyNames.Height.ToString())
-                    {
-                        H.Visibility = Visibility.Visible; HTB.Text = prop.Value.Replace(",", ".");
-                        VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == SizeValue.Expand.ToString() ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
-                    }
-                    else if (prop.Name == PropertyNames.Stretch.ToString())
-                    {
-                        SStretch.Visibility = Visibility.Visible;
-                        var cbStretchItem = CbStretch.Items.OfType<ComboBoxItem>().FirstOrDefault(x => x.Content.ToString() == prop.Value);
-                        CbStretch.SelectedIndex = CbStretch.Items.IndexOf(cbStretchItem!);
-                    }
-                    else if (prop.Name == PropertyNames.X.ToString())
-                    {
-                        X.Visibility = Visibility.Visible; XTB.Text = prop.Value.Replace(",", ".");
-                    }
-                    else if (prop.Name == PropertyNames.Y.ToString())
-                    {
-                        Y.Visibility = Visibility.Visible; YTB.Text = prop.Value.Replace(",", ".");
-                    }
-                    else if (prop.Name == PropertyNames.ROT.ToString())
-                    {
-                        R.Visibility = Visibility.Visible; RTB.Text = prop.Value.Replace(",", ".");
-                    }
-                    else if (prop.Name == PropertyNames.HE.ToString())
-                    {
-                        BHE.Visibility = Visibility.Visible; //LoadValue(5, prop.Value);
-                    }
-                    else if (prop.Name == PropertyNames.VE.ToString())
-                    {
-                        BVE.Visibility = Visibility.Visible; //LoadValue(6, prop.Value);
-                    }
-                    else if (prop.Name == PropertyNames.HVE.ToString())
-                    {
-                        BHVE.Visibility = Visibility.Visible; LoadValue(7, prop.Value);
-                    }
+                    W.Visibility = Visibility.Visible; WTB.Text = prop.Value.Replace(",", ".");
+                    HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == SizeValue.Expand.ToString() ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
+                }
+                else if (prop.Name == PropertyNames.Height.ToString())
+                {
+                    H.Visibility = Visibility.Visible; HTB.Text = prop.Value.Replace(",", ".");
+                    VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == SizeValue.Expand.ToString() ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
+                }
+                else if (prop.Name == PropertyNames.Stretch.ToString())
+                {
+                    SStretch.Visibility = Visibility.Visible;
+                    var cbStretchItem = CbStretch.Items.OfType<ComboBoxItem>().FirstOrDefault(x => x.Content.ToString() == prop.Value);
+                    CbStretch.SelectedIndex = CbStretch.Items.IndexOf(cbStretchItem!);
+                }
+                else if (prop.Name == PropertyNames.X.ToString())
+                {
+                    X.Visibility = Visibility.Visible; XTB.Text = prop.Value.Replace(",", ".");
+                }
+                else if (prop.Name == PropertyNames.Y.ToString())
+                {
+                    Y.Visibility = Visibility.Visible; YTB.Text = prop.Value.Replace(",", ".");
+                }
+                else if (prop.Name == PropertyNames.ROT.ToString())
+                {
+                    R.Visibility = Visibility.Visible; RTB.Text = prop.Value.Replace(",", ".");
+                }
+                else if (prop.Name == PropertyNames.HE.ToString())
+                {
+                    BHE.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.VE.ToString())
+                {
+                    BVE.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.HVE.ToString())
+                {
+                    BHVE.Visibility = Visibility.Visible;
+                    LoadValue(7, prop.Value);
                 }
             }
             #endregion
@@ -172,7 +174,7 @@ namespace ConceptorUI.Views.ComponentP
 
         private void LoadValue(int idP, string value)
         {
-            switch (index)
+            switch (_index)
             {
                 case 5:
                     HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
@@ -197,7 +199,7 @@ namespace ConceptorUI.Views.ComponentP
                     HVE.Foreground = BHVE.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
                     break;
             }
-            index = value == "0" ? -1 : idP;
+            _index = value == "0" ? -1 : idP;
         }
     }
 }

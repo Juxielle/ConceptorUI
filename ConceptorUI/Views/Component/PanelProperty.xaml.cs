@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using ConceptorUI.Models;
@@ -6,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     partial class PanelProperty
     {
@@ -36,11 +37,13 @@ namespace ConceptorUI.Views.ComponentP
                 {
                     Align.FeedProps(group);
                     Align.Visibility = Visibility.Visible;
+                    Align.PreMouseDownEvent += OnAlignmentHandle!;
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
                     AlignSelf.FeedProps(group);
                     AlignSelf.Visibility = Visibility.Visible;
+                    AlignSelf.PreMouseDownEvent += OnAlignmentHandle!;
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
@@ -56,6 +59,7 @@ namespace ConceptorUI.Views.ComponentP
                 {
                     AppearanceProperty.Instance.FeedProps(group);
                     Appearance.Visibility = Visibility.Visible;
+                    Appearance.PreMouseDownEvent += OnAlignmentHandle!;
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
                 {
@@ -110,6 +114,11 @@ namespace ConceptorUI.Views.ComponentP
                 BEntity.Background = Brushes.Transparent;
                 BEntity.Foreground = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             }
+        }
+
+        private void OnAlignmentHandle(object sender, EventArgs e)
+        {
+            
         }
     }
 }

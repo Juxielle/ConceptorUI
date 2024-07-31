@@ -8,7 +8,7 @@ using System.Windows.Media;
 using ConceptorUI.Interfaces;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     public partial class AlignmentProperty : IAlignment
     {
