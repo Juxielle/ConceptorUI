@@ -180,7 +180,7 @@ namespace ConceptorUI.Models
         MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
         SpaceBetween, SpaceAround, SpaceEvery, Text, AddText, EditText, RemoveText, DisplayText,
         Focus, MoveParentToChild, MoveChildToParent, Trash, Fusion, Merged, TextWrap, LineSpacing, FilePicker,
-        CanSelect, HideBorder, ShadowDepth, BlurRadius, ShadowColor, ShadowDirection, Stretch,
+        CanSelect, HideBorder, ShadowDepth, BlurRadius, ShadowColor, ShadowDirection, Stretch, Copy, Paste
     }
     public enum GroupNames
     {

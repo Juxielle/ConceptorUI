@@ -1,32 +1,59 @@
-﻿using System.Windows;
+﻿using System;
+using System.Linq;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
+using ConceptorUI.Views.ComponentP;
 
-namespace ConceptorUI.Views.ComponentP;
+namespace ConceptorUI.Views.Component;
 
-public partial class ShadowPanel
+public class ShadowPanel : IShadow
 { 
-    static ShadowPanel _obj;
+    private static ShadowPanel? _obj;
     private int index;
+    private GroupProperties _properties;
+        
+    public event EventHandler? OnValueChangedEvent;
+    private readonly object _valueChangedLock = new();
 
     public ShadowPanel()
     {
         InitializeComponent();
         _obj = this;
         index = 0;
+        _properties = new GroupProperties();
     }
     
     public static ShadowPanel Instance => _obj == null! ? new ShadowPanel() : _obj;
+        
+    event EventHandler IShadow.OnValueChanged
+    {
+        add
+        {
+            lock (_valueChangedLock)
+            {
+                OnValueChangedEvent += value;
+            }
+        }
+        remove
+        {
+            lock (_valueChangedLock)
+            {
+                OnValueChangedEvent -= value;
+            }
+        }
+    }
     
-    public void FeedProps()
+    public void FeedProps(bool value)
     {
         SColor.Visibility = SDepth.Visibility = SRadius.Visibility = SDirection.Visibility = Visibility.Collapsed;
-        var pos = Properties.GetPosition(GroupNames.Shadow, PropertyNames.ShadowDepth);
+        _properties = (properties as GroupProperties)!;
+        
         #region
-        foreach (var prop in Properties.groupProps![pos[0]].Properties)
+        foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
         {
-            if (prop.Visibility != VisibilityValue.Visible.ToString()) continue;
             if (prop.Name == PropertyNames.ShadowDepth.ToString())
             {
                 SDepth.Visibility = Visibility.Visible;
@@ -56,25 +83,29 @@ public partial class ShadowPanel
     {
         var textBox = (sender as TextBox)!;
         var tag = textBox!.Tag != null ? textBox.Tag.ToString()! : "";
-        var idP = PropertyNames.None;
+        var propertyName = PropertyNames.None;
         textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
         var value = textBox.Text is "" or "-" ? SizeValue.Old.ToString() : textBox.Text;
 
         switch (tag)
         {
             case "Depth": 
-                idP = PropertyNames.ShadowDepth;
+                propertyName = PropertyNames.ShadowDepth;
                 break;
             case "Radius":
-                idP = PropertyNames.BlurRadius;
+                propertyName = PropertyNames.BlurRadius;
                 break;
             case "Direction":
-                idP = PropertyNames.ShadowDirection;
+                propertyName = PropertyNames.ShadowDirection;
                 break;
         }
-        if (idP != PropertyNames.None)
+        
+        if (propertyName != PropertyNames.None)
         {
-            PanelProperty.ReactToProps(GroupNames.Shadow, idP, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value);
+            OnValueChangedEvent!.Invoke(
+                new dynamic[]{GroupNames.Shadow, propertyName, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value}, 
+                EventArgs.Empty
+            );
         }
     }
 
@@ -97,12 +128,20 @@ public partial class ShadowPanel
         var cb = (sender as CheckBox)!;
         if (cb.IsChecked != false) return;
         BColor.Background = Brushes.Transparent;
-        PanelProperty.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent");
+        
+        OnValueChangedEvent!.Invoke(
+            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent"}, 
+            EventArgs.Empty
+        );
     }
 
     public void SetColor(Brush color, int id)
     {
         BColor.Background = color;
-        PanelProperty.ReactToProps(GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString());
+        
+        OnValueChangedEvent!.Invoke(
+            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString()}, 
+            EventArgs.Empty
+        );
     }
 }

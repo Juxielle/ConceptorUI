@@ -1,84 +1,104 @@
 ﻿using ConceptorUI.Models;
 using System;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Constants;
+using ConceptorUI.Interfaces;
+using ConceptorUI.Views.ComponentP;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour GlobalProperty.xaml
-    /// </summary>
-    public partial class GlobalProperty
+    public class GlobalProperty : IGlobal
     {
-        static GlobalProperty? _obj;
+        private static GlobalProperty? _obj;
+        private GroupProperties _properties;
+        
+        public event EventHandler? PreMouseDownEvent;
+        private readonly object _mouseDownLock = new();
+        
         public GlobalProperty()
         {
             InitializeComponent();
+            
             _obj = this;
+            _properties = new GroupProperties();
         }
 
         public static GlobalProperty Instance => _obj == null! ? new GlobalProperty() : _obj;
+        
+        event EventHandler IGlobal.OnMouseDown
+        {
+            add
+            {
+                lock (_mouseDownLock)
+                {
+                    PreMouseDownEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_mouseDownLock)
+                {
+                    PreMouseDownEvent -= value;
+                }
+            }
+        }
 
-        public void FeedProps()
+        public void FeedProps(object properties)
         {
             CFocus.Visibility = BMoveParentToChild.Visibility = BMoveChildToParent.Visibility = BTrash.Visibility = 
             BMoveLeft.Visibility = BMoveTop.Visibility = BMoveRight.Visibility = BMoveBottom.Visibility =
             BFilePicker.Visibility = BSelectedMode.Visibility = Visibility.Collapsed;
-            var pos = Properties.GetPosition(GroupNames.Global, PropertyNames.SelectedMode);
-            foreach (var prop in Properties.groupProps![pos[0]].Properties)
+            _properties = (properties as GroupProperties)!;
+            
+            foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
             {
-                if (prop.Visibility == VisibilityValue.Visible.ToString())
+                if (prop.Name == PropertyNames.Trash.ToString())
                 {
-                    if (prop.Name == PropertyNames.Trash.ToString())
-                    {
-                        BTrash.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.SelectedMode.ToString())
-                    {
-                        BSelectedMode.Visibility = Visibility.Visible;
-                        SelectedMode.Foreground =
-                            BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == ESelectedMode.Single.ToString() ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
-                    }
-                    else if (prop.Name == PropertyNames.FilePicker.ToString())
-                    {
-                        BFilePicker.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.Focus.ToString())
-                    {
-                        CFocus.Visibility = Visibility.Visible;
-                        CFocus.IsChecked = prop.Value == "1";
-                    }
-                    else if (prop.Name == PropertyNames.MoveLeft.ToString())
-                    {
-                        BMoveLeft.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.MoveTop.ToString())
-                    {
-                        BMoveTop.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.MoveRight.ToString())
-                    {
-                        BMoveRight.Visibility = Visibility.Visible;
-                        var value = 0;
-                        if (prop.Value == ESelectedElement.Row.ToString()) value = 1;
-                        else if (prop.Value == ESelectedElement.Column.ToString()) value = 2;
-                    }
-                    else if (prop.Name == PropertyNames.MoveBottom.ToString())
-                    {
-                        BMoveBottom.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.MoveParentToChild.ToString())
-                    {
-                        BMoveParentToChild.Visibility = Visibility.Visible;
-                    }
-                    else if (prop.Name == PropertyNames.MoveChildToParent.ToString())
-                    {
-                        BMoveChildToParent.Visibility = Visibility.Visible;
-                    }
+                    BTrash.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.SelectedMode.ToString())
+                {
+                    BSelectedMode.Visibility = Visibility.Visible;
+                    SelectedMode.Foreground =
+                        BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == ESelectedMode.Single.ToString() ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
+                }
+                else if (prop.Name == PropertyNames.FilePicker.ToString())
+                {
+                    BFilePicker.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.Focus.ToString())
+                {
+                    CFocus.Visibility = Visibility.Visible;
+                    CFocus.IsChecked = prop.Value == "1";
+                }
+                else if (prop.Name == PropertyNames.MoveLeft.ToString())
+                {
+                    BMoveLeft.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.MoveTop.ToString())
+                {
+                    BMoveTop.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.MoveRight.ToString())
+                {
+                    BMoveRight.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.MoveBottom.ToString())
+                {
+                    BMoveBottom.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.MoveParentToChild.ToString())
+                {
+                    BMoveParentToChild.Visibility = Visibility.Visible;
+                }
+                else if (prop.Name == PropertyNames.MoveChildToParent.ToString())
+                {
+                    BMoveChildToParent.Visibility = Visibility.Visible;
                 }
             }
         }
@@ -86,30 +106,58 @@ namespace ConceptorUI.Views.ComponentP
         private void BtnClick(object sender, RoutedEventArgs e)
         {
             var tag = (sender as Button)!.Tag.ToString()!;
-            var pos = Properties.GetPosition(GroupNames.Global, PropertyNames.SelectedMode);
-            int idG = pos[0], idP = pos[1];
+            var propertyName = PropertyNames.None;
+            var sendValue = string.Empty;
+            var allowSend = true;
+            
             switch (tag)
             {
                 case "SelectedMode":
-                    var value = Properties.groupProps![idG].Properties[idP].Value == ESelectedMode.Single.ToString() ? ESelectedMode.Multiple : ESelectedMode.Single;
-                    PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.SelectedMode, value.ToString());
+                    sendValue = _properties.GetValue(PropertyNames.SelectedMode) == ESelectedMode.Single.ToString() ? 
+                        ESelectedMode.Multiple.ToString() : ESelectedMode.Single.ToString();
+                    propertyName = PropertyNames.SelectedMode;
                     SelectedMode.Foreground =
                         BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(value == ESelectedMode.Single ? "#8c8c8a" : "#6739b7") as SolidColorBrush; break;
-                case "MoveLeft": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveLeft, "0"); break;
-                case "MoveRight": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveRight, "0"); break;
-                case "MoveTop": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveTop, "0"); break;
-                case "MoveBottom": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveBottom, "0"); break;
-                case "MoveParentToChild": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveParentToChild, "0"); break;
-                case "MoveChildToParent": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.MoveChildToParent, "0"); break;
-                case "Trash": PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.Trash, "0"); break;
+                case "MoveLeft":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveLeft;
+                    break;
+                case "MoveRight":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveRight;
+                    break;
+                case "MoveTop":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveTop;
+                    break;
+                case "MoveBottom":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveBottom;
+                    break;
+                case "MoveParentToChild":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveParentToChild;
+                    break;
+                case "MoveChildToParent":
+                    sendValue = "0";
+                    propertyName = PropertyNames.MoveChildToParent;
+                    break;
+                case "Trash":
+                    sendValue = "0";
+                    propertyName = PropertyNames.Trash;
+                    break;
                 case "FilePicker":
                     if (Properties.ComponentName == ComponentList.Icon)
                     {
                         var dbIcon = new DbIcons(data =>
                         {
-                            PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, data);
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, data}, 
+                                EventArgs.Empty
+                            );
                         });
                         dbIcon.ShowDialog();
+                        allowSend = false;
                     }
                     else if (Properties.ComponentName == ComponentList.Image)
                     {
@@ -122,16 +170,27 @@ namespace ConceptorUI.Views.ComponentP
                         if(!File.Exists(path))
                             File.Copy(filePath, path);
                         
-                        PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.FilePicker, fileName);
+                        sendValue = fileName;
+                        propertyName = PropertyNames.FilePicker;
                     }
                     break;
                 case "Copy":
                     PageView.Instance.OnCopyOrPaste();
+                    sendValue = "0";
+                    propertyName = PropertyNames.Copy;
                     break;
                 case "Paste":
                     PageView.Instance.OnCopyOrPaste(true);
+                    sendValue = "0";
+                    propertyName = PropertyNames.Paste;
                     break;
             }
+            
+            if(!allowSend) return;
+            PreMouseDownEvent!.Invoke(
+                new dynamic[]{GroupNames.Global, propertyName, sendValue}, 
+                EventArgs.Empty
+            );
         }
         
         private void OnFocusChecked(object sender, RoutedEventArgs e)
@@ -139,10 +198,8 @@ namespace ConceptorUI.Views.ComponentP
             var tag = (sender as CheckBox)!.Tag == null ? "" : (sender as CheckBox)!.Tag.ToString()!;
             try
             {
-                var pos = Properties.GetPosition(GroupNames.Global, PropertyNames.Focus);
-
-                if (Properties.groupProps == null) return;
-                var value = Properties.groupProps![pos[0]].Properties[pos[1]].Value;
+                if (_properties == null!) return;
+                var value = _properties.GetValue(PropertyNames.Focus);
                 switch (tag)
                 {
                     case "Focus":
@@ -150,7 +207,7 @@ namespace ConceptorUI.Views.ComponentP
                         break;
                 }
             }
-            catch (Exception ex)
+            catch (Exception)
             {
                 //
             }
