@@ -5,14 +5,12 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
-using ConceptorUI.Views.ComponentP;
 
 namespace ConceptorUI.Views.Component;
 
-public class ShadowPanel : IShadow
+public partial class ShadowPanel : IShadow
 { 
     private static ShadowPanel? _obj;
-    private int index;
     private GroupProperties _properties;
         
     public event EventHandler? OnValueChangedEvent;
@@ -22,7 +20,6 @@ public class ShadowPanel : IShadow
     {
         InitializeComponent();
         _obj = this;
-        index = 0;
         _properties = new GroupProperties();
     }
     
@@ -46,10 +43,10 @@ public class ShadowPanel : IShadow
         }
     }
     
-    public void FeedProps(bool value)
+    public void FeedProps(object value)
     {
         SColor.Visibility = SDepth.Visibility = SRadius.Visibility = SDirection.Visibility = Visibility.Collapsed;
-        _properties = (properties as GroupProperties)!;
+        _properties = (value as GroupProperties)!;
         
         #region
         foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
@@ -82,7 +79,7 @@ public class ShadowPanel : IShadow
     private void OnChanged(object sender, TextChangedEventArgs e)
     {
         var textBox = (sender as TextBox)!;
-        var tag = textBox!.Tag != null ? textBox.Tag.ToString()! : "";
+        var tag = textBox.Tag != null ? textBox.Tag.ToString()! : "";
         var propertyName = PropertyNames.None;
         textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
         var value = textBox.Text is "" or "-" ? SizeValue.Old.ToString() : textBox.Text;

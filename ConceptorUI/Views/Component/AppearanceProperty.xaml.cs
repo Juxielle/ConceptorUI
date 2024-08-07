@@ -10,7 +10,7 @@ using ConceptorUI.Utils;
 using ConceptorUI.Views.Modals;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     public partial class AppearanceProperty : IAppearance
     {

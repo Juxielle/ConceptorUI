@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
-using ConceptorUI.Views.ComponentP;
+using ConceptorUI.Views.Component;
 
 namespace ConceptorUI.Views.Modals;
 

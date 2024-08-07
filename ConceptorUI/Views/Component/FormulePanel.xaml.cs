@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     /// <summary>
     /// Logique d'interaction pour FormulePanel.xaml

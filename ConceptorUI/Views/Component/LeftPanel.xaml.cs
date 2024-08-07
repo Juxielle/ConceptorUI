@@ -8,11 +8,8 @@ using ConceptorUI.ViewModels;
 using MaterialDesignThemes.Wpf;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour LeftPanel.xaml
-    /// </summary>
     public partial class LeftPanel : IComponentButton
     {
         public event EventHandler? PreMouseDownEvent;
@@ -56,9 +53,6 @@ namespace ConceptorUI.Views.ComponentP
                     break;
                 case "Grid":
                     componentName = nameof(GridModel);
-                    break;
-                case "Table":
-                    componentName = nameof(TableModel);
                     break;
                 case "Row":
                     componentName = nameof(RowModel);

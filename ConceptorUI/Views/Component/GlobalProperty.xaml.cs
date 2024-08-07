@@ -7,12 +7,11 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Constants;
 using ConceptorUI.Interfaces;
-using ConceptorUI.Views.ComponentP;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public class GlobalProperty : IGlobal
+    public partial class GlobalProperty : IGlobal
     {
         private static GlobalProperty? _obj;
         private GroupProperties _properties;
@@ -117,7 +116,7 @@ namespace ConceptorUI.Views.Component
                         ESelectedMode.Multiple.ToString() : ESelectedMode.Single.ToString();
                     propertyName = PropertyNames.SelectedMode;
                     SelectedMode.Foreground =
-                        BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(value == ESelectedMode.Single ? "#8c8c8a" : "#6739b7") as SolidColorBrush; break;
+                        BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(sendValue == ESelectedMode.Single.ToString() ? "#8c8c8a" : "#6739b7") as SolidColorBrush; break;
                 case "MoveLeft":
                     sendValue = "0";
                     propertyName = PropertyNames.MoveLeft;
@@ -149,13 +148,15 @@ namespace ConceptorUI.Views.Component
                 case "FilePicker":
                     if (Properties.ComponentName == ComponentList.Icon)
                     {
-                        var dbIcon = new DbIcons(data =>
+                        var dbIcon = new DbIcons();
+                        dbIcon.OnValueChangedEvent += (data, _) =>
                         {
                             PreMouseDownEvent!.Invoke(
-                                new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, data}, 
+                                new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, (data! as string)!},
                                 EventArgs.Empty
                             );
-                        });
+                        };
+                        
                         dbIcon.ShowDialog();
                         allowSend = false;
                     }

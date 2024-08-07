@@ -204,7 +204,7 @@ namespace ConceptorUI
                     {
                         var sc = SynchronizationContext.Current;
                         Popup.Visibility = Visibility.Visible;
-                        Popup.Refresh(new Views.ComponentP.PopupModel
+                        Popup.Refresh(new Views.Component.PopupModel
                         {
                             Display = true,
                             Loading = true,

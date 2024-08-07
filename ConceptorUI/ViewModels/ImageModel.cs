@@ -1,5 +1,5 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.Views.ComponentP;
+using ConceptorUI.Views.Component;
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;

@@ -1,53 +1,61 @@
-﻿using ConceptorUI.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System;
+using ConceptorUI.Interfaces;
+using ConceptorUI.Models;
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour ParentProperties.xaml
-    /// </summary>
-    public partial class ParentProperties : UserControl
+    public partial class ParentProperties : IValue
     {
-        static ParentProperties _obj;
+        private static ParentProperties? _obj;
+        private GroupProperties _properties;
+        
+        public event EventHandler? OnValueChangedEvent;
+        private readonly object _valueChangedLock = new();
 
         public ParentProperties()
         {
             InitializeComponent();
+            
             _obj = this;
+            _properties = new GroupProperties();
         }
 
-        public static ParentProperties Instance
+        public static ParentProperties Instance => _obj == null! ? new ParentProperties() : _obj;
+        
+        event EventHandler IValue.OnValueChanged
         {
-            get { return _obj == null ? new ParentProperties() : _obj; }
-        }
-
-        public void FeedProps()
-        {
-            foreach (var prop in Properties.groupProps[0].Properties)
+            add
             {
-                if (prop.Visibility == VisibilityValue.Visible.ToString())
+                lock (_valueChangedLock)
                 {
-                    if (prop.Name == GroupNames.Alignment.ToString())
-                    {
+                    OnValueChangedEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent -= value;
+                }
+            }
+        }
 
-                    }
-                    else if (prop.Name == GroupNames.Transform.ToString())
-                    {
+        public void FeedProps(object value)
+        {
+            _properties = (value as GroupProperties)!;
+            
+            foreach (var prop in _properties.Properties)
+            {
+                _properties = (value as GroupProperties)!;
 
-                    }
+                if (prop.Visibility != VisibilityValue.Visible.ToString()) continue;
+                if (prop.Name == GroupNames.Alignment.ToString())
+                {
+
+                }
+                else if (prop.Name == GroupNames.Transform.ToString())
+                {
+
                 }
             }
         }

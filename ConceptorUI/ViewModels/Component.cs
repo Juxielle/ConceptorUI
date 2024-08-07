@@ -344,6 +344,8 @@ namespace ConceptorUI.ViewModels
                 else if (propertyName is PropertyNames.HE or PropertyNames.VE)
                 {
                     SetPropertyValue(groupName, propertyName, value);
+                    SetPropertyValue(groupName, propertyName is PropertyNames.HE ? PropertyNames.Width : PropertyNames.Height,
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
                 }
                 else if (propertyName == PropertyNames.MoveParentToChild)
                 {

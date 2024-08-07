@@ -1,5 +1,4 @@
-﻿using ConceptorUI.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Windows;
@@ -7,7 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     /// <summary>
     /// Logique d'interaction pour ColorPalette.xaml
@@ -49,24 +48,6 @@ namespace ConceptorUI.Views.ComponentP
         }
 
         public static ColorPalette Instance => _obj == null! ? new ColorPalette() : _obj;
-
-        public void FeedProps()
-        {
-            foreach (var prop in Properties.groupProps![0].Properties)
-            {
-                if (prop.Visibility == VisibilityValue.Visible.ToString())
-                {
-                    if (prop.Name == GroupNames.Alignment.ToString())
-                    {
-
-                    }
-                    else if (prop.Name == GroupNames.Transform.ToString())
-                    {
-
-                    }
-                }
-            }
-        }
 
         private void ValueChanged(object sender, EventArgs e)
         {
@@ -111,7 +92,7 @@ namespace ConceptorUI.Views.ComponentP
             switch (propOriginColor)
             {
                 case "Color":
-                    TextProperty.Instance.SetColor(color);
+                    //TextProperty.SetColor(color);
                     break;
                 case "BorderC":
                     AppearanceProperty.Instance.SetColor(color, 0);

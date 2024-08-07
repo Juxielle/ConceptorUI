@@ -1,108 +1,140 @@
 ﻿using ConceptorUI.Models;
 using MaterialDesignThemes.Wpf;
 using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ConceptorUI.Interfaces;
 
 
-
-
-
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour GridProperty.xaml
-    /// </summary>
-    public partial class GridProperty : UserControl
+    public partial class GridProperty : IValue
     {
-        static GridProperty _obj;
-        private int firstCount3;
+        private static GridProperty? _obj;
+        private int _firstCount3;
+        private GroupProperties _properties;
+        
+        public event EventHandler? OnValueChangedEvent;
+        private readonly object _valueChangedLock = new();
 
         public GridProperty()
         {
-            firstCount3 = 0;
+            _firstCount3 = 0;
             InitializeComponent();
+            
+            _properties = new GroupProperties();
             _obj = this;
         }
 
         public static GridProperty Instance => _obj == null! ? new GridProperty() : _obj;
-
-        public void FeedProps()
+        
+        event EventHandler IValue.OnValueChanged
         {
-            int[] pos = Properties.GetPosition(GroupNames.GridProperty, PropertyNames.Row);
-            foreach (var prop in Properties.groupProps![pos[0]].Properties)
+            add
             {
-                if (prop.Visibility == VisibilityValue.Visible.ToString())
+                lock (_valueChangedLock)
                 {
-                    if (prop.Name == PropertyNames.Row.ToString())
-                    {
+                    OnValueChangedEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent -= value;
+                }
+            }
+        }
 
-                    }
-                    else if (prop.Name == PropertyNames.Column.ToString())
-                    {
+        public void FeedProps(object value)
+        {
+            _properties = (value as GroupProperties)!;
 
-                    }
-                    else if (prop.Name == PropertyNames.RowSpan.ToString())
-                    {
+            foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
+            {
+                if (prop.Name == PropertyNames.Row.ToString())
+                {
 
-                    }
-                    else if (prop.Name == PropertyNames.ColumnSpan.ToString())
-                    {
+                }
+                else if (prop.Name == PropertyNames.Column.ToString())
+                {
 
-                    }
-                    else if (prop.Name == PropertyNames.SelectedElement.ToString())
-                    {
-                        int value = 0;
-                        if (prop.Value == ESelectedElement.Row.ToString()) value = 1;
-                        else if (prop.Value == ESelectedElement.Column.ToString()) value = 2;
-                        CSelectedElement.SelectedIndex = Convert.ToInt32(value);
-                    }
-                    else if (prop.Name == PropertyNames.HideBorder.ToString())
-                    {
-                        BHideBorder.BorderBrush = HideBorder.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
-                        HideBorder.Kind = prop.Value == "1" ? PackIconKind.EyeOutline : PackIconKind.EyeOffOutline;
-                    }
+                }
+                else if (prop.Name == PropertyNames.RowSpan.ToString())
+                {
+
+                }
+                else if (prop.Name == PropertyNames.ColumnSpan.ToString())
+                {
+
+                }
+                else if (prop.Name == PropertyNames.SelectedElement.ToString())
+                {
+                    var val = 0;
+                    if (prop.Value == ESelectedElement.Row.ToString()) val = 1;
+                    else if (prop.Value == ESelectedElement.Column.ToString()) val = 2;
+                    CSelectedElement.SelectedIndex = Convert.ToInt32(val);
+                }
+                else if (prop.Name == PropertyNames.HideBorder.ToString())
+                {
+                    BHideBorder.BorderBrush = HideBorder.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
+                    HideBorder.Kind = prop.Value == "1" ? PackIconKind.EyeOutline : PackIconKind.EyeOffOutline;
                 }
             }
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
         {
-            string tag = (sender as Button)!.Tag.ToString()!;
-
-            int[] pos = Properties.GetPosition(GroupNames.GridProperty, PropertyNames.HideBorder);
-            int idG = pos[0], idP = pos[1];
+            var tag = (sender as Button)!.Tag.ToString()!;
+            var propertyName = PropertyNames.None;
+            
             switch (tag)
             {
-                case "Add": PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.Add, "1"); break;
-                case "Merge": PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.Merged, "1"); break;
+                case "Add":
+                    propertyName = PropertyNames.Add;
+                    break;
+                case "Merge":
+                    propertyName = PropertyNames.Merged;
+                    break;
                 case "HideBorder":
-                    string OldValue = Properties.groupProps![idG].Properties[idP].Value;
-                    BHideBorder.BorderBrush = HideBorder.Foreground = new BrushConverter().ConvertFrom(OldValue == "1" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
-                    HideBorder.Kind = OldValue == "0" ? PackIconKind.EyeOutline : PackIconKind.EyeOffOutline;
-                    PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.HideBorder, OldValue == "0" ? "1" : "0");
+                    var oldValue = _properties.GetValue(PropertyNames.HideBorder);
+                    BHideBorder.BorderBrush = HideBorder.Foreground = new BrushConverter().ConvertFrom(oldValue == "1" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
+                    HideBorder.Kind = oldValue == "0" ? PackIconKind.EyeOutline : PackIconKind.EyeOffOutline;
+                    propertyName = PropertyNames.HideBorder;
                     break;
             }
+
+            if (propertyName == PropertyNames.None) return;
+            OnValueChangedEvent!.Invoke(
+                new dynamic[]{GroupNames.GridProperty, propertyName, "0"},
+                EventArgs.Empty
+            );
         }
 
 
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
-            ComboBox comboBox = (sender as ComboBox)!;
-            string tag = comboBox!.Tag != null ? comboBox.Tag.ToString()! : "";
-            PropertyNames idP = PropertyNames.None;
+            var comboBox = (sender as ComboBox)!;
+            var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
 
-            if (firstCount3 > 0)
+            if (_firstCount3 > 0)
             {
                 switch (tag)
                 {
                     case "SelectedElement":
-                        var value = comboBox.SelectedIndex == 0 ? ESelectedElement.Cell : (comboBox.SelectedIndex == 1 ? ESelectedElement.Row : ESelectedElement.Column);
-                        PanelProperty.ReactToProps(GroupNames.GridProperty, PropertyNames.SelectedElement, value.ToString()); break;
+                        var value = comboBox.SelectedIndex == 0 ? ESelectedElement.Cell : 
+                            (comboBox.SelectedIndex == 1 ? ESelectedElement.Row : ESelectedElement.Column);
+                        
+                        OnValueChangedEvent!.Invoke(
+                            new dynamic[]{GroupNames.GridProperty, PropertyNames.SelectedElement, value},
+                            EventArgs.Empty
+                        );
+                        break;
                 }
             }
-            else firstCount3++;
+            else _firstCount3++;
         }
     }
 }

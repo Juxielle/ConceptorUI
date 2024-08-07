@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:ConceptorUI"
-        xmlns:component="clr-namespace:ConceptorUI.Views.ComponentP"
+        xmlns:component="clr-namespace:ConceptorUI.Views.Component"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         StateChanged="OnStateChanged"

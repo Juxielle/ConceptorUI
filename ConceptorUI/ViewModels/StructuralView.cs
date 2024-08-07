@@ -1,5 +1,5 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.Views.ComponentP;
+using ConceptorUI.Views.Component;
 using MaterialDesignThemes.Wpf;
 using System.Windows;
 using System.Windows.Controls;

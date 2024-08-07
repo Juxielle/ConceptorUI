@@ -6,7 +6,7 @@ using System.Windows.Media;
 
 
 
-namespace ConceptorUI.Views.ComponentP
+namespace ConceptorUI.Views.Component
 {
     /// <summary>
     /// Logique d'interaction pour LeftCompPanel.xaml

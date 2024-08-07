@@ -2,12 +2,14 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Constants;
+using ConceptorUI.Interfaces;
 using FontAwesome.WPF;
 using MaterialDesignThemes.Wpf;
 using Syncfusion.UI.Xaml.Controls.DataPager;
@@ -15,9 +17,8 @@ using Syncfusion.UI.Xaml.Controls.DataPager;
 
 namespace ConceptorUI
 {
-    public partial class DbIcons
+    public partial class DbIcons : IValue
     {
-        private readonly Action<string> _action;
         private string _selectedIcon;
         private int _selectedTab;
 
@@ -25,57 +26,84 @@ namespace ConceptorUI
         private List<Icon> _icons;
         
         private const int PageSize = 200;
+        private static List<IconPack>? _iconPacks;
         //public string IconPath = $"{Env.dirEnv}/Icons/MaterialIcons-Regular.ttf#Material Icons";
+        
+        public event EventHandler? OnValueChangedEvent;
+        private readonly object _valueChangedLock = new();
 
-        public DbIcons(Action<string> action)
+        public DbIcons()
         {
             _allowChangingTab = false;
             InitializeComponent();
-            _action = action;
+            
             _selectedTab = 0;
             _icons = new List<Icon>();
             DataContext = this;
 
-            // var listIcons = Enum.GetValues(typeof(FontAwesomeIcon)).Cast<FontAwesomeIcon>();
-            // var packIcons = new IconPack
-            // {
-            //     Label = "FontAwesome",
-            //     Version = "v7.4.47",
-            //     Icons = new List<Icon>()
-            // };
-            //
-            // foreach (var icon in listIcons)
-            // {
-            //     var found = false;
-            //     foreach (var iconExist in packIcons.Icons)
-            //     {
-            //         if (iconExist.Code != icon.ToString()) continue;
-            //         found = true;
-            //         break;
-            //     }
-            //
-            //     if (found) continue;
-            //     packIcons.Icons.Add(new Icon
-            //     {
-            //         Name = icon.ToString(),
-            //         Code = icon.ToString()
-            //     });
-            // }
-            //
-            // var jsonString = System.Text.Json.JsonSerializer.Serialize(packIcons);
-            // File.WriteAllText(
-            //     $"{Env.dirEnv}/Icons/fontawesome.json",
-            //     jsonString
-            // );
-
-            if (Properties.Instance.IconPacks.Count == 0)
+            var listIcons = Enum.GetValues(typeof(FontAwesomeIcon)).Cast<FontAwesomeIcon>();
+            var packIcons = new IconPack
             {
-                Properties.Instance.IconPacks.Add(new IconPack());
-                Properties.Instance.IconPacks.Add(new IconPack());
-                Properties.Instance.IconPacks.Add(new IconPack());
+                Label = "FontAwesome",
+                Version = "v7.4.47",
+                Icons = new List<Icon>()
+            };
+            
+            foreach (var icon in listIcons)
+            {
+                var found = false;
+                foreach (var iconExist in packIcons.Icons)
+                {
+                    if (iconExist.Code != icon.ToString()) continue;
+                    found = true;
+                    break;
+                }
+            
+                if (found) continue;
+                packIcons.Icons.Add(new Icon
+                {
+                    Name = icon.ToString(),
+                    Code = icon.ToString()
+                });
             }
+            
+            var jsonString = System.Text.Json.JsonSerializer.Serialize(packIcons);
+            File.WriteAllText(
+                $"{Env.dirEnv}/Icons/fontawesome.json",
+                jsonString
+            );
+
+            if (_iconPacks == null || _iconPacks.Count == 0)
+            {
+                _iconPacks = new List<IconPack>();
+                _iconPacks = new List<IconPack>
+                {
+                    new(),
+                    new(),
+                    new()
+                };
+            }
+            
             _allowChangingTab = true;
             Tabs.SelectedIndex = 0;
+        }
+        
+        event EventHandler IValue.OnValueChanged
+        {
+            add
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent -= value;
+                }
+            }
         }
 
         private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) 
@@ -114,15 +142,15 @@ namespace ConceptorUI
 
             if (!found) return;
 
-            if (Properties.Instance.IconPacks[_selectedTab].Icons == null!)
+            if (_iconPacks![_selectedTab].Icons == null!)
             {
                 var iconPack = System.Text.Json.JsonSerializer.Deserialize<IconPack>(
                     File.ReadAllText($"{Env.dirEnv}/Icons/{fileName}")
                 );
-                Properties.Instance.IconPacks[_selectedTab] = iconPack!;
+                _iconPacks[_selectedTab] = iconPack!;
             }
 
-            _icons = Properties.Instance.IconPacks[_selectedTab].Icons;
+            _icons = _iconPacks[_selectedTab].Icons;
             var count = _icons.Count >= PageSize ? PageSize : _icons.Count;
             var icons = _icons.GetRange(0, count);
             
@@ -143,7 +171,11 @@ namespace ConceptorUI
                     {
                         var package = _selectedTab == 0 ? "Material" : "FontAwesome";
                         var sendValue = new[] { _selectedIcon, package };
-                        _action(System.Text.Json.JsonSerializer.Serialize(sendValue));
+                        
+                        OnValueChangedEvent!.Invoke(
+                            System.Text.Json.JsonSerializer.Serialize(sendValue),
+                            EventArgs.Empty
+                        );
                     }
                     _selectedIcon = string.Empty;
                     Close();
@@ -205,7 +237,7 @@ namespace ConceptorUI
             var text = (sender as TextBox)!.Text;
             
             //if(text.Length < 3) return;
-            _icons = Properties.Instance.IconPacks[_selectedTab].Icons;
+            _icons = _iconPacks[_selectedTab].Icons;
 
             if (text.Length != 0)
             {
