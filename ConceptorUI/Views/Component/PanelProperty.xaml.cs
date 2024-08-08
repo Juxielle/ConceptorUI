@@ -5,13 +5,17 @@ using System.Windows;
 using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Media;
+using ConceptorUI.Interfaces;
 
 
 namespace ConceptorUI.Views.Component
 {
-    partial class PanelProperty
+    partial class PanelProperty : IValue
     {
         private static PanelProperty? _obj;
+        
+        public event EventHandler? OnValueChangedEvent;
+        private readonly object _valueChangedLock = new();
         
         public PanelProperty()
         {
@@ -24,6 +28,24 @@ namespace ConceptorUI.Views.Component
         }
 
         public static PanelProperty Instance => _obj == null! ? new PanelProperty() : _obj;
+        
+        event EventHandler IValue.OnValueChanged
+        {
+            add
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_valueChangedLock)
+                {
+                    OnValueChangedEvent -= value;
+                }
+            }
+        }
 
         public void FeedProps(object value)
         {
@@ -37,44 +59,49 @@ namespace ConceptorUI.Views.Component
                 {
                     Align.FeedProps(group);
                     Align.Visibility = Visibility.Visible;
-                    Align.PreMouseDownEvent += OnAlignmentHandle!;
+                    Align.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
                     AlignSelf.FeedProps(group);
                     AlignSelf.Visibility = Visibility.Visible;
-                    AlignSelf.PreMouseDownEvent += OnAlignmentHandle!;
+                    AlignSelf.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
-                    TransformProperty.Instance.FeedProps(group);
+                    Transform.FeedProps(group);
                     Transform.Visibility = Visibility.Visible;
+                    Transform.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Text.ToString())
                 {
-                    TextProperty.Instance.FeedProps();
+                    Text.FeedProps(group);
                     Text.Visibility = Visibility.Visible;
+                    Text.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
-                    AppearanceProperty.Instance.FeedProps(group);
+                    Appearance.FeedProps(group);
                     Appearance.Visibility = Visibility.Visible;
-                    Appearance.PreMouseDownEvent += OnAlignmentHandle!;
+                    Appearance.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
                 {
-                    GridProperty.Instance.FeedProps(group);
+                    Grid.FeedProps(group);
                     Grid.Visibility = Visibility.Visible;
+                    //Grid.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    GlobalProperty.Instance.FeedProps(group);
+                    Global.FeedProps(group);
                     Global.Visibility = Visibility.Visible;
+                    Global.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Shadow.ToString())
                 {
-                    ShadowPanel.Instance.FeedProps(group);
+                    Shadow.FeedProps(group);
                     Shadow.Visibility = Visibility.Visible;
+                    Shadow.OnValueChangedEvent += OnValueChangedHandle!;
                 }
             }
         }
@@ -116,9 +143,12 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        private void OnAlignmentHandle(object sender, EventArgs e)
+        private void OnValueChangedHandle(object sender, EventArgs e)
         {
-            
+            OnValueChangedEvent!.Invoke(
+                sender,
+                EventArgs.Empty
+            );
         }
     }
 }

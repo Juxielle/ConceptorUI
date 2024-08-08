@@ -4,53 +4,58 @@ using ConceptorUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Classes;
 
 
 namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour PageView.xaml
-    /// </summary>
     public partial class PageView
     {
         private static PageView? _obj;
         private WindowModel window;
         public Applicat application;
+        public object Component;
+        
+        private Project _project;
+        private Dictionary<string, List<WindowModel>> _spaceWindows;
+        private string _projectPath;
+        private string _selectedSpace;
+        private int _selectedReport;
 
         public PageView()
         {
             InitializeComponent();
+            
             _obj = this;
             var manageEnums = new ManageEnums();
-            var configuredComps = new ConfiguredComps();
+            
+            _project = new Project();
+            _spaceWindows = new Dictionary<string, List<WindowModel>>();
+            _selectedSpace = string.Empty;
+            _selectedReport = -1;
 
             application = PreviewPage.CurrentApp!;
+            
             #region Init Space
-            var configFile = Env.configPFile($"Project{application.ID}", "config.json");
-            Properties.Instance.ConfigAppInfo = File.Exists(configFile) ? JsonSerializer.Deserialize<ConfigAppInfo>(File.ReadAllText(configFile))! : new ConfigAppInfo();
+            var configFile = $"{_projectPath}config.json";
+            _project = File.Exists(configFile) ? JsonSerializer.Deserialize<Project>(File.ReadAllText(configFile))! : new Project();
             
-            if (Properties.Instance.ConfigAppInfo.Spaces != null!)
+            if (_project.Spaces != null!)
             {
-                foreach (var space in Properties.Instance.ConfigAppInfo.Spaces)
-                {
-                    if(space.Reports.Count <= 0) continue;
+                if (_project.Spaces.Any(space => space.Reports.Count > 0))
                     LoadSpace(0);
-                    break;
-                }
             }
             
-            if(Properties.Instance.ConfigAppInfo.Spaces == null || Properties.Instance.ConfigAppInfo.Spaces!.Count <= 0)
-            {
+            if(_project.Spaces is not { Count: > 0 })
                 NewSpace();
-            }
             #endregion
-            //Refresh();
         }
 
         public static PageView Instance => _obj == null! ? new PageView() : _obj;
@@ -58,12 +63,9 @@ namespace ConceptorUI.Views.Component
         public void Refresh(bool added = true)
         {
             page.Children.Clear();
-            //Properties.Instance.ReportMNS[Properties.Instance.SelectedReport].OnSelected();
-            //page.Children.Add(Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns[Properties.Instance.SelectedReport].ComponentView!);
             LoadSpace(Properties.Instance.SelectedSpace);
-            Console.WriteLine(@"Selected Space in refresh: "+ Properties.Instance.SelectedSpace);
             
-            var structuralElement = Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns[Properties.Instance.SelectedReport].AddToStructuralView();
+            var structuralElement = _spaceWindows[_selectedSpace][_selectedReport].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -71,31 +73,26 @@ namespace ConceptorUI.Views.Component
             PanelStructuralView.Instance.Refresh();
         }
 
-        public void LoadSpace(int spaceIndex)
+        private void LoadSpace(int spaceIndex)
         {
             #region Load spage
             page.Children.Clear();
             
-            Properties.Instance.SpaceReports.Add(new SpaceReportModel
-            {
-                Name = Properties.Instance.ConfigAppInfo.Spaces[spaceIndex].Name!,
-                Code = Properties.Instance.ConfigAppInfo.Spaces[spaceIndex].Code!,
-                Date = Properties.Instance.ConfigAppInfo.Spaces[spaceIndex].Date,
-                ReportModels = new List<ReportModel>(),
-                ReportMns = new List<WindowModel>()
-            });
+            _spaceWindows[_selectedSpace].Add(new WindowModel());
             
-            foreach (var report in Properties.Instance.ConfigAppInfo.Spaces[spaceIndex].Reports)
+            foreach (var report in _project.Spaces[spaceIndex].Reports)
             {
-                var fileName = Env.pemcFile($"Project{PreviewPage.CurrentApp!.ID}", "Pages", $"{report.Code}.json");
+                var fileName = $"{_projectPath}pages/{report.Code}.json";
                 if (!File.Exists(fileName)) continue;
                 
-                var pagem = new WindowModel(true);
+                var windowModel = new WindowModel();
+                
                 var content = new StackPanel
                 {
                     Width = 400,
                     Margin = new Thickness(0, 0, 0, 30)
                 };
+                
                 var title = new TextBlock
                 {
                     Text = report.Name,
@@ -104,28 +101,22 @@ namespace ConceptorUI.Views.Component
                     Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
+                
                 content.Children.Add(title);
-                content.Children.Add(pagem.ComponentView!);
+                content.Children.Add(windowModel.ComponentView);
                 page.Children.Add(content);
+                _spaceWindows[_selectedSpace].Add(windowModel);
                 
                 var sc = SynchronizationContext.Current;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
                     var jsonString = File.ReadAllText(fileName);
-                    var component = JsonSerializer.Deserialize<ReportModel>(jsonString)!;
-                    
-                    Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels.Add(new ReportModel
-                    {
-                        Name = report.Name,
-                        Code = report.Code,
-                        Date = report.Date
-                    });
+                    var component = JsonSerializer.Deserialize<CompSerializer>(jsonString)!;
                     
                     sc!.Post(delegate
                     {
-                        pagem.OnDeserialiser(component.Report!);
+                        windowModel.OnDeserializer(component);
                     }, null);
-                    Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns.Add(pagem);
                 });
             }
             #endregion
@@ -134,72 +125,43 @@ namespace ConceptorUI.Views.Component
         public void NewSpace()
         {
             #region Adding new Space
-            var pagem = new WindowModel();
-            if (Properties.Instance.ConfigAppInfo.Spaces == null!)
-                Properties.Instance.ConfigAppInfo.Spaces = new List<SpaceModel>();
-            Properties.Instance.SpaceReports.Add(
-                new SpaceReportModel
-                {
-                    Name = "Space "+ (Properties.Instance.ConfigAppInfo.Spaces.Count + 1),
-                    Code = "space"+ (Properties.Instance.ConfigAppInfo.Spaces.Count + 1),
-                    Date = DateTime.Now,
-                    ReportModels = new List<ReportModel>(),
-                    ReportMns = new List<WindowModel>()
-                }
-            );
+            var windowModel = new WindowModel();
             
-            Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels.Add(
-                new ReportModel {
-                    Name = $"ReportSpace{(Properties.Instance.ConfigAppInfo.Spaces.Count + 1)} 1",
-                    Code = $"report_space{(Properties.Instance.ConfigAppInfo.Spaces.Count + 1)}1",
-                    Report = pagem.OnSerialiser(),
+            if (_project.Spaces == null!)
+            {
+                _project.Spaces = new List<Space>();
+                _spaceWindows = new Dictionary<string, List<WindowModel>>();
+            }
+            
+            _project.Spaces.Add(
+                new Space
+                {
+                    Name = "Space "+ (_project.Spaces.Count + 1),
+                    Code = "space"+ (_project.Spaces.Count + 1),
                     Date = DateTime.Now
                 }
             );
             
-            Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns.Add(pagem);
+            _spaceWindows.Add(_project.Spaces[^1].Code, new List<WindowModel>());
                 
             var content = new StackPanel
             {
                 Width = 400,
                 Margin = new Thickness(0, 0, 0, 30)
             };
+            
             var title = new TextBlock
             {
-                Text = "Space "+ (Properties.Instance.ConfigAppInfo.Spaces.Count + 1),
+                Text = "Space "+ (_project.Spaces.Count + 1),
                 FontSize = 14,
                 Margin = new Thickness(0, 0, 0, 6),
                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
-            content.Children.Add(title);
-            content.Children.Add(pagem.ComponentView!);
-            page.Children.Add(content);
-
-            if (Properties.Instance.ConfigAppInfo.Spaces == null!)
-                Properties.Instance.ConfigAppInfo.Spaces = new List<SpaceModel>();
             
-            Properties.Instance.ConfigAppInfo.Spaces.Add
-            (
-                new SpaceModel
-                {
-                    Name = "Space "+ (Properties.Instance.ConfigAppInfo.Spaces.Count + 1),
-                    Code = "space"+ (Properties.Instance.ConfigAppInfo.Spaces.Count + 1),
-                    Date = DateTime.Now,
-                    Reports = new List<ReportInfo>
-                    {
-                        new ()
-                        {
-                            Name = Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels[
-                                Properties.Instance.SelectedReport].Name!,
-                            Code = Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels[
-                                Properties.Instance.SelectedReport].Code!,
-                            Date = Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels[
-                                Properties.Instance.SelectedReport].Date!
-                        }
-                    }
-                }
-            );
+            content.Children.Add(title);
+            content.Children.Add(windowModel.ComponentView);
+            page.Children.Add(content);
 
             OnSaved();
             OnSaved(2);
@@ -209,30 +171,30 @@ namespace ConceptorUI.Views.Component
         public void NewReport()
         {
             #region Adding new Report
-            var pagem = new WindowModel();
+            var windowModel = new WindowModel();
             var indexReport = NextReportIndex();
             
             var name = $"ReportSpace{Properties.Instance.SelectedSpace + 1} {indexReport}";
             var code = $"report_space{Properties.Instance.SelectedSpace + 1}{indexReport}";
             var date = DateTime.Now;
-            var index = Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels.Count;
+            var index = _project.Spaces[0].Reports.Count;
 
-            Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportModels.Add(
-                new ReportModel {
+            _project.Spaces[0].Reports.Add(
+                new Report {
                     Name = name,
                     Code = code,
-                    Report = pagem.OnSerialiser(),
                     Date = date
                 }
             );
             
-            Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns.Add(pagem);
+            _spaceWindows[_selectedSpace].Add(windowModel);
             
             var content = new StackPanel
             {
                 Width = 400,
                 Margin = new Thickness(0, 0, 0, 30)
             };
+            
             var title = new TextBlock
             {
                 Text = name,
@@ -241,19 +203,10 @@ namespace ConceptorUI.Views.Component
                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
                 HorizontalAlignment = HorizontalAlignment.Center
             };
+            
             content.Children.Add(title);
-            content.Children.Add(pagem.ComponentView!);
+            content.Children.Add(windowModel.ComponentView!);
             page.Children.Add(content);
-
-            Properties.Instance.ConfigAppInfo.Spaces[Properties.Instance.SelectedSpace].Reports.Add
-            (
-                new ReportInfo
-                {
-                    Name = name,
-                    Code = code,
-                    Date = date
-                }
-            );
 
             OnSaved(0, index);
             OnSaved(2);

@@ -1,11 +1,11 @@
 ﻿using ConceptorUI.Models;
 using ConceptorUI.Views.Component;
 using System;
-using System.Net.Http;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.ViewModels;
 
 
 namespace ConceptorUI
@@ -100,7 +100,7 @@ namespace ConceptorUI
 
         public void DisplayTextPage(bool display)
         {
-            if (display) textPage.LoadText(Properties.groupProps![2].Properties[19].Value);
+            if (display) textPage.LoadText((pageView.Component as Component)!.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.Text));
             textPage.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -111,7 +111,6 @@ namespace ConceptorUI
 
         public void DisplayPage(bool isReport = true)
         {
-            formulePanel.Visibility = Visibility.Collapsed;
             pageView.Visibility = isReport ? Visibility.Visible : Visibility.Collapsed;
             pageComponent.Visibility = !isReport ? Visibility.Visible : Visibility.Collapsed;
         }
@@ -134,8 +133,6 @@ namespace ConceptorUI
                         PageView.Instance.OnSaved(1, Properties.Instance.SelectedComponent);
                     break;
                 case "PDF":
-                    Console.WriteLine(Properties.Instance.SpaceReports[Properties.Instance.SelectedSpace].ReportMns[Properties.Instance.SelectedReport].
-                        BuildReactComponent("", 0, "0").ToString());
                     break;
                 case "ADD":
                     PageView.Instance.NewReport();

@@ -139,9 +139,9 @@ namespace ConceptorUI.ViewModels
 
         public string OnCopyOrPaste(string value = null!, bool isPaste = false)
         {
-            CompSerialiser valueD = null!;
+            CompSerializer valueD = null!;
             if (value != null!)
-                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerialiser>(value)!;
+                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(value)!;
 
             if (Selected && isPaste && value != null && valueD.Children != null)
             {

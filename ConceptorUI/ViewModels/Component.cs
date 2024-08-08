@@ -1036,9 +1036,9 @@ namespace ConceptorUI.ViewModels
 
         public string OnCopyOrPaste(string value = null!, bool isPaste = false)
         {
-            CompSerialiser valueD = null!;
+            CompSerializer valueD = null!;
             if(value != null!)
-                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerialiser>(value)!;
+                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(value)!;
 
             if (Selected && isPaste && valueD != null! && CanAddIntoChildContent && Children.Count < ChildContentLimit)
             {
@@ -1070,12 +1070,12 @@ namespace ConceptorUI.ViewModels
             return null!;
         }
 
-        public CompSerialiser OnSerializer()
+        public CompSerializer OnSerializer()
         {
-            var children = new List<CompSerialiser>();
+            var children = new List<CompSerializer>();
             foreach (var child in Children)
                 children.Add(child.OnSerializer());
-            return new CompSerialiser
+            return new CompSerializer
             {
                 Name = Name.ToString(),
                 Properties = PropertyGroups,
@@ -1083,7 +1083,7 @@ namespace ConceptorUI.ViewModels
             };
         }
 
-        public void OnDeserializer(CompSerialiser compSerializer)
+        public void OnDeserializer(CompSerializer compSerializer)
         {
             PropertyGroups = compSerializer.Properties;
             #region
