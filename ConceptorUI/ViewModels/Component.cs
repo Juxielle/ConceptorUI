@@ -152,7 +152,7 @@ namespace ConceptorUI.ViewModels
             return true;
         }
 
-        protected bool OnChildSelected()
+        public bool OnChildSelected()
         {
             var found = false;
             foreach (var child in Children)

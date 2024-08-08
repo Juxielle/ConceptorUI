@@ -1,4 +1,4 @@
-﻿using System.Collections.Generic;
+﻿
 
 namespace ConceptorUI.Classes;
 
@@ -11,7 +11,8 @@ public class Project
     public string Color { get; set; }
     public string LastOpen { get; set; }
     public string Image { get; set; }
-    public List<Space> Spaces { get; set; }
+    public string FolderPath { get; set; }
+    public Space Space { get; set; }
     public string Created { get; set; }
     public string Updated { get; set; }
 }
