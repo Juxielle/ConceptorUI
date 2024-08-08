@@ -149,8 +149,6 @@
                     </Grid>
                 </ScrollViewer>
 
-                <component:FormulePanel DockPanel.Dock="Top" VerticalAlignment="Top" x:Name="formulePanel" Visibility="Collapsed"/>
-
                 <Button Background="#e1e1e1" BorderBrush="#666666" BorderThickness="0.4" Margin="10"
                         Cursor="Hand" Width="40" Height="40" x:Name="BSave" Tag="Save" Click="BtnClick" 
                         HorizontalAlignment="Left" VerticalAlignment="Top">

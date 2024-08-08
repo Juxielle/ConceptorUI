@@ -1,89 +1,98 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using System.Collections.Generic;
+using ConceptorUI.Models;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-
+using ConceptorUI.Classes;
+using ConceptorUI.Interfaces;
 
 
 namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour LeftCompPanel.xaml
-    /// </summary>
-    public partial class LeftCompPanel
+    public partial class LeftCompPanel : ISpace
     {
         private static LeftCompPanel? _obj;
+        private List<Space> _spaces;
+        
+        public event EventHandler? OnAddSpaceEvent;
+        public event EventHandler? OnSelectSpaceEvent;
+        private readonly object _addSpaceLock = new();
+        private readonly object _selectSpaceLock = new();
         
         public LeftCompPanel()
         {
             InitializeComponent();
+            
             _obj = this;
+            _spaces = new List<Space>();
+            
             SContentComponent.Visibility = SContentReport.Visibility = SPersonnel.Visibility = Visibility.Collapsed;
             SContentReport.Visibility = Visibility.Visible;
-            Refresh(1);
-            Refresh(2);
+            
+            Refresh();
         }
 
         public static LeftCompPanel Instance => _obj == null! ? new LeftCompPanel() : _obj;
-
-        public void Refresh(int onglet = 0, bool withAdd = true)
+        
+        event EventHandler ISpace.OnAddSpace
         {
-            if(onglet == 0)
+            add
             {
-                //
-            }
-            else if(onglet == 1)
-            {
-                if(withAdd) SContentReport.Children.Clear();
-                foreach (var space in Properties.Instance.ConfigAppInfo.Spaces)
+                lock (_addSpaceLock)
                 {
-                    var item = withAdd ? new ItemReport() : null;
-                    var k = Properties.Instance.ConfigAppInfo.Spaces.IndexOf(space);
-                    if(withAdd) item!.Refresh(space.Code!, (k + 1).ToString(), space.Name!, space.Date, true);
-                    if (k == Properties.Instance.SelectedReport && Properties.Instance.SelectedLeftOnglet == 1 && withAdd) item!.SetItemForm();
-                    else if (k == Properties.Instance.SelectedReport && !withAdd) (SContentReport.Children[k] as ItemReport)!.SetItemForm();
-                    if (withAdd) SContentReport.Children.Add(item!);
+                    OnAddSpaceEvent += value;
                 }
             }
-            else if (onglet == 2)
+            remove
             {
-                // if (withAdd) SPersonnel.Children.Clear();
-                // foreach (var component in Properties.Instance.ConfigAppInfo.components!)
-                // {
-                //     var item = withAdd ? new ItemReport() : null;
-                //     int k = Properties.Instance.ConfigAppInfo.components!.IndexOf(component);
-                //     if (withAdd) item!.Refresh(component.Code!, (k + 1).ToString(), component.Name!, component.Date, true);
-                //     if (k == Properties.Instance.SelectedComponent && Properties.Instance.SelectedComponent == 2 && withAdd) item!.SetItemForm();
-                //     else if (k == Properties.Instance.SelectedReport && !withAdd) (SPersonnel.Children[k] as ItemReport)!.SetItemForm();
-                //     if (withAdd) SPersonnel.Children.Add(item);
-                // }
+                lock (_addSpaceLock)
+                {
+                    OnAddSpaceEvent -= value;
+                }
+            }
+        }
+        
+        event EventHandler ISpace.OnAddSelectSpace
+        {
+            add
+            {
+                lock (_selectSpaceLock)
+                {
+                    OnSelectSpaceEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_selectSpaceLock)
+                {
+                    OnSelectSpaceEvent -= value;
+                }
+            }
+        }
+
+        public void Refresh(bool withAdd = true)
+        {
+            if(withAdd) SContentReport.Children.Clear();
+            foreach (var space in _spaces)
+            {
+                var item = withAdd ? new ItemReport() : null;
+                var k = _spaces.IndexOf(space);
+                if(withAdd) item!.Refresh(space.Code!, (k + 1).ToString(), space.Name!, space.Date, true);
+                if (k == Properties.Instance.SelectedReport && Properties.Instance.SelectedLeftOnglet == 1 && withAdd) item!.SetItemForm();
+                else if (k == Properties.Instance.SelectedReport && !withAdd) (SContentReport.Children[k] as ItemReport)!.SetItemForm();
+                if (withAdd) SContentReport.Children.Add(item!);
             }
         }
 
         public void ActiveItem(int i, int onglet = 0)
         {
-            if (onglet == 0)
+            foreach (var space in _spaces)
             {
-
-            }
-            else if (onglet == 1)
-            {
-                foreach (var space in Properties.Instance.ConfigAppInfo.Spaces)
-                {
-                    var k = Properties.Instance.ConfigAppInfo.Spaces.IndexOf(space);
-                    if (i == k) (SContentReport.Children[k] as ItemReport)!.SetItemForm();
-                    else (SContentReport.Children[k] as ItemReport)!.SetItemForm(false);
-                }
-            }
-            else if (onglet == 2)
-            {
-                // foreach (var component in Properties.Instance.ConfigAppInfo.components!)
-                // {
-                //     int k = Properties.Instance.ConfigAppInfo.components!.IndexOf(component);
-                //     if (i == k) (SPersonnel.Children[k] as ItemReport)!.SetItemForm();
-                //     else (SPersonnel.Children[k] as ItemReport)!.SetItemForm(false);
-                // }
+                var k = _spaces.IndexOf(space);
+                if (i == k) (SContentReport.Children[k] as ItemReport)!.SetItemForm();
+                else (SContentReport.Children[k] as ItemReport)!.SetItemForm(false);
             }
         }
 
@@ -95,9 +104,9 @@ namespace ConceptorUI.Views.Component
             }
             else if (onglet == 1)
             {
-                foreach (var space in Properties.Instance.ConfigAppInfo.Spaces)
+                foreach (var space in _spaces)
                 {
-                    var k = Properties.Instance.ConfigAppInfo.Spaces.IndexOf(space);
+                    var k = _spaces.IndexOf(space);
                     if (i == k) (SContentReport.Children[k] as ItemReport)!.Refresh(code, (k + 1).ToString(), name, space.Date);
                 }
             }
@@ -127,7 +136,7 @@ namespace ConceptorUI.Views.Component
                     SContentReport.Visibility = BtnAdd.Visibility = SPersonnel.Visibility = Visibility.Collapsed;
                     SContentComponent.Visibility = Visibility.Visible;
                     Properties.Instance.SelectedLeftOnglet = 0;
-                    Refresh(0, false);
+                    Refresh();
                     break;
                 case "Report":
                     if (Properties.Instance.SelectedLeftOnglet != 1)
@@ -176,10 +185,10 @@ namespace ConceptorUI.Views.Component
                         case 1:
                             new ConfirmDialogBox(
                                 delegate () {
-                                    Properties.Instance.SelectedSpace = Properties.Instance.SpaceReports.Count;
+                                    Properties.Instance.SelectedSpace = _spaces.Count;
                                     PageView.Instance.NewSpace();
                                 
-                                    Refresh(1);
+                                    Refresh();
                                     //PageView.Instance.Refresh();
                                     ActiveItem(Properties.Instance.SelectedSpace, 1);
 

@@ -103,7 +103,6 @@ namespace ConceptorUI.Views.Component
                         Console.WriteLine(@"Selected space: "+ Properties.Instance.SelectedSpace);
                         //PageView.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 1);
-                        FormulePanel.Instance.Refresh();
                     }
                     else
                     {
@@ -112,7 +111,6 @@ namespace ConceptorUI.Views.Component
                         Console.WriteLine(@"Selected space: "+ Properties.Instance.SelectedSpace);
                         PageView.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 1);
-                        FormulePanel.Instance.Refresh();
                     }
                     break;
                 }
@@ -125,14 +123,12 @@ namespace ConceptorUI.Views.Component
                         //Properties.Instance.SelectedComponent = Properties.Instance.Components.Count - 1;
                         ComponentPage.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 2);
-                        FormulePanel.Instance.Refresh();
                     }
                     else
                     {
                         //if (withDisplay) Properties.Instance.SelectedComponent = Properties.Instance.Components.IndexOf(components[0]);
                         ComponentPage.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 2);
-                        FormulePanel.Instance.Refresh();
                     }
                     break;
                 }

@@ -22,13 +22,13 @@ namespace ConceptorUI.Views.Component
         private static PageView? _obj;
         private WindowModel window;
         public Applicat application;
+        public object Component;
 
         public PageView()
         {
             InitializeComponent();
             _obj = this;
             var manageEnums = new ManageEnums();
-            var configuredComps = new ConfiguredComps();
 
             application = PreviewPage.CurrentApp!;
             #region Init Space
