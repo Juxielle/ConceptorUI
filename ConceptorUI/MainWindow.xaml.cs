@@ -1,10 +1,12 @@
 ﻿using ConceptorUI.Models;
 using ConceptorUI.Views.Component;
 using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Classes;
 using ConceptorUI.ViewModels;
 
 
@@ -13,16 +15,23 @@ namespace ConceptorUI
     public partial class MainWindow
     {
         private static MainWindow? _obj;
-        // private readonly HttpClient _httpClient = new HttpClient();
+        private List<Project> _projects;
+        private int _selectedProject;
 
         public MainWindow()
         {
             InitializeComponent();
+            
             _obj = this;
+            _selectedProject = 0;
+            _projects = new List<Project>();
 
             ComponentButtons.PreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
             ContentPages.PreviewMouseDown += OnMouseDown;
+
+            ComponentButtons.PreMouseDownEvent += OnAddComponentHandle!;
+            RightPanel.OnValueChangedEvent += OnSetPropertyHandle!;
         }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
@@ -35,15 +44,15 @@ namespace ConceptorUI
             switch (e.Key)
             {
                 case Key.C when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
-                    pageView.OnCopyOrPaste();
+                    PageView.OnCopyOrPaste();
                     Console.WriteLine("Ctrl + C is pressed.");
                     break;
                 case Key.V when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
-                    pageView.OnCopyOrPaste(isPaste: true);
+                    PageView.OnCopyOrPaste(isPaste: true);
                     Console.WriteLine("Ctrl + V is pressed.");
                     break;
                 case Key.S when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
-                    pageView.OnSaved(
+                    PageView.OnSaved(
                         Properties.Instance.SelectedLeftOnglet == 1 ? 0 : 1,
                         Properties.Instance.SelectedLeftOnglet == 1 ? Properties.Instance.SelectedReport : Properties.Instance.SelectedComponent
                     );
@@ -54,71 +63,60 @@ namespace ConceptorUI
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.OriginalSource.Equals(ContentPages) || e.OriginalSource.Equals(Pages))
-            {
-                compPage.Visibility = Visibility.Collapsed;
-                DisplayColorPalette(Brushes.DodgerBlue, false, "FillColor");
-            }
+            if (!e.OriginalSource.Equals(ContentPages) && !e.OriginalSource.Equals(Pages)) return;
+            CompPage.Visibility = Visibility.Collapsed;
+            DisplayColorPalette(Brushes.DodgerBlue, false, "FillColor");
         }
 
-        // public async void TestMethod()
-        // {
-        //     var stringData = await _httpClient.GetStringAsync("http://127.0.0.1:8000/api/users-list");
-        //     Console.WriteLine("Datas: " + stringData);
-        // }
+        public static MainWindow Instance => _obj != null! ? _obj : new MainWindow();
 
-        public static MainWindow Instance
-        {
-            get { return _obj != null ? _obj : new MainWindow(); }
-        }
-
-        public void Show(Applicat app)
+        public void Show(Applicat projectPath)
         {
             Show();
-            pageView.application = app;
+            
+            if(projectPath == null!)
+                _projects.Add(new Project
+                {
+                    Name = "Unknown Project",
+                    Created = DateTime.Now.ToShortTimeString(),
+                });
+            
+            PageView.Refresh();
         }
-
-        // public void FillFontComboBox(ComboBox comboBoxFonts)
-        // {
-        //     foreach (FontFamily fontFamily in Fonts.SystemFontFamilies)
-        //     {
-        //         comboBoxFonts.Items.Add(fontFamily.Source);
-        //     }
-        //     comboBoxFonts.SelectedIndex = 0;
-        // }
 
         public void DisplayColorPalette(Brush color, bool display, string propOrigin, double opacity = 1.0)
         {
             if (display)
             {
-                colorPalette.propOriginColor = propOrigin;
-                colorPalette.LoadColorValue(color, false, opacity);
+                ColorPalette.propOriginColor = propOrigin;
+                ColorPalette.LoadColorValue(color, false, opacity);
             }
-            else colorPalette.IsOpened = false;
-            colorPalette.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
+            else ColorPalette.IsOpened = false;
+            ColorPalette.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void DisplayTextPage(bool display)
         {
-            if (display) textPage.LoadText((pageView.Component as Component)!.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.Text));
-            textPage.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
+            if (display)
+                TextPage.LoadText((PageView.Component as Component)!.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.Text));
+            TextPage.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void DisplayCompPage()
         {
-            compPage.Visibility = compPage.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+            CompPage.Visibility = CompPage.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
 
         public void DisplayPage(bool isReport = true)
         {
-            pageView.Visibility = isReport ? Visibility.Visible : Visibility.Collapsed;
-            pageComponent.Visibility = !isReport ? Visibility.Visible : Visibility.Collapsed;
+            PageView.Visibility = isReport ? Visibility.Visible : Visibility.Collapsed;
+            PageComponent.Visibility = !isReport ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void OpenRightPanel(bool isStructuralView = false)
         {
             RightPanel.Visibility = !isStructuralView ? (RightPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible) : Visibility.Collapsed;
-            structuralView.Visibility = isStructuralView ? (structuralView.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible) : Visibility.Collapsed;
+            StructuralView.Visibility = isStructuralView ? (StructuralView.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible) : Visibility.Collapsed;
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
@@ -147,7 +145,7 @@ namespace ConceptorUI
         {
             var wind = sender as Window;
             Console.WriteLine(@"Window state: "+ wind!.WindowState);
-            switch (wind!.WindowState)
+            switch (wind.WindowState)
             {
                 case WindowState.Maximized:
                     break;
@@ -167,6 +165,17 @@ namespace ConceptorUI
                     }
                     break;
             }
+        }
+        
+        private void OnAddComponentHandle(object sender, EventArgs e)
+        {
+            PageView.AddComponent(sender.ToString()!);
+        }
+        
+        private void OnSetPropertyHandle(object sender, EventArgs e)
+        {
+            var infos = sender as dynamic[];
+            PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
     }
 }

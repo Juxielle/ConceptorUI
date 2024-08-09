@@ -55,49 +55,6 @@
             </Setter>
         </Style>
 
-        <!--Control colors.-->
-        <Color x:Key="WindowColor">#FFE8EDF9</Color>
-        <Color x:Key="ContentAreaColorLight">#FFC5CBF9</Color>
-        <Color x:Key="ContentAreaColorDark">#FF7381F9</Color>
-
-        <Color x:Key="DisabledControlLightColor">#FFE8EDF9</Color>
-        <Color x:Key="DisabledControlDarkColor">#FFC5CBF9</Color>
-        <Color x:Key="DisabledForegroundColor">#FF888888</Color>
-
-        <Color x:Key="SelectedBackgroundColor">#FFC5CBF9</Color>
-        <Color x:Key="SelectedUnfocusedColor">#FFDDDDDD</Color>
-
-        <Color x:Key="ControlLightColor">White</Color>
-        <Color x:Key="ControlMediumColor">#FF7381F9</Color>
-        <Color x:Key="ControlDarkColor">#FF211AA9</Color>
-
-        <Color x:Key="ControlMouseOverColor">#FF3843C4</Color>
-        <Color x:Key="ControlPressedColor">#FF211AA9</Color>
-
-
-        <Color x:Key="GlyphColor">#FF444444</Color>
-        <Color x:Key="GlyphMouseOver">sc#1, 0.004391443, 0.002428215, 0.242281124</Color>
-
-        <!--Border colors  FF888888-->
-        <Color x:Key="BorderLightColor">#FFCCCCCC</Color>
-        <Color x:Key="BorderMediumColor">#FF444444</Color>
-        <Color x:Key="BorderDarkColor">#FF444444</Color>
-
-        <Color x:Key="PressedBorderLightColor">#FF888888</Color>
-        <Color x:Key="PressedBorderDarkColor">#FF444444</Color>
-
-        <Color x:Key="DisabledBorderLightColor">#FFAAAAAA</Color>
-        <Color x:Key="DisabledBorderDarkColor">#FF888888</Color>
-
-        <Color x:Key="DefaultBorderBrushDarkColor">Black</Color>
-
-        <!--Control-specific resources.-->
-        <Color x:Key="HeaderTopColor">#FFC5CBF9</Color>
-        <Color x:Key="DatagridCurrentCellBorderColor">Black</Color>
-        <Color x:Key="SliderTrackDarkColor">#FFC5CBF9</Color>
-
-        <Color x:Key="NavButtonFrameColor">#FF3843C4</Color>
-
         <LinearGradientBrush x:Key="MenuPopupBrush"
                      EndPoint="0.5,1"
                      StartPoint="0.5,0">
@@ -127,7 +84,7 @@
         </LinearGradientBrush>
     </Window.Resources>
 
-    <Grid x:Name="content" Background="#e4e4e4">
+    <Grid x:Name="Content" Background="#e4e4e4">
         <DockPanel>
             <!--<component:TopPanel DockPanel.Dock="Top"/>-->
 
@@ -138,14 +95,14 @@
             <component:PanelProperty Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300"
                                      Visibility="Collapsed" x:Name="RightPanel"/>
             <component:PanelStructuralView Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300" 
-                                           Visibility="Collapsed" x:Name="structuralView"/>
+                                           Visibility="Collapsed" x:Name="StructuralView"/>
 
             <Grid Margin="0 0 0 2" x:Name="ContentPages">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:Name="Pages">
                     <Grid>
-                        <component:PageView HorizontalAlignment="Center" Margin="60" Visibility="Visible" x:Name="pageView"/>
+                        <component:PageView HorizontalAlignment="Center" Margin="60" Visibility="Visible" x:Name="PageView"/>
                         <component:ComponentPage HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                 Margin="60" Visibility="Collapsed" x:Name="pageComponent"/>
+                                                 Margin="60" Visibility="Collapsed" x:Name="PageComponent"/>
                     </Grid>
                 </ScrollViewer>
 
@@ -155,7 +112,7 @@
                     <materialDesign:PackIcon Kind="ContentSave" Width="30" Height="30" Foreground="#666666"/>
                 </Button>
                 <Button Background="#e1e1e1" BorderBrush="#8c8c8a" BorderThickness="0.4" Margin="10 60"
-                    Cursor="Hand" Width="40" Height="40" x:Name="BPDF" Tag="PDF" Click="BtnClick"
+                    Cursor="Hand" Width="40" Height="40" x:Name="Bpdf" Tag="PDF" Click="BtnClick"
                         HorizontalAlignment="Left" VerticalAlignment="Top">
                     <materialDesign:PackIcon Kind="FilePdfBox" Width="30" Height="30" Foreground="#666666"/>
                 </Button>
@@ -170,9 +127,9 @@
                     <materialDesign:PackIcon Kind="Delete" Width="30" Height="30" Foreground="#666666"/>
                 </Button>
                 
-                <component:TextPage HorizontalAlignment="Right" Margin="4 0" Width="400" Visibility="Collapsed" x:Name="textPage"/>
-                <component:ColorPalette HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" x:Name="colorPalette"/>
-                <component:LeftCompPanel HorizontalAlignment="Left" Margin="0" Width="400" Visibility="Collapsed" x:Name="compPage"/>
+                <component:TextPage HorizontalAlignment="Right" Margin="4 0" Width="400" Visibility="Collapsed" x:Name="TextPage"/>
+                <component:ColorPalette HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" x:Name="ColorPalette"/>
+                <component:LeftCompPanel HorizontalAlignment="Left" Margin="0" Width="400" Visibility="Collapsed" x:Name="CompPage"/>
             </Grid>
         </DockPanel>
     </Grid>

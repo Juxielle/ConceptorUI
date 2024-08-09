@@ -38,13 +38,13 @@ namespace ConceptorUI.ViewModels
         protected readonly Border Content;
         protected FrameworkElement ChildContent;
         
-        public event EventHandler? PreSelectedEvent;
+        public event EventHandler? OnSelectedEvent;
         private readonly object _selectedLock = new();
         
-        public event EventHandler? PreRefreshPropertyPanelEvent;
+        public event EventHandler? OnRefreshPropertyPanelEvent;
         private readonly object _refreshPropertyPanelLock = new();
         
-        public event EventHandler? PreRefreshStructuralViewEvent;
+        public event EventHandler? OnRefreshStructuralViewEvent;
         private readonly object _refreshStructuralViewlLock = new();
 
         protected Component()
@@ -70,14 +70,14 @@ namespace ConceptorUI.ViewModels
             {
                 lock (_selectedLock)
                 {
-                    PreSelectedEvent += value;
+                    OnSelectedEvent += value;
                 }
             }
             remove
             {
                 lock (_selectedLock)
                 {
-                    PreSelectedEvent -= value;
+                    OnSelectedEvent -= value;
                 }
             }
         }
@@ -88,14 +88,14 @@ namespace ConceptorUI.ViewModels
             {
                 lock (_refreshPropertyPanelLock)
                 {
-                    PreRefreshPropertyPanelEvent += value;
+                    OnRefreshPropertyPanelEvent += value;
                 }
             }
             remove
             {
                 lock (_refreshPropertyPanelLock)
                 {
-                    PreRefreshPropertyPanelEvent -= value;
+                    OnRefreshPropertyPanelEvent -= value;
                 }
             }
         }
@@ -106,14 +106,14 @@ namespace ConceptorUI.ViewModels
             {
                 lock (_refreshStructuralViewlLock)
                 {
-                    PreRefreshStructuralViewEvent += value;
+                    OnRefreshStructuralViewEvent += value;
                 }
             }
             remove
             {
                 lock (_refreshStructuralViewlLock)
                 {
-                    PreRefreshStructuralViewEvent -= value;
+                    OnRefreshStructuralViewEvent -= value;
                 }
             }
         }
@@ -139,7 +139,7 @@ namespace ConceptorUI.ViewModels
             _selectedContent.BorderBrush = Brushes.DodgerBlue;
             _selectedContent.BorderThickness = new Thickness(1);
             
-            PreSelectedEvent!.Invoke(
+            OnSelectedEvent!.Invoke(
                 new Dictionary<string, dynamic>
                 {
                     {"selected", true},
@@ -149,7 +149,16 @@ namespace ConceptorUI.ViewModels
                 EventArgs.Empty
             );
             Selected = true;
-            return true;
+            
+            return Selected;
+        }
+
+        public void OnSelectedHandle(object sender, EventArgs e)
+        {
+            OnSelectedEvent!.Invoke(
+                sender,
+                EventArgs.Empty
+            );
         }
 
         public bool OnChildSelected()
@@ -179,7 +188,7 @@ namespace ConceptorUI.ViewModels
                  (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildContent)))) return;
             
             OnSelected();
-            PreSelectedEvent!.Invoke(
+            OnSelectedEvent!.Invoke(
                 new Dictionary<string, dynamic>
                 {
                     {"selected", false},
@@ -1021,6 +1030,8 @@ namespace ConceptorUI.ViewModels
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
             component.Parent = this;
+            component.OnSelectedEvent += OnSelectedHandle!;
+            
             AddIntoChildContent(component.ComponentView);
             Children.Add(component);
 
@@ -1045,6 +1056,8 @@ namespace ConceptorUI.ViewModels
                 var name = valueD.Name!;
                 var component = ManageEnums.Instance.GetComponent(name);
                 component.Parent = this;
+                component.OnSelectedEvent += OnSelectedHandle!;
+                
                 component.OnDeserializer(valueD);
 
                 var expanded = false;
@@ -1098,6 +1111,8 @@ namespace ConceptorUI.ViewModels
                 {
                     var component = ManageEnums.Instance.GetComponent(child.Name!);
                     component.Parent = this;
+                    component.OnSelectedEvent += OnSelectedHandle!;
+                    
                     component.OnDeserializer(child);
                     components.Add(component);
                     var d = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
@@ -1134,7 +1149,7 @@ namespace ConceptorUI.ViewModels
         {
             if (structuralElement.Selected)
             {
-                PreSelectedEvent!.Invoke(
+                OnSelectedEvent!.Invoke(
                     new Dictionary<string, dynamic>
                     {
                         {"selected", false},
