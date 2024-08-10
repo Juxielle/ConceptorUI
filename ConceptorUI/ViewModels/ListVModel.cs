@@ -6,7 +6,7 @@ using ConceptorUI.Models;
 using System.Linq;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     class ListVModel : Component
     {
@@ -78,6 +78,7 @@ namespace ConceptorUI.ViewModels
             }
 
             if (i == -1) return;
+            Children[i].DetacheSelectedHandle();
             _stack.Children.RemoveAt(i);
             Children.RemoveAt(i);
             OnSelected();

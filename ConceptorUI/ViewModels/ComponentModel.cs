@@ -2,7 +2,7 @@
 using ConceptorUI.Models;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class ComponentModel : Component
     {

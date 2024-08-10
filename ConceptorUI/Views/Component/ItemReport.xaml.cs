@@ -109,7 +109,7 @@ namespace ConceptorUI.Views.Component
                         //Console.WriteLine(@"Space code2: "+ spaces[0].Code);
                         //if (withDisplay) Properties.Instance.SelectedSpace = Properties.Instance.ConfigAppInfo.Spaces.FindIndex(s => s.Code == code);
                         Console.WriteLine(@"Selected space: "+ Properties.Instance.SelectedSpace);
-                        PageView.Instance.Refresh();
+                        //PageView.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 1);
                     }
                     break;

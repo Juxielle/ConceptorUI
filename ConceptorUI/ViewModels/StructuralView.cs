@@ -7,7 +7,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class StructuralView
     {

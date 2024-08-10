@@ -5,7 +5,7 @@ using System.Windows;
 using ConceptorUI.Utils;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class TextSingleModel : Component
     {

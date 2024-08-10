@@ -7,7 +7,7 @@ using MaterialDesignThemes.Wpf;
 using FontAwesome.WPF;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class IconModel : Component
     {

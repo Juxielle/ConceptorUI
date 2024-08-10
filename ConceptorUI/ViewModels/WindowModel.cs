@@ -1,16 +1,15 @@
 ﻿using ConceptorUI.Models;
-using System.Collections.Generic;
 using System.Windows;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class WindowModel : Component
     {
         private readonly ContainerModel _statusbar;
         private readonly ContainerModel _body;
         private readonly RowModel _layout;
-
+        
         public WindowModel()
         {
             _statusbar = new ContainerModel();
@@ -22,7 +21,7 @@ namespace ConceptorUI.ViewModels
             Name = ComponentList.Window;
             HasChildren = false;
             CanAddIntoChildContent = false;
-            ChildContentLimit = 0;
+            ChildContentLimit = 2;
             
             OnInitialize();
         }
@@ -43,8 +42,12 @@ namespace ConceptorUI.ViewModels
             _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#000000");
             _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0");
             _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "10");
+            
             _layout.OnAdd(_statusbar);
             _layout.OnAdd(_body);
+            
+            Children.Add(_statusbar);
+            Children.Add(_body);
         }
 
         protected override void SelfConstraints()
@@ -135,57 +138,6 @@ namespace ConceptorUI.ViewModels
         protected override void OnMoveBottom()
         {
             
-        }
-
-        public string OnCopyOrPaste(string value = null!, bool isPaste = false)
-        {
-            CompSerializer valueD = null!;
-            if (value != null!)
-                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(value)!;
-
-            if (Selected && isPaste && value != null && valueD.Children != null)
-            {
-                var name = valueD.Name!;
-                var component = ManageEnums.Instance.GetComponent(name);
-                component.Parent = this;
-                component.OnDeserializer(valueD);
-                //Il faut enfin appliquer à ce composant, les contraintes de mise en page.
-                //Child = component;
-                //border.Child = Child.ComponentView;
-            }
-            else if (Selected && !isPaste)
-                return System.Text.Json.JsonSerializer.Serialize(this.OnSerializer());
-            else if (!Selected)
-                return _body.OnCopyOrPaste(value!, isPaste);
-            return null!;
-        }
-
-        public StructuralElement AddToStructuralView()
-        {
-            var structuralElement = new StructuralElement();
-            structuralElement.Node = Name.ToString()!;
-            structuralElement.Selected = Selected;
-
-            structuralElement.Children = 
-                new List<StructuralElement> { _statusbar.AddToStructuralView(), _body.AddToStructuralView() };
-
-            return structuralElement;
-        }
-
-        public void SelectFromStructuralView(StructuralElement structuralElement)
-        {
-            if (structuralElement.Selected)
-            {
-                //PageView.Instance.OnUnselected(Name == ComponentList.Cell.ToString());
-                OnSelected();
-            }
-            else if (structuralElement.Children != null!)
-            {
-                foreach (var child in structuralElement.Children!)
-                {
-                    _body.SelectFromStructuralView(child);
-                }
-            }
         }
     }
 }

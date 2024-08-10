@@ -7,7 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
-using ConceptorUI.ViewModels;
+using ConceptorUi.ViewModels;
 
 
 namespace ConceptorUI
@@ -15,7 +15,7 @@ namespace ConceptorUI
     public partial class MainWindow
     {
         private static MainWindow? _obj;
-        private List<Project> _projects;
+        private readonly List<Project> _projects;
         private int _selectedProject;
 
         public MainWindow()
@@ -81,7 +81,7 @@ namespace ConceptorUI
                     Created = DateTime.Now.ToShortTimeString(),
                 });
             
-            PageView.Refresh();
+            PageView.Refresh(_projects[0]);
         }
 
         public void DisplayColorPalette(Brush color, bool display, string propOrigin, double opacity = 1.0)

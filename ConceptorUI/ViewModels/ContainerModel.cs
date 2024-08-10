@@ -3,7 +3,7 @@ using System.Windows.Controls;
 using System.Windows;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class ContainerModel : Component
     {
@@ -29,7 +29,8 @@ namespace ConceptorUI.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            
+            if((ChildContent as Border)!.Child != null)
+                (ChildContent as Border)!.Child = child;
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -152,6 +153,9 @@ namespace ConceptorUI.ViewModels
         
         protected override void Delete()
         {
+            if (Children.Count == 0) return;
+
+            Children[0].DetacheSelectedHandle();
             Children.RemoveAt(0);
             (ChildContent as Border)!.Child = null;
 

@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
-using ConceptorUI.ViewModels;
+using ConceptorUI.Models;
 using MaterialDesignThemes.Wpf;
 
 
@@ -49,34 +49,34 @@ namespace ConceptorUI.Views.Component
                     componentName = "Menu";
                     break;
                 case "Text":
-                    componentName = nameof(TextSingleModel);
+                    componentName = ComponentList.TextSingle.ToString();
                     break;
                 case "Grid":
-                    componentName = nameof(GridModel);
+                    componentName = ComponentList.Grid.ToString();
                     break;
                 case "Row":
-                    componentName = nameof(RowModel);
+                    componentName = ComponentList.Row.ToString();
                     break;
                 case "Column":
-                    componentName = nameof(ColumnModel);
+                    componentName = ComponentList.Column.ToString();
                     break;
                 case "Container":
-                    componentName = nameof(ContainerModel);
+                    componentName = ComponentList.Container.ToString();
                     break;
                 case "Stack":
-                    componentName = nameof(StackModel);
+                    componentName = ComponentList.Stack.ToString();
                     break;
                 case "ListV":
-                    componentName = nameof(ListVModel);
+                    componentName = ComponentList.ListV.ToString();
                     break;
                 case "ListH":
-                    componentName = nameof(ListHModel);
+                    componentName = ComponentList.ListH.ToString();
                     break;
                 case "Image":
-                    componentName = nameof(ImageModel);
+                    componentName = ComponentList.Image.ToString();
                     break;
                 case "Icon":
-                    componentName = nameof(IconModel);
+                    componentName = ComponentList.Icon.ToString();
                     break;
                 case "Shape":
                     componentName = string.Empty;

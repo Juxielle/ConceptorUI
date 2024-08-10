@@ -1,5 +1,5 @@
 ﻿using ConceptorUI.Constants;
-using ConceptorUI.ViewModels;
+using ConceptorUi.ViewModels;
 
 namespace ConceptorUI.Models;
 

@@ -8,7 +8,7 @@ using System.Windows.Media.Imaging;
 using ConceptorUI.Constants;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     class ImageModel : Component
     {
@@ -38,7 +38,7 @@ namespace ConceptorUI.ViewModels
         {
             try
             {
-                var path = Env.pemcFile($"Project{PageView.Instance.application.ID}", "Medias", value);
+                var path = ComponentHelper.ProjectPath + "/Medias/" + value;
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
                 bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);

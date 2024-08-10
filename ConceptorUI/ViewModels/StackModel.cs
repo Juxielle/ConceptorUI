@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class StackModel : Component
     {
@@ -87,7 +87,7 @@ namespace ConceptorUI.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            
+            _grid.Children.Add(child);
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -105,6 +105,7 @@ namespace ConceptorUI.ViewModels
             }
 
             if (i == -1) return;
+            Children[i].DetacheSelectedHandle();
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
             OnSelected();

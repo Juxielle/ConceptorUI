@@ -1,4 +1,4 @@
-﻿using ConceptorUI.ViewModels;
+﻿using ConceptorUi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;

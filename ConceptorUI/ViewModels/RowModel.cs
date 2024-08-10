@@ -4,7 +4,7 @@ using System.Windows.Controls;
 using System.Windows;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     internal class RowModel : Component
     {
@@ -401,6 +401,7 @@ namespace ConceptorUI.ViewModels
             else if(IsVertical) _grid.RowDefinitions.RemoveAt(fvbc ? i + 1 : i);
             else _grid.ColumnDefinitions.RemoveAt(fvbc ? i + 1 : i);
             
+            Children[i].DetacheSelectedHandle();
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
             

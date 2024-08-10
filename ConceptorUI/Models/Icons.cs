@@ -13,9 +13,8 @@ namespace ConceptorUI.Models
         public List<IconP>? IconPlateform { get; set; }
     }
 
-    public class IconP
+    public abstract class IconP
     {
-        public Plateforms? Plateform { get; set; }
         public string? Library { get; set; }
         public string? Component { get; set; }
         public bool? IsDefault { get; set; } = true;

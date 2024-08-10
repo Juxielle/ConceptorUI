@@ -12,7 +12,7 @@ using ConceptorUI.Interfaces;
 using ConceptorUI.Utils;
 
 
-namespace ConceptorUI.ViewModels
+namespace ConceptorUi.ViewModels
 {
     abstract class Component : IRefreshPropertyView
     {
@@ -28,7 +28,7 @@ namespace ConceptorUI.ViewModels
         protected int ChildContentLimit = 100;
         
         protected bool IsInComponent = false;
-        protected bool IsOriginalComponent = false;
+        public bool IsOriginalComponent = false;
 
         public readonly FrameworkElement ComponentView;
         public Component Parent;
@@ -134,7 +134,7 @@ namespace ConceptorUI.ViewModels
         protected abstract void OnMoveTop();
         protected abstract void OnMoveBottom();
         
-        public bool OnSelected(bool isInterne = false)
+        public void OnSelected()
         {
             _selectedContent.BorderBrush = Brushes.DodgerBlue;
             _selectedContent.BorderThickness = new Thickness(1);
@@ -149,8 +149,6 @@ namespace ConceptorUI.ViewModels
                 EventArgs.Empty
             );
             Selected = true;
-            
-            return Selected;
         }
 
         public void OnSelectedHandle(object sender, EventArgs e)
@@ -159,6 +157,11 @@ namespace ConceptorUI.ViewModels
                 sender,
                 EventArgs.Empty
             );
+        }
+
+        public void DetacheSelectedHandle()
+        {
+            OnSelectedEvent -= OnSelectedHandle!;
         }
 
         public bool OnChildSelected()
@@ -172,14 +175,14 @@ namespace ConceptorUI.ViewModels
             return Selected || found;
         }
 
-        public void OnUnselected(bool isInterne = false)
+        public void OnUnselected()
         {
             Selected = false;
             _selectedContent.BorderBrush = Brushes.Transparent;
             _selectedContent.BorderThickness = new Thickness(0);
             
             foreach (var child in Children)
-                child.OnUnselected(isInterne);
+                child.OnUnselected();
         }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
@@ -1054,7 +1057,7 @@ namespace ConceptorUI.ViewModels
             if (Selected && isPaste && valueD != null! && CanAddIntoChildContent && Children.Count < ChildContentLimit)
             {
                 var name = valueD.Name!;
-                var component = ManageEnums.Instance.GetComponent(name);
+                var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
                 component.OnSelectedEvent += OnSelectedHandle!;
                 
@@ -1066,10 +1069,10 @@ namespace ConceptorUI.ViewModels
                     var d = child.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
-
+                
                 AddIntoChildContent(component.ComponentView);
                 Children.Add(component);
-
+                
                 LayoutConstraints(Children.Count - 1, false, expanded);
             }
             else if (Selected && !isPaste)
@@ -1078,7 +1081,8 @@ namespace ConceptorUI.ViewModels
                 foreach (var child in Children)
                 {
                     var comp = child.OnCopyOrPaste(value!, isPaste);
-                    if (comp != null!) return comp;
+                    if (comp != null!)
+                        return comp;
                 }
             return null!;
         }
@@ -1109,7 +1113,7 @@ namespace ConceptorUI.ViewModels
 
                 foreach (var child in compSerializer.Children)
                 {
-                    var component = ManageEnums.Instance.GetComponent(child.Name!);
+                    var component = ComponentHelper.GetComponent(child.Name!);
                     component.Parent = this;
                     component.OnSelectedEvent += OnSelectedHandle!;
                     
@@ -1198,12 +1202,11 @@ namespace ConceptorUI.ViewModels
             foreach (var group in PropertyGroups!)
             {
                 i++;
-                var j = -1;
                 if(group.Name != groupName.ToString()) continue;
                 PropertyGroups[i].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
                 foreach (var property in group.Properties)
                 {
-                    j++;
+                    var j = group.Properties.IndexOf(property);
                     PropertyGroups[i].Properties[j].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
                 }
                 return;

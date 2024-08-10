@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Constants;
 using ConceptorUI.Interfaces;
+using ConceptorUi.ViewModels;
 
 
 namespace ConceptorUI.Views.Component
@@ -166,7 +167,7 @@ namespace ConceptorUI.Views.Component
                         if (filePath == string.Empty) return;
                         
                         var fileName = Path.GetFileName(filePath);
-                        var path = Env.pemcFile($"Project{PageView.Instance.application.ID}", "Medias", fileName);
+                        var path = ComponentHelper.ProjectPath + "/Medias/" + fileName;
                         
                         if(!File.Exists(path))
                             File.Copy(filePath, path);

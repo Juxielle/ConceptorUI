@@ -1,5 +1,5 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.ViewModels;
+using ConceptorUi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -7,7 +7,6 @@ using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
 
@@ -36,6 +35,13 @@ namespace ConceptorUI.Views.Component
             _selectedReport = 0;
 
             _copiedComponent = string.Empty;
+        }
+
+        public static PageView Instance => _obj == null! ? new PageView() : _obj;
+        
+        public void Refresh(object projectObject)
+        {
+            _project = (projectObject as Project)!;
             
             #region Init Space
             var configFile = $"{_project.FolderPath}config.json";
@@ -44,20 +50,12 @@ namespace ConceptorUI.Views.Component
             if (_project.Space != null!)
             {
                 if (_project.Space.Reports.Count > 0)
-                    LoadSpace(0);
+                    LoadSpace();
             }
             else NewSpace();
             #endregion
-        }
-
-        public static PageView Instance => _obj == null! ? new PageView() : _obj;
-        
-        public void Refresh(bool added = true)
-        {
-            page.Children.Clear();
-            LoadSpace(Properties.Instance.SelectedSpace);
             
-            var structuralElement = _windows[_project.Space.Reports[_selectedReport].Code].AddToStructuralView();
+            var structuralElement = _windows[_project.Space!.Reports[_selectedReport].Code].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -65,7 +63,7 @@ namespace ConceptorUI.Views.Component
             PanelStructuralView.Instance.Refresh();
         }
 
-        private void LoadSpace(int spaceIndex)
+        private void LoadSpace()
         {
             #region Load spage
             page.Children.Clear();
@@ -228,11 +226,11 @@ namespace ConceptorUI.Views.Component
             _windows.Remove(_project.Space.Reports[_selectedReport].Code);
             
             var n = page.Children.Count;
-            page.Children.RemoveAt(Properties.Instance.SelectedReport);
+            page.Children.RemoveAt(_selectedReport);
             
             if (n > 1)
             {
-                Properties.Instance.SelectedReport = 0;
+                _selectedReport = 0;
             }
 
             OnSaved(2);
@@ -240,11 +238,11 @@ namespace ConceptorUI.Views.Component
 
         public void AddComponent(string componentName)
         {
-            if (componentName == ComponentList.Container.ToString())
+            if (ComponentHelper.IsComponent(componentName))
             {
-                var component = JsonSerializer.Serialize(new ContainerModel());
+                var component = JsonSerializer.Serialize(ComponentHelper.GetComponent(componentName));
                 _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(component, true);
-            }
+            }else{}
         }
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
@@ -252,26 +250,17 @@ namespace ConceptorUI.Views.Component
             _windows[_project.Space.Reports[_selectedReport].Code].OnUpdated(groupName, propertyName, value);
         }
 
-        public void OnUnselected(bool isInterne = false)
+        public void OnUnselected()
         {
             switch (Properties.Instance.SelectedLeftOnglet)
             {
                 case 1:
                     foreach (var key in _windows.Keys)
-                        _windows[key].OnUnselected(isInterne);
+                        _windows[key].OnUnselected();
                     break;
                 case 2:
-                    _windows[_project.Space.Reports[_selectedReport].Code].OnUnselected(isInterne);
+                    _windows[_project.Space.Reports[_selectedReport].Code].OnUnselected();
                     break;
-            }
-        }
-
-        public void OnSelected()
-        {
-            foreach (var key in _windows.Keys)
-            {
-                if (_windows[key].OnChildSelected())
-                    _selectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
             }
         }
 
@@ -300,7 +289,11 @@ namespace ConceptorUI.Views.Component
         
         private void OnSelectedHandle(object sender, EventArgs e)
         {
-            
+            foreach (var key in _windows.Keys)
+            {
+                if (_windows[key].OnChildSelected())
+                    _selectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
+            }
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
@@ -400,11 +393,6 @@ namespace ConceptorUI.Views.Component
             }
 
             return index == -1 ? n + 1 : index;
-        }
-
-        public static void Border_MouseDown(object sender, MouseButtonEventArgs e)
-        {
-            MessageBox.Show("You clicked me at ");
         }
     }
 }

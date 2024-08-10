@@ -1,9 +1,8 @@
 ﻿using ConceptorUI.Constants;
 using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.ObjectModel;
+using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows;
@@ -11,51 +10,29 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Classes;
 
 
 namespace ConceptorUI
 {
-    /// <summary>
-    /// Logique d'interaction pour PreviewPage.xaml
-    /// </summary>
     public partial class PreviewPage
     {
         private static PreviewPage? _obj;
-        private string name;
-        private string version;
-        private string appID;
-        private string password;
-        private string rpassword;
-        private string imageApp;
-        public PreviewModel dataContext;
-        private FormStates formState;
-        public static Applicat? CurrentApp;
-        string dirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private List<Project> _projects;
+        private int _selectedProject;
 
         public PreviewPage()
         {
             InitializeComponent();
             _obj = this;
+            _projects = new List<Project>();
+            _selectedProject = -1;
 
-            name = version = appID = string.Empty;
-            imageApp = string.Empty;
-            password = rpassword = string.Empty;
-            PBPassword.Password = TBPassword.Text = password;
-            PBRPassword.Password = TBRPassword.Text = rpassword;
-            formState = FormStates.Closed;
+            PBPassword.Password = TBPassword.Text = string.Empty;
+            PBRPassword.Password = TBRPassword.Text = string.Empty;
         }
 
-        public static PreviewPage Instance
-        {
-            get { return _obj == null ? new PreviewPage() : _obj; }
-        }
-
-        public void Show(PreviewModel pv)
-        {
-            dataContext = pv;
-            DataContext = dataContext;
-            Show();
-        }
+        public static PreviewPage Instance => _obj == null! ? new PreviewPage() : _obj;
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -67,13 +44,13 @@ namespace ConceptorUI
                     PBPassword.Visibility = PBPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     TBPassword.Visibility = TBPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     PVisible.Kind = TBPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PBPassword.Password = TBPassword.Text = password;
+                    PBPassword.Password = TBPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "RPASSWORD_EYE":
                     PBRPassword.Visibility = PBRPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     TBRPassword.Visibility = TBRPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     RPVisible.Kind = TBRPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PBRPassword.Password = TBRPassword.Text = rpassword;
+                    PBRPassword.Password = TBRPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "UploadImage":
                     var fileName = PickFile();
@@ -84,7 +61,7 @@ namespace ConceptorUI
                         bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
                         bitmap.EndInit();
                         AppImage.Source = bitmap;
-                        imageApp = fileName;
+                        _projects[_selectedProject].Image = fileName;
                     }
                     break;
                 case "FolderOpen":
@@ -142,7 +119,7 @@ namespace ConceptorUI
             
             //Load image
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri($@"{details.Image!}", UriKind.Absolute);
+            bitmap.UriSource = new Uri($"{details.Image!}", UriKind.Absolute);
             bitmap.EndInit();
             AppImage.Source = bitmap;
             //End loading image
@@ -221,7 +198,7 @@ namespace ConceptorUI
                                 File.Copy(imageApp, imgPath);
                                 imageApp = imgPath;
                                 
-                                var createdApp = new Applicat
+                                var createdApp = new Project
                                 {
                                     ID = appID,
                                     Name = name,
@@ -263,7 +240,7 @@ namespace ConceptorUI
             }
         }
 
-        private string PickFile(bool openProject = false)
+        private static string PickFile(bool openProject = false)
         {
             var dialog = new Microsoft.Win32.OpenFileDialog();
             dialog.FileName = "Download";
@@ -273,30 +250,6 @@ namespace ConceptorUI
             var result = dialog.ShowDialog();
 
             return result == true ? dialog.FileName : string.Empty;
-        }
-
-        private void FormatForSave(PreviewModel pv, bool reverse = false)
-        {
-            for (var i = 0; i < pv.LocalApps!.Count; i++)
-            {
-                var imageName = reverse ? pv.LocalApps[i].Image! : GetImageName(pv.LocalApps[i].Image!);
-                pv.LocalApps[i].Image = $@"{(reverse ? Env.dirMedia + "/" : "")}{imageName}";
-            }
-        }
-
-        private string GetImageName(string name)
-        {
-            string imageName, temp;
-            imageName = temp = string.Empty;
-            for (var i = name.Length - 1; i >= 0; i--)
-            {
-                if (name[i] == '\\' || name[i] == '/')
-                    break;
-                temp += name[i];
-            }
-            for (var i = 0; i < temp.Length; i++) 
-                imageApp += temp[i];
-            return imageName;
         }
 
         private string GetMonth(int n)
@@ -317,6 +270,7 @@ namespace ConceptorUI
                 case 11: month = "Novembre"; break;
                 case 12: month = "Decembre"; break;
             }
+            
             return month;
         }
 
@@ -335,29 +289,30 @@ namespace ConceptorUI
 
         private void SaveBitmapImage(Image image, string name)
         {
-            var path = @$"{dirBase}\UIConceptor\Medias\{name}.png";
-            PngBitmapEncoder png = new PngBitmapEncoder();
-            if (!File.Exists(path))
-            {
-                var element = image as UIElement;
-                double width, height, renderWidth, renderHeight;
-                width = renderWidth = element.RenderSize.Width;
-                height = renderHeight = element.RenderSize.Height;
+            var path = _projects[_selectedProject].FolderPath +"/"+ name;
+            var png = new PngBitmapEncoder();
+            
+            if (File.Exists(path)) return;
+            
+            var element = image as UIElement;
+            double width, height, renderWidth, renderHeight;
+            width = renderWidth = element.RenderSize.Width;
+            height = renderHeight = element.RenderSize.Height;
                 
-                RenderTargetBitmap rtb = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
-                var visualBrush = new VisualBrush(element);
-                var drawingVisual = new DrawingVisual();
-                using (var drawingContext = drawingVisual.RenderOpen())
-                {
-                    drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(0, 0), new Point(width, height)));
-                }
-                rtb.Render(drawingVisual);
+            var rtb = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
+            var visualBrush = new VisualBrush(element);
+            var drawingVisual = new DrawingVisual();
+            
+            using (var drawingContext = drawingVisual.RenderOpen())
+            {
+                drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(0, 0), new Point(width, height)));
+            }
+            rtb.Render(drawingVisual);
 
-                png.Frames.Add(BitmapFrame.Create(rtb));
-                using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
-                {
-                    png.Save(stream);
-                }
+            png.Frames.Add(BitmapFrame.Create(rtb));
+            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
+            {
+                png.Save(stream);
             }
         }
 
@@ -366,28 +321,6 @@ namespace ConceptorUI
             SaveBitmapImage(AppImage, "mobile");
             Console.WriteLine("Création d'image effectuée avec succès.");
         }
-
-    }
-
-    public class PreviewModel
-    {
-        public ObservableCollection<Applicat>? RecentApps { get; set; }
-        public ObservableCollection<Applicat>? LocalApps { get; set; }
-        public ObservableCollection<Applicat>? OnLineApps { get; set; }
-        public Applicat? DataDetails { get; set; }
-    }
-
-    public class Applicat
-    {
-        public string? ID { get; set; }
-        public string? Name { get; set; }
-        public string? Version { get; set; } = "1.0";
-        public string? Password { get; set; }
-        public string? Color { get; set; }
-        public string? Created { get; set; }
-        public string? Updated { get; set; }
-        public string? LastOpen { get; set; }
-        public string? Image { get; set; }
     }
 
     public enum FormStates
