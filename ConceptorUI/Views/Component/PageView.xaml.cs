@@ -3,7 +3,6 @@ using ConceptorUI.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows;
@@ -32,7 +31,6 @@ namespace ConceptorUI.Views.Component
             
             _obj = this;
             var manageEnums = new ManageEnums();
-            
             _project = new Project();
             _windows = new Dictionary<string, WindowModel>();
             _selectedReport = 0;
