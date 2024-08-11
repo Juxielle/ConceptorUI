@@ -1,5 +1,7 @@
 ﻿
 
+using System;
+
 namespace ConceptorUI.Classes;
 
 public class Project
@@ -13,6 +15,6 @@ public class Project
     public string Image { get; set; }
     public string FolderPath { get; set; }
     public Space Space { get; set; }
-    public string Created { get; set; }
-    public string Updated { get; set; }
+    public DateTime Created { get; set; }
+    public DateTime Updated { get; set; }
 }

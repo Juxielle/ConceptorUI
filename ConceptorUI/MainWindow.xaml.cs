@@ -70,17 +70,11 @@ namespace ConceptorUI
 
         public static MainWindow Instance => _obj != null! ? _obj : new MainWindow();
 
-        public void Show(Applicat projectPath)
+        public void Show(object project)
         {
             Show();
             
-            if(projectPath == null!)
-                _projects.Add(new Project
-                {
-                    Name = "Unknown Project",
-                    Created = DateTime.Now.ToShortTimeString(),
-                });
-            
+            _projects.Add((Project)project);
             PageView.Refresh(_projects[0]);
         }
 

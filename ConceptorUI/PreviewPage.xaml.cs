@@ -2,15 +2,15 @@
 using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
-using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Classes;
+using ConceptorUI.Utils;
 
 
 namespace ConceptorUI
@@ -20,6 +20,17 @@ namespace ConceptorUI
         private static PreviewPage? _obj;
         private List<Project> _projects;
         private int _selectedProject;
+        private FormStates _formState;
+
+        private string _appId;
+        private string _name;
+        private string _version;
+        private string _password;
+        private string _repeatPassword;
+        private string _image;
+        private string _projectPath;
+        
+        private static readonly string DirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
 
         public PreviewPage()
         {
@@ -27,12 +38,20 @@ namespace ConceptorUI
             _obj = this;
             _projects = new List<Project>();
             _selectedProject = -1;
+            _formState = FormStates.Closed;
 
             PBPassword.Password = TBPassword.Text = string.Empty;
             PBRPassword.Password = TBRPassword.Text = string.Empty;
         }
 
         public static PreviewPage Instance => _obj == null! ? new PreviewPage() : _obj;
+
+        public void Show(List<Project> projects)
+        {
+            _projects = projects;
+            LocalApps.ItemsSource = _projects;
+            Show();
+        }
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
@@ -53,7 +72,7 @@ namespace ConceptorUI
                     PBRPassword.Password = TBRPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "UploadImage":
-                    var fileName = PickFile();
+                    var fileName = Helper.PickFile();
                     if(fileName != string.Empty)
                     {
                         var bitmap = new BitmapImage();
@@ -65,31 +84,32 @@ namespace ConceptorUI
                     }
                     break;
                 case "FolderOpen":
-                    var fileName2 = PickFile(true);
+                    var fileName2 = Helper.PickFile(true);
                     if (fileName2 != string.Empty)
                     {
 
                     }
                     break;
                 case "Add":
-                    if (formState == FormStates.Closed || formState == FormStates.Opened)
+                    _projectPath = Helper.SelectFolder();
+                    if (_projectPath != null! && _formState is FormStates.Closed or FormStates.Opened)
                     {
-                        TNameApp.Text = name = "";
-                        IDApp.Text = appID = "A" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
-                        TVersion.Text = version = "1.0";
-                        var date = DateTime.Now;
-                        var dateString = date.Day + " " + GetMonth(date.Month) + " " + date.Year + " à " + DateTime.Now.ToShortTimeString().Replace(":", "h") + "min";
+                        TNameApp.Text = _name = "";
+                        IDApp.Text = _appId = "A" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
+                        TVersion.Text = _version = "1.0";
+                        var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                         CreatedDate.Text = dateString;
                         UpdatedDate.Text = dateString;
                         BCreate.Content = "CREER";
-                        formState = FormStates.Created;
+                        _formState = FormStates.Created;
+                        
                         //Begin image
                         try
                         {
-                            imageApp = @$"{dirBase}\UIConceptor\Medias\mobile.png";
+                            var path = @$"{DirBase}\UIConceptor\Medias\mobile.png";
                             var bitmap = new BitmapImage();
                             bitmap.BeginInit();
-                            bitmap.UriSource = new Uri(imageApp, UriKind.Absolute);
+                            bitmap.UriSource = new Uri(path, UriKind.Absolute);
                             bitmap.EndInit();
                             AppImage.Source = bitmap;
                         }
@@ -107,27 +127,28 @@ namespace ConceptorUI
         private void OnMouseDownApp(object sender, MouseButtonEventArgs e)
         {
             var id = (sender as FrameworkElement)!.Tag.ToString()!;
-            var bitmap = new BitmapImage();
             
-            if (formState is not (FormStates.Closed or FormStates.Opened)) return;
-            var details = dataContext.LocalApps!.Where(d => d.ID == id).First();
-            TNameApp.Text = details.Name!;
-            IDApp.Text = details.ID;
-            TVersion.Text = details.Version!;
-            CreatedDate.Text = details.Created;
-            UpdatedDate.Text = details.Updated;
+            if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
+
+            _selectedProject = _projects.FindIndex(d => d.ID == id);
+            var project = _projects[_selectedProject];
+            TNameApp.Text = project.Name;
+            IDApp.Text = project.ID;
+            TVersion.Text = project.Version;
+            CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
+            UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
             
             //Load image
+            var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri($"{details.Image!}", UriKind.Absolute);
+            bitmap.UriSource = new Uri($"{project.FolderPath}/{project.Image}", UriKind.Absolute);
             bitmap.EndInit();
             AppImage.Source = bitmap;
             //End loading image
             
             BCreate.Content = "EXECUTER";
-            formState = FormStates.Opened;
+            _formState = FormStates.Opened;
             Form.Visibility = Visibility.Visible;
-            dataContext.DataDetails = details;
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
@@ -136,31 +157,31 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "NameApp": 
-                    name = (sender as TextBox)!.Text; SetFormState();
+                    _name = (sender as TextBox)!.Text; SetFormState();
                     break;
                 case "Version":
-                    version = (sender as TextBox)!.Text; SetFormState();
+                    _version = (sender as TextBox)!.Text; SetFormState();
                     break;
                 case "PPassword": 
-                    password = (sender as PasswordBox)!.Password; SetFormState();
+                    _password = (sender as PasswordBox)!.Password; SetFormState();
                     break;
                 case "TPassword": 
-                    password = (sender as TextBox)!.Text; SetFormState();
+                    _password = (sender as TextBox)!.Text; SetFormState();
                     break;
                 case "PRPassword": 
-                    rpassword = (sender as PasswordBox)!.Password; SetFormState();
+                    _repeatPassword = (sender as PasswordBox)!.Password; SetFormState();
                     break;
                 case "TRPassword":
-                    rpassword = (sender as TextBox)!.Text; SetFormState();
+                    _repeatPassword = (sender as TextBox)!.Text; SetFormState();
                     break;
             }
         }
 
         private void SetFormState()
         {
-            if (formState != FormStates.Opened) return;
+            if (_formState != FormStates.Opened) return;
             BCreate.Content = "METTRE A JOUR";
-            formState = FormStates.Updated;
+            _formState = FormStates.Updated;
         }
 
         private void OnClick(object sender, RoutedEventArgs e)
@@ -173,53 +194,46 @@ namespace ConceptorUI
                     TVersion.Text = string.Empty;
                     PBPassword.Password = TBPassword.Text = string.Empty;
                     PBRPassword.Password = TBRPassword.Text = string.Empty;
-                    formState = FormStates.Closed;
+                    _formState = FormStates.Closed;
                     Form.Visibility = Visibility.Collapsed; 
                     break;
                 case "Create":
-                    if(formState == FormStates.Created)
+                    if(_formState == FormStates.Created)
                     {
                         var sc = SynchronizationContext.Current;
-                        Popup.Visibility = Visibility.Visible;
-                        Popup.Refresh(new Views.Component.PopupModel
+                        DoWork(delegate
                         {
-                            Display = true,
-                            Loading = true,
-                            Message = "Création du project.",
-                        });
-                        DoWork(delegate ()
-                        {
-                            //Enregistrement et création de la structure du project
                             sc!.Post(delegate
                             {
-                                TMessage.Text = "Enregistrement du projet dans les configurations.";
-                                var imageName = $@"appImage{appID}{imageApp.Substring(imageApp.Length - 4)}";
-                                var imgPath = $@"{Env.dirMedia}/{imageName}";
-                                File.Copy(imageApp, imgPath);
-                                imageApp = imgPath;
+                                // TMessage.Text = "Enregistrement du projet dans les configurations.";
+                                // var imageName = $"appImage{appID}{imageApp.Substring(imageApp.Length - 4)}";
+                                // var imgPath = $"{Env.dirMedia}/{imageName}";
+                                // File.Copy(_image, imgPath);
                                 
-                                var createdApp = new Project
+                                var project = new Project
                                 {
-                                    ID = appID,
-                                    Name = name,
-                                    Password = password,
+                                    ID = _appId,
+                                    Name = _name,
+                                    Password = _password,
                                     Color = "transparent",
-                                    Created = "Mer 15 Août 2022 à 8h30",
-                                    Updated = "Mer 15 Août 2022 à 8h30",
-                                    Image = @imgPath,
+                                    Created = DateTime.Now,
+                                    Updated = DateTime.Now,
+                                    FolderPath = "",
+                                    Image = "",
                                 };
-                                dataContext.LocalApps!.Add(createdApp);
-                                dataContext.DataDetails = createdApp;
-                                FormatForSave(dataContext);
-                                var jsonString = JsonSerializer.Serialize(dataContext);
-                                File.WriteAllText(Env.fileConfig, jsonString);
-                                FormatForSave(dataContext, true);
+                                
+                                // dataContext.LocalApps!.Add(createdApp);
+                                // dataContext.DataDetails = createdApp;
+                                // FormatForSave(dataContext);
+                                // var jsonString = JsonSerializer.Serialize(dataContext);
+                                // File.WriteAllText(Env.fileConfig, jsonString);
+                                // FormatForSave(dataContext, true);
                             }, null);
                             sc!.Post(delegate
                             {
                                 //Structure du projet
                                 TMessage.Text = "Créatio de la structure du projet.";
-                                var dirProject = $@"{Env.dirProject}\Project{appID}";
+                                var dirProject = $@"{Env.dirProject}\Project{_appId}";
                                 Directory.CreateDirectory($@"{dirProject}\Pages");
                                 Directory.CreateDirectory($@"{dirProject}\Components");
                                 Directory.CreateDirectory($@"{dirProject}\Medias");
@@ -227,51 +241,17 @@ namespace ConceptorUI
                                 Directory.CreateDirectory($@"{dirProject}\Datas");
                                 //File.Create($@"{dirProject}\config.json").Dispose();
                                 BCreate.Content = "EXECUTER";
-                                formState = FormStates.Opened;
+                                _formState = FormStates.Opened;
                             }, null);
                         });
-                    }else if(formState == FormStates.Opened)
+                    }
+                    else if(_formState == FormStates.Opened)
                     {
-                        CurrentApp = dataContext.DataDetails!;
-                        MainWindow.Instance.Show(dataContext.DataDetails!);
+                        MainWindow.Instance.Show(_projects[_selectedProject]);
                         Close();
                     }
                     break;
             }
-        }
-
-        private static string PickFile(bool openProject = false)
-        {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-            dialog.FileName = "Download";
-            dialog.DefaultExt = ".png";
-            dialog.Filter = openProject ? "Zip files (*.zip;*.rar)|*.zip;*.rar" : "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
-
-            var result = dialog.ShowDialog();
-
-            return result == true ? dialog.FileName : string.Empty;
-        }
-
-        private string GetMonth(int n)
-        {
-            var month = "Janvier";
-            switch (n)
-            {
-                case 1: month = "Janvier"; break;
-                case 2: month = "Février"; break;
-                case 3: month = "Mars"; break;
-                case 4: month = "Avril"; break;
-                case 5: month = "Main"; break;
-                case 6: month = "Juin"; break;
-                case 7: month = "Juillet"; break;
-                case 8: month = "Août"; break;
-                case 9: month = "Septembre"; break;
-                case 10: month = "Octobre"; break;
-                case 11: month = "Novembre"; break;
-                case 12: month = "Decembre"; break;
-            }
-            
-            return month;
         }
 
         private static void DoWork(Action callback)
@@ -285,41 +265,6 @@ namespace ConceptorUI
         public void HidePopup(bool hide)
         {
             Popup.Visibility = hide ? Visibility.Collapsed : Visibility.Visible;
-        }
-
-        private void SaveBitmapImage(Image image, string name)
-        {
-            var path = _projects[_selectedProject].FolderPath +"/"+ name;
-            var png = new PngBitmapEncoder();
-            
-            if (File.Exists(path)) return;
-            
-            var element = image as UIElement;
-            double width, height, renderWidth, renderHeight;
-            width = renderWidth = element.RenderSize.Width;
-            height = renderHeight = element.RenderSize.Height;
-                
-            var rtb = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
-            var visualBrush = new VisualBrush(element);
-            var drawingVisual = new DrawingVisual();
-            
-            using (var drawingContext = drawingVisual.RenderOpen())
-            {
-                drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(0, 0), new Point(width, height)));
-            }
-            rtb.Render(drawingVisual);
-
-            png.Frames.Add(BitmapFrame.Create(rtb));
-            using (var stream = new FileStream(path, FileMode.Create, FileAccess.Write))
-            {
-                png.Save(stream);
-            }
-        }
-
-        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            SaveBitmapImage(AppImage, "mobile");
-            Console.WriteLine("Création d'image effectuée avec succès.");
         }
     }
 
