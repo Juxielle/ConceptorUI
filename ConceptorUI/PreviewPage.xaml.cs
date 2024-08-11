@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
@@ -91,8 +92,7 @@ namespace ConceptorUI
                     }
                     break;
                 case "Add":
-                    _projectPath = Helper.SelectFolder();
-                    if (_projectPath != null! && _formState is FormStates.Closed or FormStates.Opened)
+                    if (_formState is FormStates.Closed or FormStates.Opened)
                     {
                         TNameApp.Text = _name = "";
                         IDApp.Text = _appId = "A" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
@@ -137,14 +137,6 @@ namespace ConceptorUI
             TVersion.Text = project.Version;
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
-            
-            //Load image
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri($"{project.FolderPath}/{project.Image}", UriKind.Absolute);
-            bitmap.EndInit();
-            AppImage.Source = bitmap;
-            //End loading image
             
             BCreate.Content = "EXECUTER";
             _formState = FormStates.Opened;
@@ -200,46 +192,48 @@ namespace ConceptorUI
                 case "Create":
                     if(_formState == FormStates.Created)
                     {
+                        _projectPath = Helper.SelectFolder();
+                        if(_projectPath == null!) return;
+                        var projectName = Path.GetFileName(_projectPath).Replace(".xui", "");
+                        var path = _projectPath.Replace($".xui", "");
+                        
                         var sc = SynchronizationContext.Current;
                         DoWork(delegate
                         {
                             sc!.Post(delegate
                             {
-                                // TMessage.Text = "Enregistrement du projet dans les configurations.";
-                                // var imageName = $"appImage{appID}{imageApp.Substring(imageApp.Length - 4)}";
-                                // var imgPath = $"{Env.dirMedia}/{imageName}";
-                                // File.Copy(_image, imgPath);
+                                TMessage.Text = "Enregistrement du projet dans les configurations.";
                                 
                                 var project = new Project
                                 {
-                                    ID = _appId,
+                                    ID = projectName,
                                     Name = _name,
                                     Password = _password,
                                     Color = "transparent",
                                     Created = DateTime.Now,
                                     Updated = DateTime.Now,
-                                    FolderPath = "",
+                                    FolderPath = path,
                                     Image = "",
                                 };
                                 
-                                // dataContext.LocalApps!.Add(createdApp);
-                                // dataContext.DataDetails = createdApp;
-                                // FormatForSave(dataContext);
-                                // var jsonString = JsonSerializer.Serialize(dataContext);
-                                // File.WriteAllText(Env.fileConfig, jsonString);
-                                // FormatForSave(dataContext, true);
+                                _projects.Add(project);
+                                var jsonString = JsonSerializer.Serialize(_projects);
+                                File.WriteAllText(Env.fileConfig, jsonString);
                             }, null);
+                            
                             sc!.Post(delegate
                             {
                                 //Structure du projet
                                 TMessage.Text = "Créatio de la structure du projet.";
-                                var dirProject = $@"{Env.dirProject}\Project{_appId}";
+                                var dirProject = $@"{Path.GetTempPath()}{projectName}";
                                 Directory.CreateDirectory($@"{dirProject}\Pages");
                                 Directory.CreateDirectory($@"{dirProject}\Components");
                                 Directory.CreateDirectory($@"{dirProject}\Medias");
                                 Directory.CreateDirectory($@"{dirProject}\Caches");
                                 Directory.CreateDirectory($@"{dirProject}\Datas");
-                                //File.Create($@"{dirProject}\config.json").Dispose();
+                                File.Create($@"{dirProject}\config.json").Dispose();
+                                
+                                Directory.Move(dirProject, path);
                                 BCreate.Content = "EXECUTER";
                                 _formState = FormStates.Opened;
                             }, null);

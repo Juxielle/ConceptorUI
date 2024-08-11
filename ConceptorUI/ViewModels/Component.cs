@@ -30,12 +30,12 @@ namespace ConceptorUi.ViewModels
         protected bool IsInComponent = false;
         public bool IsOriginalComponent = false;
 
-        public readonly FrameworkElement ComponentView;
+        public FrameworkElement ComponentView;
         public Component Parent;
         protected List<Component> Children;
 
-        private readonly Border _selectedContent;
-        protected readonly Border Content;
+        private Border _selectedContent;
+        protected Border Content;
         protected FrameworkElement ChildContent;
         
         public event EventHandler? OnSelectedEvent;
@@ -49,19 +49,7 @@ namespace ConceptorUi.ViewModels
 
         protected Component()
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
-            InitChildContent();
             
-            Content = new Border{ Child = ChildContent };
-            _selectedContent = new Border{ Child = Content };
-            ComponentView = _selectedContent;
-            ComponentView.PreviewMouseDown += OnMouseDown;
-            ComponentView.MouseEnter += OnMouseEnter;
-            
-            PropertyGroups = new List<GroupProperties>();
-            Children = new List<Component>();
-            
-            OnInit();
         }
         
         event EventHandler IRefreshPropertyView.OnSelected
@@ -1250,8 +1238,20 @@ namespace ConceptorUi.ViewModels
             return isNull;
         }
 
-        private void OnInit()
+        protected void OnInit()
         {
+            // ReSharper disable once VirtualMemberCallInConstructor
+            InitChildContent();
+            
+            Content = new Border{ Child = ChildContent };
+            _selectedContent = new Border{ Child = Content };
+            ComponentView = _selectedContent;
+            ComponentView.PreviewMouseDown += OnMouseDown;
+            ComponentView.MouseEnter += OnMouseEnter;
+            
+            PropertyGroups = new List<GroupProperties>();
+            Children = new List<Component>();
+            
             #region
             PropertyGroups = new List<GroupProperties>
             {

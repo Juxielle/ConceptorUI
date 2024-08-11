@@ -12,12 +12,15 @@ namespace ConceptorUi.ViewModels
         
         public RowModel(bool isVertical = true)
         {
+            OnInit();
+
             _grid = new Grid();
             IsVertical = isVertical;
             
             ChildContent = _grid;
             Name = ComponentList.Column;
             
+            SelfConstraints();
             OnInitialize();
         }
 
@@ -31,7 +34,7 @@ namespace ConceptorUi.ViewModels
             
         }
 
-        protected override void SelfConstraints()
+        protected sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

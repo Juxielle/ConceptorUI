@@ -127,7 +127,7 @@
                                 <DataTemplate>
                                     <StackPanel Margin="20 20 0 0" MouseDown="OnMouseDownApp" Tag="{Binding ID}" Cursor="Hand">
                                         <Border Width="140" Height="160" Background="{Binding Color}">
-                                            <Image Stretch="Uniform" x:Name="ProjectImage" Source="{Binding Image}"/>
+                                            <Image Stretch="Uniform" x:Name="ProjectImage" Source="/Assets/mobile.png"/>
                                         </Border>
                                         <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10" Margin="0 4"
                                                    Width="135" TextTrimming="CharacterEllipsis" TextAlignment="Center"/>

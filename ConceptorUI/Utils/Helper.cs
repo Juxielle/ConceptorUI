@@ -31,12 +31,12 @@ public class Helper
     public static string SelectFolder()
     {
         var dlg = new Microsoft.Win32.SaveFileDialog();
-        dlg.FileName = "Download";
-        dlg.DefaultExt = "";
-        dlg.Filter = "Text files (*.txt)|*.txt";
+        dlg.FileName = "application_ui";
+        dlg.DefaultExt = ".xui";
+        dlg.Filter = "Xui Applications (*.xui)|*.xui";
 
         var result = dlg.ShowDialog();
-        Console.WriteLine(@"Folder path: "+ dlg.FileName);
+        
         return result == true ? dlg.FileName : null!;
     }
 

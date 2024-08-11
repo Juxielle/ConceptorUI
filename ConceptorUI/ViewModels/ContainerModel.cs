@@ -9,11 +9,14 @@ namespace ConceptorUi.ViewModels
     {
         public ContainerModel()
         {
+            OnInit();
+
             ChildContent = new Border();
             
             Name = ComponentList.Container;
             ChildContentLimit = 1;
             
+            SelfConstraints();
             OnInitialize();
         }
         
@@ -38,7 +41,7 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
-        protected override void SelfConstraints()
+        protected sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

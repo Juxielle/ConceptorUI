@@ -12,6 +12,8 @@ namespace ConceptorUi.ViewModels
         
         public WindowModel()
         {
+            OnInit();
+            
             _statusbar = new ContainerModel();
             _body = new ContainerModel();
             _layout = new RowModel();
@@ -22,7 +24,8 @@ namespace ConceptorUi.ViewModels
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 2;
-            
+
+            SelfConstraints();
             OnInitialize();
         }
 
@@ -50,7 +53,7 @@ namespace ConceptorUi.ViewModels
             Children.Add(_body);
         }
 
-        protected override void SelfConstraints()
+        protected sealed override void SelfConstraints()
         {
             /* Global */
             SetGroupVisibility(GroupNames.Global, false);

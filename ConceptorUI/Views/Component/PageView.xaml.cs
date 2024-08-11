@@ -45,7 +45,7 @@ namespace ConceptorUI.Views.Component
             
             #region Init Space
             var configFile = $"{_project.FolderPath}config.json";
-            _project = File.Exists(configFile) ? JsonSerializer.Deserialize<Project>(File.ReadAllText(configFile))! : new Project();
+            _project.Space = File.Exists(configFile) ? JsonSerializer.Deserialize<Space>(File.ReadAllText(configFile))! : null!;
             
             if (_project.Space != null!)
             {
@@ -68,8 +68,6 @@ namespace ConceptorUI.Views.Component
             #region Load spage
             page.Children.Clear();
             
-            _windows.Add("", new WindowModel());
-            
             foreach (var report in _project.Space.Reports)
             {
                 var fileName = $"{_project.FolderPath}pages/{report.Code}.json";
@@ -83,6 +81,7 @@ namespace ConceptorUI.Views.Component
                 var content = new StackPanel
                 {
                     Width = 400,
+                    Background = Brushes.Yellow,
                     Margin = new Thickness(0, 0, 0, 30)
                 };
                 
@@ -125,15 +124,21 @@ namespace ConceptorUI.Views.Component
             
             if (_project.Space == null!)
             {
-                _project.Space = new Space();
+                _project.Space = new Space
+                {
+                    Name = "Space 1",
+                    Code = "space1",
+                    Date = DateTime.Now,
+                    Reports = new List<Report>()
+                };
                 _windows = new Dictionary<string, WindowModel>();
             }
             
             _project.Space.Reports.Add(
                 new Report
                 {
-                    Name = "Space 1",
-                    Code = "space1",
+                    Name = "Report 1",
+                    Code = "report1",
                     Date = DateTime.Now
                 }
             );
@@ -143,12 +148,13 @@ namespace ConceptorUI.Views.Component
             var content = new StackPanel
             {
                 Width = 400,
+                Background = Brushes.Yellow,
                 Margin = new Thickness(0, 0, 0, 30)
             };
             
             var title = new TextBlock
             {
-                Text = "Space "+ (_project.Space.Reports.Count + 1),
+                Text = "Report "+ (_project.Space.Reports.Count + 1),
                 FontSize = 14,
                 Margin = new Thickness(0, 0, 0, 6),
                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
@@ -192,6 +198,7 @@ namespace ConceptorUI.Views.Component
             var content = new StackPanel
             {
                 Width = 400,
+                Background = Brushes.Yellow,
                 Margin = new Thickness(0, 0, 0, 30)
             };
             
