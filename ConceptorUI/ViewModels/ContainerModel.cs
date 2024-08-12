@@ -48,6 +48,7 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Alignment);
             /* Self Alignment */
             /* Transform */
+            SetGroupVisibility(GroupNames.Transform);
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             /* Appearance */

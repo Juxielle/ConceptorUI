@@ -46,11 +46,6 @@ namespace ConceptorUi.ViewModels
         
         public event EventHandler? OnRefreshStructuralViewEvent;
         private readonly object _refreshStructuralViewlLock = new();
-
-        protected Component()
-        {
-            
-        }
         
         event EventHandler IRefreshPropertyView.OnSelected
         {
@@ -276,7 +271,7 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value == SizeValue.Old.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
@@ -305,6 +300,7 @@ namespace ConceptorUi.ViewModels
                 }
                 else if (propertyName == PropertyNames.Height)
                 {
+                    //Console.WriteLine(@$"Component Name: {Name} -- Width: {value}");
                     if (value == SizeValue.Expand.ToString() && AllowExpanded(false))
                     {
                         _selectedContent.Height = double.NaN;
@@ -315,7 +311,7 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value == SizeValue.Old.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
@@ -1080,6 +1076,7 @@ namespace ConceptorUi.ViewModels
             var children = new List<CompSerializer>();
             foreach (var child in Children)
                 children.Add(child.OnSerializer());
+            
             return new CompSerializer
             {
                 Name = Name.ToString(),
@@ -1166,7 +1163,7 @@ namespace ConceptorUi.ViewModels
             return new GroupProperties();
         }
 
-        protected void SetPropertyValue(GroupNames groupName, PropertyNames propertyName, string value)
+        public void SetPropertyValue(GroupNames groupName, PropertyNames propertyName, string value)
         {
             var i = -1;
             foreach (var group in PropertyGroups!)

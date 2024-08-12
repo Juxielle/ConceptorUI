@@ -44,8 +44,15 @@ namespace ConceptorUI.Views.Component
             _project = (projectObject as Project)!;
             
             #region Init Space
-            var configFile = $"{_project.FolderPath}config.json";
-            _project.Space = File.Exists(configFile) ? JsonSerializer.Deserialize<Space>(File.ReadAllText(configFile))! : null!;
+            var configFile = $"{_project.FolderPath}/config.json";
+            try
+            {
+                _project = File.Exists(configFile) ? JsonSerializer.Deserialize<Project>(File.ReadAllText(configFile))! : new Project();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(@"Le fichier n'existe pas ou n'est pas de bon format.");
+            }
             
             if (_project.Space != null!)
             {
@@ -70,8 +77,9 @@ namespace ConceptorUI.Views.Component
             
             foreach (var report in _project.Space.Reports)
             {
-                var fileName = $"{_project.FolderPath}pages/{report.Code}.json";
-                if (!File.Exists(fileName)) continue;
+                var filePath = $"{_project.FolderPath}/pages/{report.Code}.json";
+                
+                if (!File.Exists(filePath)) continue;
                 
                 var windowModel = new WindowModel();
                 windowModel.OnSelectedEvent += OnSelectedHandle!;
@@ -102,12 +110,13 @@ namespace ConceptorUI.Views.Component
                 var sc = SynchronizationContext.Current;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    var jsonString = File.ReadAllText(fileName);
+                    var jsonString = File.ReadAllText(filePath);
                     var component = JsonSerializer.Deserialize<CompSerializer>(jsonString)!;
                     
                     sc!.Post(delegate
                     {
                         windowModel.OnDeserializer(component);
+                        Console.WriteLine(@"ComponentView Width of window: "+ windowModel.ComponentView.Width);
                     }, null);
                 });
             }

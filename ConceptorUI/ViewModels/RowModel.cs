@@ -13,12 +13,12 @@ namespace ConceptorUi.ViewModels
         public RowModel(bool isVertical = true)
         {
             OnInit();
-
+            
             _grid = new Grid();
             IsVertical = isVertical;
             
             ChildContent = _grid;
-            Name = ComponentList.Column;
+            Name = isVertical ? ComponentList.Row : ComponentList.Column;
             
             SelfConstraints();
             OnInitialize();
@@ -41,6 +41,7 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Alignment);
             /* Self Alignment */
             /* Transform */
+            SetGroupVisibility(GroupNames.Transform);
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             /* Appearance */

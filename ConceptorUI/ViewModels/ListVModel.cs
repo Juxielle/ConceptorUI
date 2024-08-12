@@ -25,7 +25,7 @@ namespace ConceptorUi.ViewModels
                 Content = _stack
             };
             
-            Name = ComponentList.ListV;
+            Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
             ComponentView.PreviewMouseWheel += OnMouseWheel;
 
             OnInitialize();
