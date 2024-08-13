@@ -14,12 +14,6 @@ namespace ConceptorUi.ViewModels
         {
             OnInit();
             
-            _statusbar = new ContainerModel();
-            _body = new ContainerModel();
-            _layout = new RowModel();
-            _init();
-            
-            ChildContent = _layout.ComponentView;
             Name = ComponentList.Window;
             HasChildren = false;
             CanAddIntoChildContent = false;
@@ -27,15 +21,19 @@ namespace ConceptorUi.ViewModels
             
             SelfConstraints();
             OnInitialize();
+            
+            _statusbar = new ContainerModel();
+            _body = new ContainerModel();
+            _layout = new RowModel();
+            ChildContent = _layout.ComponentView;
+            _init();
         }
 
         private void _init()
         {
-            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "25");
-            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
-            _statusbar.OnInitialize();
-            
+            _statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Height, "25", true);
+            _statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
+            _statusbar.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975", true);
             
             _body.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
             _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
@@ -69,7 +67,8 @@ namespace ConceptorUi.ViewModels
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance, false);
+            SetGroupVisibility(GroupNames.Appearance);
+            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#ffffff");
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
