@@ -18,7 +18,7 @@ namespace ConceptorUi.ViewModels
             Children = new List<Component>();
             IsVertical = isVertical;
 
-            ChildContent = new ScrollViewer
+            Content.Child = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,

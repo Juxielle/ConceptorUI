@@ -18,7 +18,7 @@ namespace ConceptorUi.ViewModels
         {
             _child = new ImageBrush();
             _child.Stretch = Stretch.Fill;
-            ChildContent = new Border();
+            Content.Child = new Border();
             Content.Background = _child;
             
             Name = ComponentList.Image;

@@ -18,7 +18,7 @@ namespace ConceptorUi.ViewModels
             Rows = new List<List<Component>>();
             MergedCells = new List<Component>();
 
-            ChildContent = _grid;
+            Content.Child = _grid;
 
             Name = ComponentList.Grid;
 

@@ -10,7 +10,7 @@ namespace ConceptorUi.ViewModels
         private readonly ContainerModel _body;
         private readonly RowModel _layout;
         
-        public WindowModel()
+        public WindowModel(bool allowConstraints = false)
         {
             OnInit();
             
@@ -18,15 +18,19 @@ namespace ConceptorUi.ViewModels
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
-            
-            SelfConstraints();
-            OnInitialize();
+
+            if (!allowConstraints)
+            {
+                SelfConstraints();
+                OnInitialize();
+            }
             
             _statusbar = new ContainerModel();
             _body = new ContainerModel();
             _layout = new RowModel();
-            ChildContent = _layout.ComponentView;
-            _init();
+            Content.Child = _layout.ComponentView;
+            
+            if(!allowConstraints) _init();
         }
 
         private void _init()
@@ -67,8 +71,7 @@ namespace ConceptorUi.ViewModels
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance);
-            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#ffffff");
+            SetGroupVisibility(GroupNames.Appearance, false);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
@@ -100,7 +103,7 @@ namespace ConceptorUi.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            
+            Content.Child = child;
         }
 
         protected override bool AllowExpanded(bool isWidth = true)

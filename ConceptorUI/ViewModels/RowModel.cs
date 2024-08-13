@@ -10,16 +10,17 @@ namespace ConceptorUi.ViewModels
     {
         private readonly Grid _grid;
         
-        public RowModel(bool isVertical = true)
+        public RowModel(bool isVertical = true, bool allowConstraints = false)
         {
             OnInit();
             
             _grid = new Grid();
             IsVertical = isVertical;
             
-            ChildContent = _grid;
+            Content.Child = _grid;
             Name = isVertical ? ComponentList.Row : ComponentList.Column;
-            
+
+            if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
         }

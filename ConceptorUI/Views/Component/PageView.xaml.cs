@@ -49,7 +49,7 @@ namespace ConceptorUI.Views.Component
             {
                 _project = File.Exists(configFile) ? JsonSerializer.Deserialize<Project>(File.ReadAllText(configFile))! : new Project();
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 Console.WriteLine(@"Le fichier n'existe pas ou n'est pas de bon format.");
             }
@@ -81,7 +81,8 @@ namespace ConceptorUI.Views.Component
                 
                 if (!File.Exists(filePath)) continue;
                 
-                var windowModel = new WindowModel();
+                var windowModel = new WindowModel(true);
+                //windowModel.ComponentView.HorizontalAlignment = HorizontalAlignment.Center;
                 windowModel.OnSelectedEvent += OnSelectedHandle!;
                 windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
                 windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
@@ -116,7 +117,6 @@ namespace ConceptorUI.Views.Component
                     sc!.Post(delegate
                     {
                         windowModel.OnDeserializer(component);
-                        Console.WriteLine(@"ComponentView Width of window: "+ windowModel.ComponentView.Width);
                     }, null);
                 });
             }

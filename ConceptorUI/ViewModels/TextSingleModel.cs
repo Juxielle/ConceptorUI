@@ -11,7 +11,7 @@ namespace ConceptorUi.ViewModels
     {
         public TextSingleModel()
         {
-            ChildContent = new TextBlock();
+            Content.Child = new TextBlock();
             
             Name = ComponentList.TextSingle;
             HasChildren = false;
@@ -23,7 +23,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenTextChanged(string propertyName, string value)
         {
-            var text = ChildContent as TextBlock;
+            var text = Content.Child as TextBlock;
             if (propertyName == PropertyNames.FontFamily.ToString())
             {
                 text!.FontFamily = ManageEnums.Instance.GetFontFamily(value);

@@ -23,7 +23,7 @@ namespace ConceptorUi.ViewModels
 
             _grid.Children.Add(_materialIcon);
             _grid.Children.Add(_awesomeIcon);
-            ChildContent = _grid;
+            Content.Child = _grid;
             
             Name = ComponentList.Icon;
             HasChildren = false;

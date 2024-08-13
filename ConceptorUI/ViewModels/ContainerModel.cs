@@ -7,15 +7,16 @@ namespace ConceptorUi.ViewModels
 {
     internal class ContainerModel : Component
     {
-        public ContainerModel()
+        public ContainerModel(bool allowConstraints = false)
         {
             OnInit();
 
-            ChildContent = new Border();
+            Content.Child = new Border();
             
             Name = ComponentList.Container;
             ChildContentLimit = 1;
             
+            if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
         }
@@ -32,8 +33,8 @@ namespace ConceptorUi.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            if((ChildContent as Border)!.Child != null)
-                (ChildContent as Border)!.Child = child;
+            if((Content.Child as Border)!.Child != null)
+                (Content.Child as Border)!.Child = child;
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -161,7 +162,7 @@ namespace ConceptorUi.ViewModels
 
             Children[0].DetacheSelectedHandle();
             Children.RemoveAt(0);
-            (ChildContent as Border)!.Child = null;
+            (Content.Child as Border)!.Child = null;
 
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HC, "0");

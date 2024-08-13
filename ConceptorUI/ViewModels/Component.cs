@@ -36,7 +36,6 @@ namespace ConceptorUi.ViewModels
 
         private Border _selectedContent;
         protected Border Content;
-        protected FrameworkElement ChildContent;
         
         public event EventHandler? OnSelectedEvent;
         private readonly object _selectedLock = new();
@@ -171,7 +170,7 @@ namespace ConceptorUi.ViewModels
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if ((GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
-                 (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ChildContent)))) return;
+                 (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child)))) return;
             
             OnSelected();
             OnSelectedEvent!.Invoke(
@@ -261,6 +260,7 @@ namespace ConceptorUi.ViewModels
                 #region Transform
                 else if (propertyName == PropertyNames.Width)
                 {
+                    SetPropertyValue(groupName, propertyName, value);
                     if (value == SizeValue.Expand.ToString() && AllowExpanded())
                     {
                         _selectedContent.Width = double.NaN;
@@ -271,12 +271,11 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value == SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
                             _selectedContent.Width = double.NaN;
-                            SetPropertyValue(groupName, propertyName, SizeValue.Auto.ToString());
                         }
                         else
                         {
@@ -300,7 +299,7 @@ namespace ConceptorUi.ViewModels
                 }
                 else if (propertyName == PropertyNames.Height)
                 {
-                    //Console.WriteLine(@$"Component Name: {Name} -- Width: {value}");
+                    SetPropertyValue(groupName, propertyName, value);
                     if (value == SizeValue.Expand.ToString() && AllowExpanded(false))
                     {
                         _selectedContent.Height = double.NaN;
@@ -311,12 +310,11 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value == SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
                             _selectedContent.Height = double.NaN;
-                            SetPropertyValue(groupName, propertyName, SizeValue.Auto.ToString());
                         }
                         else
                         {
@@ -1092,10 +1090,10 @@ namespace ConceptorUi.ViewModels
             if (compSerializer.Children != null)
             {
                 AddedChildrenCount = compSerializer.Children.Count;
-
+                
                 var components = new List<Component>();
                 var expanded = false;
-
+                
                 foreach (var child in compSerializer.Children)
                 {
                     var component = ComponentHelper.GetComponent(child.Name!);
@@ -1107,7 +1105,7 @@ namespace ConceptorUi.ViewModels
                     var d = component.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
-
+                
                 foreach (var component in components)
                 {
                     AddIntoChildContent(component.ComponentView);
@@ -1117,6 +1115,20 @@ namespace ConceptorUi.ViewModels
             }
             #endregion
             OnInitialize();
+
+            if (Name == ComponentList.Window)
+            {
+                Console.WriteLine($@"Children Count: {Children.Count}");
+                Console.WriteLine($@"Child Name: {Children[0].Name}");
+                Console.WriteLine($@"Children of Child Count: {Children[0].Children.Count}");
+                foreach (var child in Children[0].Children)
+                {
+                    Console.WriteLine($@"Child Name: {child.Name}");
+                    Console.WriteLine($@"Child Width: {child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width)}");
+                    Console.WriteLine($@"Child Height: {child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height)}");
+                    Console.WriteLine($@"Child FillColor: {child.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.FillColor)}");
+                }
+            }
         }
 
         public StructuralElement AddToStructuralView()
@@ -1240,7 +1252,7 @@ namespace ConceptorUi.ViewModels
             // ReSharper disable once VirtualMemberCallInConstructor
             InitChildContent();
             
-            Content = new Border{ Child = ChildContent };
+            Content = new Border();
             _selectedContent = new Border{ Child = Content };
             ComponentView = _selectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;

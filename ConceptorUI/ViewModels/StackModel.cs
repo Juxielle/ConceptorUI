@@ -13,7 +13,7 @@ namespace ConceptorUi.ViewModels
         public StackModel()
         {
             _grid = new Grid();
-            ChildContent = _grid;
+            Content.Child = _grid;
             
             Name = ComponentList.Stack;
         }
