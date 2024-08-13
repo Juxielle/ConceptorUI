@@ -40,15 +40,15 @@ namespace ConceptorUi.ViewModels
             _statusbar.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975", true);
             
             _body.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-            _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
+            _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, "400", true);
             _body.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
             
             _layout.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
             _layout.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
             _layout.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#000000", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "10", true);
+            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#000000", true);
+            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
+            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "10", true);
             
             _layout.OnAdd(_statusbar);
             _layout.OnAdd(_body);

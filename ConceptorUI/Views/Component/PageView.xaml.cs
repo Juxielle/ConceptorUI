@@ -82,7 +82,6 @@ namespace ConceptorUI.Views.Component
                 if (!File.Exists(filePath)) continue;
                 
                 var windowModel = new WindowModel(true);
-                //windowModel.ComponentView.HorizontalAlignment = HorizontalAlignment.Center;
                 windowModel.OnSelectedEvent += OnSelectedHandle!;
                 windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
                 windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
@@ -90,7 +89,6 @@ namespace ConceptorUI.Views.Component
                 var content = new StackPanel
                 {
                     Width = 400,
-                    Background = Brushes.Yellow,
                     Margin = new Thickness(0, 0, 0, 30)
                 };
                 
@@ -157,7 +155,6 @@ namespace ConceptorUI.Views.Component
             var content = new StackPanel
             {
                 Width = 400,
-                Background = Brushes.Yellow,
                 Margin = new Thickness(0, 0, 0, 30)
             };
             
@@ -207,7 +204,6 @@ namespace ConceptorUI.Views.Component
             var content = new StackPanel
             {
                 Width = 400,
-                Background = Brushes.Yellow,
                 Margin = new Thickness(0, 0, 0, 30)
             };
             
@@ -305,11 +301,20 @@ namespace ConceptorUI.Views.Component
         
         private void OnSelectedHandle(object sender, EventArgs e)
         {
+            var values = sender as Dictionary<string, dynamic>;
+            
             foreach (var key in _windows.Keys)
             {
                 if (_windows[key].OnChildSelected())
                     _selectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
+                if(!values!["selected"])
+                    _windows[key].OnUnselected();
             }
+            
+            Console.WriteLine();
+            Console.WriteLine(@$"Component Name: {values!["componentName"]}");
+            Console.WriteLine(@$"Component Selected: {values["selected"]}");
+            Console.WriteLine();
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
@@ -360,7 +365,7 @@ namespace ConceptorUI.Views.Component
         public void OnLoaded(string fileName, int isPage = 0)
         {
             #region Chargement des Composants
-            var sc = SynchronizationContext.Current;
+            //var sc = SynchronizationContext.Current;
             ThreadPool.QueueUserWorkItem(delegate
             {
                 switch (isPage)

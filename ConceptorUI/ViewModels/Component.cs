@@ -118,8 +118,8 @@ namespace ConceptorUi.ViewModels
         
         public void OnSelected()
         {
-            _selectedContent.BorderBrush = Brushes.DodgerBlue;
-            _selectedContent.BorderThickness = new Thickness(1);
+            _selectedContent.BorderBrush = Brushes.SeaGreen;
+            _selectedContent.BorderThickness = new Thickness(0.8);
             
             OnSelectedEvent!.Invoke(
                 new Dictionary<string, dynamic>
@@ -169,10 +169,9 @@ namespace ConceptorUi.ViewModels
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if ((GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
-                 (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child)))) return;
+            if (GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
+               (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child))) return;
             
-            OnSelected();
             OnSelectedEvent!.Invoke(
                 new Dictionary<string, dynamic>
                 {
@@ -182,6 +181,7 @@ namespace ConceptorUi.ViewModels
                 },
                 EventArgs.Empty
             );
+            OnSelected();
         }
 
         private void OnMouseEnter(object sender, MouseEventArgs e)
