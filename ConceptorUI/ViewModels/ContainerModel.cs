@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 
@@ -33,8 +34,7 @@ namespace ConceptorUi.ViewModels
         
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            if((Content.Child as Border)!.Child != null)
-                (Content.Child as Border)!.Child = child;
+            (Content.Child as Border)!.Child ??= child;
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -42,7 +42,7 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
-        protected sealed override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

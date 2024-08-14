@@ -18,7 +18,7 @@ namespace ConceptorUi.ViewModels
             Name = ComponentList.Stack;
         }
 
-        protected override void SelfConstraints()
+        public override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

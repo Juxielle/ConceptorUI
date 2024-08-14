@@ -25,7 +25,7 @@ namespace ConceptorUi.ViewModels
             OnInitialize();
         }
 
-        protected override void SelfConstraints()
+        public override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

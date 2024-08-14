@@ -274,8 +274,10 @@ namespace ConceptorUI.Views.Component
         {
             if (ComponentHelper.IsComponent(componentName))
             {
-                var component = JsonSerializer.Serialize(ComponentHelper.GetComponent(componentName));
-                _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(component, true);
+                
+                var component = ComponentHelper.GetComponent(componentName);
+                var compText = JsonSerializer.Serialize(component.OnSerializer());
+                _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(compText, true);
             }else{}
         }
 
@@ -340,6 +342,7 @@ namespace ConceptorUI.Views.Component
                     EventArgs.Empty
                 );
             }
+            Console.WriteLine($@"Name: {values!["componentName"]} -- Selected: {values!["selected"]}");
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)

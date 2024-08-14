@@ -11,6 +11,7 @@
         Background="Transparent"
         ShowInTaskbar="False"
         Topmost="True"
+        WindowStartupLocation="CenterScreen"
         Title="ColorPicker" Height="680" Width="320">
     
     <Border Background="White" Padding="10" BorderBrush="#8c8c8a" BorderThickness=".5"
@@ -364,7 +365,7 @@
                         AutoToolTipPlacement="BottomRight" AutoToolTipPrecision="2" ValueChanged="ValueChanged"
                         TickFrequency="1" Cursor="Hand" x:Name="SlOpacity"/>
                 <TextBlock Text="100%" Foreground="#666666" HorizontalAlignment="Right"
-                       FontSize="12" x:Name="opacityValue"/>
+                       FontSize="12" x:Name="OpacityValue"/>
             </DockPanel>
 
             <DockPanel DockPanel.Dock="Top" Margin="10 10 10 0">
@@ -387,7 +388,7 @@
                 </Button>
                 
                 <Border DockPanel.Dock="Right" Width="40" Height="40" Background="#6200EA"
-                            HorizontalAlignment="Right" x:Name="colorBox" BorderBrush="#666666" BorderThickness="0.5"/>
+                            HorizontalAlignment="Right" x:Name="ColorBox" BorderBrush="#666666" BorderThickness="0.5"/>
             </DockPanel>
 
             <TextBlock Text="RGB color" DockPanel.Dock="Top" Foreground="#666666"

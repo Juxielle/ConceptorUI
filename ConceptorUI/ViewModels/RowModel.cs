@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
@@ -34,7 +33,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected sealed override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

@@ -100,7 +100,7 @@ namespace ConceptorUi.ViewModels
             }
         }
         
-        protected abstract void SelfConstraints();
+        public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
         protected abstract void WhenTextChanged(string propertyName, string value);
@@ -1052,6 +1052,7 @@ namespace ConceptorUi.ViewModels
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
                 
+                //Console.WriteLine($@"Adding Component Name: {(component.Content.Child as TextBlock)!.Text}");
                 AddIntoChildContent(component.ComponentView);
                 Children.Add(component);
                 
@@ -1563,7 +1564,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.FillColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "#FFE0E0E0",
+                            Value = "#ffffff",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()

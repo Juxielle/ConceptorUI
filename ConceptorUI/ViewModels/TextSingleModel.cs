@@ -9,8 +9,10 @@ namespace ConceptorUi.ViewModels
 {
     internal class TextSingleModel : Component
     {
-        public TextSingleModel()
+        public TextSingleModel(bool allowConstraints = false)
         {
+            OnInit();
+            
             Content.Child = new TextBlock();
             
             Name = ComponentList.TextSingle;
@@ -18,6 +20,8 @@ namespace ConceptorUi.ViewModels
             CanAddIntoChildContent = false;
             ChildContentLimit = 0;
             
+            if (allowConstraints) return;
+            SelfConstraints();
             OnInitialize();
         }
 
@@ -92,20 +96,21 @@ namespace ConceptorUi.ViewModels
             }
         }
 
-        protected override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             /* Appearance */
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Padding, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderWidth, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderRadius, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.FillColor, false);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Padding, false);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderWidth, false);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius, false);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor, false);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }

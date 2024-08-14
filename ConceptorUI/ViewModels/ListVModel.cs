@@ -156,7 +156,7 @@ namespace ConceptorUi.ViewModels
             }
         }
 
-        protected override void SelfConstraints()
+        public override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */

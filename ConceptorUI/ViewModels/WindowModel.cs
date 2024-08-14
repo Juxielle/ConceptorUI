@@ -18,12 +18,6 @@ namespace ConceptorUi.ViewModels
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
-
-            if (!allowConstraints)
-            {
-                SelfConstraints();
-                OnInitialize();
-            }
             
             _statusbar = new ContainerModel();
             _body = new ContainerModel();
@@ -31,24 +25,39 @@ namespace ConceptorUi.ViewModels
             Content.Child = _layout.ComponentView;
             
             if(!allowConstraints) _init();
+
+            if (!allowConstraints)
+            {
+                SelfConstraints();
+                OnInitialize();
+            }
         }
 
         private void _init()
         {
-            _statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Height, "25", true);
-            _statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-            _statusbar.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975", true);
+            _statusbar.SelfConstraints();
+            _statusbar.SetGroupVisibility(GroupNames.Alignment, false);
+            _statusbar.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            _statusbar.SetGroupVisibility(GroupNames.Transform, false);
+            _statusbar.SetGroupVisibility(GroupNames.Text, false);
+            _statusbar.SetGroupVisibility(GroupNames.Shadow, false);
+            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "25");
+            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            _statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
+            _statusbar.OnInitialize();
             
-            _body.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-            _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
-            _body.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
+            _body.SelfConstraints();
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
+            _body.OnInitialize();
             
             _layout.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
             _layout.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
             _layout.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#000000", true);
+            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd", true);
             _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "6", true);
+            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "20", true);
             
             _layout.OnAdd(_statusbar, true);
             _layout.OnAdd(_body, true);
@@ -56,7 +65,7 @@ namespace ConceptorUi.ViewModels
             Children.Add(_layout);
         }
 
-        protected sealed override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             SetGroupVisibility(GroupNames.Global, false);

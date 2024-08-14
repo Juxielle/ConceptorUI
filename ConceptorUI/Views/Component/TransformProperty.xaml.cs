@@ -117,22 +117,12 @@ namespace ConceptorUI.Views.Component
                 case "W":
                     if(value != SizeValue.Old.ToString())
                         HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-                    if (Properties.ComponentName == ComponentList.Icon && WTB.Text != HTB.Text)
-                    {
-                        var vd = value[^1] == '.' ? value[..^1] : value;
-                        HTB.Text = vd;
-                        propertyName = PropertyNames.Width;
-                    }
+                    propertyName = PropertyNames.Width;
                     break;
                 case "H":
                     if (value != SizeValue.Old.ToString())
                         VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-                    if (Properties.ComponentName == ComponentList.Icon && WTB.Text != HTB.Text)
-                    {
-                        var vd = value[^1] == '.' ? value[..^1] : value;
-                        propertyName = PropertyNames.Height;
-                        WTB.Text = vd;
-                    }
+                    propertyName = PropertyNames.Height;
                     break;
                 case "X":
                     propertyName = PropertyNames.X;
@@ -146,7 +136,7 @@ namespace ConceptorUI.Views.Component
             }
             
             if (propertyName == PropertyNames.None) return;
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Transform, propertyName, value[^1] == '.' ? value[..^1] : value},
                 EventArgs.Empty
             );
@@ -189,7 +179,7 @@ namespace ConceptorUI.Views.Component
             }
             
             if (propertyName == PropertyNames.None) return;
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Transform, propertyName, value},
                 EventArgs.Empty
             );
@@ -212,7 +202,7 @@ namespace ConceptorUI.Views.Component
             
             if (propertyName == PropertyNames.None && value != null!) return;
             if(_firstCount > 1 && value != null)
-                OnValueChangedEvent!.Invoke(
+                OnValueChangedEvent?.Invoke(
                     new dynamic[]{GroupNames.Transform, propertyName, value},
                     EventArgs.Empty
                 );

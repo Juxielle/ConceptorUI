@@ -92,12 +92,12 @@ public partial class ColorPicker : IColorPicker
     private void ValueChanged(object sender, EventArgs e)
     {
         var value = (sender as Slider)!.Value.ToString(CultureInfo.InvariantCulture);
-        if (opacityValue != null) opacityValue.Text = value + "%";
-        if (colorBox == null) return;
+        if (OpacityValue != null) OpacityValue.Text = value + "%";
+        if (ColorBox == null) return;
 
         var vd = Convert.ToDouble(value.Replace(",", ".")) / 100;
-        colorBox.Background.Opacity = vd;
-        TbA.Text = colorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
+        ColorBox.Background.Opacity = vd;
+        TbA.Text = ColorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
 
         PreOpacityChangedEvent?.Invoke(vd, EventArgs.Empty);
     }
@@ -115,11 +115,11 @@ public partial class ColorPicker : IColorPicker
         _brush = color.Clone();
         btn.BorderBrush = Brushes.DodgerBlue;
         btn.BorderThickness = new Thickness(4);
-        colorBox.Background = color.Clone();
-        opacityValue.Text = (colorBox.Background.Opacity * 100) + "%";
+        ColorBox.Background = color.Clone();
+        OpacityValue.Text = (ColorBox.Background.Opacity * 100) + "%";
         SlOpacity.Value = 100;
-        SendColorValue(colorBox.Background);
-        LoadColorValue(colorBox.Background, true);
+        SendColorValue(ColorBox.Background);
+        LoadColorValue(ColorBox.Background, true);
     }
 
     private void SendColorValue(Brush color)
@@ -136,7 +136,7 @@ public partial class ColorPicker : IColorPicker
     {
         _canSetFieldColor = false;
         TbHexa.Text = color.ToString();
-        opacityValue.Text = (color.Opacity * 100) + "%";
+        OpacityValue.Text = (color.Opacity * 100) + "%";
         var sb = (SolidColorBrush)color;
         TbR.Text = sb.Color.R.ToString();
         TbG.Text = sb.Color.G.ToString();
@@ -145,7 +145,7 @@ public partial class ColorPicker : IColorPicker
         IsOpened = true;
         
         SelectColor(color);
-        colorBox.Background = color;
+        ColorBox.Background = color;
 
         SlOpacity.Value = opacity * 100;
         
