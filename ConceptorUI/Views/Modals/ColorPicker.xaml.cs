@@ -6,15 +6,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
-using ConceptorUI.Models;
-using ConceptorUI.Views.Component;
 
 namespace ConceptorUI.Views.Modals;
 
 
 public partial class ColorPicker : IColorPicker
 {
-    static ColorPicker? _obj;
+    private static ColorPicker? _obj;
     public string propOriginColor { get; set; }
     private Brush _brush;
     private Button _btnIntermed;
@@ -51,8 +49,8 @@ public partial class ColorPicker : IColorPicker
         };
         LvColors.ItemsSource = _gradientColors;
         
-        LoadColorValue(color, false, opacity);
         InitColors();
+        LoadColorValue(color, false, opacity);
     }
         
     event EventHandler IColorPicker.OnColorSelected
@@ -101,7 +99,7 @@ public partial class ColorPicker : IColorPicker
         colorBox.Background.Opacity = vd;
         TbA.Text = colorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
 
-        PreOpacityChangedEvent!.Invoke(vd, EventArgs.Empty);
+        PreOpacityChangedEvent?.Invoke(vd, EventArgs.Empty);
     }
 
     private void BtnClick(object sender, RoutedEventArgs e)
@@ -126,7 +124,7 @@ public partial class ColorPicker : IColorPicker
 
     private void SendColorValue(Brush color)
     {
-        PreColorSelectedEvent!.Invoke(color, EventArgs.Empty);
+        PreColorSelectedEvent?.Invoke(color, EventArgs.Empty);
         
         if (_btnIntermed == null!) return;
         _btnIntermed.BorderBrush = _brush;
@@ -184,7 +182,7 @@ public partial class ColorPicker : IColorPicker
             LoadColorValue(color!, true);
             _pasteCount = 0;
         }
-        catch (Exception ex)
+        catch (Exception)
         {
             _pasteCount++;
         }

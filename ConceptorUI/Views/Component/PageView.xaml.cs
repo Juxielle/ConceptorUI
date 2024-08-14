@@ -9,11 +9,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Classes;
+using ConceptorUI.Interfaces;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class PageView
+    public partial class PageView : IRefreshPropertiesPanel
     {
         private static PageView? _obj;
         public object Component;
@@ -23,6 +24,9 @@ namespace ConceptorUI.Views.Component
         private int _selectedReport;
 
         private string _copiedComponent;
+        
+        public event EventHandler? OnRefreshPropertyPanelEvent;
+        private readonly object _refreshPropertyPanelLock = new();
 
         public PageView()
         {
@@ -38,6 +42,24 @@ namespace ConceptorUI.Views.Component
         }
 
         public static PageView Instance => _obj == null! ? new PageView() : _obj;
+        
+        event EventHandler IRefreshPropertiesPanel.OnRefreshPropertyPanel
+        {
+            add
+            {
+                lock (_refreshPropertyPanelLock)
+                {
+                    OnRefreshPropertyPanelEvent += value;
+                }
+            }
+            remove
+            {
+                lock (_refreshPropertyPanelLock)
+                {
+                    OnRefreshPropertyPanelEvent -= value;
+                }
+            }
+        }
         
         public void Refresh(object projectObject)
         {
@@ -310,11 +332,14 @@ namespace ConceptorUI.Views.Component
                 if(!values!["selected"])
                     _windows[key].OnUnselected();
             }
-            
-            Console.WriteLine();
-            Console.WriteLine(@$"Component Name: {values!["componentName"]}");
-            Console.WriteLine(@$"Component Selected: {values["selected"]}");
-            Console.WriteLine();
+
+            if (values!["selected"])
+            {
+                OnRefreshPropertyPanelEvent?.Invoke(
+                    values,
+                    EventArgs.Empty
+                );
+            }
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)

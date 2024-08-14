@@ -121,7 +121,7 @@ namespace ConceptorUi.ViewModels
             _selectedContent.BorderBrush = Brushes.SeaGreen;
             _selectedContent.BorderThickness = new Thickness(0.8);
             
-            OnSelectedEvent!.Invoke(
+            OnSelectedEvent?.Invoke(
                 new Dictionary<string, dynamic>
                 {
                     {"selected", true},
@@ -135,7 +135,7 @@ namespace ConceptorUi.ViewModels
 
         public void OnSelectedHandle(object sender, EventArgs e)
         {
-            OnSelectedEvent!.Invoke(
+            OnSelectedEvent?.Invoke(
                 sender,
                 EventArgs.Empty
             );
@@ -172,7 +172,7 @@ namespace ConceptorUi.ViewModels
             if (GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
                (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child))) return;
             
-            OnSelectedEvent!.Invoke(
+            OnSelectedEvent?.Invoke(
                 new Dictionary<string, dynamic>
                 {
                     {"selected", false},
@@ -1011,7 +1011,7 @@ namespace ConceptorUi.ViewModels
             }
         }
 
-        public void OnAdd(Component component)
+        public void OnAdd(Component component, bool isExpanded = false)
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
             component.Parent = this;
@@ -1020,7 +1020,7 @@ namespace ConceptorUi.ViewModels
             AddIntoChildContent(component.ComponentView);
             Children.Add(component);
 
-            var expanded = false;
+            var expanded = isExpanded;
             foreach (var child in Children)
             {
                 var d = child.GetGroupProperties(GroupNames.Transform).GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
@@ -1115,20 +1115,6 @@ namespace ConceptorUi.ViewModels
             }
             #endregion
             OnInitialize();
-
-            if (Name == ComponentList.Window)
-            {
-                Console.WriteLine($@"Children Count: {Children.Count}");
-                Console.WriteLine($@"Child Name: {Children[0].Name}");
-                Console.WriteLine($@"Children of Child Count: {Children[0].Children.Count}");
-                foreach (var child in Children[0].Children)
-                {
-                    Console.WriteLine($@"Child Name: {child.Name}");
-                    Console.WriteLine($@"Child Width: {child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width)}");
-                    Console.WriteLine($@"Child Height: {child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height)}");
-                    Console.WriteLine($@"Child FillColor: {child.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.FillColor)}");
-                }
-            }
         }
 
         public StructuralElement AddToStructuralView()
@@ -1150,7 +1136,7 @@ namespace ConceptorUi.ViewModels
         {
             if (structuralElement.Selected)
             {
-                OnSelectedEvent!.Invoke(
+                OnSelectedEvent?.Invoke(
                     new Dictionary<string, dynamic>
                     {
                         {"selected", false},
@@ -1249,7 +1235,6 @@ namespace ConceptorUi.ViewModels
 
         protected void OnInit()
         {
-            // ReSharper disable once VirtualMemberCallInConstructor
             InitChildContent();
             
             Content = new Border();

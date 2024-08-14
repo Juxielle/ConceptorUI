@@ -99,7 +99,7 @@ public partial class ShadowPanel : IShadow
         
         if (propertyName != PropertyNames.None)
         {
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Shadow, propertyName, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value}, 
                 EventArgs.Empty
             );
@@ -126,7 +126,7 @@ public partial class ShadowPanel : IShadow
         if (cb.IsChecked != false) return;
         BColor.Background = Brushes.Transparent;
         
-        OnValueChangedEvent!.Invoke(
+        OnValueChangedEvent?.Invoke(
             new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent"}, 
             EventArgs.Empty
         );
@@ -136,7 +136,7 @@ public partial class ShadowPanel : IShadow
     {
         BColor.Background = color;
         
-        OnValueChangedEvent!.Invoke(
+        OnValueChangedEvent?.Invoke(
             new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString()}, 
             EventArgs.Empty
         );

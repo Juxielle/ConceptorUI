@@ -311,7 +311,7 @@ namespace ConceptorUI.Views.Component
                     case "BorderStyle":
                         if (_properties.GetValue(PropertyNames.CBorder) == "1")
                         {
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.BorderStyle, comboBox.SelectedIndex.ToString()},
                                 EventArgs.Empty
                             );
@@ -325,7 +325,7 @@ namespace ConceptorUI.Views.Component
             }
             if (idP != PropertyNames.None && _firstCount3 > 0)
             {
-                PreMouseDownEvent!.Invoke(
+                PreMouseDownEvent?.Invoke(
                     new dynamic[]{GroupNames.Appearance, idP, comboBox.SelectedIndex.ToString()},
                     EventArgs.Empty
                 );
@@ -355,7 +355,7 @@ namespace ConceptorUI.Views.Component
                         if (_properties.GetValue(PropertyNames.CMargin) == "1")
                         {
                             found = false;
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture)},
                                 EventArgs.Empty
                             );
@@ -369,7 +369,7 @@ namespace ConceptorUI.Views.Component
                         if (_properties.GetValue(PropertyNames.CPadding) == "1")
                         {
                             found = false;
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture)},
                                 EventArgs.Empty
                             );
@@ -383,7 +383,7 @@ namespace ConceptorUI.Views.Component
                         if (_properties.GetValue(PropertyNames.CBorder) == "1")
                         {
                             found = false;
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.BorderWidth, vd.ToString(CultureInfo.InvariantCulture)},
                                 EventArgs.Empty
                             );
@@ -397,7 +397,7 @@ namespace ConceptorUI.Views.Component
                         if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
                         {
                             found = false;
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.BorderRadius, vd.ToString(CultureInfo.InvariantCulture)},
                                 EventArgs.Empty
                             );
@@ -411,7 +411,7 @@ namespace ConceptorUI.Views.Component
             }
 
             if(found && _firstCount2 >= 4)
-                PreMouseDownEvent!.Invoke(
+                PreMouseDownEvent?.Invoke(
                     new dynamic[]{GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture)},
                     EventArgs.Empty
                 );
@@ -610,7 +610,7 @@ namespace ConceptorUI.Views.Component
                         var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
                         colorPicker.PreColorSelectedEvent += (color, _) =>
                         {
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.BorderColor, color!.ToString()!},
                                 EventArgs.Empty
                             );
@@ -621,12 +621,20 @@ namespace ConceptorUI.Views.Component
                 case "FillColor":
                     if(CFillColor.IsChecked == true)
                     {
-                        MainWindow.Instance.DisplayColorPalette(BFillColor.Background, !ColorPalette.Instance.IsOpened, tag, _opacity);
+                        // MainWindow.Instance.DisplayColorPalette(BFillColor.Background, !ColorPalette.Instance.IsOpened, tag, _opacity);
                         var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
                         colorPicker.PreOpacityChangedEvent += (opacity, _) =>
                         {
-                            PreMouseDownEvent!.Invoke(
+                            PreMouseDownEvent?.Invoke(
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.Opacity, opacity!.ToString()!},
+                                EventArgs.Empty
+                            );
+                        };
+                        
+                        colorPicker.PreColorSelectedEvent += (color, _) =>
+                        {
+                            PreMouseDownEvent?.Invoke(
+                                new dynamic[]{GroupNames.Appearance, PropertyNames.FillColor, color!.ToString()!},
                                 EventArgs.Empty
                             );
                         };
@@ -636,7 +644,7 @@ namespace ConceptorUI.Views.Component
             }
             
             if(!found) return;
-            PreMouseDownEvent!.Invoke(
+            PreMouseDownEvent?.Invoke(
                 new dynamic[]{GroupNames.Appearance, propertyName, value},
                 EventArgs.Empty
             );
@@ -762,7 +770,7 @@ namespace ConceptorUI.Views.Component
             }
             
             if (found && _firstCount > 6)
-                PreMouseDownEvent!.Invoke(
+                PreMouseDownEvent?.Invoke(
                     new dynamic[]{GroupNames.Appearance, propertyName, value},
                     EventArgs.Empty
                 );

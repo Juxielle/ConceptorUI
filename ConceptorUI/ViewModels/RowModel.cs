@@ -693,8 +693,8 @@ namespace ConceptorUi.ViewModels
                 /* Shadow */
 
                 Children[id].OnInitialize();
-                Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1",
-                    true);
+                // Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1",
+                //     true);
             }
 
             var rd = new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) };
@@ -739,7 +739,6 @@ namespace ConceptorUi.ViewModels
             else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString())
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1",
                     true);
-
 
             if ((nl == nc + 1 && vt == "1") || (isDeserialize && vt == "1"))
             {
@@ -862,9 +861,9 @@ namespace ConceptorUi.ViewModels
                 }
             }
             
-            // if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
-            //     Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
-            //         SizeValue.Auto.ToString(), true);
+            if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
+                Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
+                    SizeValue.Auto.ToString(), true);
 
             #endregion
         }

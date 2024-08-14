@@ -194,7 +194,7 @@ namespace ConceptorUI.Views.Component
             textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
             var value = textBox.Text == "" ? "0" : textBox.Text;
             
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Text, propertyName, value[^1] == '.' ? value[..^1] : value},
                 EventArgs.Empty
             );
@@ -222,7 +222,7 @@ namespace ConceptorUI.Views.Component
             if (propertyName == PropertyNames.None) return;
             
             if(_firstCount > 1 && value != null!)
-                OnValueChangedEvent!.Invoke(
+                OnValueChangedEvent?.Invoke(
                     new dynamic[]{GroupNames.Text, propertyName, value},
                     EventArgs.Empty
                 );
@@ -296,7 +296,7 @@ namespace ConceptorUI.Views.Component
 
             if (idP is -1 or 18) return;
             LoadValue(idP, index + "", btnName);
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Text, propertyName, index + ""},
                 EventArgs.Empty
             );
@@ -356,7 +356,7 @@ namespace ConceptorUI.Views.Component
             if (propertyName == PropertyNames.None) return;
             
             LoadValue(idP, index + "", btnName);
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Text, propertyName, index + ""},
                 EventArgs.Empty
             );
@@ -368,7 +368,7 @@ namespace ConceptorUI.Views.Component
             if (cb.IsChecked != false) return;
             BColor.Background = Brushes.Transparent;
             
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Text, PropertyNames.Color, ColorValue.Transparent.ToString()},
                 EventArgs.Empty
             );
@@ -448,7 +448,7 @@ namespace ConceptorUI.Views.Component
         {
             BColor.Background = color;
             
-            OnValueChangedEvent!.Invoke(
+            OnValueChangedEvent?.Invoke(
                 new dynamic[]{GroupNames.Text, PropertyNames.Color, color.ToString()},
                 EventArgs.Empty
             );
