@@ -36,17 +36,27 @@ namespace ConceptorUi.ViewModels
         private void _init()
         {
             _statusbar.SelfConstraints();
+            _statusbar.SetGroupVisibility(GroupNames.Global, false);
             _statusbar.SetGroupVisibility(GroupNames.Alignment, false);
             _statusbar.SetGroupVisibility(GroupNames.SelfAlignment, false);
             _statusbar.SetGroupVisibility(GroupNames.Transform, false);
             _statusbar.SetGroupVisibility(GroupNames.Text, false);
             _statusbar.SetGroupVisibility(GroupNames.Shadow, false);
+            _statusbar.SetGroupVisibility(GroupNames.Appearance, false);
+            _statusbar.SetGroupOnlyVisibility(GroupNames.Appearance);
+            _statusbar.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
             _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "25");
             _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
             _statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
             _statusbar.OnInitialize();
             
             _body.SelfConstraints();
+            _body.SetGroupVisibility(GroupNames.Alignment, false);
+            _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            _body.SetGroupVisibility(GroupNames.Transform, false);
+            _body.SetGroupVisibility(GroupNames.Text, false);
+            _body.SetGroupVisibility(GroupNames.Appearance, false);
+            _body.SetGroupVisibility(GroupNames.Shadow, false);
             _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
             _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
             _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");

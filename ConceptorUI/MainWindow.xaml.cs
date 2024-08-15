@@ -63,6 +63,13 @@ namespace ConceptorUI
             }
         }
 
+        private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (!e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ContentPages) && 
+                !e.OriginalSource.Equals(Pages)) return;
+            PageView.OnUnSelect();
+        }
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (!e.OriginalSource.Equals(ContentPages) && !e.OriginalSource.Equals(Pages)) return;

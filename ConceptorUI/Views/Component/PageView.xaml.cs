@@ -286,20 +286,6 @@ namespace ConceptorUI.Views.Component
             _windows[_project.Space.Reports[_selectedReport].Code].OnUpdated(groupName, propertyName, value);
         }
 
-        public void OnUnselected()
-        {
-            switch (Properties.Instance.SelectedLeftOnglet)
-            {
-                case 1:
-                    foreach (var key in _windows.Keys)
-                        _windows[key].OnUnselected();
-                    break;
-                case 2:
-                    _windows[_project.Space.Reports[_selectedReport].Code].OnUnselected();
-                    break;
-            }
-        }
-
         public void RefreshStructuralView()
         {
             var structuralElement = _windows[_project.Space.Reports[_selectedReport].Code].AddToStructuralView();
@@ -341,8 +327,9 @@ namespace ConceptorUI.Views.Component
                     values,
                     EventArgs.Empty
                 );
+                RefreshStructuralView();
             }
-            Console.WriteLine($@"Name: {values!["componentName"]} -- Selected: {values!["selected"]}");
+            Console.WriteLine($@"Name: {values["componentName"]} -- Selected: {values["selected"]}");
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
@@ -353,6 +340,11 @@ namespace ConceptorUI.Views.Component
         private void OnRefreshStructuralViewHandle(object sender, EventArgs e)
         {
             
+        }
+        
+        public void OnUnSelect()
+        {
+            _windows[_project.Space.Reports[_selectedReport].Code].OnUnselected();
         }
 
         public void OnSaved(int isPage = 0, int index = 0)

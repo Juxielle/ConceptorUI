@@ -84,7 +84,7 @@
         </LinearGradientBrush>
     </Window.Resources>
 
-    <Grid x:Name="Content" Background="#e4e4e4">
+    <Grid x:Name="Content" Background="#e4e4e4" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
         <DockPanel>
             <!--<component:TopPanel DockPanel.Dock="Top"/>-->
 
@@ -97,8 +97,8 @@
             <component:PanelStructuralView Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300" 
                                            Visibility="Collapsed" x:Name="StructuralView"/>
 
-            <Grid Margin="0 0 0 2" x:Name="ContentPages">
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:Name="Pages">
+            <Grid Margin="0 0 0 2" x:Name="ContentPages" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:Name="Pages" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
                         <component:PageView HorizontalAlignment="Center" Margin="60" Visibility="Visible" x:Name="PageView"/>
                         <component:ComponentPage HorizontalAlignment="Center" VerticalAlignment="Center"

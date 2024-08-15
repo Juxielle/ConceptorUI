@@ -1197,6 +1197,34 @@ namespace ConceptorUi.ViewModels
             }
         }
 
+        public void SetGroupOnlyVisibility(GroupNames groupName, bool isVisible = true)
+        {
+            var i = -1;
+            foreach (var group in PropertyGroups!)
+            {
+                i++;
+                if(group.Name != groupName.ToString()) continue;
+                PropertyGroups[i].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
+                return;
+            }
+        }
+
+        public void SetPropertiesOnlyVisibility(GroupNames groupName, bool isVisible = true)
+        {
+            var i = -1;
+            foreach (var group in PropertyGroups!)
+            {
+                i++;
+                if(group.Name != groupName.ToString()) continue;
+                foreach (var property in group.Properties)
+                {
+                    var j = group.Properties.IndexOf(property);
+                    PropertyGroups[i].Properties[j].Visibility = isVisible ? VisibilityValue.Visible.ToString() : VisibilityValue.Collapsed.ToString();
+                }
+                return;
+            }
+        }
+
         public void SetPropertyVisibility(GroupNames groupName, PropertyNames propertyName, bool isVisible = true)
         {
             var i = -1;
