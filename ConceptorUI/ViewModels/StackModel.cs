@@ -22,12 +22,13 @@ namespace ConceptorUi.ViewModels
         public override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
             /* Text */
-            SetGroupVisibility(GroupNames.Text);
+            SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow);
@@ -37,7 +38,6 @@ namespace ConceptorUi.ViewModels
         {
             Children[id].Parent = this;
             /* Global */
-            Children[id].SetGroupVisibility(GroupNames.Global);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
@@ -45,14 +45,12 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             /* Self Alignment */
             /* Transform */
-            Children[id].SetGroupVisibility(GroupNames.Transform);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
             
             /* Appearance */
-            Children[id].SetGroupVisibility(GroupNames.Appearance);
             /* Shadow */
             
             Children[id].OnInitialize();

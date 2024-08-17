@@ -100,11 +100,15 @@ namespace ConceptorUi.ViewModels
         public sealed override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
             /* Transform */
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.HE, false);
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");

@@ -37,13 +37,14 @@ namespace ConceptorUi.ViewModels
         public sealed override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment);
             /* Self Alignment */
             /* Transform */
             SetGroupVisibility(GroupNames.Transform);
             /* Text */
-            SetGroupVisibility(GroupNames.Text);
+            SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow);
@@ -569,8 +570,8 @@ namespace ConceptorUi.ViewModels
                 break;
             }
 
-            if (k != -1 && (nl == nc || (nl == nc + 1 && vt == "1" && k > 0) || (nl == nc + 1 && vb == "1" && k > 0) ||
-                            (nl == nc + 2 && vc == "1" && k > 0)))
+            if (k != -1 && k > 0 &&
+               (nl == nc || (nl == nc + 1 && vt == "1") || (nl == nc + 1 && vb == "1") || (nl == nc + 2 && vc == "1")))
             {
                 if (focus)
                 {
@@ -622,8 +623,8 @@ namespace ConceptorUi.ViewModels
                 break;
             }
 
-            if (k != -1 && (nl == nc || (nl == nc + 1 && vb == "1" && k < nc - 1) ||
-                            (nl == nc + 1 && vt == "1" && k < nc - 1) || (nl == nc + 2 && vc == "1" && k < nc - 1)))
+            if (k != -1 && k < nc - 1 &&
+               (nl == nc || (nl == nc + 1 && vb == "1") || (nl == nc + 1 && vt == "1") || (nl == nc + 2 && vc == "1")))
             {
                 if (focus)
                 {
@@ -664,7 +665,6 @@ namespace ConceptorUi.ViewModels
             {
                 Children[id].Parent = this;
                 /* Global */
-                Children[id].SetGroupVisibility(GroupNames.Global);
                 Children[id].SetPropertyVisibility(GroupNames.Global,
                     IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop, false);
                 Children[id].SetPropertyVisibility(GroupNames.Global,
@@ -673,7 +673,6 @@ namespace ConceptorUi.ViewModels
 
                 /* Content Alignment */
                 /* Self Alignment */
-                Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                     IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
@@ -682,14 +681,12 @@ namespace ConceptorUi.ViewModels
                     IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
 
                 /* Transform */
-                Children[id].SetGroupVisibility(GroupNames.Transform);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
 
                 /* Appearance */
-                Children[id].SetGroupVisibility(GroupNames.Appearance);
                 /* Shadow */
 
                 Children[id].OnInitialize();

@@ -98,7 +98,7 @@ namespace ConceptorUI.Views.Component
                 }
                 else if (prop.Name == PropertyNames.VB.ToString())
                 {
-                    VB.Visibility = Visibility.Visible;
+                    BVB.Visibility = Visibility.Visible;
                     VB.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     VB.Tag = prop.Value;
                 }

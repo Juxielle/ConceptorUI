@@ -164,12 +164,13 @@ namespace ConceptorUi.ViewModels
         public override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
             /* Text */
-            SetGroupVisibility(GroupNames.Text);
+            SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow);
@@ -179,20 +180,17 @@ namespace ConceptorUi.ViewModels
         {
             Children[id].Parent = this;
             /* Global */
-            Children[id].SetGroupVisibility(GroupNames.Global);
             Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, IsVertical ? PropertyNames.MoveRight : PropertyNames.MoveBottom, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             
             /* Content Alignment */
             /* Self Alignment */
-            Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
             
             /* Transform */
-            Children[id].SetGroupVisibility(GroupNames.Transform);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
@@ -201,7 +199,6 @@ namespace ConceptorUi.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.VE : PropertyNames.HE, false);
             
             /* Appearance */
-            Children[id].SetGroupVisibility(GroupNames.Appearance);
             /* Shadow */
             
             Children[id].OnInitialize();
