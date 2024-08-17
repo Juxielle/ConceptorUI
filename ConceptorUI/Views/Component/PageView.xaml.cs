@@ -24,6 +24,8 @@ namespace ConceptorUI.Views.Component
         private int _selectedReport;
 
         private string _copiedComponent;
+        private int _clicCount;
+        private ComponentList _componentName;
         
         public event EventHandler? OnRefreshPropertyPanelEvent;
         private readonly object _refreshPropertyPanelLock = new();
@@ -37,6 +39,7 @@ namespace ConceptorUI.Views.Component
             _project = new Project();
             _windows = new Dictionary<string, WindowModel>();
             _selectedReport = 0;
+            _clicCount = 0;
 
             _copiedComponent = string.Empty;
         }
@@ -328,6 +331,13 @@ namespace ConceptorUI.Views.Component
                     EventArgs.Empty
                 );
                 RefreshStructuralView();
+
+                _clicCount++;
+                _componentName = values["componentName"];
+                if (_componentName == values["componentName"] && _clicCount == 2)
+                {
+                    _clicCount = 0;
+                }
             }
             Console.WriteLine($@"Name: {values["componentName"]} -- Selected: {values["selected"]}");
         }

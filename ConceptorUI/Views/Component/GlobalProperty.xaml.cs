@@ -147,21 +147,19 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Trash;
                     break;
                 case "FilePicker":
-                    if (Properties.ComponentName == ComponentList.Icon)
+                    var dbIcon = new DbIcons();
+                    dbIcon.OnValueChangedEvent += (data, _) =>
                     {
-                        var dbIcon = new DbIcons();
-                        dbIcon.OnValueChangedEvent += (data, _) =>
-                        {
-                            PreMouseDownEvent!.Invoke(
-                                new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, (data! as string)!},
-                                EventArgs.Empty
-                            );
-                        };
-                        
-                        dbIcon.ShowDialog();
-                        allowSend = false;
-                    }
-                    else if (Properties.ComponentName == ComponentList.Image)
+                        PreMouseDownEvent!.Invoke(
+                            new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, (data! as string)!},
+                            EventArgs.Empty
+                        );
+                    };
+                    
+                    dbIcon.ShowDialog();
+                    allowSend = false;
+                    
+                    if (Properties.ComponentName == ComponentList.Image)
                     {
                         var filePath = PickFile();
                         if (filePath == string.Empty) return;

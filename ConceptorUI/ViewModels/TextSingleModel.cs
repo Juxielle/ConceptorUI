@@ -2,6 +2,7 @@
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
+using System.Windows.Input;
 using ConceptorUI.Utils;
 
 
@@ -102,17 +103,24 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
+            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
             /* Transform */
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             /* Text */
             SetGroupVisibility(GroupNames.Text);
+            SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");
             /* Appearance */
             SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Padding, false);
             SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderWidth, false);
             SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius, false);
             SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor, false);
+            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)

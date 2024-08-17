@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 
 namespace ConceptorUi.ViewModels
@@ -43,6 +44,11 @@ namespace ConceptorUi.ViewModels
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.FillColor, false);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
         
         protected override void WhenFileLoaded(string value)

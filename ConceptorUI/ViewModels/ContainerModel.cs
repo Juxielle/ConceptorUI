@@ -1,6 +1,7 @@
 ﻿using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace ConceptorUi.ViewModels
@@ -65,7 +66,7 @@ namespace ConceptorUi.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveTop, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveBottom, false);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            //Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             
             /* Content Alignment */
             /* Self Alignment */
@@ -184,6 +185,11 @@ namespace ConceptorUi.ViewModels
         {
             if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
             OnUpdated(GroupNames.Alignment, PropertyNames.VT, "0", true);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
 
         protected override void WhenFileLoaded(string value)

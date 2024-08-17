@@ -1,4 +1,5 @@
 ﻿using System.Windows;
+using System.Windows.Input;
 using ConceptorUI.Models;
 
 
@@ -78,6 +79,11 @@ namespace ConceptorUi.ViewModels
             SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFF");
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
         
         protected override void WhenFileLoaded(string value)

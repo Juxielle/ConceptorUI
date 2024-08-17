@@ -1,5 +1,6 @@
 ﻿using ConceptorUI.Models;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace ConceptorUi.ViewModels
@@ -66,13 +67,18 @@ namespace ConceptorUi.ViewModels
             _layout.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
             _layout.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
             _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "20", true);
+            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
+            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "20", true);
             
             _layout.OnAdd(_statusbar, true);
             _layout.OnAdd(_body, true);
             
             Children.Add(_layout);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
 
         public sealed override void SelfConstraints()

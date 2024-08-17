@@ -115,6 +115,7 @@ namespace ConceptorUi.ViewModels
         protected abstract void OnMoveRight();
         protected abstract void OnMoveTop();
         protected abstract void OnMoveBottom();
+        protected abstract bool IsSelected(MouseButtonEventArgs e);
         
         public void OnSelected()
         {
@@ -170,7 +171,7 @@ namespace ConceptorUi.ViewModels
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             if (GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) != CanSelectValues.None.ToString() ||
-               (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child))) return;
+               (!e.OriginalSource.Equals(_selectedContent) && !e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
             
             OnSelectedEvent?.Invoke(
                 new Dictionary<string, dynamic>
@@ -742,8 +743,8 @@ namespace ConceptorUi.ViewModels
             {
                 foreach (var prop in group.Properties)
                 {
-                    if (prop.Visibility != VisibilityValue.Visible.ToString())
-                        continue;
+                    // if (prop.Visibility != VisibilityValue.Visible.ToString())
+                    //     continue;
 
                     #region Alignement
                     if (group.Name == GroupNames.SelfAlignment.ToString())
@@ -1260,6 +1261,11 @@ namespace ConceptorUi.ViewModels
             }
 
             return isNull;
+        }
+
+        public string GetId()
+        {
+            return string.Empty;
         }
 
         protected void OnInit()

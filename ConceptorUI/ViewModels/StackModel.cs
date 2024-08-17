@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace ConceptorUi.ViewModels
@@ -109,6 +110,11 @@ namespace ConceptorUi.ViewModels
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
             OnSelected();
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
         
         protected override void WhenWidthChanged(string value)

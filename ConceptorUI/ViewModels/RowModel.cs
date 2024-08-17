@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Input;
 
 
 namespace ConceptorUi.ViewModels
@@ -903,6 +904,11 @@ namespace ConceptorUi.ViewModels
             if (IsVertical)
                 _grid.RowDefinitions[i].Height = dimension;
             else _grid.ColumnDefinitions[i].Width = dimension;
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
         }
     }
 }

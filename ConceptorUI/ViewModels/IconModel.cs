@@ -3,6 +3,7 @@ using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Data;
+using System.Windows.Input;
 using MaterialDesignThemes.Wpf;
 using FontAwesome.WPF;
 
@@ -15,8 +16,10 @@ namespace ConceptorUi.ViewModels
         private readonly PackIcon _materialIcon;
         private readonly ImageAwesome _awesomeIcon;
         
-        public IconModel()
+        public IconModel(bool allowConstraints = false)
         {
+            OnInit();
+
             _grid = new Grid();
             _materialIcon = new PackIcon();
             _awesomeIcon = new ImageAwesome{ Visibility = Visibility.Collapsed };
@@ -30,10 +33,12 @@ namespace ConceptorUi.ViewModels
             CanAddIntoChildContent = false;
             ChildContentLimit = 0;
             
+            if (allowConstraints) return;
+            SelfConstraints();
             OnInitialize();
         }
 
-        public override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             /* Content Alignment */
@@ -49,6 +54,7 @@ namespace ConceptorUi.ViewModels
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderWidth, false);
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderRadius, false);
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.FillColor, false);
+            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
@@ -82,6 +88,11 @@ namespace ConceptorUi.ViewModels
                         break;
                 }
             else BindingOperations.SetBinding(_materialIcon, PackIcon.KindProperty, myBinding);
+        }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return e.OriginalSource.Equals(_materialIcon) || e.OriginalSource.Equals(_awesomeIcon);
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)

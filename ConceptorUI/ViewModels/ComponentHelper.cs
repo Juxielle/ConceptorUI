@@ -8,27 +8,27 @@ internal class ComponentHelper
     
     public static Component GetComponent(string name)
     {
-        if (name == ComponentList.TextSingle.ToString()) 
+        if (name == ComponentList.TextSingle.ToString())
             return new TextSingleModel();
-        if (name == ComponentList.Text.ToString()) 
+        if (name == ComponentList.Text.ToString())
             return new TextSingleModel();
-        if (name == ComponentList.Image.ToString()) 
+        if (name == ComponentList.Image.ToString())
             return new ImageModel();
-        if (name == ComponentList.Column.ToString()) 
+        if (name == ComponentList.Column.ToString())
             return new RowModel(isVertical: false);
-        if (name == ComponentList.Row.ToString()) 
+        if (name == ComponentList.Row.ToString())
             return new RowModel();
-        if (name == ComponentList.Container.ToString()) 
+        if (name == ComponentList.Container.ToString())
             return new ContainerModel();
-        if (name == ComponentList.Icon.ToString()) 
+        if (name == ComponentList.Icon.ToString())
             return new IconModel();
-        if (name == ComponentList.Grid.ToString()) 
+        if (name == ComponentList.Grid.ToString())
             return new GridModel();
-        if (name == ComponentList.Window.ToString()) 
+        if (name == ComponentList.Window.ToString())
             return new WindowModel();
-        if (name == ComponentList.Stack.ToString()) 
+        if (name == ComponentList.Stack.ToString())
             return new StackModel();
-        if (name == ComponentList.ListV.ToString()) 
+        if (name == ComponentList.ListV.ToString())
             return new ListVModel();
         return name == ComponentList.ListH.ToString() ? new ListVModel(isVertical: false) : null!;
     }

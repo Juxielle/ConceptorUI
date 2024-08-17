@@ -37,6 +37,11 @@ namespace ConceptorUi.ViewModels
             if(IsVertical) scrollView!.ScrollToVerticalOffset(scrollView.VerticalOffset - e.Delta);
             else scrollView!.ScrollToHorizontalOffset(scrollView.HorizontalOffset - e.Delta);
         }
+
+        protected override bool IsSelected(MouseButtonEventArgs e)
+        {
+            return false;
+        }
         
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
