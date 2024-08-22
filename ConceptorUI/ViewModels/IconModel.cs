@@ -41,6 +41,7 @@ namespace ConceptorUi.ViewModels
         public sealed override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
@@ -50,11 +51,10 @@ namespace ConceptorUi.ViewModels
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Padding, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderWidth, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderRadius, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.FillColor, false);
-            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
+            SetGroupVisibility(GroupNames.Appearance, false);
+            SetGroupOnlyVisibility(GroupNames.Appearance);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
@@ -63,6 +63,8 @@ namespace ConceptorUi.ViewModels
         {
             var found = false;
             var iValue = Array.Empty<string>();
+            value = value == "0" ? "Apple" : value;
+            
             if (value.Length > 0 && value[0] == '[')
             {
                 iValue = System.Text.Json.JsonSerializer.Deserialize<string[]>(value);

@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
+using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI.Views.Component
@@ -275,7 +276,17 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Color;
                     if (CColor.IsChecked == true)
                     {
-                        MainWindow.Instance.DisplayColorPalette(BColor.Background, !ColorPalette.Instance.IsOpened, tag);
+                        var colorPicker = new ColorPicker(BColor.Background, 1);
+                        colorPicker.PreColorSelectedEvent += (color, _) =>
+                        {
+                            OnValueChangedEvent?.Invoke(
+                                new dynamic[]{GroupNames.Text, PropertyNames.Color, color!.ToString()!},
+                                EventArgs.Empty
+                            );
+                            
+                            BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+                        };
+                        colorPicker.Show();
                     }
                     break;
                 case "DisplayText":

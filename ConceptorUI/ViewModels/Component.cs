@@ -1598,7 +1598,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.FillColor.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "#ffffff",
+                            Value = ColorValue.Transparent.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()

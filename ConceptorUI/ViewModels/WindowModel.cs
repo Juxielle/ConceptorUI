@@ -27,11 +27,9 @@ namespace ConceptorUi.ViewModels
             
             if(!allowConstraints) _init();
 
-            if (!allowConstraints)
-            {
-                SelfConstraints();
-                OnInitialize();
-            }
+            if (allowConstraints) return;
+            SelfConstraints();
+            OnInitialize();
         }
 
         private void _init()
@@ -63,12 +61,12 @@ namespace ConceptorUi.ViewModels
             _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
             _body.OnInitialize();
             
-            _layout.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-            _layout.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
-            _layout.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF", true);
-            _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd", true);
-            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.ShadowDepth, "0", true);
-            // _layout.OnUpdated(GroupNames.Shadow, PropertyNames.BlurRadius, "20", true);
+            _layout.SelfConstraints();
+            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            _layout.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
+            _layout.SetPropertyValue(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd");
+            _layout.OnInitialize();
             
             _layout.OnAdd(_statusbar, true);
             _layout.OnAdd(_body, true);

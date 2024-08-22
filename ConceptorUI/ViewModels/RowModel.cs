@@ -458,14 +458,14 @@ namespace ConceptorUi.ViewModels
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
-            if (Children.Count > 0)
-                for (var k = i; k < Children.Count; k++)
-                {
-                    if (IsVertical) Grid.SetRow(Children[k].ComponentView, fvbc ? k + 1 : k);
-                    else Grid.SetColumn(Children[k].ComponentView, fvbc ? k + 1 : k);
-                }
+            if (Children.Count <= 0) return;
+            for (var k = i; k < Children.Count; k++)
+            {
+                if (IsVertical) Grid.SetRow(Children[k].ComponentView, fvbc ? k + 1 : k);
+                else Grid.SetColumn(Children[k].ComponentView, fvbc ? k + 1 : k);
+            }
 
-            OnSelected();
+            //OnSelected();
         }
 
         protected override void WhenWidthChanged(string value)

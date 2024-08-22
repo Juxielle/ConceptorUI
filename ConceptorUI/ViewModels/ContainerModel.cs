@@ -187,7 +187,7 @@ namespace ConceptorUi.ViewModels
             SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
 
-            OnSelected();
+            //OnSelected();
         }
         
         protected override void WhenWidthChanged(string value)

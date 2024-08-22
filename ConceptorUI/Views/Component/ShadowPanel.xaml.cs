@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
+using ConceptorUI.Views.Modals;
 
 namespace ConceptorUI.Views.Component;
 
@@ -114,7 +115,17 @@ public partial class ShadowPanel : IShadow
             case "ShadowColor":
                 if(CColor.IsChecked == true)
                 {
-                    MainWindow.Instance.DisplayColorPalette(BColor.Background, !ColorPalette.Instance.IsOpened, tag);
+                    var colorPicker = new ColorPicker(BColor.Background, 1);
+                    colorPicker.PreColorSelectedEvent += (color, _) =>
+                    {
+                        OnValueChangedEvent?.Invoke(
+                            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()!},
+                            EventArgs.Empty
+                        );
+                            
+                        BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+                    };
+                    colorPicker.Show();
                 }
                 break;
         }

@@ -107,7 +107,7 @@ namespace ConceptorUi.ViewModels
             Children[i].DetacheSelectedHandle();
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
-            OnSelected();
+            //OnSelected();
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

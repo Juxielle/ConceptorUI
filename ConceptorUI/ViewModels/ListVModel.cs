@@ -86,7 +86,7 @@ namespace ConceptorUi.ViewModels
             Children[i].DetacheSelectedHandle();
             _stack.Children.RemoveAt(i);
             Children.RemoveAt(i);
-            OnSelected();
+            //OnSelected();
         }
         
         protected override void WhenWidthChanged(string value)

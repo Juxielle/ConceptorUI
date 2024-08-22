@@ -605,24 +605,23 @@ namespace ConceptorUI.Views.Component
                     }
                     break;
                 case "BorderC":
-                    if(CBorderC.IsChecked == true)
+                    if(CBorderC.IsChecked == false) return;
+                    var colorPickerB = new ColorPicker(BBorderC.Background, _opacity);
+                    colorPickerB.PreColorSelectedEvent += (color, _) =>
                     {
-                        var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
-                        colorPicker.PreColorSelectedEvent += (color, _) =>
-                        {
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderColor, color!.ToString()!},
-                                EventArgs.Empty
-                            );
-                        };
-                        colorPicker.Show();
-                    }
+                        PreMouseDownEvent?.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.BorderColor, color!.ToString()!},
+                            EventArgs.Empty
+                        );
+                        
+                        BBorderC.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+                    };
+                    colorPickerB.Show();
                     break;
                 case "FillColor":
                     if(CFillColor.IsChecked == true)
                     {
-                        // MainWindow.Instance.DisplayColorPalette(BFillColor.Background, !ColorPalette.Instance.IsOpened, tag, _opacity);
-                        var colorPicker = new ColorPicker(BBorderC.Background, _opacity);
+                        var colorPicker = new ColorPicker(BFillColor.Background, _opacity);
                         colorPicker.PreOpacityChangedEvent += (opacity, _) =>
                         {
                             PreMouseDownEvent?.Invoke(
@@ -637,6 +636,8 @@ namespace ConceptorUI.Views.Component
                                 new dynamic[]{GroupNames.Appearance, PropertyNames.FillColor, color!.ToString()!},
                                 EventArgs.Empty
                             );
+                            
+                            BFillColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
                         };
                         colorPicker.Show();
                     }
