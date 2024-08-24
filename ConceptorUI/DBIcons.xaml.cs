@@ -192,7 +192,7 @@ namespace ConceptorUI
             _selectedIcon = tag;
             
             var myDataObject = new Icon{Code = tag};
-            var myBinding = new Binding("Code");
+            var myBinding = new System.Windows.Data.Binding("Code");
             myBinding.Source = myDataObject;
 
             switch (_selectedTab)
@@ -237,7 +237,7 @@ namespace ConceptorUI
             var text = (sender as TextBox)!.Text;
             
             //if(text.Length < 3) return;
-            _icons = _iconPacks[_selectedTab].Icons;
+            _icons = _iconPacks![_selectedTab].Icons;
 
             if (text.Length != 0)
             {
