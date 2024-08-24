@@ -137,11 +137,23 @@ public partial class DynamicPropertyPanel : IValue
         
         var rowCount = idealRowCount + (diff != 0 ? 1 : 0);
         var lastRowFieldCount = diff;
-        
-        for (var i = 0; i < _properties.Properties.Count; i++)
+
+        var i = 0;
+        var j = 0;
+        var isFound = false;
+
+        while (!isFound)
         {
+            var isExist = false;
+            foreach (var space in _spaceIndex)
+            {
+                if (space[0] == i && space[1] == j)
+                {
+                    
+                }
+            }
         }
 
-        return new[] { 0, 0, 1 };
+        return new[] { i, j, columnSpan };
     }
 }
