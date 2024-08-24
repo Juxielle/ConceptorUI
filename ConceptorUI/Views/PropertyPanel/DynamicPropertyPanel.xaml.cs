@@ -156,4 +156,32 @@ public partial class DynamicPropertyPanel : IValue
 
         return new[] { i, j, columnSpan };
     }
+
+    private int RemainingSpace(int row)
+    {
+        var columnCount = 0;
+        
+        foreach (var space in _spaceIndex)
+        {
+            if(space[0] != row) continue;
+            columnCount += space[2];
+        }
+        
+        return MaxColumns - columnCount;
+    }
+
+    private bool IsColumnExist(int row, int column, int columnSpan)
+    {
+        var found = false;
+        
+        foreach (var space in _spaceIndex)
+        {
+            if ((space[0] != row || space[1] != column) &&
+                (space[0] != row || space[1] + space[2] <= column)) continue;
+            found = true;
+            break;
+        }
+        
+        return found;
+    }
 }
