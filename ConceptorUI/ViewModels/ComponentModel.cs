@@ -19,7 +19,7 @@ namespace ConceptorUi.ViewModels
                 --> La reception du composant envoyé se fait dans une autre méthode
                 --> On effectue une affectation directe des propriétés originales
                 --> Le composant appelant (ca) possède lui egalement une liste des proprétés qu'il a modifiées
-                --> Pour les propriétés modifiées, on fait une affectation des props de ca
+                --> Pour les propriétés modifiées, on fait une affectation directe des props de ca (*)
                 -----------------------------------------------
                 --- En réalité, le ca reçoit la ref entère de co en non seulement ses props
                     --> L'objectif est de construire le ca et ses enfants;
@@ -27,7 +27,7 @@ namespace ConceptorUi.ViewModels
                     --> Il faut aussi appliquer les contraintes de visibilité, de sélection du co, sur les ca;
                     --> A chaque fois qu'une propriété modifiable du ca est modifiée, On envoie le signale dans le modèle des propriétés.
                     
-                --- Reussir à effectuer la copie directe des mises en page:
+                --- Reussir à effectuer la copie directe des mises en page: => Crée un conflit avec (*)
                     --> Lors de la reception du co, on effecte les props et les mises en pages.
                     --> Lorsqu'un co est demandé et qu'il n'est pas encore construit, on le construit d'abord avant de l'envoyer
                     
@@ -37,7 +37,7 @@ namespace ConceptorUi.ViewModels
                     
                 --- Création des 'cos'
                     --> Dans le panel des propriétés, ajouter un bouton de configuration pour chaque groupe;
-                    --> Lorsque ce bouton est cliqué, un modal s'ouvre et affiche un tableau ayant des suivants:
+                    --> Lorsque ce bouton est cliqué, un modal s'ouvre et affiche un tableau ayant des champs suivants:
                         - Nom de la propriétés;
                         - Champ indiquant si la propriété peut être sélectionner dans les ca;
                         - Champ indiquant si la propriété peut être visible dans le ca;
@@ -45,10 +45,10 @@ namespace ConceptorUi.ViewModels
                         - Visibilité naturelle du composant: c'est la visibilité qu'on impose lors de la construction
                           du composant. Même les ca ne peuvent pas la modifier;
                         - Visibilité des ca: cette visibilité permet aux 'cas' de décider de la visibilité des propriétés
-                          naturellement visible.
+                          naturellement visibles.
                 -------------------------------------------------
                 --- Un autre aspect à mettre en place:
-                    --> Mettre en place les modification collective;
+                    --> Mettre en place les modifications collectives;
                     --> Exemple: Dans un bouton, la mise en forme du texte se fait à partir du bouton;
                     --> On ajoute simplement certaines propriétés du texte au bouton;
                     --> Généralisation:

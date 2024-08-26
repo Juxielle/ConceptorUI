@@ -7,18 +7,19 @@ using ConceptorUI.Constants;
 using ConceptorUI.Interfaces;
 using ConceptorUI.Models;
 using ConceptorUI.Views.Widgets;
+using TextAlignment = ConceptorUI.Views.Widgets.TextAlignment;
 
 namespace ConceptorUI.Views.PropertyPanel;
 
 public partial class DynamicPropertyPanel : IValue
 {
     private GroupProperties _properties;
-    private readonly Dictionary<string, List<int>> _subGroupIndex;
+    private readonly Dictionary<string, List<Property>> _subGroups;
     private readonly List<int[]> _spaceIndex;
     private readonly List<int[]> _totalSpaceIndex;
 
-    private int _subGroupCount;
-    private int _propertiesWithoutSubGroupCount;
+    private readonly int _subGroupCount;
+    private readonly int _propertiesWithoutSubGroupCount;
     private const int MaxColumns = 3;
 
     public event EventHandler? OnValueChangedEvent;
@@ -29,7 +30,7 @@ public partial class DynamicPropertyPanel : IValue
         InitializeComponent();
 
         _properties = new GroupProperties();
-        _subGroupIndex = new Dictionary<string, List<int>>();
+        _subGroups = new Dictionary<string, List<Property>>();
         _spaceIndex = new List<int[]>();
         _totalSpaceIndex = new List<int[]>();
 
@@ -60,20 +61,10 @@ public partial class DynamicPropertyPanel : IValue
         _properties = (sender as GroupProperties)!;
         Title.Text = _properties.Name.ToUpper();
 
-        var row = 0;
-        var column = 0;
-
         foreach (var property in _properties.Properties)
         {
-            if (property.SubGroup != PropertyType.None.ToString())
-            {
-                if (_subGroupIndex.ContainsKey(property.SubGroup))
-                    _subGroupIndex[property.SubGroup].Add(_properties.Properties.IndexOf(property));
-                else
-                    _subGroupIndex.Add(property.SubGroup, new List<int> { _properties.Properties.IndexOf(property) });
-                continue;
-            }
-
+            if (property.SubGroup != PropertyType.None.ToString()) continue;
+            
             var field = new FrameworkElement();
 
             if (property.Type == PropertyType.String.ToString() || property.Type == PropertyType.Number.ToString())
@@ -88,40 +79,60 @@ public partial class DynamicPropertyPanel : IValue
             {
                 field = new ColorBox();
             }
+            
+            AddField(field, property.SpaceCount);
+        }
 
-            Grid.SetRow(field, row);
-            Grid.SetColumn(field, column);
-            Grid.SetColumnSpan(field, property.SpaceCount);
-
-            Content.Children.Add(field);
-
-            if (column == 2)
-                Content.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
-            row = column == 2 ? row + 1 : row;
-            column = column == 2 ? 0 : column + property.SpaceCount;
-            /*
-             * Si SpaceCount
-             */
+        BuildSubGroup();
+        foreach (var key in _subGroups.Keys)
+        {
+            var field = new FrameworkElement();
+            
+            if (key == PropertyType.TextAlignment.ToString())
+            {
+                field = new TextAlignment();
+            }
+            else if (key == PropertyType.TextAlignment.ToString())
+            {
+                field = new TextFormat();
+            }
+            else if (key == PropertyType.Expanded.ToString())
+            {
+                field = new ExpandComponent();
+            }
+            
+            AddField(field, _subGroups[key][0].SpaceCount);
         }
     }
 
-    private int BuildSubGroup()
+    private void AddField(FrameworkElement field, int spaceCount)
     {
-        var count = 0;
+        var space = FindVoidSpace(spaceCount);
+        var row = space[0];
+        var column = space[1];
+            
+        if (row >= Content.RowDefinitions.Count)
+            Content.RowDefinitions.Add(new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) });
 
+        Grid.SetRow(field, row);
+        Grid.SetColumn(field, column);
+        Grid.SetColumnSpan(field, spaceCount);
+
+        Content.Children.Add(field);
+    }
+
+    private void BuildSubGroup()
+    {
         foreach (var property in _properties.Properties.Where(property =>
                      property.SubGroup != PropertyType.None.ToString()))
         {
-            if (_subGroupIndex.ContainsKey(property.SubGroup))
-                _subGroupIndex[property.SubGroup].Add(_properties.Properties.IndexOf(property));
+            if (_subGroups.ContainsKey(property.SubGroup))
+                _subGroups[property.SubGroup].Add(property);
             else
             {
-                _subGroupIndex.Add(property.SubGroup, new List<int> { _properties.Properties.IndexOf(property) });
-                count++;
+                _subGroups.Add(property.SubGroup, new List<Property> { property });
             }
         }
-
-        return count;
     }
 
     private int PropertiesWithoutSubGroup()
@@ -131,27 +142,38 @@ public partial class DynamicPropertyPanel : IValue
 
     private int[] FindVoidSpace(int columnSpan)
     {
-        var total = _subGroupCount + _propertiesWithoutSubGroupCount;
-        var idealRowCount = total / MaxColumns;
-        var diff = total - idealRowCount * MaxColumns;
-        
-        var rowCount = idealRowCount + (diff != 0 ? 1 : 0);
-        var lastRowFieldCount = diff;
+        // var total = _subGroupCount + _propertiesWithoutSubGroupCount;
+        // var idealRowCount = total / MaxColumns;
+        // var diff = total - idealRowCount * MaxColumns;
+        //
+        // var rowCount = idealRowCount + (diff != 0 ? 1 : 0);
+        // var lastRowFieldCount = diff;
 
         var i = 0;
         var j = 0;
-        var isFound = false;
 
-        while (!isFound)
+        while (true)
         {
             var isExist = false;
+            var remainingSpace = RemainingSpace(i);
+            
             foreach (var space in _spaceIndex)
             {
-                if (space[0] == i && space[1] == j)
+                if ((space[0] == i && space[1] == j) || (space[0] == i && space[1] + space[2] > j) ||
+                    (space[0] == i && space[1] + space[2] > j && columnSpan > remainingSpace) ||
+                    (space[0] == i && !IsColumnExist(i, j) && columnSpan > remainingSpace))
                 {
-                    
+                    isExist = true;
+                    break;
                 }
             }
+
+            if (isExist)
+            {
+                i = j == MaxColumns - 1 ? i + 1 : i;
+                j = j == MaxColumns - 1 ? 0 : j + 1;
+            }
+            else break;
         }
 
         return new[] { i, j, columnSpan };
@@ -170,7 +192,7 @@ public partial class DynamicPropertyPanel : IValue
         return MaxColumns - columnCount;
     }
 
-    private bool IsColumnExist(int row, int column, int columnSpan)
+    private bool IsColumnExist(int row, int column)
     {
         var found = false;
         
