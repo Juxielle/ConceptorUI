@@ -6,7 +6,7 @@
              xmlns:local="clr-namespace:ConceptorUI.Views.PropertyPanel"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="300" d:DesignWidth="300">
+             d:DesignHeight="200" d:DesignWidth="300">
     <StackPanel>
         <Border BorderBrush="#c2c2c2" Padding="10 5"
                 BorderThickness="0 2 0 2">

@@ -30,7 +30,13 @@ namespace ConceptorUi.ViewModels
                 --- Reussir à effectuer la copie directe des mises en page: => Crée un conflit avec (*)
                     --> Lors de la reception du co, on effecte les props et les mises en pages.
                     --> Lorsqu'un co est demandé et qu'il n'est pas encore construit, on le construit d'abord avant de l'envoyer
-                    
+                    --> Pour resoudre le problème (*), il suffit de ne pas effectuer des affectations directes:
+                        - Lorsqu'il y a une modification du co: On envoie simplement la nouvelles reference
+                        - On peut utiliser simplement le mécanisme de copier-coller pour ajouter et mettre à jour les composants.
+                        - Il va rester de resoudre le probleme des modifications individuelles des cas:
+                            . On peut considerer que les propriétés des co peuvent avoir plusieurs valeurs; Ou bien,
+                            . Lors du changement de reference, on conserve l'ancienne reference pour appliquer les modifications grace aux identifiants.
+                
                 --- Application des contraintes de visibilité et de sélection
                     --> On ne peut pas ajouter ou supprimer un composant dans un ca;
                     --> On ne peut pas modifier la mise en page d'un ca, même si elle est visible.
