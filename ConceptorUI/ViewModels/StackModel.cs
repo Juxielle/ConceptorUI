@@ -15,7 +15,7 @@ namespace ConceptorUi.ViewModels
         {
             _grid = new Grid();
             Content.Child = _grid;
-            
+
             Name = ComponentList.Stack;
         }
 
@@ -41,7 +41,7 @@ namespace ConceptorUi.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
-            
+
             /* Content Alignment */
             /* Self Alignment */
             /* Transform */
@@ -49,41 +49,38 @@ namespace ConceptorUi.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
-            
+
             /* Appearance */
             /* Shadow */
-            
+
             Children[id].OnInitialize();
-            
+
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
+            if (w != SizeValue.Expand.ToString() &&
+                Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
                 Children[id].OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
-            
+
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            if(h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
+            if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
                 Children[id].OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
-            
         }
 
         protected override void WhenTextChanged(string propertyName, string value)
         {
-            
         }
 
         protected override void WhenFileLoaded(string value)
         {
-            
         }
 
         protected override void InitChildContent()
         {
-            
         }
-        
+
         protected override void AddIntoChildContent(FrameworkElement child)
         {
             _grid.Children.Add(child);
@@ -110,39 +107,41 @@ namespace ConceptorUi.ViewModels
             //OnSelected();
         }
 
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
+        }
+
         protected override bool IsSelected(MouseButtonEventArgs e)
         {
             return false;
         }
-        
+
         protected override void WhenWidthChanged(string value)
         {
-            
         }
-        
+
         protected override void WhenHeightChanged(string value)
         {
-            
         }
-        
+
         protected override void OnMoveLeft()
         {
-            
         }
-        
+
         protected override void OnMoveRight()
         {
-            
         }
-        
+
         protected override void OnMoveTop()
         {
-            
         }
-        
+
         protected override void OnMoveBottom()
         {
-            
         }
     }
 }

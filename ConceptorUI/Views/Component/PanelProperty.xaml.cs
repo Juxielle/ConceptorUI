@@ -47,7 +47,7 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        public void FeedProps(object value)
+        public void FeedProps(object value, ComponentList componentName)
         {
             Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility = Grid.Visibility =
             Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
@@ -93,7 +93,7 @@ namespace ConceptorUI.Views.Component
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    Global.FeedProps(group);
+                    Global.FeedProps(group, componentName);
                     Global.Visibility = Visibility.Visible;
                     Global.PreMouseDownEvent += OnValueChangedHandle!;
                 }

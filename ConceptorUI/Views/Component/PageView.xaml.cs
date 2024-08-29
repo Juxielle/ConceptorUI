@@ -20,8 +20,8 @@ namespace ConceptorUI.Views.Component
         public object Component;
         
         private Project _project;
-        private Dictionary<string, WindowModel> _windows;
-        private int _selectedReport;
+        private Dictionary<string, ConceptorUi.ViewModels.Component> _components;
+        public int SelectedReport;
 
         private string _copiedComponent;
         private int _clicCount;
@@ -37,8 +37,8 @@ namespace ConceptorUI.Views.Component
             _obj = this;
             var manageEnums = new ManageEnums();
             _project = new Project();
-            _windows = new Dictionary<string, WindowModel>();
-            _selectedReport = 0;
+            _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
+            SelectedReport = 0;
             _clicCount = 0;
 
             _copiedComponent = string.Empty;
@@ -70,6 +70,8 @@ namespace ConceptorUI.Views.Component
             
             #region Init Space
             var configFile = $"{_project.FolderPath}/config.json";
+            ComponentHelper.ProjectPath = _project.FolderPath;
+            
             try
             {
                 _project = File.Exists(configFile) ? JsonSerializer.Deserialize<Project>(File.ReadAllText(configFile))! : new Project();
@@ -87,7 +89,7 @@ namespace ConceptorUI.Views.Component
             else NewSpace();
             #endregion
             
-            var structuralElement = _windows[_project.Space!.Reports[_selectedReport].Code].AddToStructuralView();
+            var structuralElement = _components[_project.Space!.Reports[SelectedReport].Code].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -129,7 +131,7 @@ namespace ConceptorUI.Views.Component
                 content.Children.Add(title);
                 content.Children.Add(windowModel.ComponentView);
                 page.Children.Add(content);
-                _windows.Add(report.Code, windowModel);
+                _components.Add(report.Code, windowModel);
                 
                 var sc = SynchronizationContext.Current;
                 ThreadPool.QueueUserWorkItem(delegate
@@ -163,7 +165,7 @@ namespace ConceptorUI.Views.Component
                     Date = DateTime.Now,
                     Reports = new List<Report>()
                 };
-                _windows = new Dictionary<string, WindowModel>();
+                _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
             }
             
             _project.Space.Reports.Add(
@@ -175,7 +177,7 @@ namespace ConceptorUI.Views.Component
                 }
             );
             
-            _windows.Add(_project.Space.Reports[^1].Code, windowModel);
+            _components.Add(_project.Space.Reports[^1].Code, windowModel);
                 
             var content = new StackPanel
             {
@@ -224,7 +226,7 @@ namespace ConceptorUI.Views.Component
                 }
             );
             
-            _windows.Add(code, windowModel);
+            _components.Add(code, windowModel);
             
             var content = new StackPanel
             {
@@ -252,22 +254,22 @@ namespace ConceptorUI.Views.Component
 
         public void DeleteReport()
         {
-            _project.Space.Reports.RemoveAt(_selectedReport);
+            _project.Space.Reports.RemoveAt(SelectedReport);
             
-            File.Delete($"{_project.Space.Reports[_selectedReport].Code}.json");
+            File.Delete($"{_project.Space.Reports[SelectedReport].Code}.json");
 
-            _windows[_project.Space.Reports[_selectedReport].Code].OnSelectedEvent -= OnSelectedHandle!;
-            _windows[_project.Space.Reports[_selectedReport].Code].OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
-            _windows[_project.Space.Reports[_selectedReport].Code].OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
+            _components[_project.Space.Reports[SelectedReport].Code].OnSelectedEvent -= OnSelectedHandle!;
+            _components[_project.Space.Reports[SelectedReport].Code].OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
+            _components[_project.Space.Reports[SelectedReport].Code].OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
             
-            _windows.Remove(_project.Space.Reports[_selectedReport].Code);
+            _components.Remove(_project.Space.Reports[SelectedReport].Code);
             
             var n = page.Children.Count;
-            page.Children.RemoveAt(_selectedReport);
+            page.Children.RemoveAt(SelectedReport);
             
             if (n > 1)
             {
-                _selectedReport = 0;
+                SelectedReport = 0;
             }
 
             OnSaved(2);
@@ -277,21 +279,20 @@ namespace ConceptorUI.Views.Component
         {
             if (ComponentHelper.IsComponent(componentName))
             {
-                
                 var component = ComponentHelper.GetComponent(componentName);
                 var compText = JsonSerializer.Serialize(component.OnSerializer());
-                _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(compText, true);
+                _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
             }else{}
         }
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
-            _windows[_project.Space.Reports[_selectedReport].Code].OnUpdated(groupName, propertyName, value);
+            _components[_project.Space.Reports[SelectedReport].Code].OnUpdated(groupName, propertyName, value);
         }
 
         public void RefreshStructuralView()
         {
-            var structuralElement = _windows[_project.Space.Reports[_selectedReport].Code].AddToStructuralView();
+            var structuralElement = _components[_project.Space.Reports[SelectedReport].Code].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -301,27 +302,27 @@ namespace ConceptorUI.Views.Component
 
         public void SelectFromStructuralView()
         {
-            _windows[_project.Space.Reports[_selectedReport].Code].SelectFromStructuralView(StructuralView.Instance.StructuralElement);
+            _components[_project.Space.Reports[SelectedReport].Code].SelectFromStructuralView(StructuralView.Instance.StructuralElement);
         }
 
         public void OnCopyOrPaste(bool isPaste = false)
         {
             if(isPaste)
-                _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(_copiedComponent, isPaste);
+                _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(_copiedComponent, isPaste);
             else
-                _copiedComponent = _windows[_project.Space.Reports[_selectedReport].Code].OnCopyOrPaste(isPaste: isPaste);
+                _copiedComponent = _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(isPaste: isPaste);
         }
         
         private void OnSelectedHandle(object sender, EventArgs e)
         {
             var values = sender as Dictionary<string, dynamic>;
             
-            foreach (var key in _windows.Keys)
+            foreach (var key in _components.Keys)
             {
-                if (_windows[key].OnChildSelected())
-                    _selectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
+                if (_components[key].OnChildSelected())
+                    SelectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
                 if(!values!["selected"])
-                    _windows[key].OnUnselected();
+                    _components[key].OnUnselected();
             }
 
             if (values!["selected"])
@@ -339,7 +340,6 @@ namespace ConceptorUI.Views.Component
                     _clicCount = 0;
                 }
             }
-            Console.WriteLine($@"Name: {values["componentName"]} -- Selected: {values["selected"]}");
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
@@ -354,7 +354,7 @@ namespace ConceptorUI.Views.Component
         
         public void OnUnSelect()
         {
-            _windows[_project.Space.Reports[_selectedReport].Code].OnUnselected();
+            _components[_project.Space.Reports[SelectedReport].Code].OnUnselected();
         }
 
         public void OnSaved(int isPage = 0, int index = 0)
@@ -369,7 +369,7 @@ namespace ConceptorUI.Views.Component
                     {
                         case 0:
                         {
-                            var componentSerializer = _windows[_project.Space.Reports[index].Code].OnSerializer();
+                            var componentSerializer = _components[_project.Space.Reports[index].Code].OnSerializer();
                             var filePath = $"{_project.FolderPath}/pages/{_project.Space.Reports[index].Code}.json";
                             File.Create(filePath).Dispose();
                             
@@ -411,7 +411,7 @@ namespace ConceptorUI.Views.Component
                         windowModel.OnSelectedEvent += OnSelectedHandle!;
                         
                         windowModel.OnDeserializer(compSerializer!);
-                        _windows.Add("unknown", windowModel);
+                        _components.Add("unknown", windowModel);
                         break;
                     }
                     case 2:

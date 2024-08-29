@@ -13,25 +13,23 @@ namespace ConceptorUi.ViewModels
             OnInit();
 
             Content.Child = new Border();
-            
+
             Name = ComponentList.Container;
             ChildContentLimit = 1;
-            
+
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
         }
-        
+
         protected override void WhenTextChanged(string propertyName, string value)
         {
-            
         }
-        
+
         protected override void InitChildContent()
         {
-            
         }
-        
+
         protected override void AddIntoChildContent(FrameworkElement child)
         {
             (Content.Child as Border)!.Child ??= child;
@@ -70,24 +68,25 @@ namespace ConceptorUi.ViewModels
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveTop, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveBottom, false);
             //Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
-            
+
             /* Content Alignment */
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment, false);
-            
+
             /* Transform */
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
-            
+
             /* Appearance */
             /* Shadow */
-            
+
             Children[id].OnInitialize();
-            
+
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            if(w != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
+            if (w != SizeValue.Expand.ToString() &&
+                Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
                 OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
             else
             {
@@ -96,9 +95,9 @@ namespace ConceptorUi.ViewModels
                 var horizontal = hr == "1" ? PropertyNames.HR : (hc == "1" ? PropertyNames.HC : PropertyNames.HL);
                 SetPropertyValue(GroupNames.Alignment, horizontal, "1");
             }
-            
+
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            if(h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
+            if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
                 OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
             else
             {
@@ -108,7 +107,7 @@ namespace ConceptorUi.ViewModels
                 SetPropertyValue(GroupNames.Alignment, vertical, "1");
             }
         }
-        
+
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             if (propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR)
@@ -161,7 +160,8 @@ namespace ConceptorUi.ViewModels
                     {
                         child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
                         if (h == SizeValue.Expand.ToString())
-                            child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
+                            child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
+                                true);
                     }
                     else
                     {
@@ -170,36 +170,44 @@ namespace ConceptorUi.ViewModels
                 }
             }
         }
-        
+
         protected override void Delete()
         {
-            if (Children.Count == 0) return;
-
+            if (Children.Count == 0 || !Children[0].Selected) return;
+            
             Children[0].DetacheSelectedHandle();
             Children.RemoveAt(0);
             (Content.Child as Border)!.Child = null;
-
+            
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HC, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HR, "0");
-
+            
             SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
-
+            
             //OnSelected();
         }
-        
+
         protected override void WhenWidthChanged(string value)
         {
             if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
             OnUpdated(GroupNames.Alignment, PropertyNames.HL, "0", true);
         }
-        
+
         protected override void WhenHeightChanged(string value)
         {
             if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
             OnUpdated(GroupNames.Alignment, PropertyNames.VT, "0", true);
+        }
+
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)
@@ -209,27 +217,22 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenFileLoaded(string value)
         {
-            
         }
-        
+
         protected override void OnMoveLeft()
         {
-            
         }
-        
+
         protected override void OnMoveRight()
         {
-            
         }
-        
+
         protected override void OnMoveTop()
         {
-            
         }
-        
+
         protected override void OnMoveBottom()
         {
-            
         }
     }
 }

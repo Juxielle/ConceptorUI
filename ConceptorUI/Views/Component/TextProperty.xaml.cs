@@ -16,12 +16,14 @@ namespace ConceptorUI.Views.Component
         private static TextProperty? _obj;
         private int _firstCount;
         private GroupProperties _properties;
+        private bool _allowSetField;
         
         public event EventHandler? OnValueChangedEvent;
         private readonly object _valueChangedLock = new();
 
         public TextProperty()
         {
+            _allowSetField = false;
             _firstCount = 0;
             InitializeComponent();
             
@@ -61,6 +63,7 @@ namespace ConceptorUI.Views.Component
             SFontFamily.Visibility = SFontWeight.Visibility = BFontStyle.Visibility = SColor.Visibility =
             SFontSize.Visibility = BListOrd.Visibility = BListNOrd.Visibility = BTabRight.Visibility = SLineSpacing.Visibility = Visibility.Collapsed;
             _properties = (value as GroupProperties)!;
+            _allowSetField = false;
 
             #region
             foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
@@ -172,10 +175,14 @@ namespace ConceptorUI.Views.Component
                 }
             }
             #endregion
+            
+            _allowSetField = true;
         }
 
         private void OnChanged(object sender, EventArgs e)
         {
+            if(!_allowSetField) return;
+
             var textBox = (sender as TextBox)!;
             var tag = textBox.Tag != null ? textBox.Tag.ToString()! : "";
             var propertyName = PropertyNames.None;

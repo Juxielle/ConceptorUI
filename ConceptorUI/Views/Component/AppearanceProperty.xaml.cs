@@ -24,12 +24,14 @@ namespace ConceptorUI.Views.Component
         private GroupProperties _properties;
 
         private double _opacity;
+        private bool _allowSetField;
         
         public event EventHandler? PreMouseDownEvent;
         private readonly object _mouseDownLock = new();
 
         public AppearanceProperty()
         {
+            _allowSetField = false;
             _firstCount = _firstCount2 = _firstCount3 = 0;
             InitializeComponent();
             _obj = this;
@@ -61,6 +63,7 @@ namespace ConceptorUI.Views.Component
             SFillColor.Visibility = SMargin.Visibility = SPadding.Visibility = SBorder.Visibility = SBorderRad.Visibility =
             SBorderRadBtn.Visibility = CBorderRad.Visibility = CFillColor.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
+            _allowSetField = false;
             
             #region
             foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
@@ -296,6 +299,8 @@ namespace ConceptorUI.Views.Component
                 }
             }
             #endregion
+            
+            _allowSetField = true;
         }
 
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
@@ -335,6 +340,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnTextChanged(object sender, EventArgs e)
         {
+            if(!_allowSetField) return;
+            
             var textBox = (sender as TextBox)!;
             var tag = textBox.Tag != null ? textBox.Tag.ToString()! : "";
             var idP = PropertyNames.None;

@@ -571,7 +571,7 @@ namespace ConceptorUi.ViewModels
             }
 
             if (k != -1 && k > 0 &&
-               (nl == nc || (nl == nc + 1 && vt == "1") || (nl == nc + 1 && vb == "1") || (nl == nc + 2 && vc == "1")))
+                (nl == nc || (nl == nc + 1 && vt == "1") || (nl == nc + 1 && vb == "1") || (nl == nc + 2 && vc == "1")))
             {
                 if (focus)
                 {
@@ -624,7 +624,7 @@ namespace ConceptorUi.ViewModels
             }
 
             if (k != -1 && k < nc - 1 &&
-               (nl == nc || (nl == nc + 1 && vb == "1") || (nl == nc + 1 && vt == "1") || (nl == nc + 2 && vc == "1")))
+                (nl == nc || (nl == nc + 1 && vb == "1") || (nl == nc + 1 && vt == "1") || (nl == nc + 2 && vc == "1")))
             {
                 if (focus)
                 {
@@ -857,7 +857,7 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
                 }
             }
-            
+
             if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
                 Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                     SizeValue.Auto.ToString(), true);
@@ -906,6 +906,14 @@ namespace ConceptorUi.ViewModels
         protected override bool IsSelected(MouseButtonEventArgs e)
         {
             return false;
+        }
+
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
         }
     }
 }

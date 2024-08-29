@@ -128,27 +128,22 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "Save":
-                    if(Properties.Instance.SelectedLeftOnglet == 1)
-                        PageView.Instance.OnSaved(0, Properties.Instance.SelectedReport);
-                    else if (Properties.Instance.SelectedLeftOnglet == 2)
-                        PageView.Instance.OnSaved(1, Properties.Instance.SelectedComponent);
+                    PageView.OnSaved(0, PageView.SelectedReport);
                     break;
                 case "PDF":
                     break;
                 case "ADD":
-                    PageView.Instance.NewReport();
+                    PageView.NewReport();
                     break;
                 case "Trash":
-                    PageView.Instance.DeleteReport();
+                    PageView.DeleteReport();
                     break;
             }
         }
 
         private void OnStateChanged(object sender, EventArgs e)
         {
-            var wind = sender as Window;
-            Console.WriteLine(@"Window state: "+ wind!.WindowState);
-            switch (wind.WindowState)
+            switch (WindowState)
             {
                 case WindowState.Maximized:
                     break;
@@ -184,7 +179,8 @@ namespace ConceptorUI
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
         {
             var values = sender as Dictionary<string, dynamic>;
-            RightPanel.FeedProps(values!["propertyGroups"]);
+            
+            RightPanel.FeedProps(values!["propertyGroups"], values["componentName"]);
         }
     }
 }

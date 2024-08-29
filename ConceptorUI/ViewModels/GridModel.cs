@@ -46,6 +46,14 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Shadow, false);
         }
 
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
+        }
+
         protected override bool IsSelected(MouseButtonEventArgs e)
         {
             return false;

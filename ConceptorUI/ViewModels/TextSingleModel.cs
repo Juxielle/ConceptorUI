@@ -13,14 +13,14 @@ namespace ConceptorUi.ViewModels
         public TextSingleModel(bool allowConstraints = false)
         {
             OnInit();
-            
+
             Content.Child = new TextBlock();
-            
+
             Name = ComponentList.TextSingle;
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 0;
-            
+
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
@@ -122,6 +122,14 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Shadow, false);
         }
 
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
+        }
+
         protected override bool IsSelected(MouseButtonEventArgs e)
         {
             return false;
@@ -129,22 +137,18 @@ namespace ConceptorUi.ViewModels
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
-            
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
-            
         }
-        
+
         protected override void InitChildContent()
         {
-            
         }
-        
+
         protected override void AddIntoChildContent(FrameworkElement child)
         {
-            
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -154,42 +158,34 @@ namespace ConceptorUi.ViewModels
 
         protected override void Delete()
         {
-            
         }
-        
+
         protected override void WhenWidthChanged(string value)
         {
-            
         }
-        
+
         protected override void WhenHeightChanged(string value)
         {
-            
         }
 
         protected override void WhenFileLoaded(string value)
         {
-            
         }
-        
+
         protected override void OnMoveLeft()
         {
-            
         }
-        
+
         protected override void OnMoveRight()
         {
-            
         }
-        
+
         protected override void OnMoveTop()
         {
-            
         }
-        
+
         protected override void OnMoveBottom()
         {
-            
         }
     }
 }

@@ -5,7 +5,6 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using ConceptorUI.Constants;
 using ConceptorUI.Interfaces;
 using ConceptorUi.ViewModels;
 
@@ -16,20 +15,22 @@ namespace ConceptorUI.Views.Component
     {
         private static GlobalProperty? _obj;
         private GroupProperties _properties;
-        
+        private ComponentList _componentName;
+
         public event EventHandler? PreMouseDownEvent;
         private readonly object _mouseDownLock = new();
-        
+
         public GlobalProperty()
         {
             InitializeComponent();
-            
+
             _obj = this;
             _properties = new GroupProperties();
+            _componentName = ComponentList.Window;
         }
 
         public static GlobalProperty Instance => _obj == null! ? new GlobalProperty() : _obj;
-        
+
         event EventHandler IGlobal.OnMouseDown
         {
             add
@@ -48,14 +49,16 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        public void FeedProps(object properties)
+        public void FeedProps(object properties, ComponentList componentName)
         {
-            CFocus.Visibility = BMoveParentToChild.Visibility = BMoveChildToParent.Visibility = BTrash.Visibility = 
-            BMoveLeft.Visibility = BMoveTop.Visibility = BMoveRight.Visibility = BMoveBottom.Visibility =
-            BFilePicker.Visibility = BSelectedMode.Visibility = Visibility.Collapsed;
+            CFocus.Visibility = BMoveParentToChild.Visibility = BMoveChildToParent.Visibility = BTrash.Visibility =
+                BMoveLeft.Visibility = BMoveTop.Visibility = BMoveRight.Visibility = BMoveBottom.Visibility =
+                    BFilePicker.Visibility = BSelectedMode.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
-            
-            foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
+            _componentName = componentName;
+
+            foreach (var prop in _properties.Properties.Where(prop =>
+                         prop.Visibility == VisibilityValue.Visible.ToString()))
             {
                 if (prop.Name == PropertyNames.Trash.ToString())
                 {
@@ -65,7 +68,10 @@ namespace ConceptorUI.Views.Component
                 {
                     BSelectedMode.Visibility = Visibility.Visible;
                     SelectedMode.Foreground =
-                        BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(prop.Value == ESelectedMode.Single.ToString() ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
+                        BSelectedMode.BorderBrush =
+                            new BrushConverter().ConvertFrom(prop.Value == ESelectedMode.Single.ToString()
+                                ? "#8c8c8a"
+                                : "#6739b7") as SolidColorBrush;
                 }
                 else if (prop.Name == PropertyNames.FilePicker.ToString())
                 {
@@ -102,22 +108,27 @@ namespace ConceptorUI.Views.Component
                 }
             }
         }
-        
+
         private void BtnClick(object sender, RoutedEventArgs e)
         {
             var tag = (sender as Button)!.Tag.ToString()!;
             var propertyName = PropertyNames.None;
             var sendValue = string.Empty;
             var allowSend = true;
-            
+
             switch (tag)
             {
                 case "SelectedMode":
-                    sendValue = _properties.GetValue(PropertyNames.SelectedMode) == ESelectedMode.Single.ToString() ? 
-                        ESelectedMode.Multiple.ToString() : ESelectedMode.Single.ToString();
+                    sendValue = _properties.GetValue(PropertyNames.SelectedMode) == ESelectedMode.Single.ToString()
+                        ? ESelectedMode.Multiple.ToString()
+                        : ESelectedMode.Single.ToString();
                     propertyName = PropertyNames.SelectedMode;
                     SelectedMode.Foreground =
-                        BSelectedMode.BorderBrush = new BrushConverter().ConvertFrom(sendValue == ESelectedMode.Single.ToString() ? "#8c8c8a" : "#6739b7") as SolidColorBrush; break;
+                        BSelectedMode.BorderBrush =
+                            new BrushConverter().ConvertFrom(sendValue == ESelectedMode.Single.ToString()
+                                ? "#8c8c8a"
+                                : "#6739b7") as SolidColorBrush;
+                    break;
                 case "MoveLeft":
                     sendValue = "0";
                     propertyName = PropertyNames.MoveLeft;
@@ -147,32 +158,35 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Trash;
                     break;
                 case "FilePicker":
-                    var dbIcon = new DbIcons();
-                    dbIcon.OnValueChangedEvent += (data, _) =>
+                    if (_componentName == ComponentList.Icon)
                     {
-                        PreMouseDownEvent!.Invoke(
-                            new dynamic[]{GroupNames.Global, PropertyNames.FilePicker, (data! as string)!},
-                            EventArgs.Empty
-                        );
-                    };
-                    
-                    dbIcon.ShowDialog();
-                    allowSend = false;
-                    
-                    if (Properties.ComponentName == ComponentList.Image)
+                        var dbIcon = new DbIcons();
+                        dbIcon.OnValueChangedEvent += (data, _) =>
+                        {
+                            PreMouseDownEvent!.Invoke(
+                                new dynamic[] { GroupNames.Global, PropertyNames.FilePicker, (data! as string)! },
+                                EventArgs.Empty
+                            );
+                        };
+                        
+                        dbIcon.ShowDialog();
+                        allowSend = false;
+                    }
+                    else if (_componentName == ComponentList.Image)
                     {
                         var filePath = PickFile();
                         if (filePath == string.Empty) return;
-                        
+
                         var fileName = Path.GetFileName(filePath);
                         var path = ComponentHelper.ProjectPath + "/Medias/" + fileName;
-                        
-                        if(!File.Exists(path))
+
+                        if (!File.Exists(path))
                             File.Copy(filePath, path);
-                        
+
                         sendValue = fileName;
                         propertyName = PropertyNames.FilePicker;
                     }
+
                     break;
                 case "Copy":
                     PageView.Instance.OnCopyOrPaste();
@@ -185,14 +199,14 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Paste;
                     break;
             }
-            
-            if(!allowSend) return;
+
+            if (!allowSend) return;
             PreMouseDownEvent!.Invoke(
-                new dynamic[]{GroupNames.Global, propertyName, sendValue}, 
+                new dynamic[] { GroupNames.Global, propertyName, sendValue },
                 EventArgs.Empty
             );
         }
-        
+
         private void OnFocusChecked(object sender, RoutedEventArgs e)
         {
             var tag = (sender as CheckBox)!.Tag == null ? "" : (sender as CheckBox)!.Tag.ToString()!;

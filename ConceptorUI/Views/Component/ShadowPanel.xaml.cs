@@ -13,12 +13,14 @@ public partial class ShadowPanel : IShadow
 { 
     private static ShadowPanel? _obj;
     private GroupProperties _properties;
-        
+    private bool _allowSetField;
+    
     public event EventHandler? OnValueChangedEvent;
     private readonly object _valueChangedLock = new();
 
     public ShadowPanel()
     {
+        _allowSetField = false;
         InitializeComponent();
         _obj = this;
         _properties = new GroupProperties();
@@ -48,6 +50,7 @@ public partial class ShadowPanel : IShadow
     {
         SColor.Visibility = SDepth.Visibility = SRadius.Visibility = SDirection.Visibility = Visibility.Collapsed;
         _properties = (value as GroupProperties)!;
+        _allowSetField = false;
         
         #region
         foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
@@ -75,10 +78,14 @@ public partial class ShadowPanel : IShadow
             }
         }
         #endregion
+            
+        _allowSetField = true;
     }
 
     private void OnChanged(object sender, TextChangedEventArgs e)
     {
+        if(!_allowSetField) return;
+
         var textBox = (sender as TextBox)!;
         var tag = textBox.Tag != null ? textBox.Tag.ToString()! : "";
         var propertyName = PropertyNames.None;

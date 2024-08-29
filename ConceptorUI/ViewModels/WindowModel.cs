@@ -10,22 +10,22 @@ namespace ConceptorUi.ViewModels
         private readonly ContainerModel _statusbar;
         private readonly ContainerModel _body;
         private readonly RowModel _layout;
-        
+
         public WindowModel(bool allowConstraints = false)
         {
             OnInit();
-            
+
             Name = ComponentList.Window;
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
-            
+
             _statusbar = new ContainerModel();
             _body = new ContainerModel();
             _layout = new RowModel();
             Content.Child = _layout.ComponentView;
-            
-            if(!allowConstraints) _init();
+
+            if (!allowConstraints) _init();
 
             if (allowConstraints) return;
             SelfConstraints();
@@ -48,7 +48,7 @@ namespace ConceptorUi.ViewModels
             _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
             _statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
             _statusbar.OnInitialize();
-            
+
             _body.SelfConstraints();
             _body.SetGroupVisibility(GroupNames.Alignment, false);
             _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
@@ -60,17 +60,17 @@ namespace ConceptorUi.ViewModels
             _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
             _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
             _body.OnInitialize();
-            
+
             _layout.SelfConstraints();
             _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
             _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
             _layout.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
             _layout.SetPropertyValue(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd");
             _layout.OnInitialize();
-            
+
             _layout.OnAdd(_statusbar, true);
             _layout.OnAdd(_body, true);
-            
+
             Children.Add(_layout);
         }
 
@@ -98,32 +98,35 @@ namespace ConceptorUi.ViewModels
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
-        
+
+        protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
+        protected override void ContinueToInitialize(string groupName, string propertyName, string value)
+        {
+        }
+
         protected override void WhenFileLoaded(string value)
         {
-            
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
-            
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
-            
         }
 
         protected override void WhenTextChanged(string propertyName, string value)
         {
-            
         }
 
         protected override void InitChildContent()
         {
-            
         }
-        
+
         protected override void AddIntoChildContent(FrameworkElement child)
         {
             Content.Child = child;
@@ -136,37 +139,30 @@ namespace ConceptorUi.ViewModels
 
         protected override void Delete()
         {
-            
         }
-        
+
         protected override void WhenWidthChanged(string value)
         {
-            
         }
-        
+
         protected override void WhenHeightChanged(string value)
         {
-            
         }
-        
+
         protected override void OnMoveLeft()
         {
-            
         }
-        
+
         protected override void OnMoveRight()
         {
-            
         }
-        
+
         protected override void OnMoveTop()
         {
-            
         }
-        
+
         protected override void OnMoveBottom()
         {
-            
         }
     }
 }
