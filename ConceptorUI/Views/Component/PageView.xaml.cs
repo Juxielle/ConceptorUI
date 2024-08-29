@@ -88,7 +88,10 @@ namespace ConceptorUI.Views.Component
             }
             else NewSpace();
             #endregion
-            
+        }
+
+        private void InitStructuralView()
+        {
             var structuralElement = _components[_project.Space!.Reports[SelectedReport].Code].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
@@ -108,11 +111,6 @@ namespace ConceptorUI.Views.Component
                 
                 if (!File.Exists(filePath)) continue;
                 
-                var windowModel = new WindowModel(true);
-                windowModel.OnSelectedEvent += OnSelectedHandle!;
-                windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
-                windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
-                
                 var content = new StackPanel
                 {
                     Width = 400,
@@ -128,11 +126,6 @@ namespace ConceptorUI.Views.Component
                     HorizontalAlignment = HorizontalAlignment.Center
                 };
                 
-                content.Children.Add(title);
-                content.Children.Add(windowModel.ComponentView);
-                page.Children.Add(content);
-                _components.Add(report.Code, windowModel);
-                
                 var sc = SynchronizationContext.Current;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
@@ -141,7 +134,24 @@ namespace ConceptorUI.Views.Component
                     
                     sc!.Post(delegate
                     {
+                        ConceptorUi.ViewModels.Component windowModel = null!;
+                        
+                        if(component.Name == ComponentList.Window.ToString())
+                            windowModel = new WindowModel(true);
+                        else windowModel = new ComponentModel(true);
+                        
+                        windowModel.OnSelectedEvent += OnSelectedHandle!;
+                        windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
+                        windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
+                
+                        content.Children.Add(title);
+                        content.Children.Add(windowModel.ComponentView);
+                        page.Children.Add(content);
+                        _components.Add(report.Code, windowModel);
+                        
                         windowModel.OnDeserializer(component);
+                        
+                        //InitStructuralView();
                     }, null);
                 });
             }
@@ -200,13 +210,15 @@ namespace ConceptorUI.Views.Component
 
             OnSaved();
             OnSaved(2);
+                        
+            InitStructuralView();
             #endregion
         }
         
         public void NewReport()
         {
             #region Adding new Report
-            var windowModel = new WindowModel();
+            var windowModel = new ComponentModel();
             windowModel.OnSelectedEvent += OnSelectedHandle!;
             windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
             windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
