@@ -6,23 +6,23 @@
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
              d:DesignHeight="105" d:DesignWidth="800">
-    <Border Height="105" BorderBrush="#c2c2c2" BorderThickness="0 0 0 2" Background="White" x:Name="content">
+    <Border BorderBrush="#c2c2c2" BorderThickness="0 0 0 2" Background="White" x:Name="content">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="25"/>
                 <RowDefinition Height="40"/>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
 
 
             <TextBlock Text="CONTENT ALIGNMENT" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
                        FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="5" x:Name="Title"/>
-            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="6"
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0" Grid.Column="6"
                     Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="ContentPaste" Width="15" Height="15" Foreground="#8c8c8a"/>
             </Button>
-            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="6"
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0" Grid.Column="6"
                     Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="ContentCopy" Width="15" Height="15" Foreground="#8c8c8a"/>
@@ -79,7 +79,7 @@
                 </Grid>
             </Border>
 
-            <Grid Grid.Row="3" x:Name="gridSpace">
+            <Grid Grid.Row="2" Height="40" x:Name="gridSpace">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="*"/>

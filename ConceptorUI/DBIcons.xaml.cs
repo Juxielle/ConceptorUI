@@ -21,6 +21,7 @@ namespace ConceptorUI
     {
         private string _selectedIcon;
         private int _selectedTab;
+        private int _clicCount;
 
         private bool _allowChangingTab;
         private List<Icon> _icons;
@@ -38,6 +39,7 @@ namespace ConceptorUI
             InitializeComponent();
             
             _selectedTab = 0;
+            _clicCount = 0;
             _icons = new List<Icon>();
             DataContext = this;
 
@@ -167,18 +169,7 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "Select":
-                    if(_selectedIcon != string.Empty)
-                    {
-                        var package = _selectedTab == 0 ? "Material" : "FontAwesome";
-                        var sendValue = new[] { _selectedIcon, package };
-                        
-                        OnValueChangedEvent!.Invoke(
-                            System.Text.Json.JsonSerializer.Serialize(sendValue),
-                            EventArgs.Empty
-                        );
-                    }
-                    _selectedIcon = string.Empty;
-                    Close();
+                    OnIconSelected();
                     break;
                 case "Close":
                     Close();
@@ -194,6 +185,12 @@ namespace ConceptorUI
             var myDataObject = new Icon{Code = tag};
             var myBinding = new System.Windows.Data.Binding("Code");
             myBinding.Source = myDataObject;
+            
+            if (_selectedIcon == tag && _clicCount >= 1)
+                OnIconSelected();
+            else if (_clicCount >= 1)
+                _clicCount = 0;
+            _clicCount++;
 
             switch (_selectedTab)
             {
@@ -253,6 +250,22 @@ namespace ConceptorUI
 
             DataPager.PageIndex = 0;
             _loadPageData();
+        }
+
+        private void OnIconSelected()
+        {
+            if(_selectedIcon != string.Empty)
+            {
+                var package = _selectedTab == 0 ? "Material" : "FontAwesome";
+                var sendValue = new[] { _selectedIcon, package };
+                        
+                OnValueChangedEvent!.Invoke(
+                    System.Text.Json.JsonSerializer.Serialize(sendValue),
+                    EventArgs.Empty
+                );
+            }
+            _selectedIcon = string.Empty;
+            Close();
         }
 
         private void _loadPageData()

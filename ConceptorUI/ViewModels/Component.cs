@@ -29,6 +29,7 @@ namespace ConceptorUi.ViewModels
 
         protected bool IsInComponent = false;
         public bool IsOriginalComponent = false;
+        protected bool IsForceAlignment = false;
 
         public FrameworkElement ComponentView;
         public Component Parent;
@@ -949,7 +950,7 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.MarginBottom.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Margin = new Thickness(Content.Margin.Left, Content.Margin.Top, Content.Margin.Right,
+                        SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top, SelectedContent.Margin.Right,
                             vd);
                     }
                     else if (prop.Name == PropertyNames.Padding.ToString())
@@ -1138,10 +1139,10 @@ namespace ConceptorUi.ViewModels
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
 
-                //Console.WriteLine($@"Adding Component Name: {(component.Content.Child as TextBlock)!.Text}");
                 AddIntoChildContent(component.ComponentView);
                 Children.Add(component);
-
+                
+                IsForceAlignment = true;
                 LayoutConstraints(Children.Count - 1, false, expanded);
             }
             else if (Selected && !isPaste)

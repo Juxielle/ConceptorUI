@@ -46,8 +46,6 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        public static AlignmentProperty Instance => _obj == null! ? new AlignmentProperty() : _obj;
-
         public void Refresh(bool value)
         {
             _isContentAlignment = value;
@@ -55,7 +53,6 @@ namespace ConceptorUI.Views.Component
             
             if (value) return;
             gridSpace.Visibility = Visibility.Collapsed;
-            content.Height = 65;
         }
 
         public void FeedProps(object properties)
@@ -63,6 +60,7 @@ namespace ConceptorUI.Views.Component
             BHL.Visibility = gridSpace.Visibility = BHC.Visibility = BHR.Visibility = BVT.Visibility = 
             BVC.Visibility = BVB.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
+            var allowSpaceAlignment = false;
 
             foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
             {
@@ -109,6 +107,7 @@ namespace ConceptorUI.Views.Component
                     BSB.BorderBrush = BSB1.Foreground = BSB2.Foreground = BSB3.Foreground = BSB4.Foreground = 
                         new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     BSB1.Tag = prop.Value;
+                    allowSpaceAlignment = true;
                 }
                 else if (prop.Name == PropertyNames.SpaceAround.ToString())
                 {
@@ -116,6 +115,7 @@ namespace ConceptorUI.Views.Component
                     BSA.BorderBrush = BSA1.Foreground = BSA2.Foreground = BSA3.Foreground = BSA4.Foreground =
                         new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     BSA1.Tag = prop.Value;
+                    allowSpaceAlignment = true;
                 }
                 else if (prop.Name == PropertyNames.SpaceEvery.ToString())
                 {
@@ -123,8 +123,12 @@ namespace ConceptorUI.Views.Component
                     BSE.BorderBrush = BSE1.Foreground = BSE2.Foreground = BSE3.Foreground = BSE4.Foreground =
                         new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     BSE1.Tag = prop.Value;
+                    allowSpaceAlignment = true;
                 }
             }
+            
+            if (allowSpaceAlignment) return;
+            gridSpace.Visibility = Visibility.Collapsed;
         }
 
         private void BtnClick(object sender, MouseButtonEventArgs e)

@@ -354,75 +354,71 @@ namespace ConceptorUI.Views.Component
             
             double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
             
-            if (_firstCount2 >= 4)
+            switch (tag)
             {
-                switch (tag)
-                {
-                    case "Margin":
-                        if (_properties.GetValue(PropertyNames.CMargin) == "1")
-                        {
-                            found = false;
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture)},
-                                EventArgs.Empty
-                            );
-                        }
-                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginLeft") idP = PropertyNames.MarginLeft;
-                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginTop") idP = PropertyNames.MarginTop;
-                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginRight") idP = PropertyNames.MarginRight;
-                        else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginBottom") idP = PropertyNames.MarginBottom;
-                        break;
-                    case "Padding":
-                        if (_properties.GetValue(PropertyNames.CPadding) == "1")
-                        {
-                            found = false;
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture)},
-                                EventArgs.Empty
-                            );
-                        }
-                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingLeft") idP = PropertyNames.PaddingLeft;
-                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingTop") idP = PropertyNames.PaddingTop;
-                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingRight") idP = PropertyNames.PaddingRight;
-                        else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingBottom") idP = PropertyNames.PaddingBottom;
-                        break;
-                    case "BorderW":
-                        if (_properties.GetValue(PropertyNames.CBorder) == "1")
-                        {
-                            found = false;
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderWidth, vd.ToString(CultureInfo.InvariantCulture)},
-                                EventArgs.Empty
-                            );
-                        }
-                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") idP = PropertyNames.BorderLeftWidth;
-                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") idP = PropertyNames.BorderTopWidth;
-                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") idP = PropertyNames.BorderRightWidth;
-                        else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") idP = PropertyNames.BorderBottomWidth;
-                        break;
-                    case "BorderRad":
-                        if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
-                        {
-                            found = false;
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[]{GroupNames.Appearance, PropertyNames.BorderRadius, vd.ToString(CultureInfo.InvariantCulture)},
-                                EventArgs.Empty
-                            );
-                        }
-                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopLeft") idP = PropertyNames.BorderRadiusTopLeft;
-                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomLeft") idP = PropertyNames.BorderRadiusBottomLeft;
-                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopRight") idP = PropertyNames.BorderRadiusTopRight;
-                        else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomRight") idP = PropertyNames.BorderRadiusBottomRight;
-                        break;
-                }
+                case "Margin":
+                    if (_properties.GetValue(PropertyNames.CMargin) == "1")
+                    {
+                        found = false;
+                        PreMouseDownEvent?.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture)},
+                            EventArgs.Empty
+                        );
+                    }
+                    else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginLeft") idP = PropertyNames.MarginLeft;
+                    else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginTop") idP = PropertyNames.MarginTop;
+                    else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginRight") idP = PropertyNames.MarginRight;
+                    else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginBottom") idP = PropertyNames.MarginBottom;
+                    break;
+                case "Padding":
+                    if (_properties.GetValue(PropertyNames.CPadding) == "1")
+                    {
+                        found = false;
+                        PreMouseDownEvent?.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture)},
+                            EventArgs.Empty
+                        );
+                    }
+                    else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingLeft") idP = PropertyNames.PaddingLeft;
+                    else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingTop") idP = PropertyNames.PaddingTop;
+                    else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingRight") idP = PropertyNames.PaddingRight;
+                    else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingBottom") idP = PropertyNames.PaddingBottom;
+                    break;
+                case "BorderW":
+                    if (_properties.GetValue(PropertyNames.CBorder) == "1")
+                    {
+                        found = false;
+                        PreMouseDownEvent?.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.BorderWidth, vd.ToString(CultureInfo.InvariantCulture)},
+                            EventArgs.Empty
+                        );
+                    }
+                    else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft") idP = PropertyNames.BorderLeftWidth;
+                    else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop") idP = PropertyNames.BorderTopWidth;
+                    else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight") idP = PropertyNames.BorderRightWidth;
+                    else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom") idP = PropertyNames.BorderBottomWidth;
+                    break;
+                case "BorderRad":
+                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
+                    {
+                        found = false;
+                        PreMouseDownEvent?.Invoke(
+                            new dynamic[]{GroupNames.Appearance, PropertyNames.BorderRadius, vd.ToString(CultureInfo.InvariantCulture)},
+                            EventArgs.Empty
+                        );
+                    }
+                    else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopLeft") idP = PropertyNames.BorderRadiusTopLeft;
+                    else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomLeft") idP = PropertyNames.BorderRadiusBottomLeft;
+                    else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopRight") idP = PropertyNames.BorderRadiusTopRight;
+                    else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusBottomRight") idP = PropertyNames.BorderRadiusBottomRight;
+                    break;
             }
 
-            if(found && _firstCount2 >= 4)
+            if(found)
                 PreMouseDownEvent?.Invoke(
                     new dynamic[]{GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture)},
                     EventArgs.Empty
                 );
-            if (_firstCount2 < 5) _firstCount2++;
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
@@ -613,7 +609,7 @@ namespace ConceptorUI.Views.Component
                     break;
                 case "BorderC":
                     if(CBorderC.IsChecked == false) return;
-                    var colorPickerB = new ColorPicker(BBorderC.Background, _opacity);
+                    var colorPickerB = new ColorPicker(BBorderC.Background, 1);
                     colorPickerB.PreColorSelectedEvent += (color, _) =>
                     {
                         PreMouseDownEvent?.Invoke(

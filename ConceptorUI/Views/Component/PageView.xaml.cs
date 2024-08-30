@@ -218,7 +218,7 @@ namespace ConceptorUI.Views.Component
         public void NewReport()
         {
             #region Adding new Report
-            var windowModel = new ComponentModel();
+            var windowModel = new WindowModel();
             windowModel.OnSelectedEvent += OnSelectedHandle!;
             windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
             windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;

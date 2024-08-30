@@ -11,15 +11,21 @@ namespace ConceptorUi.ViewModels
     {
         private readonly Grid _grid;
 
-        public StackModel()
+        public StackModel(bool allowConstraints = false)
         {
+            OnInit();
+            
             _grid = new Grid();
             Content.Child = _grid;
-
+            
             Name = ComponentList.Stack;
+            
+            if (allowConstraints) return;
+            SelfConstraints();
+            OnInitialize();
         }
 
-        public override void SelfConstraints()
+        public sealed override void SelfConstraints()
         {
             /* Global */
             SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
@@ -44,6 +50,9 @@ namespace ConceptorUi.ViewModels
 
             /* Content Alignment */
             /* Self Alignment */
+            Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HC, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
             /* Transform */
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
@@ -56,13 +65,16 @@ namespace ConceptorUi.ViewModels
             Children[id].OnInitialize();
 
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            if (w != SizeValue.Expand.ToString() &&
-                Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
-                Children[id].OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
+            if (w != SizeValue.Expand.ToString() && 
+                (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal") || IsForceAlignment))
+                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
-                Children[id].OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
+            if (h != SizeValue.Expand.ToString() && 
+                (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical") || IsForceAlignment))
+                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+            
+            IsForceAlignment = false;
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
