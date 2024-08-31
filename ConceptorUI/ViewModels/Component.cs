@@ -357,7 +357,16 @@ namespace ConceptorUi.ViewModels
                 else if (propertyName == PropertyNames.MoveParentToChild)
                 {
                     if (Children.Count <= 0) return;
-                    OnUnselected();
+                    
+                    OnSelectedEvent?.Invoke(
+                        new Dictionary<string, dynamic>
+                        {
+                            { "selected", false },
+                            { "propertyGroups", PropertyGroups! },
+                            { "componentName", Name }
+                        },
+                        EventArgs.Empty
+                    );
                     Children[0].OnSelected();
                 }
 

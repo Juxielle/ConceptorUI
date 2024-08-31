@@ -8,33 +8,33 @@ using System.Windows.Media;
 
 namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour ColorPalette.xaml
-    /// </summary>
     public partial class ColorPalette
     {
-        static ColorPalette? _obj;
         public string propOriginColor { get; set; }
         private Brush _brush;
         private Button _btnIntermed;
         public bool IsOpened;
-        private Dictionary<int, string[]> colors;
-        private List<Button> colorButtons;
+        private Dictionary<int, string[]> _colors;
+        private List<Button> _colorButtons;
         private bool _canSetFieldColor;
         private int _pasteCount;
-        private List<ColorModel> _gradientColors;
+        private readonly List<ColorModel> _gradientColors;
+
+        private bool _allowSetValue;
 
         public ColorPalette()
         {
+            _allowSetValue = false;
+
             InitializeComponent();
-            _obj = this;
+            
             propOriginColor = "";
             _brush = null!;
             _btnIntermed = null!;
             IsOpened = false;
             _canSetFieldColor = true;
             _pasteCount = 0;
-            
+
             _gradientColors = new List<ColorModel>
             {
                 new (){ Color = "#6200EA" },
@@ -43,11 +43,11 @@ namespace ConceptorUI.Views.Component
                 new (){ Color = "#6200EA" },
             };
             LvColors.ItemsSource = _gradientColors;
+
+            _allowSetValue = true;
             
             InitColors();
         }
-
-        public static ColorPalette Instance => _obj == null! ? new ColorPalette() : _obj;
 
         private void ValueChanged(object sender, EventArgs e)
         {
@@ -145,6 +145,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
         {
+            if(!_allowSetValue) return;
+            
             var textBox = sender as TextBox;
             var textColor = textBox!.Text;
             
@@ -180,7 +182,7 @@ namespace ConceptorUI.Views.Component
 
         private void SelectColor(Brush color)
         {
-            foreach (var colorButton in colorButtons)
+            foreach (var colorButton in _colorButtons)
             {
                 if (color.ToString().Equals(colorButton.Background.ToString()))
                 {
@@ -199,7 +201,7 @@ namespace ConceptorUI.Views.Component
         {
             #region MyRegion
 
-            colorButtons = new List<Button>
+            _colorButtons = new List<Button>
             {
                 Btn00, Btn01, Btn02, Btn03, Btn04, Btn05, Btn06, Btn07, Btn08, Btn09, Btn010, Btn011, Btn012, Btn013, Btn014,
                 Btn10, Btn11, Btn12, Btn13, Btn14, Btn15, Btn16, Btn17, Btn18, Btn19, Btn110, Btn111, Btn112, Btn113, Btn114,

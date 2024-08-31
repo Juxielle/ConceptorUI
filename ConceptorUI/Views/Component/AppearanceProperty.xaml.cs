@@ -624,6 +624,7 @@ namespace ConceptorUI.Views.Component
                 case "FillColor":
                     if(CFillColor.IsChecked == true)
                     {
+                        //On Essaie de detacher l'evenement avant la fermeture de ColorPicker
                         var colorPicker = new ColorPicker(BFillColor.Background, _opacity);
                         colorPicker.PreOpacityChangedEvent += (opacity, _) =>
                         {

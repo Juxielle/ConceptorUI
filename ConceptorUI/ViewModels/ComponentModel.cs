@@ -12,20 +12,20 @@ namespace ConceptorUi.ViewModels
         public ComponentModel(bool allowConstraints = false)
         {
             OnInit();
-
+            
             Name = ComponentList.Component;
             IsInComponent = true;
             ChildContentLimit = 1;
-
+            
             _body = new ContainerModel();
             Content.Child = _body.ComponentView;
-
+            
             if (!allowConstraints) _init();
-
+            
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
-
+            
             /*
                 --> Demande de la reference du composant dans la liste des composants, grâce à un évenement
                 --> La reception du composant envoyé se fait dans une autre méthode

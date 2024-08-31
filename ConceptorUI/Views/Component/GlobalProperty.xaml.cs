@@ -152,6 +152,7 @@ namespace ConceptorUI.Views.Component
                 case "MoveChildToParent":
                     sendValue = "0";
                     propertyName = PropertyNames.MoveChildToParent;
+                    Console.WriteLine(@$"Passe Bien Ici.");
                     break;
                 case "Trash":
                     sendValue = "0";
