@@ -16,6 +16,7 @@ namespace ConceptorUI.Views.Component
         private static GlobalProperty? _obj;
         private GroupProperties _properties;
         private ComponentList _componentName;
+        private bool _allowSetField;
 
         public event EventHandler? PreMouseDownEvent;
         private readonly object _mouseDownLock = new();
@@ -56,6 +57,7 @@ namespace ConceptorUI.Views.Component
                     BFilePicker.Visibility = BSelectedMode.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
             _componentName = componentName;
+            _allowSetField = false;
 
             foreach (var prop in _properties.Properties.Where(prop =>
                          prop.Visibility == VisibilityValue.Visible.ToString()))
@@ -107,6 +109,7 @@ namespace ConceptorUI.Views.Component
                     BMoveChildToParent.Visibility = Visibility.Visible;
                 }
             }
+            _allowSetField = true;
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
@@ -210,6 +213,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnFocusChecked(object sender, RoutedEventArgs e)
         {
+            if (!_allowSetField) return;
+
             var tag = (sender as CheckBox)!.Tag == null ? "" : (sender as CheckBox)!.Tag.ToString()!;
             try
             {

@@ -13,7 +13,6 @@ namespace ConceptorUI.Views.Component
 {
     public partial class TextProperty : IValue
     {
-        private static TextProperty? _obj;
         private int _firstCount;
         private GroupProperties _properties;
         private bool _allowSetField;
@@ -28,7 +27,6 @@ namespace ConceptorUI.Views.Component
             InitializeComponent();
             
             _properties = new GroupProperties();
-            _obj = this;
 
             foreach (var fontFamily in Fonts.SystemFontFamilies)
             {
@@ -37,8 +35,6 @@ namespace ConceptorUI.Views.Component
                 );
             }
         }
-
-        public static TextProperty Instance => _obj == null! ? new TextProperty() : _obj;
         
         event EventHandler IValue.OnValueChanged
         {
@@ -210,6 +206,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!_allowSetField) return;
+            
             var comboBox = (sender as ComboBox)!;
             var tag = comboBox.Tag != null ? comboBox.Tag.ToString()!: "";
             var propertyName = PropertyNames.None;
@@ -382,6 +380,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnColorChecked(object sender, RoutedEventArgs e)
         {
+            if (!_allowSetField) return;
+            
             var cb = (sender as CheckBox)!;
             if (cb.IsChecked != false) return;
             BColor.Background = Brushes.Transparent;
@@ -460,16 +460,6 @@ namespace ConceptorUI.Views.Component
             {
                 TextWrap.Foreground = BTextWrap.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
             }
-        }
-
-        public void SetColor(Brush color)
-        {
-            BColor.Background = color;
-            
-            OnValueChangedEvent?.Invoke(
-                new dynamic[]{GroupNames.Text, PropertyNames.Color, color.ToString()},
-                EventArgs.Empty
-            );
         }
     }
 }

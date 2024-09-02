@@ -215,6 +215,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!_allowSetField) return;
+            
             var comboBox = (sender as ComboBox)!;
             var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
             var propertyName = PropertyNames.None;

@@ -10,11 +10,11 @@ using ConceptorUI.Views.Modals;
 namespace ConceptorUI.Views.Component;
 
 public partial class ShadowPanel : IShadow
-{ 
+{
     private static ShadowPanel? _obj;
     private GroupProperties _properties;
     private bool _allowSetField;
-    
+
     public event EventHandler? OnValueChangedEvent;
     private readonly object _valueChangedLock = new();
 
@@ -25,9 +25,9 @@ public partial class ShadowPanel : IShadow
         _obj = this;
         _properties = new GroupProperties();
     }
-    
+
     public static ShadowPanel Instance => _obj == null! ? new ShadowPanel() : _obj;
-        
+
     event EventHandler IShadow.OnValueChanged
     {
         add
@@ -45,15 +45,17 @@ public partial class ShadowPanel : IShadow
             }
         }
     }
-    
+
     public void FeedProps(object value)
     {
         SColor.Visibility = SDepth.Visibility = SRadius.Visibility = SDirection.Visibility = Visibility.Collapsed;
         _properties = (value as GroupProperties)!;
         _allowSetField = false;
-        
+
         #region
-        foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
+
+        foreach (var prop in
+                 _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
         {
             if (prop.Name == PropertyNames.ShadowDepth.ToString())
             {
@@ -77,14 +79,15 @@ public partial class ShadowPanel : IShadow
                 TbRadius.Text = prop.Value.Replace(",", ".");
             }
         }
+
         #endregion
-            
+
         _allowSetField = true;
     }
 
     private void OnChanged(object sender, TextChangedEventArgs e)
     {
-        if(!_allowSetField) return;
+        if (!_allowSetField) return;
 
         var textBox = (sender as TextBox)!;
         var tag = textBox.Tag != null ? textBox.Tag.ToString()! : "";
@@ -94,7 +97,7 @@ public partial class ShadowPanel : IShadow
 
         switch (tag)
         {
-            case "Depth": 
+            case "Depth":
                 propertyName = PropertyNames.ShadowDepth;
                 break;
             case "Radius":
@@ -104,11 +107,14 @@ public partial class ShadowPanel : IShadow
                 propertyName = PropertyNames.ShadowDirection;
                 break;
         }
-        
+
         if (propertyName != PropertyNames.None)
         {
             OnValueChangedEvent?.Invoke(
-                new dynamic[]{GroupNames.Shadow, propertyName, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value}, 
+                new dynamic[]
+                {
+                    GroupNames.Shadow, propertyName, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value
+                },
                 EventArgs.Empty
             );
         }
@@ -120,32 +126,35 @@ public partial class ShadowPanel : IShadow
         switch (tag)
         {
             case "ShadowColor":
-                if(CColor.IsChecked == true)
+                if (CColor.IsChecked == true)
                 {
                     var colorPicker = new ColorPicker(BColor.Background, 1);
                     colorPicker.PreColorSelectedEvent += (color, _) =>
                     {
                         OnValueChangedEvent?.Invoke(
-                            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()!},
+                            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()! },
                             EventArgs.Empty
                         );
-                            
+
                         BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
                     };
                     colorPicker.Show();
                 }
+
                 break;
         }
     }
 
     private void OnColorChecked(object sender, RoutedEventArgs e)
     {
+        if (!_allowSetField) return;
+
         var cb = (sender as CheckBox)!;
         if (cb.IsChecked != false) return;
         BColor.Background = Brushes.Transparent;
-        
+
         OnValueChangedEvent?.Invoke(
-            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, "Transparent"}, 
+            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, ColorValue.Transparent.ToString() },
             EventArgs.Empty
         );
     }
@@ -153,9 +162,9 @@ public partial class ShadowPanel : IShadow
     public void SetColor(Brush color, int id)
     {
         BColor.Background = color;
-        
+
         OnValueChangedEvent?.Invoke(
-            new dynamic[]{GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString()}, 
+            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString() },
             EventArgs.Empty
         );
     }
