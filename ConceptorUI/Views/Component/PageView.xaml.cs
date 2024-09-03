@@ -339,6 +339,7 @@ namespace ConceptorUI.Views.Component
 
             if (values!["selected"])
             {
+                Console.WriteLine(@$"Passe Bien Ici. Name: {values["componentName"]}");
                 OnRefreshPropertyPanelEvent?.Invoke(
                     values,
                     EventArgs.Empty
