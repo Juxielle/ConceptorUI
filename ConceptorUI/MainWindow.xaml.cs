@@ -174,7 +174,7 @@ namespace ConceptorUI
         {
             var infos = sender as dynamic[];
             PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
-            Console.WriteLine(@$"Passe Bien Ici. groupName: {(GroupNames)infos![0]} -- propertyName: {(PropertyNames)infos[1]} -- value: {infos[2]}");
+            Console.WriteLine(@$"GroupName: {(GroupNames)infos[0]} -- PropertyName: {(PropertyNames)infos[1]} -- Value: {infos[2]}");
         }
         
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
