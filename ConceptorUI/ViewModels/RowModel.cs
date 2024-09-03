@@ -465,7 +465,7 @@ namespace ConceptorUi.ViewModels
                 else Grid.SetColumn(Children[k].ComponentView, fvbc ? k + 1 : k);
             }
 
-            //OnSelected();
+            OnSelected();
         }
 
         protected override void WhenWidthChanged(string value)

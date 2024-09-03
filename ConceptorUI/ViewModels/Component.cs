@@ -138,7 +138,7 @@ namespace ConceptorUi.ViewModels
             Selected = true;
         }
 
-        public void OnSelectedHandle(object sender, EventArgs e)
+        private void OnSelectedHandle(object sender, EventArgs e)
         {
             OnSelectedEvent?.Invoke(
                 sender,

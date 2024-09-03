@@ -26,8 +26,6 @@ namespace ConceptorUI.Views.Component
             Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
             Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
         }
-
-        public static PanelProperty Instance => _obj == null! ? new PanelProperty() : _obj;
         
         event EventHandler IValue.OnValueChanged
         {
@@ -59,30 +57,35 @@ namespace ConceptorUI.Views.Component
                 {
                     Align.FeedProps(group);
                     Align.Visibility = Visibility.Visible;
+                    Align.PreMouseDownEvent -= OnValueChangedHandle!;
                     Align.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
                     AlignSelf.FeedProps(group);
                     AlignSelf.Visibility = Visibility.Visible;
+                    AlignSelf.PreMouseDownEvent -= OnValueChangedHandle!;
                     AlignSelf.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
                     Transform.FeedProps(group);
                     Transform.Visibility = Visibility.Visible;
+                    Transform.OnValueChangedEvent -= OnValueChangedHandle!;
                     Transform.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Text.ToString())
                 {
                     Text.FeedProps(group);
                     Text.Visibility = Visibility.Visible;
+                    Text.OnValueChangedEvent -= OnValueChangedHandle!;
                     Text.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
                     Appearance.FeedProps(group);
                     Appearance.Visibility = Visibility.Visible;
+                    Appearance.PreMouseDownEvent -= OnValueChangedHandle!;
                     Appearance.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
@@ -95,12 +98,14 @@ namespace ConceptorUI.Views.Component
                 {
                     Global.FeedProps(group, componentName);
                     Global.Visibility = Visibility.Visible;
+                    Global.PreMouseDownEvent -= OnValueChangedHandle!;
                     Global.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Shadow.ToString())
                 {
                     Shadow.FeedProps(group);
                     Shadow.Visibility = Visibility.Visible;
+                    Shadow.OnValueChangedEvent -= OnValueChangedHandle!;
                     Shadow.OnValueChangedEvent += OnValueChangedHandle!;
                 }
             }

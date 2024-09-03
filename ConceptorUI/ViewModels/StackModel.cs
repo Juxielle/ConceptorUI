@@ -116,7 +116,8 @@ namespace ConceptorUi.ViewModels
             Children[i].DetacheSelectedHandle();
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
-            //OnSelected();
+            
+            OnSelected();
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)

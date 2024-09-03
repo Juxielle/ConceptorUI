@@ -13,7 +13,6 @@ namespace ConceptorUI.Views.Component
 {
     public partial class GlobalProperty : IGlobal
     {
-        private static GlobalProperty? _obj;
         private GroupProperties _properties;
         private ComponentList _componentName;
         private bool _allowSetField;
@@ -25,12 +24,9 @@ namespace ConceptorUI.Views.Component
         {
             InitializeComponent();
 
-            _obj = this;
             _properties = new GroupProperties();
             _componentName = ComponentList.Window;
         }
-
-        public static GlobalProperty Instance => _obj == null! ? new GlobalProperty() : _obj;
 
         event EventHandler IGlobal.OnMouseDown
         {
@@ -118,7 +114,7 @@ namespace ConceptorUI.Views.Component
             var propertyName = PropertyNames.None;
             var sendValue = string.Empty;
             var allowSend = true;
-
+            
             switch (tag)
             {
                 case "SelectedMode":
@@ -155,7 +151,6 @@ namespace ConceptorUI.Views.Component
                 case "MoveChildToParent":
                     sendValue = "0";
                     propertyName = PropertyNames.MoveChildToParent;
-                    Console.WriteLine(@$"Passe Bien Ici.");
                     break;
                 case "Trash":
                     sendValue = "0";
