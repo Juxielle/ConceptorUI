@@ -13,15 +13,15 @@ namespace ConceptorUI.Views.Modals;
 public partial class ColorPicker : IColorPicker
 {
     private static ColorPicker? _obj;
-    public string propOriginColor { get; set; }
+    public string PropOriginColor { get; set; }
     private Brush _brush;
     private Button _btnIntermed;
     public bool IsOpened;
     private Dictionary<int, string[]> _colors;
-    private List<Button> colorButtons;
+    private List<Button> _colorButtons;
     private bool _canSetFieldColor;
     private int _pasteCount;
-    private List<ColorModel> _gradientColors;
+    private readonly List<ColorModel> _gradientColors;
         
     public event EventHandler? PreColorSelectedEvent;
     private readonly object _colorSelectedLock = new();
@@ -33,7 +33,7 @@ public partial class ColorPicker : IColorPicker
     {
         InitializeComponent();
         _obj = this;
-        propOriginColor = "";
+        PropOriginColor = "";
         _brush = null!;
         _btnIntermed = null!;
         IsOpened = false;
@@ -42,6 +42,14 @@ public partial class ColorPicker : IColorPicker
         
         _gradientColors = new List<ColorModel>
         {
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
+            new (){ Color = "#6200EA" },
             new (){ Color = "#6200EA" },
             new (){ Color = "#6200EA" },
             new (){ Color = "#6200EA" },
@@ -196,7 +204,7 @@ public partial class ColorPicker : IColorPicker
 
     private void SelectColor(Brush color)
     {
-        foreach (var colorButton in colorButtons)
+        foreach (var colorButton in _colorButtons)
         {
             if (color.ToString().Equals(colorButton.Background.ToString()))
             {
@@ -214,7 +222,7 @@ public partial class ColorPicker : IColorPicker
     private void InitColors()
     {
         #region MyRegion
-        colorButtons = new List<Button>
+        _colorButtons = new List<Button>
         {
             Btn00, Btn01, Btn02, Btn03, Btn04, Btn05, Btn06, Btn07, Btn08, Btn09, Btn010, Btn011, Btn012, Btn013, Btn014,
             Btn10, Btn11, Btn12, Btn13, Btn14, Btn15, Btn16, Btn17, Btn18, Btn19, Btn110, Btn111, Btn112, Btn113, Btn114,

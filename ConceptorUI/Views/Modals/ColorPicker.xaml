@@ -47,9 +47,9 @@
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
                                 <Setter Property="Background" TargetName="BackBorder"
-                                        Value="Aquamarine" />
-                                <Setter Property="Foreground" Value="DodgerBlue" />
-                                <Setter Property="FontWeight" Value="Bold" />
+                                        Value="#bcbebe" />
+                                <Setter Property="Foreground" Value="White" />
+                                <Setter Property="FontWeight" Value="Light" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -68,14 +68,13 @@
             <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-
         <Border Grid.Column="0" Grid.Row="1" Background="White"
                 Padding="10"
                 BorderBrush="#8c8c8a"
                 BorderThickness=".5"
                 CornerRadius="4">
             <StackPanel>
-                <StackPanel Height="125">
+                <StackPanel Height="130">
                     <TabControl Background="Transparent" BorderThickness="0">
                         <TabItem>
                             <TabItem.HeaderTemplate>
@@ -1037,41 +1036,58 @@
                 </StackPanel>
 
                 <DockPanel>
-                    <TextBlock Text="Opacity"
-                               DockPanel.Dock="Top"
-                               Foreground="#666666"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               Margin="10 10 10 0" />
-
-                    <DockPanel DockPanel.Dock="Top" Margin="10 4">
-                        <Slider Width="220"
-                                Value="100"
-                                Orientation="Horizontal"
-                                HorizontalAlignment="Center"
-                                IsSnapToTickEnabled="True"
-                                Minimum="0"
-                                Maximum="100"
-                                TickPlacement="BottomRight"
-                                AutoToolTipPlacement="BottomRight"
-                                AutoToolTipPrecision="2"
-                                ValueChanged="ValueChanged"
-                                TickFrequency="1"
-                                Cursor="Hand"
-                                x:Name="SlOpacity" />
-                        <TextBlock Text="100%"
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Opacity"
                                    Foreground="#666666"
-                                   HorizontalAlignment="Right"
-                                   FontSize="12"
-                                   x:Name="OpacityValue" />
-                    </DockPanel>
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   Margin="0 0 10 0" />
 
-                    <DockPanel DockPanel.Dock="Top" Margin="10 10 10 0">
-                        <DockPanel>
+                        <Grid>
+                            <StackPanel Orientation="Horizontal"
+                                        Margin="5 4"
+                                        HorizontalAlignment="Left">
+                                <Slider Width="180"
+                                        Value="100"
+                                        Orientation="Horizontal"
+                                        HorizontalAlignment="Center"
+                                        IsSnapToTickEnabled="True"
+                                        Minimum="0"
+                                        Maximum="100"
+                                        TickPlacement="BottomRight"
+                                        AutoToolTipPlacement="BottomRight"
+                                        AutoToolTipPrecision="2"
+                                        ValueChanged="ValueChanged"
+                                        TickFrequency="1"
+                                        Cursor="Hand"
+                                        Margin="-10 0 0 0"
+                                        x:Name="SlOpacity" />
+
+                                <TextBlock Text="100%"
+                                           Foreground="#666666"
+                                           HorizontalAlignment="Right"
+                                           FontSize="12"
+                                           Margin="5 0"
+                                           x:Name="OpacityValue" />
+                            </StackPanel>
+
+                            <Border DockPanel.Dock="Right"
+                                    Width="30"
+                                    Height="30"
+                                    Background="#6200EA"
+                                    HorizontalAlignment="Right"
+                                    x:Name="ColorBox"
+                                    BorderBrush="#666666"
+                                    BorderThickness="0.5" />
+                        </Grid>
+                    </StackPanel>
+
+                    <Grid DockPanel.Dock="Top" Margin="0 10 0 0">
+                        <StackPanel HorizontalAlignment="Left">
                             <TextBlock Text="Hexadecimal color"
                                        DockPanel.Dock="Top"
                                        Foreground="#666666"
-                                       FontSize="12"
+                                       FontSize="10"
                                        FontWeight="Bold" />
                             <TextBox Text="#000000"
                                      Height="Auto"
@@ -1086,53 +1102,48 @@
                                      Padding="0 2"
                                      FontWeight="Bold"
                                      x:Name="TbHexa" />
-                        </DockPanel>
+                        </StackPanel>
 
-                        <Border DockPanel.Dock="Right"
-                                Width="40"
-                                Height="40"
-                                Background="#6200EA"
-                                HorizontalAlignment="Right"
-                                x:Name="ColorBox"
-                                BorderBrush="#666666"
-                                BorderThickness="0.5" />
-                    </DockPanel>
+                        <StackPanel HorizontalAlignment="Right">
+                            <TextBlock Text="RGB color"
+                                       Foreground="#666666"
+                                       FontSize="10"
+                                       FontWeight="Bold"
+                                       Margin="10 0 0 0" />
 
-                    <TextBlock Text="RGB color" DockPanel.Dock="Top" Foreground="#666666"
-                               FontSize="10" FontWeight="Bold" Margin="10 10 10 0" />
-                    <DockPanel DockPanel.Dock="Top" Margin="10 4 10 10">
-                        <StackPanel Orientation="Horizontal">
-                                <Border Background="Red"
-                                        Width="12"
-                                        BorderThickness="1"
-                                        BorderBrush="Red">
+                            <DockPanel Margin="10 0 0 10">
+                                <StackPanel Orientation="Horizontal">
+                                    <Border Background="Red"
+                                            Width="12"
+                                            BorderThickness="1"
+                                            BorderBrush="Red">
                                         <TextBlock Text="R"
                                                    Foreground="#ffffff"
                                                    FontSize="12"
                                                    HorizontalAlignment="Center"
-                                                   VerticalAlignment="Center"/>
-                                </Border>
-                                <TextBox Text="255"
-                                         Width="24"
-                                         BorderBrush="Red"
-                                         BorderThickness="1"
-                                         Foreground="Red"
-                                         FontSize="10"
-                                         Padding="0 2"
-                                         HorizontalContentAlignment="Center"
-                                         x:Name="TbR" />
-                        </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal">
+                                                   VerticalAlignment="Center" />
+                                    </Border>
+                                    <TextBox Text="255"
+                                             Width="24"
+                                             BorderBrush="Red"
+                                             BorderThickness="1"
+                                             Foreground="Red"
+                                             FontSize="10"
+                                             Padding="0 2"
+                                             HorizontalContentAlignment="Center"
+                                             x:Name="TbR" />
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
                                     <Border Background="Green"
                                             Width="12"
                                             BorderThickness="1"
                                             BorderBrush="Green">
-                                            <TextBlock Text="G"
-                                                       Foreground="#ffffff"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                        <TextBlock Text="G"
+                                                   Foreground="#ffffff"
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
                                     </Border>
                                     <TextBox Text="255"
                                              Width="24"
@@ -1143,18 +1154,18 @@
                                              Padding="0 2"
                                              HorizontalContentAlignment="Center"
                                              x:Name="TbG" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal">
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
                                     <Border Background="Blue"
                                             Width="12"
                                             BorderThickness="1"
                                             BorderBrush="Blue">
-                                            <TextBlock Text="B"
-                                                       Foreground="#ffffff"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                        <TextBlock Text="B"
+                                                   Foreground="#ffffff"
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
                                     </Border>
                                     <TextBox Text="255"
                                              Width="24"
@@ -1165,18 +1176,18 @@
                                              Padding="0 2"
                                              HorizontalContentAlignment="Center"
                                              x:Name="TbB" />
-                            </StackPanel>
-                            
-                            <StackPanel Orientation="Horizontal">
+                                </StackPanel>
+
+                                <StackPanel Orientation="Horizontal">
                                     <Border Background="Black"
                                             Width="12"
                                             BorderThickness="1"
                                             BorderBrush="Black">
-                                            <TextBlock Text="A"
-                                                       Foreground="#ffffff"
-                                                       FontSize="12"
-                                                       HorizontalAlignment="Center"
-                                                       VerticalAlignment="Center"/>
+                                        <TextBlock Text="A"
+                                                   Foreground="#ffffff"
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center" />
                                     </Border>
                                     <TextBox Text="1"
                                              Width="24"
@@ -1187,59 +1198,93 @@
                                              Padding="0 2"
                                              HorizontalContentAlignment="Center"
                                              x:Name="TbA" />
-                            </StackPanel>
-                        <Grid />
-                    </DockPanel>
-
-                    <TextBlock Text="Ajouter du dégradé"
-                               DockPanel.Dock="Top"
-                               Foreground="#666666"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               Margin="10 10 10 0" />
-                    <Grid DockPanel.Dock="Top" Margin="10 4 10 10">
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="Auto" />
-                            <RowDefinition Height="*" />
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
-                        <ComboBox Grid.Row="0" Grid.Column="0" BorderBrush="#8c8c8a" BorderThickness="0 0 0 2"
-                                  Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="CbGradientType"
-                                  Tag="GradientType"
-                                  Text="0" FontSize="11" Margin="0 0 5 0" SelectedIndex="0">
-                            <ComboBoxItem Content="Linear Gradient" />
-                            <ComboBoxItem Content="Radial Gradient" />
-                        </ComboBox>
-                        <ComboBox Grid.Row="0" Grid.Column="1" BorderBrush="#8c8c8a" BorderThickness="0 0 0 2"
-                                  Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom"
-                                  x:Name="CbGradientDirection"
-                                  Tag="GradientDirection"
-                                  Text="0" FontSize="11" Margin="5 0 0 0" SelectedIndex="0">
-                            <ComboBoxItem Content="Left Right" />
-                            <ComboBoxItem Content="Left Bottom" />
-                        </ComboBox>
-
-                        <ListView Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" BorderThickness="0"
-                                  x:Name="LvColors"
-                                  Background="Transparent"
-                                  ScrollViewer.HorizontalScrollBarVisibility="Disabled" Padding="0" Margin="0 5 0 0"
-                                  Height="40">
-                            <ListView.ItemsPanel>
-                                <ItemsPanelTemplate>
-                                    <StackPanel Orientation="Horizontal" />
-                                </ItemsPanelTemplate>
-                            </ListView.ItemsPanel>
-                            <ListView.ItemTemplate>
-                                <DataTemplate>
-                                    <Border Width="30" Height="30" Background="{Binding Color}" Padding="0"
-                                            BorderBrush="#666666" BorderThickness="0.5" />
-                                </DataTemplate>
-                            </ListView.ItemTemplate>
-                        </ListView>
+                                </StackPanel>
+                                <Grid />
+                            </DockPanel>
+                        </StackPanel>
                     </Grid>
+
+                    <StackPanel DockPanel.Dock="Top">
+                        <TextBlock Text="Ajouter du dégradé"
+                                   Foreground="#666666"
+                                   FontSize="10"
+                                   FontWeight="Bold"
+                                   Margin="0 0 0 0" />
+
+                        <Grid Margin="0 4 0 10">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+
+                            <ComboBox Grid.Row="0"
+                                      Grid.Column="0"
+                                      BorderBrush="#8c8c8a"
+                                      BorderThickness="0 0 0 2"
+                                      Foreground="#8c8c8a"
+                                      Height="23"
+                                      VerticalAlignment="Bottom"
+                                      x:Name="CbGradientType"
+                                      Tag="GradientType"
+                                      Text="0"
+                                      FontSize="10"
+                                      Margin="0 0 5 0"
+                                      SelectedIndex="0">
+                                <ComboBoxItem Content="Linear Gradient" />
+                                <ComboBoxItem Content="Radial Gradient" />
+                            </ComboBox>
+
+                            <ComboBox Grid.Row="0"
+                                      Grid.Column="1"
+                                      BorderBrush="#8c8c8a"
+                                      BorderThickness="0 0 0 2"
+                                      Foreground="#8c8c8a"
+                                      Height="23"
+                                      VerticalAlignment="Bottom"
+                                      x:Name="CbGradientDirection"
+                                      Tag="GradientDirection"
+                                      Text="0"
+                                      FontSize="10"
+                                      Margin="5 0 0 0"
+                                      SelectedIndex="0">
+                                <ComboBoxItem Content="Left to Right" />
+                                <ComboBoxItem Content="Left to Bottom" />
+                                <ComboBoxItem Content="Left to Top" />
+                                <ComboBoxItem Content="Right to Bottom" />
+                            </ComboBox>
+
+                            <ItemsControl Grid.Row="1"
+                                          Grid.Column="0"
+                                          Grid.ColumnSpan="2"
+                                          BorderThickness="0"
+                                          x:Name="LvColors"
+                                          Background="Transparent"
+                                          Margin="0 5 0 0 "
+                                          Height="90">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel />
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <Border Width="25"
+                                                Height="25"
+                                                Background="{Binding Color}"
+                                                Padding="0"
+                                                BorderBrush="#666666"
+                                                BorderThickness="0.5"
+                                                VerticalAlignment="Top"
+                                                Margin="0 0 5 5" />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </StackPanel>
                 </DockPanel>
             </StackPanel>
         </Border>
