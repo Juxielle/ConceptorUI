@@ -154,10 +154,9 @@ public partial class ColorPicker : IColorPicker
         CheckColor(color);
     }
 
-    private void BtnClose(object sender, RoutedEventArgs e)
+    private void OnClose(object sender, MouseButtonEventArgs e)
     {
-        //_btnIntermed.BorderThickness = new Thickness(0);
-        Hide();
+        Close();
     }
 
     private void OnTextChanged(object sender, RoutedEventArgs e)
