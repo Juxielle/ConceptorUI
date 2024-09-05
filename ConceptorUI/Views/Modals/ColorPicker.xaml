@@ -75,7 +75,7 @@
                 BorderThickness=".5"
                 CornerRadius="4">
             <StackPanel>
-                <StackPanel Height="120">
+                <StackPanel Height="125">
                     <TabControl Background="Transparent" BorderThickness="0">
                         <TabItem>
                             <TabItem.HeaderTemplate>
@@ -1099,32 +1099,95 @@
                     </DockPanel>
 
                     <TextBlock Text="RGB color" DockPanel.Dock="Top" Foreground="#666666"
-                               FontSize="12" FontWeight="Bold" Margin="10 10 10 0" />
+                               FontSize="10" FontWeight="Bold" Margin="10 10 10 0" />
                     <DockPanel DockPanel.Dock="Top" Margin="10 4 10 10">
                         <StackPanel Orientation="Horizontal">
-                                <Border Background="Red" Width="12" BorderThickness="1" BorderBrush="Red">
-                                        <TextBlock Text="R" Foreground="#ffffff" FontSize="12" HorizontalAlignment="Center"
+                                <Border Background="Red"
+                                        Width="12"
+                                        BorderThickness="1"
+                                        BorderBrush="Red">
+                                        <TextBlock Text="R"
+                                                   Foreground="#ffffff"
+                                                   FontSize="12"
+                                                   HorizontalAlignment="Center"
                                                    VerticalAlignment="Center"/>
                                 </Border>
-                                <TextBox Text="255" Height="Auto" Width="25" BorderBrush="Red"
-                                         BorderThickness="1" Foreground="Red" FontSize="10"
-                                         Padding="0 2" HorizontalContentAlignment="Center" x:Name="TbR" />
+                                <TextBox Text="255"
+                                         Width="24"
+                                         BorderBrush="Red"
+                                         BorderThickness="1"
+                                         Foreground="Red"
+                                         FontSize="10"
+                                         Padding="0 2"
+                                         HorizontalContentAlignment="Center"
+                                         x:Name="TbR" />
                         </StackPanel>
-
-                        <TextBlock Text="G:" Foreground="Green" FontSize="12" Margin="20 0 0 0" />
-                        <TextBox Text="255" Height="Auto" Width="25" BorderBrush="Green"
-                                 BorderThickness="0 0 0 2" Foreground="Green" FontSize="10"
-                                 Padding="0 2" FontWeight="Bold" x:Name="TbG" />
-
-                        <TextBlock Text="B:" Foreground="Blue" FontSize="12" Margin="20 0 0 0" />
-                        <TextBox Text="255" Height="Auto" Width="25" BorderBrush="Blue"
-                                 BorderThickness="0 0 0 2" Foreground="Blue" FontSize="10"
-                                 Padding="0 2" FontWeight="Bold" x:Name="TbB" />
-
-                        <TextBlock Text="A:" Foreground="Black" FontSize="12" Margin="20 0 0 0" />
-                        <TextBox Text="255" Height="Auto" Width="25" BorderBrush="Black"
-                                 BorderThickness="0 0 0 2" Foreground="Black" FontSize="10"
-                                 Padding="0 2" FontWeight="Bold" x:Name="TbA" />
+                            
+                            <StackPanel Orientation="Horizontal">
+                                    <Border Background="Green"
+                                            Width="12"
+                                            BorderThickness="1"
+                                            BorderBrush="Green">
+                                            <TextBlock Text="G"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBox Text="255"
+                                             Width="24"
+                                             BorderBrush="Green"
+                                             BorderThickness="1"
+                                             Foreground="Green"
+                                             FontSize="10"
+                                             Padding="0 2"
+                                             HorizontalContentAlignment="Center"
+                                             x:Name="TbG" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                    <Border Background="Blue"
+                                            Width="12"
+                                            BorderThickness="1"
+                                            BorderBrush="Blue">
+                                            <TextBlock Text="B"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBox Text="255"
+                                             Width="24"
+                                             BorderBrush="Blue"
+                                             BorderThickness="1"
+                                             Foreground="Blue"
+                                             FontSize="10"
+                                             Padding="0 2"
+                                             HorizontalContentAlignment="Center"
+                                             x:Name="TbB" />
+                            </StackPanel>
+                            
+                            <StackPanel Orientation="Horizontal">
+                                    <Border Background="Black"
+                                            Width="12"
+                                            BorderThickness="1"
+                                            BorderBrush="Black">
+                                            <TextBlock Text="A"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"/>
+                                    </Border>
+                                    <TextBox Text="1"
+                                             Width="24"
+                                             BorderBrush="Black"
+                                             BorderThickness="1"
+                                             Foreground="Black"
+                                             FontSize="10"
+                                             Padding="0 2"
+                                             HorizontalContentAlignment="Center"
+                                             x:Name="TbA" />
+                            </StackPanel>
                         <Grid />
                     </DockPanel>
 
