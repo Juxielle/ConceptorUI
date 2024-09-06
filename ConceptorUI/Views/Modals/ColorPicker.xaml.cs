@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Classes;
 using ConceptorUI.Interfaces;
 
 namespace ConceptorUI.Views.Modals;
@@ -21,6 +22,7 @@ public partial class ColorPicker : IColorPicker
     private bool _canSetFieldColor;
     private int _pasteCount;
     private readonly List<ColorModel> _gradientColors;
+    private CustomColor _customColor;
     
     public event EventHandler? PreColorSelectedEvent;
     private readonly object _colorSelectedLock = new();
@@ -31,12 +33,14 @@ public partial class ColorPicker : IColorPicker
     public ColorPicker(Brush color, double opacity)
     {
         InitializeComponent();
+        
         PropOriginColor = "";
         _brush = null!;
         _btnIntermed = null!;
         IsOpened = false;
         _canSetFieldColor = true;
         _pasteCount = 0;
+        _customColor = new CustomColor();
         
         _gradientColors = new List<ColorModel>
         {
@@ -143,6 +147,7 @@ public partial class ColorPicker : IColorPicker
         _canSetFieldColor = false;
         TbHexa.Text = color.ToString();
         OpacityValue.Text = (color.Opacity * 100) + "%";
+        
         var sb = (SolidColorBrush)color;
         TbR.Text = sb.Color.R.ToString();
         TbG.Text = sb.Color.G.ToString();
