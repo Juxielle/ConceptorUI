@@ -12,7 +12,6 @@ namespace ConceptorUI.Views.Modals;
 
 public partial class ColorPicker : IColorPicker
 {
-    private static ColorPicker? _obj;
     public string PropOriginColor { get; set; }
     private Brush _brush;
     private Button _btnIntermed;
@@ -22,7 +21,7 @@ public partial class ColorPicker : IColorPicker
     private bool _canSetFieldColor;
     private int _pasteCount;
     private readonly List<ColorModel> _gradientColors;
-        
+    
     public event EventHandler? PreColorSelectedEvent;
     private readonly object _colorSelectedLock = new();
         
@@ -32,7 +31,6 @@ public partial class ColorPicker : IColorPicker
     public ColorPicker(Brush color, double opacity)
     {
         InitializeComponent();
-        _obj = this;
         PropOriginColor = "";
         _brush = null!;
         _btnIntermed = null!;
