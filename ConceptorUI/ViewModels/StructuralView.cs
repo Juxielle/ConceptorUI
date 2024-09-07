@@ -88,7 +88,7 @@ namespace ConceptorUi.ViewModels
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             SelectItemView(StructuralElement, 0, e);
-            //PageView.Instance.SelectFromStructuralView();
+            PageView.Instance.SelectFromStructuralView();
         }
 
         private void SelectItemView(StructuralElement structuralElement, int index, MouseButtonEventArgs e)

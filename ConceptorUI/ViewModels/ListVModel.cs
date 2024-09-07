@@ -19,16 +19,17 @@ namespace ConceptorUi.ViewModels
             _stack = new StackPanel { Orientation = Orientation.Vertical };
             Children = new List<Component>();
             IsVertical = isVertical;
+            Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
 
-            Content.Child = new ScrollViewer
+            var scrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
                 VerticalScrollBarVisibility = ScrollBarVisibility.Hidden,
                 Content = _stack
             };
-
-            Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
-            ComponentView.PreviewMouseWheel += OnMouseWheel;
+            scrollViewer.PreviewMouseWheel += OnMouseWheel;
+            
+            Content.Child = scrollViewer;
 
             if (allowConstraints) return;
             SelfConstraints();
@@ -37,7 +38,7 @@ namespace ConceptorUi.ViewModels
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            var scrollView = ComponentView as ScrollViewer;
+            var scrollView = Content.Child as ScrollViewer;
             if (IsVertical) scrollView!.ScrollToVerticalOffset(scrollView.VerticalOffset - e.Delta);
             else scrollView!.ScrollToHorizontalOffset(scrollView.HorizontalOffset - e.Delta);
         }
