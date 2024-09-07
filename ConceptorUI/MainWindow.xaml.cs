@@ -1,5 +1,4 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.Views.Component;
 using System;
 using System.Collections.Generic;
 using System.Windows;

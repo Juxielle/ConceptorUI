@@ -25,14 +25,14 @@
                 
                 <StackPanel x:Name="SForm">
                     <!--<component:ScreenFormat />-->
-                    <component:GlobalProperty x:Name="Global" Visibility="Visible"/>
-                    <component:AlignmentProperty x:Name="Align"/>
-                    <component:AlignmentProperty x:Name="AlignSelf"/>
-                    <component:TransformProperty x:Name="Transform"/>
-                    <component:TextProperty x:Name="Text"/>
-                    <component:AppearanceProperty x:Name="Appearance"/>
-                    <component:GridProperty x:Name="Grid"/>
-                    <component:ShadowPanel x:Name="Shadow"/>
+                    <!-- <component:GlobalProperty x:Name="Global" Visibility="Visible"/> -->
+                    <!-- <component:AlignmentProperty x:Name="Align"/> -->
+                    <!-- <component:AlignmentProperty x:Name="AlignSelf"/> -->
+                    <!-- <component:TransformProperty x:Name="Transform"/> -->
+                    <!-- <component:TextProperty x:Name="Text"/> -->
+                    <!-- <component:AppearanceProperty x:Name="Appearance"/> -->
+                    <!-- <component:GridProperty x:Name="Grid"/> -->
+                    <!-- <component:ShadowPanel x:Name="Shadow"/> -->
                 </StackPanel>
 
                 <StackPanel x:Name="SEntity" Visibility="Collapsed">

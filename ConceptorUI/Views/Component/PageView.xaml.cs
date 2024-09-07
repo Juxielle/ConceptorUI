@@ -300,6 +300,7 @@ namespace ConceptorUI.Views.Component
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
             _components[_project.Space.Reports[SelectedReport].Code].OnUpdated(groupName, propertyName, value);
+            //Console.WriteLine($@"Group Name: {groupName}, Property Name: {propertyName}, Value: {value}");
         }
 
         public void RefreshStructuralView()

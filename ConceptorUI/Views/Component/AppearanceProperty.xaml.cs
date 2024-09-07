@@ -14,10 +14,6 @@ namespace ConceptorUI.Views.Component
 {
     public partial class AppearanceProperty : IAppearance
     {
-        private static AppearanceProperty? _obj;
-        private int _firstCount;
-        private int _firstCount2;
-        private readonly int _firstCount3;
         private const string ColorOn = "#6739b7";
         private const string ColorOff = "#8c8c8a";
 
@@ -32,9 +28,7 @@ namespace ConceptorUI.Views.Component
         public AppearanceProperty()
         {
             _allowSetField = false;
-            _firstCount = _firstCount2 = _firstCount3 = 0;
             InitializeComponent();
-            _obj = this;
             _opacity = 1;
         }
 
@@ -55,8 +49,6 @@ namespace ConceptorUI.Views.Component
                 }
             }
         }
-
-        public static AppearanceProperty Instance => _obj == null! ? new AppearanceProperty() : _obj;
 
         public void FeedProps(object properties)
         {
@@ -368,8 +360,6 @@ namespace ConceptorUI.Views.Component
                     EventArgs.Empty
                 );
             }
-
-            if (_firstCount3 < 1) _firstCount++;
         }
 
         private void OnTextChanged(object sender, EventArgs e)
@@ -711,40 +701,19 @@ namespace ConceptorUI.Views.Component
                 case "BorderC":
                     if (CBorderC.IsChecked == false) return;
                     var colorPickerB = new ColorPicker(BBorderC.Background, 1);
-                    colorPickerB.PreColorSelectedEvent += (color, _) =>
-                    {
-                        PreMouseDownEvent?.Invoke(
-                            new dynamic[] { GroupNames.Appearance, PropertyNames.BorderColor, color!.ToString()! },
-                            EventArgs.Empty
-                        );
-
-                        BBorderC.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
-                    };
+                    colorPickerB.PreColorSelectedEvent -= OnBorderColorChangedHandle!;
+                    colorPickerB.PreColorSelectedEvent += OnBorderColorChangedHandle!;
                     colorPickerB.Show();
                     break;
                 case "FillColor":
                     if (CFillColor.IsChecked == true)
                     {
-                        //On Essaie de detacher l'evenement avant la fermeture de ColorPicker
                         var colorPicker = new ColorPicker(BFillColor.Background, _opacity);
-                        colorPicker.PreOpacityChangedEvent += (opacity, _) =>
-                        {
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[] { GroupNames.Appearance, PropertyNames.Opacity, opacity!.ToString()! },
-                                EventArgs.Empty
-                            );
-                        };
+                        colorPicker.PreOpacityChangedEvent -= OnFillOpacityChangedHandle!;
+                        colorPicker.PreOpacityChangedEvent += OnFillOpacityChangedHandle!;
 
-                        colorPicker.PreColorSelectedEvent += (color, _) =>
-                        {
-                            PreMouseDownEvent?.Invoke(
-                                new dynamic[] { GroupNames.Appearance, PropertyNames.FillColor, color!.ToString()! },
-                                EventArgs.Empty
-                            );
-
-                            BFillColor.Background =
-                                new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
-                        };
+                        colorPicker.PreColorSelectedEvent -= OnFillColorChangedHandle!;
+                        colorPicker.PreColorSelectedEvent += OnFillColorChangedHandle!;
                         colorPicker.Show();
                     }
 
@@ -770,7 +739,6 @@ namespace ConceptorUI.Views.Component
             var propertyName = PropertyNames.None;
             var found = false;
 
-            Console.WriteLine(@"Appearance checkBox color changed. Tag: " + tag);
             switch (tag)
             {
                 case "Margin":
@@ -935,12 +903,32 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        public void SetOpacity(double value)
+        private void OnBorderColorChangedHandle(object color, EventArgs e)
         {
-            PanelProperty.ReactToProps(
-                GroupNames.Appearance,
-                PropertyNames.Opacity,
-                value.ToString(CultureInfo.InvariantCulture)
+            PreMouseDownEvent?.Invoke(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.BorderColor, color.ToString()! },
+                EventArgs.Empty
+            );
+
+            BBorderC.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+        }
+
+        private void OnFillColorChangedHandle(object color, EventArgs e)
+        {
+            PreMouseDownEvent?.Invoke(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.FillColor, color.ToString()! },
+                EventArgs.Empty
+            );
+            
+            BFillColor.Background =
+                new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+        }
+
+        private void OnFillOpacityChangedHandle(object opacity, EventArgs e)
+        {
+            PreMouseDownEvent?.Invoke(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.Opacity, opacity.ToString()! },
+                EventArgs.Empty
             );
         }
     }

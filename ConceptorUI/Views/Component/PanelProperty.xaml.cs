@@ -12,19 +12,16 @@ namespace ConceptorUI.Views.Component
 {
     partial class PanelProperty : IValue
     {
-        private static PanelProperty? _obj;
-        
         public event EventHandler? OnValueChangedEvent;
         private readonly object _valueChangedLock = new();
         
         public PanelProperty()
         {
             InitializeComponent();
-            _obj = this;
-            AlignSelf.Refresh(false);
-
-            Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
-            Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
+            // AlignSelf.Refresh(false);
+            //
+            // Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
+            // Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
         }
         
         event EventHandler IValue.OnValueChanged
@@ -47,66 +44,80 @@ namespace ConceptorUI.Views.Component
 
         public void FeedProps(object value, ComponentList componentName)
         {
-            Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility = Grid.Visibility =
-            Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
+            var global = new GlobalProperty();
+            var alignment = new AlignmentProperty();
+            var selfAlignment = new AlignmentProperty();
+            var transform = new TransformProperty();
+            var text = new TextProperty();
+            var appearance = new AppearanceProperty();
+            var grid = new GridProperty();
+            var shadow = new ShadowPanel();
+            
+            SForm.Children.Clear();
+            SForm.Children.Add(global);
+            SForm.Children.Add(alignment);
+            SForm.Children.Add(selfAlignment);
+            SForm.Children.Add(transform);
+            SForm.Children.Add(text);
+            SForm.Children.Add(appearance);
+            SForm.Children.Add(grid);
+            SForm.Children.Add(shadow);
+            
+            global.Visibility = alignment.Visibility = selfAlignment.Visibility = transform.Visibility = grid.Visibility =
+                text.Visibility = appearance.Visibility = shadow.Visibility = Visibility.Collapsed;
+            
             var groups = value as List<GroupProperties>;
             
             foreach (var group in groups!.Where(group => group.Visibility == VisibilityValue.Visible.ToString()))
             {
                 if(group.Name == GroupNames.Alignment.ToString())
                 {
-                    Align.FeedProps(group);
-                    Align.Visibility = Visibility.Visible;
-                    Align.PreMouseDownEvent -= OnValueChangedHandle!;
-                    Align.PreMouseDownEvent += OnValueChangedHandle!;
+                    alignment.FeedProps(group);
+                    alignment.Visibility = Visibility.Visible;
+                    alignment.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
-                    AlignSelf.FeedProps(group);
-                    AlignSelf.Visibility = Visibility.Visible;
-                    AlignSelf.PreMouseDownEvent -= OnValueChangedHandle!;
-                    AlignSelf.PreMouseDownEvent += OnValueChangedHandle!;
+                    selfAlignment.FeedProps(group);
+                    selfAlignment.Visibility = Visibility.Visible;
+                    selfAlignment.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
-                    Transform.FeedProps(group);
-                    Transform.Visibility = Visibility.Visible;
-                    Transform.OnValueChangedEvent -= OnValueChangedHandle!;
-                    Transform.OnValueChangedEvent += OnValueChangedHandle!;
+                    transform.FeedProps(group);
+                    transform.Visibility = Visibility.Visible;
+                    transform.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Text.ToString())
                 {
-                    Text.FeedProps(group);
-                    Text.Visibility = Visibility.Visible;
-                    Text.OnValueChangedEvent -= OnValueChangedHandle!;
-                    Text.OnValueChangedEvent += OnValueChangedHandle!;
+                    text.FeedProps(group);
+                    text.Visibility = Visibility.Visible;
+                    text.OnValueChangedEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
-                    Appearance.FeedProps(group);
-                    Appearance.Visibility = Visibility.Visible;
-                    Appearance.PreMouseDownEvent -= OnValueChangedHandle!;
-                    Appearance.PreMouseDownEvent += OnValueChangedHandle!;
+                    appearance.FeedProps(group);
+                    appearance.Visibility = Visibility.Visible;
+                    
+                    appearance.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
                 {
-                    Grid.FeedProps(group);
-                    Grid.Visibility = Visibility.Visible;
+                    grid.FeedProps(group);
+                    grid.Visibility = Visibility.Visible;
                     //Grid.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    Global.FeedProps(group, componentName);
-                    Global.Visibility = Visibility.Visible;
-                    Global.PreMouseDownEvent -= OnValueChangedHandle!;
-                    Global.PreMouseDownEvent += OnValueChangedHandle!;
+                    global.FeedProps(group, componentName);
+                    global.Visibility = Visibility.Visible;
+                    global.PreMouseDownEvent += OnValueChangedHandle!;
                 }
                 else if (group.Name == GroupNames.Shadow.ToString())
                 {
-                    Shadow.FeedProps(group);
-                    Shadow.Visibility = Visibility.Visible;
-                    Shadow.OnValueChangedEvent -= OnValueChangedHandle!;
-                    Shadow.OnValueChangedEvent += OnValueChangedHandle!;
+                    shadow.FeedProps(group);
+                    shadow.Visibility = Visibility.Visible;
+                    shadow.OnValueChangedEvent += OnValueChangedHandle!;
                 }
             }
         }
@@ -150,6 +161,7 @@ namespace ConceptorUI.Views.Component
 
         private void OnValueChangedHandle(object sender, EventArgs e)
         {
+            //Console.WriteLine($@"Event is sended here.");
             OnValueChangedEvent!.Invoke(
                 sender,
                 EventArgs.Empty

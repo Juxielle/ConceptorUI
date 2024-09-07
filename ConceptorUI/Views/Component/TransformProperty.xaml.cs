@@ -11,7 +11,6 @@ namespace ConceptorUI.Views.Component
 {
     public partial class TransformProperty : IValue
     {
-        private static TransformProperty? _obj;
         private GroupProperties _properties;
         private int _index;
         private int _firstCount;
@@ -26,12 +25,9 @@ namespace ConceptorUI.Views.Component
             _firstCount = 0;
             InitializeComponent();
 
-            _obj = this;
             _properties = new GroupProperties();
             _index = 0;
         }
-
-        public static TransformProperty Instance => _obj == null! ? new TransformProperty() : _obj;
 
         event EventHandler IValue.OnValueChanged
         {

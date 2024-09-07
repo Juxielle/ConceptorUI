@@ -62,7 +62,6 @@ namespace ConceptorUI.Views.Component
             switch (propOriginColor)
             {
                 case "FillColor":
-                    AppearanceProperty.Instance.SetOpacity(vd);
                     break;
             }
         }
@@ -95,13 +94,10 @@ namespace ConceptorUI.Views.Component
                     //TextProperty.SetColor(color);
                     break;
                 case "BorderC":
-                    AppearanceProperty.Instance.SetColor(color, 0);
                     break;
                 case "FillColor":
-                    AppearanceProperty.Instance.SetColor(color, 1);
                     break;
                 case "ShadowColor":
-                    ShadowPanel.Instance.SetColor(color, 0);
                     break;
                 default:
                     if (_btnIntermed != null!)

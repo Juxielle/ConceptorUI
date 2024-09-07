@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
@@ -221,6 +222,7 @@ namespace ConceptorUi.ViewModels
 
             var d = Children[id].GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
+            
             if (d != SizeValue.Expand.ToString() && Children[id]
                     .IsNullAlignment(GroupNames.SelfAlignment, IsVertical ? "Vertical" : "Horizontal"))
                 Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1",
