@@ -93,11 +93,19 @@ namespace ConceptorUi.ViewModels
             _body.SelfConstraints();
             _body.SetGroupVisibility(GroupNames.Global, false);
             _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            
             _body.SetGroupVisibility(GroupNames.Transform, false);
+            _body.SetGroupOnlyVisibility(GroupNames.Transform);
+            _body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Width);
+            _body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height);
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
 
             _body.SetGroupVisibility(GroupNames.Text, false);
 
             _body.SetGroupVisibility(GroupNames.Appearance, false);
+            _body.SetGroupOnlyVisibility(GroupNames.Appearance);
+            _body.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
             _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#ffffff");
 
             _body.SetGroupVisibility(GroupNames.Shadow, false);
@@ -117,8 +125,6 @@ namespace ConceptorUi.ViewModels
             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "1");
             /* Transform */
             SetGroupVisibility(GroupNames.Transform, false);
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
