@@ -179,7 +179,7 @@ namespace ConceptorUi.ViewModels
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
-            
+
             OnSelectedEvent?.Invoke(
                 new Dictionary<string, dynamic>
                 {
@@ -357,7 +357,7 @@ namespace ConceptorUi.ViewModels
                 else if (propertyName == PropertyNames.MoveParentToChild)
                 {
                     if (Children.Count <= 0) return;
-                    
+
                     OnSelectedEvent?.Invoke(
                         new Dictionary<string, dynamic>
                         {
@@ -750,7 +750,7 @@ namespace ConceptorUi.ViewModels
                 }
 
                 #endregion
-                
+
                 ContinueToUpdate(groupName, propertyName, value);
             }
             else
@@ -959,7 +959,8 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.MarginBottom.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top, SelectedContent.Margin.Right,
+                        SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
+                            SelectedContent.Margin.Right,
                             vd);
                     }
                     else if (prop.Name == PropertyNames.Padding.ToString())
@@ -1099,7 +1100,7 @@ namespace ConceptorUi.ViewModels
                     }
 
                     #endregion
-            
+
                     ContinueToInitialize(group.Name, prop.Name, prop.Value);
                 }
             }
@@ -1150,7 +1151,7 @@ namespace ConceptorUi.ViewModels
 
                 AddIntoChildContent(component.ComponentView);
                 Children.Add(component);
-                
+
                 IsForceAlignment = true;
                 LayoutConstraints(Children.Count - 1, false, expanded);
             }

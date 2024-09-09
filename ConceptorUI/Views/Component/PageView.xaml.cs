@@ -218,7 +218,7 @@ namespace ConceptorUI.Views.Component
         public void NewReport()
         {
             #region Adding new Report
-            var windowModel = new WindowModel();
+            var windowModel = new ComponentModel();
             windowModel.OnSelectedEvent += OnSelectedHandle!;
             windowModel.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
             windowModel.OnRefreshStructuralViewEvent += OnRefreshStructuralViewHandle!;
@@ -337,7 +337,7 @@ namespace ConceptorUI.Views.Component
                 if(!values!["selected"])
                     _components[key].OnUnselected();
             }
-
+            
             if (values!["selected"])
             {
                 OnRefreshPropertyPanelEvent?.Invoke(
@@ -420,7 +420,12 @@ namespace ConceptorUI.Views.Component
                             File.ReadAllText(filePath)
                         );
                         
-                        var windowModel = new WindowModel();
+                        
+                        ConceptorUi.ViewModels.Component windowModel = null!;
+                        
+                        if(compSerializer!.Name == ComponentList.Container.ToString())
+                            windowModel = new ComponentModel();
+                        else windowModel = new WindowModel();
                         windowModel.OnSelectedEvent += OnSelectedHandle!;
                         
                         windowModel.OnDeserializer(compSerializer!);

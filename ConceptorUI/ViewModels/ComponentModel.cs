@@ -94,8 +94,6 @@ namespace ConceptorUi.ViewModels
             _body.SetGroupVisibility(GroupNames.Global, false);
             _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
             _body.SetGroupVisibility(GroupNames.Transform, false);
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
 
             _body.SetGroupVisibility(GroupNames.Text, false);
 
@@ -116,8 +114,11 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             SetGroupVisibility(GroupNames.SelfAlignment, false);
+            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "1");
             /* Transform */
             SetGroupVisibility(GroupNames.Transform, false);
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
@@ -162,6 +163,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void AddIntoChildContent(FrameworkElement child)
         {
+            Content.Child = child;
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
