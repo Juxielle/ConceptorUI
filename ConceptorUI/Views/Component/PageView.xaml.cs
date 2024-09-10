@@ -17,14 +17,14 @@ namespace ConceptorUI.Views.Component
     public partial class PageView : IRefreshPropertiesPanel
     {
         private static PageView? _obj;
-        public object Component;
+        public readonly object Component = null!;
         
         private Project _project;
         private Dictionary<string, ConceptorUi.ViewModels.Component> _components;
         public int SelectedReport;
 
         private string _copiedComponent;
-        private int _clicCount;
+        private int _clickCount;
         private ComponentList _componentName;
         
         public event EventHandler? OnRefreshPropertyPanelEvent;
@@ -39,7 +39,7 @@ namespace ConceptorUI.Views.Component
             _project = new Project();
             _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
             SelectedReport = 0;
-            _clicCount = 0;
+            _clickCount = 0;
 
             _copiedComponent = string.Empty;
         }
@@ -92,7 +92,7 @@ namespace ConceptorUI.Views.Component
 
         private void InitStructuralView()
         {
-            var structuralElement = _components[_project.Space!.Reports[SelectedReport].Code].AddToStructuralView();
+            var structuralElement = _components[_project.Space.Reports[SelectedReport].Code].AddToStructuralView();
             
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -303,7 +303,7 @@ namespace ConceptorUI.Views.Component
             //Console.WriteLine($@"Group Name: {groupName}, Property Name: {propertyName}, Value: {value}");
         }
 
-        public void RefreshStructuralView()
+        private void RefreshStructuralView()
         {
             var structuralElement = _components[_project.Space.Reports[SelectedReport].Code].AddToStructuralView();
             
@@ -346,11 +346,11 @@ namespace ConceptorUI.Views.Component
                 );
                 RefreshStructuralView();
 
-                _clicCount++;
+                _clickCount++;
                 _componentName = values["componentName"];
-                if (_componentName == values["componentName"] && _clicCount == 2)
+                if (_componentName == values["componentName"] && _clickCount == 2)
                 {
-                    _clicCount = 0;
+                    _clickCount = 0;
                 }
             }
         }

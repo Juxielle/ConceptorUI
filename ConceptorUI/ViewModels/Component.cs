@@ -220,6 +220,10 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(groupName, PropertyNames.HC, value1);
                         SetPropertyValue(groupName, PropertyNames.HR, value2);
                         SetPropertyValue(groupName, propertyName, value);
+                        Console.WriteLine($@"value: {value}");
+                        Console.WriteLine($@"value0: {value0}");
+                        Console.WriteLine($@"value1: {value1}");
+                        Console.WriteLine($@"value2: {value2}");
 
                         SelectedContent.HorizontalAlignment = propertyName switch
                         {
@@ -232,9 +236,7 @@ namespace ConceptorUi.ViewModels
                             _ => value == "0" ? SelectedContent.HorizontalAlignment : HorizontalAlignment.Right
                         };
 
-                        var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" &&
-                            w == SizeValue.Expand.ToString())
+                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && AllowExpanded())
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                     }
                     else if (propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
@@ -259,9 +261,7 @@ namespace ConceptorUi.ViewModels
                             _ => value == "0" ? SelectedContent.VerticalAlignment : VerticalAlignment.Bottom
                         };
 
-                        var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" &&
-                            h == SizeValue.Expand.ToString())
+                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && AllowExpanded(false))
                             SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                 }

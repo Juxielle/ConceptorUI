@@ -20,7 +20,7 @@ namespace ConceptorUI
         public MainWindow()
         {
             InitializeComponent();
-            
+
             _obj = this;
             _selectedProject = 0;
             _projects = new List<Project>();
@@ -37,7 +37,7 @@ namespace ConceptorUI
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
         {
-            Console.WriteLine(@"Button name: "+ sender);
+            Console.WriteLine(@"Button name: " + sender);
         }
 
         private void OnKeyDown(object sender, KeyEventArgs e)
@@ -55,7 +55,9 @@ namespace ConceptorUI
                 case Key.S when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
                     PageView.OnSaved(
                         Properties.Instance.SelectedLeftOnglet == 1 ? 0 : 1,
-                        Properties.Instance.SelectedLeftOnglet == 1 ? Properties.Instance.SelectedReport : Properties.Instance.SelectedComponent
+                        Properties.Instance.SelectedLeftOnglet == 1
+                            ? Properties.Instance.SelectedReport
+                            : Properties.Instance.SelectedComponent
                     );
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
@@ -64,7 +66,7 @@ namespace ConceptorUI
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ContentPages) && 
+            if (!e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ContentPages) &&
                 !e.OriginalSource.Equals(Pages)) return;
             PageView.OnUnSelect();
         }
@@ -81,7 +83,7 @@ namespace ConceptorUI
         public void Show(object project)
         {
             Show();
-            
+
             _projects.Add((Project)project);
             PageView.Refresh(_projects[0]);
         }
@@ -94,13 +96,15 @@ namespace ConceptorUI
                 ColorPalette.LoadColorValue(color, false, opacity);
             }
             else ColorPalette.IsOpened = false;
+
             ColorPalette.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void DisplayTextPage(bool display)
         {
             if (display)
-                TextPage.LoadText((PageView.Component as Component)!.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.Text));
+                TextPage.LoadText((PageView.Component as Component)!.GetGroupProperties(GroupNames.Text)
+                    .GetValue(PropertyNames.Text));
             TextPage.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
@@ -117,8 +121,12 @@ namespace ConceptorUI
 
         public void OpenRightPanel(bool isStructuralView = false)
         {
-            RightPanel.Visibility = !isStructuralView ? (RightPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible) : Visibility.Collapsed;
-            StructuralView.Visibility = isStructuralView ? (StructuralView.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible) : Visibility.Collapsed;
+            RightPanel.Visibility = !isStructuralView
+                ? (RightPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible)
+                : Visibility.Collapsed;
+            StructuralView.Visibility = isStructuralView
+                ? (StructuralView.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible)
+                : Visibility.Collapsed;
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
@@ -160,25 +168,26 @@ namespace ConceptorUI
                     {
                         //
                     }
+
                     break;
             }
         }
-        
+
         private void OnAddComponentHandle(object sender, EventArgs e)
         {
             PageView.AddComponent(sender.ToString()!);
         }
-        
+
         private void OnSetPropertyHandle(object sender, EventArgs e)
         {
             var infos = sender as dynamic[];
             PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
-        
+
         private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
         {
             var values = sender as Dictionary<string, dynamic>;
-            
+
             RightPanel.FeedProps(values!["propertyGroups"], values["componentName"]);
         }
     }
