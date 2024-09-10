@@ -212,56 +212,44 @@ namespace ConceptorUi.ViewModels
                 {
                     if (propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR)
                     {
-                        var value0 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.HL);
-                        var value1 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.HC);
-                        var value2 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.HR);
-
-                        SetPropertyValue(groupName, PropertyNames.HL, value0);
-                        SetPropertyValue(groupName, PropertyNames.HC, value1);
-                        SetPropertyValue(groupName, PropertyNames.HR, value2);
+                        SetPropertyValue(groupName, PropertyNames.HL, "0");
+                        SetPropertyValue(groupName, PropertyNames.HC, "0");
+                        SetPropertyValue(groupName, PropertyNames.HR, "0");
                         SetPropertyValue(groupName, propertyName, value);
-                        Console.WriteLine($@"value: {value}");
-                        Console.WriteLine($@"value0: {value0}");
-                        Console.WriteLine($@"value1: {value1}");
-                        Console.WriteLine($@"value2: {value2}");
-
+                        
                         SelectedContent.HorizontalAlignment = propertyName switch
                         {
-                            PropertyNames.HL => value == "0"
-                                ? SelectedContent.HorizontalAlignment
-                                : HorizontalAlignment.Left,
-                            PropertyNames.HC => value == "0"
-                                ? SelectedContent.HorizontalAlignment
-                                : HorizontalAlignment.Center,
-                            _ => value == "0" ? SelectedContent.HorizontalAlignment : HorizontalAlignment.Right
+                            PropertyNames.HL when value == "1" => HorizontalAlignment.Left,
+                            PropertyNames.HC when value == "1" => HorizontalAlignment.Center,
+                            _ when value == "1" => HorizontalAlignment.Right,
+                            _ => HorizontalAlignment.Left
                         };
-
-                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && AllowExpanded())
+                        
+                        if(value == "0" && SelectedContent.HorizontalAlignment  == HorizontalAlignment.Left)
+                            SetPropertyValue(groupName, PropertyNames.HL, "1");
+                        
+                        if (value == "0" && AllowExpanded())
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                     }
                     else if (propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
                     {
-                        var value0 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.VT);
-                        var value1 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.VC);
-                        var value2 = value == "1" ? "0" : GetGroupProperties(groupName).GetValue(PropertyNames.VB);
-
-                        SetPropertyValue(groupName, PropertyNames.VT, value0);
-                        SetPropertyValue(groupName, PropertyNames.VC, value1);
-                        SetPropertyValue(groupName, PropertyNames.VB, value2);
+                        SetPropertyValue(groupName, PropertyNames.VT, "0");
+                        SetPropertyValue(groupName, PropertyNames.VC, "0");
+                        SetPropertyValue(groupName, PropertyNames.VB, "0");
                         SetPropertyValue(groupName, propertyName, value);
 
                         SelectedContent.VerticalAlignment = propertyName switch
                         {
-                            PropertyNames.VT => value == "0"
-                                ? SelectedContent.VerticalAlignment
-                                : VerticalAlignment.Top,
-                            PropertyNames.VC => value == "0"
-                                ? SelectedContent.VerticalAlignment
-                                : VerticalAlignment.Center,
-                            _ => value == "0" ? SelectedContent.VerticalAlignment : VerticalAlignment.Bottom
+                            PropertyNames.VT when value == "1" => VerticalAlignment.Top,
+                            PropertyNames.VC when value == "1" => VerticalAlignment.Center,
+                            _ when value == "1" => VerticalAlignment.Bottom,
+                            _ => VerticalAlignment.Top
                         };
+                        
+                        if(value == "0" && SelectedContent.VerticalAlignment  == VerticalAlignment.Top)
+                            SetPropertyValue(groupName, PropertyNames.VT, "1");
 
-                        if (value == "0" && value0 == "0" && value1 == "0" && value2 == "0" && AllowExpanded(false))
+                        if (value == "0" && AllowExpanded(false))
                             SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                     }
                 }
