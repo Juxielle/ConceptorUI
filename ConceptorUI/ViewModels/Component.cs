@@ -216,7 +216,7 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(groupName, PropertyNames.HC, "0");
                         SetPropertyValue(groupName, PropertyNames.HR, "0");
                         SetPropertyValue(groupName, propertyName, value);
-                        
+
                         SelectedContent.HorizontalAlignment = propertyName switch
                         {
                             PropertyNames.HL when value == "1" => HorizontalAlignment.Left,
@@ -224,12 +224,13 @@ namespace ConceptorUi.ViewModels
                             _ when value == "1" => HorizontalAlignment.Right,
                             _ => HorizontalAlignment.Left
                         };
-                        
-                        if(value == "0" && SelectedContent.HorizontalAlignment  == HorizontalAlignment.Left)
-                            SetPropertyValue(groupName, PropertyNames.HL, "1");
-                        
-                        if (value == "0" && AllowExpanded())
-                            SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+
+                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                        if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
+                            AllowExpanded())
+                            OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
+                        else if(value == "0")
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
                     }
                     else if (propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
                     {
@@ -245,12 +246,13 @@ namespace ConceptorUi.ViewModels
                             _ when value == "1" => VerticalAlignment.Bottom,
                             _ => VerticalAlignment.Top
                         };
-                        
-                        if(value == "0" && SelectedContent.VerticalAlignment  == VerticalAlignment.Top)
-                            SetPropertyValue(groupName, PropertyNames.VT, "1");
 
-                        if (value == "0" && AllowExpanded(false))
-                            SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                        if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
+                            AllowExpanded(false))
+                            OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
+                        else if(value == "0")
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
                     }
                 }
 

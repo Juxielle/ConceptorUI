@@ -92,8 +92,12 @@ namespace ConceptorUi.ViewModels
             {
                 var hc = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HC);
                 var hr = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HR);
-                var horizontal = hr == "1" ? PropertyNames.HR : (hc == "1" ? PropertyNames.HC : PropertyNames.HL);
-                SetPropertyValue(GroupNames.Alignment, horizontal, "1");
+                var hl = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HL);
+                if (hl == "1" || hc == "1" || hr == "1")
+                {
+                    var horizontal = hr == "1" ? PropertyNames.HR : (hc == "1" ? PropertyNames.HC : PropertyNames.HL);
+                    SetPropertyValue(GroupNames.Alignment, horizontal, "1");
+                }
             }
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
@@ -103,6 +107,9 @@ namespace ConceptorUi.ViewModels
             {
                 var vc = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VC);
                 var vb = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VB);
+                var vt = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VT);
+                
+                if (vt != "1" && vc != "1" && vb != "1") return;
                 var vertical = vb == "1" ? PropertyNames.VB : (vc == "1" ? PropertyNames.VC : PropertyNames.VT);
                 SetPropertyValue(GroupNames.Alignment, vertical, "1");
             }
