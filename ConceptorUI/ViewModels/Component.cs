@@ -16,7 +16,7 @@ namespace ConceptorUi.ViewModels
 {
     abstract class Component : IRefreshPropertyView
     {
-        protected ComponentList Name { get; set; }
+        public ComponentList Name { get; set; }
         private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
@@ -33,7 +33,7 @@ namespace ConceptorUi.ViewModels
 
         public FrameworkElement ComponentView;
         public Component Parent;
-        protected List<Component> Children;
+        public List<Component> Children;
 
         protected Border SelectedContent;
         protected Border Content;
@@ -1177,7 +1177,7 @@ namespace ConceptorUi.ViewModels
             PropertyGroups = compSerializer.Properties;
 
             #region
-
+            
             if (compSerializer.Children != null)
             {
                 AddedChildrenCount = compSerializer.Children.Count;

@@ -7,7 +7,7 @@ namespace ConceptorUi.ViewModels
 {
     internal class ComponentModel : Component
     {
-        private readonly ContainerModel _body;
+        public readonly ContainerModel _body;
 
         public ComponentModel(bool allowConstraints = false)
         {
