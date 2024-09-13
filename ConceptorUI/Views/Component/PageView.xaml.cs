@@ -384,13 +384,6 @@ namespace ConceptorUI.Views.Component
                         {
                             var componentSerializer = _components[_project.Space.Reports[index].Code].OnSerializer();
                             var filePath = $"{_project.FolderPath}/pages/{_project.Space.Reports[index].Code}.json";
-
-                            var component = (ComponentModel)_components[_project.Space.Reports[index].Code];
-                            Console.WriteLine($@"Code: {_project.Space.Reports[index].Code}");
-                            Console.WriteLine($@"Name: {component.Name}");
-                            Console.WriteLine(@$"Component Alignment: {component.Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT)}");
-                            Console.WriteLine(@$"Component Alignment: {component.Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC)}");
-                            Console.WriteLine(@$"Component Alignment: {component.Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VB)}");
                             
                             File.Create(filePath).Dispose();
                             

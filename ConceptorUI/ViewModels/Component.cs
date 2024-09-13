@@ -229,7 +229,7 @@ namespace ConceptorUi.ViewModels
                         if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
                             AllowExpanded())
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-                        else if(value == "0")
+                        else if (value == "0")
                             Parent.OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
                     }
                     else if (propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
@@ -251,7 +251,7 @@ namespace ConceptorUi.ViewModels
                         if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
                             AllowExpanded(false))
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
-                        else if(value == "0")
+                        else if (value == "0")
                             Parent.OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
                     }
                 }
@@ -1175,9 +1175,9 @@ namespace ConceptorUi.ViewModels
         public void OnDeserializer(CompSerializer compSerializer)
         {
             PropertyGroups = compSerializer.Properties;
-
-            #region
             
+            #region
+
             if (compSerializer.Children != null)
             {
                 AddedChildrenCount = compSerializer.Children.Count;
@@ -1359,7 +1359,7 @@ namespace ConceptorUi.ViewModels
             {
                 var found = propNames.Any(name => property.Name == name);
 
-                if (found) continue;
+                if (!found) continue;
 
                 isNull = property.Value == "0";
                 if (!isNull) break;
