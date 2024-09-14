@@ -28,7 +28,7 @@ namespace ConceptorUI.Views.Component
         private int _clickCount;
         private ComponentList _componentName;
 
-        public ICommand RefreshPropertyPanelCommand;
+        public ICommand? RefreshPropertyPanelCommand;
 
         public PageView()
         {
@@ -299,7 +299,6 @@ namespace ConceptorUI.Views.Component
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
             _components[_project.Space.Reports[SelectedReport].Code].OnUpdated(groupName, propertyName, value);
-            //Console.WriteLine($@"Group Name: {groupName}, Property Name: {propertyName}, Value: {value}");
         }
 
         private void RefreshStructuralView()
@@ -341,7 +340,7 @@ namespace ConceptorUI.Views.Component
 
             if (values!["selected"])
             {
-                RefreshPropertyPanelCommand.Execute(values);
+                RefreshPropertyPanelCommand?.Execute(values);
 
                 RefreshStructuralView();
 
@@ -422,7 +421,7 @@ namespace ConceptorUI.Views.Component
                         );
 
 
-                        ConceptorUi.ViewModels.Component windowModel = null!;
+                        ConceptorUi.ViewModels.Component windowModel;
 
                         if (compSerializer!.Name == ComponentList.Container.ToString())
                             windowModel = new ComponentModel();
@@ -432,7 +431,7 @@ namespace ConceptorUI.Views.Component
                         windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
                         windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
 
-                        windowModel.OnDeserializer(compSerializer!);
+                        windowModel.OnDeserializer(compSerializer);
                         _components.Add("unknown", windowModel);
                         break;
                     }

@@ -18,7 +18,7 @@ namespace ConceptorUI.Views.Component
         private const string ColorOn = "#6739b7";
         private const string ColorOff = "#8c8c8a";
 
-        private GroupProperties _properties;
+        private GroupProperties? _properties;
 
         private double _opacity;
         private bool _allowSetField;
@@ -313,7 +313,7 @@ namespace ConceptorUI.Views.Component
             switch (tag)
             {
                 case "BorderStyle":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "1")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "1")
                     {
                         MouseDownCommand?.Execute(
                             new dynamic[]
@@ -361,7 +361,7 @@ namespace ConceptorUI.Views.Component
             switch (tag)
             {
                 case "Margin":
-                    if (_properties.GetValue(PropertyNames.CMargin) == "1")
+                    if (_properties!.GetValue(PropertyNames.CMargin) == "1")
                     {
                         found = false;
                         MouseDownCommand?.Execute(
@@ -382,7 +382,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "Padding":
-                    if (_properties.GetValue(PropertyNames.CPadding) == "1")
+                    if (_properties!.GetValue(PropertyNames.CPadding) == "1")
                     {
                         found = false;
                         MouseDownCommand?.Execute(
@@ -403,7 +403,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderW":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "1")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "1")
                     {
                         found = false;
                         MouseDownCommand?.Execute(
@@ -425,7 +425,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRad":
-                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
+                    if (_properties!.GetValue(PropertyNames.CBorderRadius) == "1")
                     {
                         found = false;
                         MouseDownCommand?.Execute(
@@ -460,13 +460,14 @@ namespace ConceptorUI.Views.Component
             var found = false;
             var propertyName = PropertyNames.None;
             var value = string.Empty;
+            _allowSetField = false;
 
             #region
 
             switch (tag)
             {
                 case "MarginLeft":
-                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
+                    if (_properties!.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginRight.Background = BMarginBot.Background =
@@ -479,7 +480,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "MarginRight":
-                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
+                    if (_properties!.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginLeft.Background = BMarginBot.Background =
@@ -492,7 +493,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "MarginTop":
-                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
+                    if (_properties!.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginLeft.Background = BMarginRight.Background = BMarginBot.Background =
@@ -505,7 +506,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "MarginBot":
-                    if (_properties.GetValue(PropertyNames.CMargin) == "0")
+                    if (_properties!.GetValue(PropertyNames.CMargin) == "0")
                     {
                         BMarginBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BMarginTop.Background = BMarginRight.Background = BMarginLeft.Background =
@@ -518,7 +519,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "PaddingLeft":
-                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
+                    if (_properties!.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingRight.Background = BPaddingBot.Background =
@@ -531,7 +532,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "PaddingRight":
-                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
+                    if (_properties!.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingLeft.Background = BPaddingBot.Background =
@@ -544,7 +545,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "PaddingTop":
-                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
+                    if (_properties!.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingLeft.Background = BPaddingRight.Background = BPaddingBot.Background =
@@ -557,7 +558,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "PaddingBot":
-                    if (_properties.GetValue(PropertyNames.CPadding) == "0")
+                    if (_properties!.GetValue(PropertyNames.CPadding) == "0")
                     {
                         BPaddingBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BPaddingTop.Background = BPaddingRight.Background = BPaddingLeft.Background =
@@ -570,7 +571,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderLeft":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderLeft.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderRight.Background = BBorderBot.Background =
@@ -583,7 +584,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRight":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderRight.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderLeft.Background = BBorderBot.Background =
@@ -596,7 +597,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderTop":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderTop.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderLeft.Background = BBorderRight.Background = BBorderBot.Background =
@@ -609,7 +610,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderBot":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "0")
                     {
                         BBorderBot.Background = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderTop.Background = BBorderRight.Background = BBorderLeft.Background =
@@ -622,7 +623,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRadTL":
-                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadTL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush =
@@ -635,7 +636,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRadBL":
-                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadBL.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadTL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadBR.BorderBrush =
@@ -648,7 +649,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRadTR":
-                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadTR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTL.BorderBrush = BBorderRadBR.BorderBrush =
@@ -661,7 +662,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "BorderRadBR":
-                    if (_properties.GetValue(PropertyNames.CBorderRadius) == "0")
+                    if (_properties!.GetValue(PropertyNames.CBorderRadius) == "0")
                     {
                         BBorderRadBR.BorderBrush = new BrushConverter().ConvertFrom(ColorOn) as SolidColorBrush;
                         BBorderRadBL.BorderBrush = BBorderRadTR.BorderBrush = BBorderRadTL.BorderBrush =
@@ -698,6 +699,8 @@ namespace ConceptorUI.Views.Component
             );
 
             #endregion
+            
+            _allowSetField = true;
         }
 
         private void OnColorChecked(object sender, RoutedEventArgs e)
@@ -804,7 +807,7 @@ namespace ConceptorUI.Views.Component
                     found = true;
                     break;
                 case "BorderC":
-                    if (_properties.GetValue(PropertyNames.CBorder) == "1") propertyName = PropertyNames.BorderColor;
+                    if (_properties!.GetValue(PropertyNames.CBorder) == "1") propertyName = PropertyNames.BorderColor;
                     else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft")
                         propertyName = PropertyNames.BorderLeftColor;
                     else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop")
@@ -837,40 +840,6 @@ namespace ConceptorUI.Views.Component
             MouseDownCommand?.Execute(
                 new dynamic[] { GroupNames.Appearance, propertyName, value }
             );
-        }
-
-        public void SetColor(Brush color, int id)
-        {
-            var propertyName = PropertyNames.FillColor;
-            if (id == 0)
-            {
-                BBorderC.Background = color;
-                if (_properties.GetValue(PropertyNames.CBorder) == "1")
-                {
-                    PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderColor, color.ToString());
-                    PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderLeftColor, color.ToString());
-                    PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderTopColor, color.ToString());
-                    PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderRightColor, color.ToString());
-                    PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.BorderBottomColor,
-                        color.ToString());
-                }
-                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft")
-                    propertyName = PropertyNames.BorderColor;
-                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderTop")
-                    propertyName = PropertyNames.BorderColor;
-                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderRight")
-                    propertyName = PropertyNames.BorderColor;
-                else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderBottom")
-                    propertyName = PropertyNames.BorderColor;
-
-                if (propertyName != PropertyNames.FillColor)
-                    PanelProperty.ReactToProps(GroupNames.Appearance, propertyName, color.ToString());
-            }
-            else if (id == 1)
-            {
-                BFillColor.Background = color;
-                PanelProperty.ReactToProps(GroupNames.Appearance, PropertyNames.FillColor, color.ToString());
-            }
         }
 
         private void OnBorderColorChangedHandle(object color)

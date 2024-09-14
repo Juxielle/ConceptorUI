@@ -102,15 +102,11 @@ namespace ConceptorUI.Views.Component
                 }
             }
         }
-
-        public static void ReactToProps(GroupNames groupName, PropertyNames propertyName, string value)
-        {
-            //PageView.Instance.SetProperty(groupName, propertyName, value);
-        }
-
+        
         private void BtnClick(object sender, RoutedEventArgs e)
         {
             var tag = (sender as Button)!.Tag.ToString()!;
+            
             switch (tag)
             {
                 case "Entity": SetPanel(); break;

@@ -79,7 +79,7 @@ namespace ConceptorUi.ViewModels
 
         private void OnSelectedHandle(object sender)
         {
-            SelectedCommand.Execute(sender);
+            SelectedCommand?.Execute(sender);
         }
 
         public bool OnChildSelected()

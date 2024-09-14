@@ -144,7 +144,7 @@ namespace ConceptorUI.Views.Component
                         var dbIcon = new DbIcons();
                         dbIcon.OnValueChangedEvent += (data, _) =>
                         {
-                            MouseDownCommand.Execute(
+                            MouseDownCommand?.Execute(
                                 new dynamic[] { GroupNames.Global, PropertyNames.FilePicker, (data! as string)! }
                             );
                         };
@@ -181,7 +181,7 @@ namespace ConceptorUI.Views.Component
             }
 
             if (!allowSend) return;
-            MouseDownCommand.Execute(
+            MouseDownCommand?.Execute(
                 new dynamic[] { GroupNames.Global, propertyName, sendValue }
             );
         }
@@ -198,7 +198,9 @@ namespace ConceptorUI.Views.Component
                 switch (tag)
                 {
                     case "Focus":
-                        PanelProperty.ReactToProps(GroupNames.Global, PropertyNames.Focus, value == "0" ? "1" : "0");
+                        MouseDownCommand?.Execute(
+                            new dynamic[] { GroupNames.Global, PropertyNames.Focus, value == "0" ? "1" : "0" }
+                        );
                         break;
                 }
             }
