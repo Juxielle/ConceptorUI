@@ -1,49 +1,26 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class AlignmentProperty : IAlignment
+    public partial class AlignmentProperty
     {
-        private static AlignmentProperty? _obj;
         private bool _isContentAlignment;
         private GroupProperties _properties;
         
-        public event EventHandler? PreMouseDownEvent;
-        private readonly object _mouseDownLock = new();
+        public ICommand? MouseDownCommand;
 
         public AlignmentProperty()
         {
             InitializeComponent();
             
-            _obj = this;
             _isContentAlignment = true;
             _properties = new GroupProperties();
-        }
-        
-        event EventHandler IAlignment.OnMouseDown
-        {
-            add
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent -= value;
-                }
-            }
         }
 
         public void Refresh(bool value)
@@ -187,9 +164,8 @@ namespace ConceptorUI.Views.Component
             }
 
             LoadValue(tag, sendValue);
-            PreMouseDownEvent!.Invoke(
-                new dynamic[]{_isContentAlignment ? GroupNames.Alignment : GroupNames.SelfAlignment, propertyName, sendValue}, 
-                EventArgs.Empty
+            MouseDownCommand!.Execute(
+                new dynamic[]{_isContentAlignment ? GroupNames.Alignment : GroupNames.SelfAlignment, propertyName, sendValue}
             );
         }
 

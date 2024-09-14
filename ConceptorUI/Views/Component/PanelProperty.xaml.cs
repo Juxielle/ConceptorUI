@@ -1,19 +1,18 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
 using ConceptorUI.Models;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
+using ConceptorUI.Inputs;
 
 
 namespace ConceptorUI.Views.Component
 {
-    partial class PanelProperty : IValue
+    partial class PanelProperty
     {
-        public event EventHandler? OnValueChangedEvent;
-        private readonly object _valueChangedLock = new();
+        public ICommand? MouseDownCommand;
         
         public PanelProperty()
         {
@@ -22,24 +21,6 @@ namespace ConceptorUI.Views.Component
             //
             // Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
             // Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
-        }
-        
-        event EventHandler IValue.OnValueChanged
-        {
-            add
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent -= value;
-                }
-            }
         }
 
         public void FeedProps(object value, ComponentList componentName)
@@ -74,50 +55,50 @@ namespace ConceptorUI.Views.Component
                 {
                     alignment.FeedProps(group);
                     alignment.Visibility = Visibility.Visible;
-                    alignment.PreMouseDownEvent += OnValueChangedHandle!;
+                    alignment.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
                     selfAlignment.FeedProps(group);
                     selfAlignment.Visibility = Visibility.Visible;
-                    selfAlignment.PreMouseDownEvent += OnValueChangedHandle!;
+                    selfAlignment.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
                     transform.FeedProps(group);
                     transform.Visibility = Visibility.Visible;
-                    transform.OnValueChangedEvent += OnValueChangedHandle!;
+                    transform.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.Text.ToString())
                 {
                     text.FeedProps(group);
                     text.Visibility = Visibility.Visible;
-                    text.OnValueChangedEvent += OnValueChangedHandle!;
+                    text.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
                     appearance.FeedProps(group);
                     appearance.Visibility = Visibility.Visible;
                     
-                    appearance.PreMouseDownEvent += OnValueChangedHandle!;
+                    appearance.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.GridProperty.ToString())
                 {
                     grid.FeedProps(group);
                     grid.Visibility = Visibility.Visible;
-                    //Grid.PreMouseDownEvent += OnValueChangedHandle!;
+                    //Grid.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
                     global.FeedProps(group, componentName);
                     global.Visibility = Visibility.Visible;
-                    global.PreMouseDownEvent += OnValueChangedHandle!;
+                    global.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.Shadow.ToString())
                 {
                     shadow.FeedProps(group);
                     shadow.Visibility = Visibility.Visible;
-                    shadow.OnValueChangedEvent += OnValueChangedHandle!;
+                    shadow.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
             }
         }
@@ -159,13 +140,9 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        private void OnValueChangedHandle(object sender, EventArgs e)
+        private void OnValueChangedHandle(object sender)
         {
-            //Console.WriteLine($@"Event is sended here.");
-            OnValueChangedEvent!.Invoke(
-                sender,
-                EventArgs.Empty
-            );
+            MouseDownCommand?.Execute(sender);
         }
     }
 }

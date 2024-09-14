@@ -1,49 +1,27 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
+using ConceptorUI.Inputs;
 using ConceptorUI.Models;
 using ConceptorUI.Views.Modals;
 
 namespace ConceptorUI.Views.Component;
 
-public partial class ShadowPanel : IShadow
+public partial class ShadowPanel
 {
-    private static ShadowPanel? _obj;
     private GroupProperties _properties;
     private bool _allowSetField;
 
-    public event EventHandler? OnValueChangedEvent;
-    private readonly object _valueChangedLock = new();
+    public ICommand? MouseDownCommand;
 
     public ShadowPanel()
     {
         _allowSetField = false;
         InitializeComponent();
-        _obj = this;
+
         _properties = new GroupProperties();
-    }
-
-    public static ShadowPanel Instance => _obj == null! ? new ShadowPanel() : _obj;
-
-    event EventHandler IShadow.OnValueChanged
-    {
-        add
-        {
-            lock (_valueChangedLock)
-            {
-                OnValueChangedEvent += value;
-            }
-        }
-        remove
-        {
-            lock (_valueChangedLock)
-            {
-                OnValueChangedEvent -= value;
-            }
-        }
     }
 
     public void FeedProps(object value)
@@ -110,12 +88,11 @@ public partial class ShadowPanel : IShadow
 
         if (propertyName != PropertyNames.None)
         {
-            OnValueChangedEvent?.Invoke(
+            MouseDownCommand?.Execute(
                 new dynamic[]
                 {
                     GroupNames.Shadow, propertyName, value[^1] == '.' ? value.Substring(0, value.Length - 1) : value
-                },
-                EventArgs.Empty
+                }
             );
         }
     }
@@ -129,15 +106,14 @@ public partial class ShadowPanel : IShadow
                 if (CColor.IsChecked == true)
                 {
                     var colorPicker = new ColorPicker(BColor.Background, 1);
-                    colorPicker.PreColorSelectedEvent += (color, _) =>
+                    colorPicker.ColorSelectedCommand = new RelayCommand((color) =>
                     {
-                        OnValueChangedEvent?.Invoke(
-                            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()! },
-                            EventArgs.Empty
+                        MouseDownCommand?.Execute(
+                            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()! }
                         );
 
                         BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
-                    };
+                    });
                     colorPicker.Show();
                 }
 
@@ -153,19 +129,8 @@ public partial class ShadowPanel : IShadow
         if (cb.IsChecked != false) return;
         BColor.Background = Brushes.Transparent;
 
-        OnValueChangedEvent?.Invoke(
-            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, ColorValue.Transparent.ToString() },
-            EventArgs.Empty
-        );
-    }
-
-    public void SetColor(Brush color, int id)
-    {
-        BColor.Background = color;
-
-        OnValueChangedEvent?.Invoke(
-            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color.ToString() },
-            EventArgs.Empty
+        MouseDownCommand?.Execute(
+            new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, ColorValue.Transparent.ToString() }
         );
     }
 }

@@ -5,20 +5,19 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
+using ConceptorUI.Inputs;
 using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class TextProperty : IValue
+    public partial class TextProperty
     {
         private int _firstCount;
         private GroupProperties _properties;
         private bool _allowSetField;
 
-        public event EventHandler? OnValueChangedEvent;
-        private readonly object _valueChangedLock = new();
+        public ICommand? MouseDownCommand;
 
         public TextProperty()
         {
@@ -33,24 +32,6 @@ namespace ConceptorUI.Views.Component
                 CFontFamily.Items.Add(
                     new ComboBoxItem { Content = fontFamily.Source }
                 );
-            }
-        }
-
-        event EventHandler IValue.OnValueChanged
-        {
-            add
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent -= value;
-                }
             }
         }
 
@@ -216,9 +197,8 @@ namespace ConceptorUI.Views.Component
             textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
             var value = textBox.Text == "" ? "0" : textBox.Text;
 
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Text, propertyName, value[^1] == '.' ? value[..^1] : value },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Text, propertyName, value[^1] == '.' ? value[..^1] : value }
             );
         }
 
@@ -248,9 +228,8 @@ namespace ConceptorUI.Views.Component
             if (propertyName == PropertyNames.None) return;
 
             if (_firstCount > 1 && value != null!)
-                OnValueChangedEvent?.Invoke(
-                    new dynamic[] { GroupNames.Text, propertyName, value },
-                    EventArgs.Empty
+                MouseDownCommand?.Execute(
+                    new dynamic[] { GroupNames.Text, propertyName, value }
                 );
             if (_firstCount < 2) _firstCount++;
         }
@@ -302,15 +281,14 @@ namespace ConceptorUI.Views.Component
                     if (CColor.IsChecked == true)
                     {
                         var colorPicker = new ColorPicker(BColor.Background, 1);
-                        colorPicker.PreColorSelectedEvent += (color, _) =>
+                        colorPicker.ColorSelectedCommand = new RelayCommand((color) =>
                         {
-                            OnValueChangedEvent?.Invoke(
-                                new dynamic[] { GroupNames.Text, PropertyNames.Color, color!.ToString()! },
-                                EventArgs.Empty
+                            MouseDownCommand?.Execute(
+                                new dynamic[] { GroupNames.Text, PropertyNames.Color, color.ToString()! }
                             );
 
-                            BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
-                        };
+                            BColor.Background = new BrushConverter().ConvertFrom(color.ToString()!) as SolidColorBrush;
+                        });
                         colorPicker.Show();
                     }
 
@@ -333,9 +311,8 @@ namespace ConceptorUI.Views.Component
 
             if (idP is -1 or 18) return;
             LoadValue(idP, index + "", btnName);
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Text, propertyName, index + "" },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Text, propertyName, index + "" }
             );
         }
 
@@ -393,9 +370,8 @@ namespace ConceptorUI.Views.Component
             if (propertyName == PropertyNames.None) return;
 
             LoadValue(idP, index + "", btnName);
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Text, propertyName, index + "" },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Text, propertyName, index + "" }
             );
         }
 
@@ -407,9 +383,8 @@ namespace ConceptorUI.Views.Component
             if (cb.IsChecked != false) return;
             BColor.Background = Brushes.Transparent;
 
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Text, PropertyNames.Color, ColorValue.Transparent.ToString() },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Text, PropertyNames.Color, ColorValue.Transparent.ToString() }
             );
         }
 

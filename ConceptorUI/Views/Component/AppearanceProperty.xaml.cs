@@ -4,15 +4,16 @@ using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
+using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
 using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class AppearanceProperty : IAppearance
+    public partial class AppearanceProperty
     {
         private const string ColorOn = "#6739b7";
         private const string ColorOff = "#8c8c8a";
@@ -22,32 +23,13 @@ namespace ConceptorUI.Views.Component
         private double _opacity;
         private bool _allowSetField;
 
-        public event EventHandler? PreMouseDownEvent;
-        private readonly object _mouseDownLock = new();
+        public ICommand? MouseDownCommand;
 
         public AppearanceProperty()
         {
             _allowSetField = false;
             InitializeComponent();
             _opacity = 1;
-        }
-
-        event EventHandler IAppearance.OnMouseDown
-        {
-            add
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent -= value;
-                }
-            }
         }
 
         public void FeedProps(object properties)
@@ -333,12 +315,11 @@ namespace ConceptorUI.Views.Component
                 case "BorderStyle":
                     if (_properties.GetValue(PropertyNames.CBorder) == "1")
                     {
-                        PreMouseDownEvent?.Invoke(
+                        MouseDownCommand?.Execute(
                             new dynamic[]
                             {
                                 GroupNames.Appearance, PropertyNames.BorderStyle, comboBox.SelectedIndex.ToString()
-                            },
-                            EventArgs.Empty
+                            }
                         );
                     }
                     else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft")
@@ -355,9 +336,8 @@ namespace ConceptorUI.Views.Component
 
             if (idP != PropertyNames.None)
             {
-                PreMouseDownEvent?.Invoke(
-                    new dynamic[] { GroupNames.Appearance, idP, comboBox.SelectedIndex.ToString() },
-                    EventArgs.Empty
+                MouseDownCommand?.Execute(
+                    new dynamic[] { GroupNames.Appearance, idP, comboBox.SelectedIndex.ToString() }
                 );
             }
         }
@@ -384,12 +364,11 @@ namespace ConceptorUI.Views.Component
                     if (_properties.GetValue(PropertyNames.CMargin) == "1")
                     {
                         found = false;
-                        PreMouseDownEvent?.Invoke(
+                        MouseDownCommand?.Execute(
                             new dynamic[]
                             {
                                 GroupNames.Appearance, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture)
-                            },
-                            EventArgs.Empty
+                            }
                         );
                     }
                     else if (_properties.GetValue(PropertyNames.MarginBtnActif) == "MarginLeft")
@@ -406,12 +385,11 @@ namespace ConceptorUI.Views.Component
                     if (_properties.GetValue(PropertyNames.CPadding) == "1")
                     {
                         found = false;
-                        PreMouseDownEvent?.Invoke(
+                        MouseDownCommand?.Execute(
                             new dynamic[]
                             {
                                 GroupNames.Appearance, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture)
-                            },
-                            EventArgs.Empty
+                            }
                         );
                     }
                     else if (_properties.GetValue(PropertyNames.PaddingBtnActif) == "PaddingLeft")
@@ -428,13 +406,12 @@ namespace ConceptorUI.Views.Component
                     if (_properties.GetValue(PropertyNames.CBorder) == "1")
                     {
                         found = false;
-                        PreMouseDownEvent?.Invoke(
+                        MouseDownCommand?.Execute(
                             new dynamic[]
                             {
                                 GroupNames.Appearance, PropertyNames.BorderWidth,
                                 vd.ToString(CultureInfo.InvariantCulture)
-                            },
-                            EventArgs.Empty
+                            }
                         );
                     }
                     else if (_properties.GetValue(PropertyNames.BorderBtnActif) == "BorderLeft")
@@ -451,13 +428,12 @@ namespace ConceptorUI.Views.Component
                     if (_properties.GetValue(PropertyNames.CBorderRadius) == "1")
                     {
                         found = false;
-                        PreMouseDownEvent?.Invoke(
+                        MouseDownCommand?.Execute(
                             new dynamic[]
                             {
                                 GroupNames.Appearance, PropertyNames.BorderRadius,
                                 vd.ToString(CultureInfo.InvariantCulture)
-                            },
-                            EventArgs.Empty
+                            }
                         );
                     }
                     else if (_properties.GetValue(PropertyNames.BorderRadBtnActif) == "BorderRadiusTopLeft")
@@ -473,9 +449,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (found)
-                PreMouseDownEvent?.Invoke(
-                    new dynamic[] { GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture) },
-                    EventArgs.Empty
+                MouseDownCommand?.Execute(
+                    new dynamic[] { GroupNames.Appearance, idP, vd.ToString(CultureInfo.InvariantCulture) }
                 );
         }
 
@@ -701,19 +676,16 @@ namespace ConceptorUI.Views.Component
                 case "BorderC":
                     if (CBorderC.IsChecked == false) return;
                     var colorPickerB = new ColorPicker(BBorderC.Background, 1);
-                    colorPickerB.PreColorSelectedEvent -= OnBorderColorChangedHandle!;
-                    colorPickerB.PreColorSelectedEvent += OnBorderColorChangedHandle!;
+                    colorPickerB.ColorSelectedCommand = new RelayCommand(OnBorderColorChangedHandle);
                     colorPickerB.Show();
                     break;
                 case "FillColor":
                     if (CFillColor.IsChecked == true)
                     {
                         var colorPicker = new ColorPicker(BFillColor.Background, _opacity);
-                        colorPicker.PreOpacityChangedEvent -= OnFillOpacityChangedHandle!;
-                        colorPicker.PreOpacityChangedEvent += OnFillOpacityChangedHandle!;
+                        colorPicker.OpacityChangedCommand = new RelayCommand(OnFillOpacityChangedHandle);
 
-                        colorPicker.PreColorSelectedEvent -= OnFillColorChangedHandle!;
-                        colorPicker.PreColorSelectedEvent += OnFillColorChangedHandle!;
+                        colorPicker.ColorSelectedCommand = new RelayCommand(OnFillColorChangedHandle);
                         colorPicker.Show();
                     }
 
@@ -721,9 +693,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (!found) return;
-            PreMouseDownEvent?.Invoke(
-                new dynamic[] { GroupNames.Appearance, propertyName, value },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Appearance, propertyName, value }
             );
 
             #endregion
@@ -863,9 +834,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (!found) return;
-            PreMouseDownEvent?.Invoke(
-                new dynamic[] { GroupNames.Appearance, propertyName, value },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Appearance, propertyName, value }
             );
         }
 
@@ -903,32 +873,29 @@ namespace ConceptorUI.Views.Component
             }
         }
 
-        private void OnBorderColorChangedHandle(object color, EventArgs e)
+        private void OnBorderColorChangedHandle(object color)
         {
-            PreMouseDownEvent?.Invoke(
-                new dynamic[] { GroupNames.Appearance, PropertyNames.BorderColor, color.ToString()! },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.BorderColor, color.ToString()! }
             );
 
-            BBorderC.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+            BBorderC.Background = new BrushConverter().ConvertFrom(color.ToString()!) as SolidColorBrush;
         }
 
-        private void OnFillColorChangedHandle(object color, EventArgs e)
+        private void OnFillColorChangedHandle(object color)
         {
-            PreMouseDownEvent?.Invoke(
-                new dynamic[] { GroupNames.Appearance, PropertyNames.FillColor, color.ToString()! },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.FillColor, color.ToString()! }
             );
-            
+
             BFillColor.Background =
-                new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+                new BrushConverter().ConvertFrom(color.ToString()!) as SolidColorBrush;
         }
 
-        private void OnFillOpacityChangedHandle(object opacity, EventArgs e)
+        private void OnFillOpacityChangedHandle(object opacity)
         {
-            PreMouseDownEvent?.Invoke(
-                new dynamic[] { GroupNames.Appearance, PropertyNames.Opacity, opacity.ToString()! },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Appearance, PropertyNames.Opacity, opacity.ToString()! }
             );
         }
     }

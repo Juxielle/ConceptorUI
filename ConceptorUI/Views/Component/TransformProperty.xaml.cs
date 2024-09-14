@@ -1,23 +1,21 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using ConceptorUI.Models;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class TransformProperty : IValue
+    public partial class TransformProperty
     {
         private GroupProperties _properties;
         private int _index;
         private int _firstCount;
         private bool _allowSetField;
 
-        public event EventHandler? OnValueChangedEvent;
-        private readonly object _valueChangedLock = new();
+        public ICommand? MouseDownCommand;
 
         public TransformProperty()
         {
@@ -27,24 +25,6 @@ namespace ConceptorUI.Views.Component
 
             _properties = new GroupProperties();
             _index = 0;
-        }
-
-        event EventHandler IValue.OnValueChanged
-        {
-            add
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_valueChangedLock)
-                {
-                    OnValueChangedEvent -= value;
-                }
-            }
         }
 
         public void FeedProps(object properties)
@@ -156,9 +136,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (propertyName == PropertyNames.None) return;
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Transform, propertyName, value[^1] == '.' ? value[..^1] : value },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Transform, propertyName, value[^1] == '.' ? value[..^1] : value }
             );
         }
 
@@ -203,9 +182,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (propertyName == PropertyNames.None) return;
-            OnValueChangedEvent?.Invoke(
-                new dynamic[] { GroupNames.Transform, propertyName, value },
-                EventArgs.Empty
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Transform, propertyName, value }
             );
         }
 
@@ -230,9 +208,8 @@ namespace ConceptorUI.Views.Component
 
             if (propertyName == PropertyNames.None && value != null!) return;
             if (_firstCount > 1 && value != null)
-                OnValueChangedEvent?.Invoke(
-                    new dynamic[] { GroupNames.Transform, propertyName, value },
-                    EventArgs.Empty
+                MouseDownCommand?.Execute(
+                    new dynamic[] { GroupNames.Transform, propertyName, value }
                 );
             if (_firstCount < 2) _firstCount++;
         }

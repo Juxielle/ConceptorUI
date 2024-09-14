@@ -4,21 +4,20 @@ using System.IO;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Interfaces;
 using ConceptorUi.ViewModels;
 
 
 namespace ConceptorUI.Views.Component
 {
-    public partial class GlobalProperty : IGlobal
+    public partial class GlobalProperty
     {
         private GroupProperties _properties;
         private ComponentList _componentName;
         private bool _allowSetField;
 
-        public event EventHandler? PreMouseDownEvent;
-        private readonly object _mouseDownLock = new();
+        public ICommand? MouseDownCommand;
 
         public GlobalProperty()
         {
@@ -26,24 +25,6 @@ namespace ConceptorUI.Views.Component
 
             _properties = new GroupProperties();
             _componentName = ComponentList.Window;
-        }
-
-        event EventHandler IGlobal.OnMouseDown
-        {
-            add
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_mouseDownLock)
-                {
-                    PreMouseDownEvent -= value;
-                }
-            }
         }
 
         public void FeedProps(object properties, ComponentList componentName)
@@ -105,6 +86,7 @@ namespace ConceptorUI.Views.Component
                     BMoveChildToParent.Visibility = Visibility.Visible;
                 }
             }
+
             _allowSetField = true;
         }
 
@@ -114,7 +96,7 @@ namespace ConceptorUI.Views.Component
             var propertyName = PropertyNames.None;
             var sendValue = string.Empty;
             var allowSend = true;
-            
+
             switch (tag)
             {
                 case "SelectedMode":
@@ -162,12 +144,11 @@ namespace ConceptorUI.Views.Component
                         var dbIcon = new DbIcons();
                         dbIcon.OnValueChangedEvent += (data, _) =>
                         {
-                            PreMouseDownEvent!.Invoke(
-                                new dynamic[] { GroupNames.Global, PropertyNames.FilePicker, (data! as string)! },
-                                EventArgs.Empty
+                            MouseDownCommand.Execute(
+                                new dynamic[] { GroupNames.Global, PropertyNames.FilePicker, (data! as string)! }
                             );
                         };
-                        
+
                         dbIcon.ShowDialog();
                         allowSend = false;
                     }
@@ -200,9 +181,8 @@ namespace ConceptorUI.Views.Component
             }
 
             if (!allowSend) return;
-            PreMouseDownEvent!.Invoke(
-                new dynamic[] { GroupNames.Global, propertyName, sendValue },
-                EventArgs.Empty
+            MouseDownCommand.Execute(
+                new dynamic[] { GroupNames.Global, propertyName, sendValue }
             );
         }
 

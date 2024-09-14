@@ -31,7 +31,7 @@ namespace ConceptorUI
             ContentPages.PreviewMouseDown += OnMouseDown;
 
             ComponentButtons.PreMouseDownEvent += OnAddComponentHandle!;
-            RightPanel.OnValueChangedEvent += OnSetPropertyHandle!;
+            RightPanel.MouseDownCommand = new RelayCommand(OnSetPropertyHandle);
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
         }
@@ -179,7 +179,7 @@ namespace ConceptorUI
             PageView.AddComponent(sender.ToString()!);
         }
 
-        private void OnSetPropertyHandle(object sender, EventArgs e)
+        private void OnSetPropertyHandle(object sender)
         {
             var infos = sender as dynamic[];
             PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);

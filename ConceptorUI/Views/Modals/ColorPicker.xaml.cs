@@ -6,12 +6,11 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
-using ConceptorUI.Interfaces;
 
 namespace ConceptorUI.Views.Modals;
 
 
-public partial class ColorPicker : IColorPicker
+public partial class ColorPicker
 {
     public string PropOriginColor { get; set; }
     private Brush _brush;
@@ -24,11 +23,9 @@ public partial class ColorPicker : IColorPicker
     private readonly List<ColorModel> _gradientColors;
     private CustomColor _customColor;
     
-    public event EventHandler? PreColorSelectedEvent;
-    private readonly object _colorSelectedLock = new();
+    public ICommand? ColorSelectedCommand;
         
-    public event EventHandler? PreOpacityChangedEvent;
-    private readonly object _opacityChangedLock = new();
+    public ICommand? OpacityChangedCommand;
 
     public ColorPicker(Brush color, double opacity)
     {
@@ -62,42 +59,6 @@ public partial class ColorPicker : IColorPicker
         InitColors();
         LoadColorValue(color, false, opacity);
     }
-        
-    event EventHandler IColorPicker.OnColorSelected
-    {
-        add
-        {
-            lock (_colorSelectedLock)
-            {
-                PreColorSelectedEvent += value;
-            }
-        }
-        remove
-        {
-            lock (_colorSelectedLock)
-            {
-                PreColorSelectedEvent -= value;
-            }
-        }
-    }
-        
-    event EventHandler IColorPicker.OnOpacityChanged
-    {
-        add
-        {
-            lock (_opacityChangedLock)
-            {
-                PreOpacityChangedEvent += value;
-            }
-        }
-        remove
-        {
-            lock (_opacityChangedLock)
-            {
-                PreOpacityChangedEvent -= value;
-            }
-        }
-    }
 
     private void ValueChanged(object sender, EventArgs e)
     {
@@ -109,7 +70,7 @@ public partial class ColorPicker : IColorPicker
         ColorBox.Background.Opacity = vd;
         TbA.Text = ColorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
 
-        PreOpacityChangedEvent?.Invoke(vd, EventArgs.Empty);
+        OpacityChangedCommand?.Execute(vd);
     }
 
     private void BtnClick(object sender, RoutedEventArgs e)
@@ -134,7 +95,7 @@ public partial class ColorPicker : IColorPicker
 
     private void SendColorValue(Brush color)
     {
-        PreColorSelectedEvent?.Invoke(color, EventArgs.Empty);
+        ColorSelectedCommand?.Execute(color);
         
         if (_btnIntermed == null!) return;
         _btnIntermed.BorderBrush = _brush;
