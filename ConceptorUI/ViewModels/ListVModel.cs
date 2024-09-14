@@ -93,7 +93,7 @@ namespace ConceptorUi.ViewModels
             }
 
             if (i == -1) return;
-            Children[i].DetacheSelectedHandle();
+            
             _stack.Children.RemoveAt(i);
             Children.RemoveAt(i);
             

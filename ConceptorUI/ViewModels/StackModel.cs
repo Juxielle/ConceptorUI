@@ -14,12 +14,12 @@ namespace ConceptorUi.ViewModels
         public StackModel(bool allowConstraints = false)
         {
             OnInit();
-            
+
             _grid = new Grid();
             Content.Child = _grid;
-            
+
             Name = ComponentList.Stack;
-            
+
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
@@ -65,15 +65,15 @@ namespace ConceptorUi.ViewModels
             Children[id].OnInitialize();
 
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-            if (w != SizeValue.Expand.ToString() && 
+            if (w != SizeValue.Expand.ToString() &&
                 (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal") || IsForceAlignment))
                 Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            if (h != SizeValue.Expand.ToString() && 
+            if (h != SizeValue.Expand.ToString() &&
                 (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical") || IsForceAlignment))
                 Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
-            
+
             IsForceAlignment = false;
         }
 
@@ -113,10 +113,10 @@ namespace ConceptorUi.ViewModels
             }
 
             if (i == -1) return;
-            Children[i].DetacheSelectedHandle();
+
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
-            
+
             OnSelected();
         }
 

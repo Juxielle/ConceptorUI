@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
+using ConceptorUI.Inputs;
 using ConceptorUi.ViewModels;
 
 
@@ -32,7 +33,7 @@ namespace ConceptorUI
             ComponentButtons.PreMouseDownEvent += OnAddComponentHandle!;
             RightPanel.OnValueChangedEvent += OnSetPropertyHandle!;
 
-            PageView.OnRefreshPropertyPanelEvent += OnRefreshPropertyPanelHandle!;
+            PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
         }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
@@ -184,7 +185,7 @@ namespace ConceptorUI
             PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
 
-        private void OnRefreshPropertyPanelHandle(object sender, EventArgs e)
+        private void OnRefreshPropertyPanelHandle(object sender)
         {
             var values = sender as Dictionary<string, dynamic>;
 

@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
@@ -183,7 +182,6 @@ namespace ConceptorUi.ViewModels
         {
             if (Children.Count == 0 || !Children[0].Selected) return;
             
-            Children[0].DetacheSelectedHandle();
             Children.RemoveAt(0);
             (Content.Child as Border)!.Child = null;
             

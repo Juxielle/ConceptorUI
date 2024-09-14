@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -8,13 +7,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using ConceptorUI.Interfaces;
+using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
 
 
 namespace ConceptorUi.ViewModels
 {
-    abstract class Component : IRefreshPropertyView
+    internal abstract class Component
     {
         public ComponentList Name { get; set; }
         private List<GroupProperties>? PropertyGroups { get; set; }
@@ -38,68 +37,9 @@ namespace ConceptorUi.ViewModels
         protected Border SelectedContent;
         protected Border Content;
 
-        public event EventHandler? OnSelectedEvent;
-        private readonly object _selectedLock = new();
-
-        public event EventHandler? OnRefreshPropertyPanelEvent;
-        private readonly object _refreshPropertyPanelLock = new();
-
-        public event EventHandler? OnRefreshStructuralViewEvent;
-        private readonly object _refreshStructuralViewlLock = new();
-
-        event EventHandler IRefreshPropertyView.OnSelected
-        {
-            add
-            {
-                lock (_selectedLock)
-                {
-                    OnSelectedEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_selectedLock)
-                {
-                    OnSelectedEvent -= value;
-                }
-            }
-        }
-
-        event EventHandler IRefreshPropertyView.OnRefreshPropertyPanel
-        {
-            add
-            {
-                lock (_refreshPropertyPanelLock)
-                {
-                    OnRefreshPropertyPanelEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_refreshPropertyPanelLock)
-                {
-                    OnRefreshPropertyPanelEvent -= value;
-                }
-            }
-        }
-
-        event EventHandler IRefreshPropertyView.OnRefreshStructuralView
-        {
-            add
-            {
-                lock (_refreshStructuralViewlLock)
-                {
-                    OnRefreshStructuralViewEvent += value;
-                }
-            }
-            remove
-            {
-                lock (_refreshStructuralViewlLock)
-                {
-                    OnRefreshStructuralViewEvent -= value;
-                }
-            }
-        }
+        public ICommand SelectedCommand;
+        public ICommand RefreshPropertyPanelCommand;
+        public ICommand RefreshStructuralViewCommand;
 
         public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
@@ -126,29 +66,20 @@ namespace ConceptorUi.ViewModels
             SelectedContent.BorderBrush = Brushes.SeaGreen;
             SelectedContent.BorderThickness = new Thickness(0.8);
 
-            OnSelectedEvent?.Invoke(
+            SelectedCommand.Execute(
                 new Dictionary<string, dynamic>
                 {
                     { "selected", true },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
-                },
-                EventArgs.Empty
+                }
             );
             Selected = true;
         }
 
-        private void OnSelectedHandle(object sender, EventArgs e)
+        private void OnSelectedHandle(object sender)
         {
-            OnSelectedEvent?.Invoke(
-                sender,
-                EventArgs.Empty
-            );
-        }
-
-        public void DetacheSelectedHandle()
-        {
-            OnSelectedEvent -= OnSelectedHandle!;
+            SelectedCommand.Execute(sender);
         }
 
         public bool OnChildSelected()
@@ -180,14 +111,13 @@ namespace ConceptorUi.ViewModels
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
 
-            OnSelectedEvent?.Invoke(
+            SelectedCommand.Execute(
                 new Dictionary<string, dynamic>
                 {
                     { "selected", false },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
-                },
-                EventArgs.Empty
+                }
             );
             OnSelected();
         }
@@ -348,14 +278,13 @@ namespace ConceptorUi.ViewModels
                 {
                     if (Children.Count <= 0) return;
 
-                    OnSelectedEvent?.Invoke(
+                    SelectedCommand.Execute(
                         new Dictionary<string, dynamic>
                         {
                             { "selected", false },
                             { "propertyGroups", PropertyGroups! },
                             { "componentName", Name }
-                        },
-                        EventArgs.Empty
+                        }
                     );
                     Children[0].OnSelected();
                 }
@@ -1100,7 +1029,7 @@ namespace ConceptorUi.ViewModels
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
             component.Parent = this;
-            component.OnSelectedEvent += OnSelectedHandle!;
+            component.SelectedCommand = new RelayCommand(OnSelectedHandle);
 
             AddIntoChildContent(component.ComponentView);
             Children.Add(component);
@@ -1127,7 +1056,7 @@ namespace ConceptorUi.ViewModels
                 var name = valueD.Name!;
                 var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
-                component.OnSelectedEvent += OnSelectedHandle!;
+                component.SelectedCommand = new RelayCommand(OnSelectedHandle);
 
                 component.OnDeserializer(valueD);
 
@@ -1189,7 +1118,7 @@ namespace ConceptorUi.ViewModels
                 {
                     var component = ComponentHelper.GetComponent(child.Name!);
                     component.Parent = this;
-                    component.OnSelectedEvent += OnSelectedHandle!;
+                    component.SelectedCommand = new RelayCommand(OnSelectedHandle);
 
                     component.OnDeserializer(child);
                     components.Add(component);
@@ -1230,14 +1159,13 @@ namespace ConceptorUi.ViewModels
         {
             if (structuralElement.Selected)
             {
-                OnSelectedEvent?.Invoke(
+                SelectedCommand.Execute(
                     new Dictionary<string, dynamic>
                     {
                         { "selected", false },
                         { "propertyGroups", PropertyGroups! },
                         { "componentName", Name }
-                    },
-                    EventArgs.Empty
+                    }
                 );
                 OnSelected();
             }
