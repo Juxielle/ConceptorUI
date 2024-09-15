@@ -15,7 +15,7 @@ namespace ConceptorUi.ViewModels
 {
     internal abstract class Component
     {
-        public ComponentList Name { get; set; }
+        protected ComponentList Name { get; set; }
         private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
@@ -32,7 +32,7 @@ namespace ConceptorUi.ViewModels
 
         public FrameworkElement ComponentView;
         public Component Parent;
-        public List<Component> Children;
+        protected List<Component> Children;
 
         protected Border SelectedContent;
         protected Border Content;
@@ -63,9 +63,9 @@ namespace ConceptorUi.ViewModels
 
         public void OnSelected()
         {
-            SelectedContent.BorderBrush = Brushes.SeaGreen;
-            SelectedContent.BorderThickness = new Thickness(0.8);
-
+            SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
+            SelectedContent.BorderThickness = new Thickness(0.6);
+            
             SelectedCommand.Execute(
                 new Dictionary<string, dynamic>
                 {
@@ -1129,8 +1129,8 @@ namespace ConceptorUi.ViewModels
 
                 foreach (var component in components)
                 {
-                    AddIntoChildContent(component.ComponentView);
                     Children.Add(component);
+                    AddIntoChildContent(component.ComponentView);
                     LayoutConstraints(Children.Count - 1, true, expanded);
                 }
             }
@@ -1142,12 +1142,13 @@ namespace ConceptorUi.ViewModels
 
         public StructuralElement AddToStructuralView()
         {
-            var structuralElement = new StructuralElement();
-            structuralElement.Node = Name.ToString();
-            structuralElement.Selected = Selected;
-            structuralElement.Children = new List<StructuralElement>();
-
-            structuralElement.IsSimpleElement = HasChildren;
+            var structuralElement = new StructuralElement
+            {
+                Node = Name.ToString(),
+                Selected = Selected,
+                Children = [],
+                IsSimpleElement = HasChildren
+            };
 
             foreach (var child in Children)
                 structuralElement.Children.Add(child.AddToStructuralView());
@@ -1279,7 +1280,7 @@ namespace ConceptorUi.ViewModels
         {
             var group = GetGroupProperties(align == GroupNames.Alignment ? align : GroupNames.SelfAlignment);
             var propNames = direction == "Horizontal"
-                ? new List<string> { "HL", "HC", "HR" }
+                ? ["HL", "HC", "HR"]
                 : new List<string> { "VT", "VC", "VB" };
 
             var isNull = false;
@@ -1311,8 +1312,8 @@ namespace ConceptorUi.ViewModels
             ComponentView.PreviewMouseDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;
 
-            PropertyGroups = new List<GroupProperties>();
-            Children = new List<Component>();
+            PropertyGroups = [];
+            Children = [];
 
             #region
 

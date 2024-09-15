@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
@@ -95,6 +96,7 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 text!.LineHeight = vd;
             }
+            Console.WriteLine($@"propertyName: {propertyName} -- value: {value}");
         }
 
         public sealed override void SelfConstraints()
