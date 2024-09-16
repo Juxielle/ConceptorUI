@@ -209,7 +209,7 @@ namespace ConceptorUI.Views.Component
         {
             #region Adding new Report
 
-            var windowModel = new ComponentModel();
+            var windowModel = new WindowModel();
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
             windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);

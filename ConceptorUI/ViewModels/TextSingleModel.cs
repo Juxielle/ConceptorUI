@@ -48,19 +48,19 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 10 : vd;
                 text!.FontSize = vd;
             }
-            else if (propertyName == PropertyNames.AlignLeft.ToString())
+            else if (propertyName == PropertyNames.AlignLeft.ToString() && value == "1")
             {
                 text!.TextAlignment = TextAlignment.Left;
             }
-            else if (propertyName == PropertyNames.AlignCenter.ToString())
+            else if (propertyName == PropertyNames.AlignCenter.ToString() && value == "1")
             {
                 text!.TextAlignment = TextAlignment.Center;
             }
-            else if (propertyName == PropertyNames.AlignRight.ToString())
+            else if (propertyName == PropertyNames.AlignRight.ToString() && value == "1")
             {
                 text!.TextAlignment = TextAlignment.Right;
             }
-            else if (propertyName == PropertyNames.AlignJustify.ToString())
+            else if (propertyName == PropertyNames.AlignJustify.ToString() && value == "1")
             {
                 text!.TextAlignment = TextAlignment.Justify;
             }
@@ -106,11 +106,10 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
-            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
             /* Transform */
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.HE, false);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.HE);
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");

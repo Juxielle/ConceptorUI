@@ -55,7 +55,7 @@
                     </Grid>
                     <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" x:Name="WTB"
                          Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom"
-                         Text="0" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="W"/>
+                         Text="" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="W"/>
                 </DockPanel>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0" x:Name="X">
@@ -137,7 +137,7 @@
                     </Grid>
                     <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" x:Name="HTB"
                          Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom"
-                         Text="0" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="H"/>
+                         Text="" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="H"/>
                 </DockPanel>
             </StackPanel>
             <StackPanel Grid.Row="2" Grid.Column="2" Margin="10 0" x:Name="Y">

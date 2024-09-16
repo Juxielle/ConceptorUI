@@ -1,10 +1,11 @@
-﻿using System.Windows.Media;
+﻿using System;
+using System.Windows.Media;
 using System.Globalization;
 
 
 namespace ConceptorUI.Models
 {
-    class ManageEnums
+    internal class ManageEnums
     {
         private static ManageEnums? _obj;
         public static readonly double CellHeight = 23;
@@ -78,7 +79,7 @@ namespace ConceptorUI.Models
             
             foreach (var fontFamily in Fonts.SystemFontFamilies)
             {
-                if(fontFamily.Source == source) return fontFamily;
+                if(string.Equals(fontFamily.Source, source, StringComparison.CurrentCultureIgnoreCase)) return fontFamily;
                 if(i == 0) ff = fontFamily;
                 i++;
             }

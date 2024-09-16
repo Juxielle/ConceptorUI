@@ -1,9 +1,7 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media;
 
 
 namespace ConceptorUi.ViewModels
@@ -36,22 +34,22 @@ namespace ConceptorUi.ViewModels
         {
             (Content.Child as Border)!.Child ??= child;
             
-            if (Children[0].GetType().Name == nameof(TextSingleModel))
-            {
-                Console.WriteLine($@"SelectContent: {(Content.Child as Border)!.Child.GetType()}");
-                
-                Console.WriteLine($@"Content: {((Content.Child as Border)!.Child as Border)!.Child.GetType()}");
-
-                Console.WriteLine($@"Text: {(((Content.Child as Border)!.Child as Border)!.Child as Border)!.Child.GetType()}");
-                
-                // (Content.Child as Border)!.Child = new Border
-                // {
-                //     Background = Brushes.Yellow,
-                //     HorizontalAlignment = HorizontalAlignment.Center,
-                //     VerticalAlignment = VerticalAlignment.Center,
-                //     Child = new Border { Child = new TextBlock { Text = "ENREGISTRER" } }
-                // };
-            }
+            // if (Children[0].GetType().Name == nameof(TextSingleModel))
+            // {
+            //     Console.WriteLine($@"SelectContent: {(Content.Child as Border)!.Child.GetType()}");
+            //     
+            //     Console.WriteLine($@"Content: {((Content.Child as Border)!.Child as Border)!.Child.GetType()}");
+            //
+            //     Console.WriteLine($@"Text: {(((Content.Child as Border)!.Child as Border)!.Child as Border)!.Child.GetType()}");
+            //     
+            //     // (Content.Child as Border)!.Child = new Border
+            //     // {
+            //     //     Background = Brushes.Yellow,
+            //     //     HorizontalAlignment = HorizontalAlignment.Center,
+            //     //     VerticalAlignment = VerticalAlignment.Center,
+            //     //     Child = new Border { Child = new TextBlock { Text = "ENREGISTRER" } }
+            //     // };
+            // }
         }
 
         protected override bool AllowExpanded(bool isWidth = true)

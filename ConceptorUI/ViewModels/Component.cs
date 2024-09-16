@@ -65,7 +65,7 @@ namespace ConceptorUi.ViewModels
         {
             SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             SelectedContent.BorderThickness = new Thickness(0.6);
-            
+
             SelectedCommand.Execute(
                 new Dictionary<string, dynamic>
                 {
@@ -202,6 +202,7 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.HE, "1");
                     }
                     else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
@@ -214,6 +215,7 @@ namespace ConceptorUi.ViewModels
                             var vd = Helper.ConvertToDouble(value);
                             SelectedContent.Width = vd;
                         }
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.HE, "0");
 
                         if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HL) == "1")
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
@@ -241,6 +243,7 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.VE, "1");
                     }
                     else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
@@ -253,6 +256,7 @@ namespace ConceptorUi.ViewModels
                             var vd = Helper.ConvertToDouble(value);
                             SelectedContent.Height = vd;
                         }
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.VE, "0");
 
                         if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VT) == "1")
                             SelectedContent.VerticalAlignment = VerticalAlignment.Top;
@@ -362,15 +366,19 @@ namespace ConceptorUi.ViewModels
                     }
                     else if (propertyName == PropertyNames.Color)
                     {
+                        SetPropertyValue(groupName, propertyName, value);
                     }
                     else if (propertyName == PropertyNames.Text)
                     {
+                        SetPropertyValue(groupName, propertyName, value);
                     }
                     else if (propertyName == PropertyNames.TextWrap)
                     {
+                        SetPropertyValue(groupName, propertyName, value);
                     }
                     else if (propertyName == PropertyNames.LineSpacing)
                     {
+                        SetPropertyValue(groupName, propertyName, value);
                     }
                 }
 
@@ -1096,6 +1104,14 @@ namespace ConceptorUi.ViewModels
             return new CompSerializer
             {
                 Name = Name.ToString(),
+                HasChildren = HasChildren,
+                IsVertical = IsVertical,
+                AddedChildrenCount = AddedChildrenCount,
+                CanAddIntoChildContent = CanAddIntoChildContent,
+                ChildContentLimit = ChildContentLimit,
+                IsInComponent = IsInComponent,
+                IsOriginalComponent = IsOriginalComponent,
+                IsForceAlignment = IsForceAlignment,
                 Properties = PropertyGroups,
                 Children = Children.Count > 0 ? children : null
             };
@@ -1104,7 +1120,15 @@ namespace ConceptorUi.ViewModels
         public void OnDeserializer(CompSerializer compSerializer)
         {
             PropertyGroups = compSerializer.Properties;
-            
+            HasChildren = compSerializer.HasChildren;
+            IsVertical = compSerializer.IsVertical;
+            AddedChildrenCount = compSerializer.AddedChildrenCount;
+            CanAddIntoChildContent = compSerializer.CanAddIntoChildContent;
+            ChildContentLimit = compSerializer.ChildContentLimit;
+            IsInComponent = compSerializer.IsInComponent;
+            IsOriginalComponent = compSerializer.IsOriginalComponent;
+            IsForceAlignment = compSerializer.IsForceAlignment;
+
             #region
 
             if (compSerializer.Children != null)
@@ -1435,7 +1459,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.HE.ToString(),
                             Type = PropertyTypes.Action.ToString(),
-                            Value = "0",
+                            Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
@@ -1464,7 +1488,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.FontFamily.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "0",
+                            Value = "Arial",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()

@@ -197,21 +197,22 @@ namespace ConceptorUi.ViewModels
 
             /* Content Alignment */
             /* Self Alignment */
+            Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                 IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                 IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                 IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
-
+            
             /* Transform */
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.HVE, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.VE : PropertyNames.HE,
-                false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.VE : PropertyNames.HE, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.HE : PropertyNames.VE);
 
             /* Appearance */
             /* Shadow */
