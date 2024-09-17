@@ -16,14 +16,12 @@ namespace ConceptorUI
     {
         private static MainWindow? _obj;
         private readonly List<Project> _projects;
-        private int _selectedProject;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _obj = this;
-            _selectedProject = 0;
             _projects = new List<Project>();
 
             ComponentButtons.PreMouseDownEvent += OnComponentButtonMouseClick!;
