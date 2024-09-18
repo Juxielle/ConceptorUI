@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -682,6 +683,7 @@ namespace ConceptorUi.ViewModels
             }
             else
             {
+                Console.WriteLine(@$"Group: {groupName} -- Property: {propertyName} -- value: {value}");
                 #region
 
                 if (propertyName == PropertyNames.MoveChildToParent)
@@ -1067,7 +1069,7 @@ namespace ConceptorUi.ViewModels
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
 
                 component.OnDeserializer(valueD);
-
+                
                 var expanded = false;
                 foreach (var child in Children)
                 {

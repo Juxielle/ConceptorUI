@@ -96,7 +96,7 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 text!.LineHeight = vd;
             }
-            Console.WriteLine($@"propertyName: {propertyName} -- value: {value}");
+            //Console.WriteLine($@"propertyName: {propertyName} -- value: {value}");
         }
 
         public sealed override void SelfConstraints()
@@ -106,6 +106,7 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
+            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
             /* Transform */
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);

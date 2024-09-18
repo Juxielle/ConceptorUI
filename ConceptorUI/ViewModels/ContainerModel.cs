@@ -16,6 +16,7 @@ namespace ConceptorUi.ViewModels
 
             Name = ComponentList.Container;
             ChildContentLimit = 1;
+            CanAddIntoChildContent = true;
 
             if (allowConstraints) return;
             SelfConstraints();
@@ -215,14 +216,14 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenWidthChanged(string value)
         {
-            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
-            OnUpdated(GroupNames.Alignment, PropertyNames.HL, "0", true);
+            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString())
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "1");
         }
 
         protected override void WhenHeightChanged(string value)
         {
-            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString()) return;
-            OnUpdated(GroupNames.Alignment, PropertyNames.VT, "0", true);
+            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString())
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "1");
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
