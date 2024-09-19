@@ -66,6 +66,7 @@ namespace ConceptorUi.ViewModels
         {
             SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             SelectedContent.BorderThickness = new Thickness(0.6);
+            Selected = true;
 
             SelectedCommand.Execute(
                 new Dictionary<string, dynamic>
@@ -75,7 +76,6 @@ namespace ConceptorUi.ViewModels
                     { "componentName", Name }
                 }
             );
-            Selected = true;
         }
 
         private void OnSelectedHandle(object sender)

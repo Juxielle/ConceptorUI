@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
@@ -15,7 +14,11 @@ namespace ConceptorUi.ViewModels
         {
             OnInit();
 
-            Content.Child = new TextBlock();
+            var text = new TextBlock();
+            text.SizeChanged -= OnTextSizeChanged;
+            text.SizeChanged += OnTextSizeChanged;
+            
+            Content.Child = text;
 
             Name = ComponentList.TextSingle;
             HasChildren = false;
@@ -25,6 +28,17 @@ namespace ConceptorUi.ViewModels
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
+        }
+
+        private void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            var control = sender as TextBlock;
+                
+            SelectedContent.Height = control!.ActualHeight;
+
+            var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            if(width != SizeValue.Expand.ToString())
+                SelectedContent.Width = control.ActualWidth;
         }
 
         protected override void WhenTextChanged(string propertyName, string value)
@@ -96,7 +110,6 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 text!.LineHeight = vd;
             }
-            //Console.WriteLine($@"propertyName: {propertyName} -- value: {value}");
         }
 
         public sealed override void SelfConstraints()

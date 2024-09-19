@@ -3,6 +3,7 @@ using ConceptorUi.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows;
@@ -330,26 +331,23 @@ namespace ConceptorUI.Views.Component
         {
             var values = sender as Dictionary<string, dynamic>;
 
-            foreach (var key in _components.Keys)
+            foreach (var key in _components.Keys.Where(_ => !values!["selected"]))
+                _components[key].OnUnselected();
+
+            if (!values!["selected"]) return;
+            
+            foreach (var key in _components.Keys.Where(key => _components[key].OnChildSelected()))
+                SelectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
+            
+            RefreshPropertyPanelCommand?.Execute(values);
+
+            RefreshStructuralView();
+
+            _clickCount++;
+            _componentName = values["componentName"];
+            if (_componentName == values["componentName"] && _clickCount == 2)
             {
-                if (_components[key].OnChildSelected())
-                    SelectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
-                if (!values!["selected"])
-                    _components[key].OnUnselected();
-            }
-
-            if (values!["selected"])
-            {
-                RefreshPropertyPanelCommand?.Execute(values);
-
-                RefreshStructuralView();
-
-                _clickCount++;
-                _componentName = values["componentName"];
-                if (_componentName == values["componentName"] && _clickCount == 2)
-                {
-                    _clickCount = 0;
-                }
+                _clickCount = 0;
             }
         }
 
