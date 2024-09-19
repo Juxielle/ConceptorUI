@@ -13,9 +13,9 @@
 
     <Window.Resources>
         <Style x:Key="LeftScrollViewer"
-       TargetType="{x:Type ScrollViewer}">
+               TargetType="{x:Type ScrollViewer}">
             <Setter Property="OverridesDefaultStyle"
-          Value="True" />
+                    Value="True" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type ScrollViewer}">
@@ -35,19 +35,19 @@
                                 <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" />
                             </Border>
                             <ScrollBar x:Name="PART_VerticalScrollBar"
-                                 Value="{TemplateBinding VerticalOffset}"
-                                 Maximum="{TemplateBinding ScrollableHeight}"
-                                 ViewportSize="{TemplateBinding ViewportHeight}"
-                                 Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"/>
-                            
+                                       Value="{TemplateBinding VerticalOffset}"
+                                       Maximum="{TemplateBinding ScrollableHeight}"
+                                       ViewportSize="{TemplateBinding ViewportHeight}"
+                                       Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}" />
+
                             <ScrollBar x:Name="PART_HorizontalScrollBar"
-                                 Orientation="Horizontal"
-                                 Grid.Row="1"
-                                 Grid.Column="1"
-                                 Value="{TemplateBinding HorizontalOffset}"
-                                 Maximum="{TemplateBinding ScrollableWidth}"
-                                 ViewportSize="{TemplateBinding ViewportWidth}"
-                                 Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"/>
+                                       Orientation="Horizontal"
+                                       Grid.Row="1"
+                                       Grid.Column="1"
+                                       Value="{TemplateBinding HorizontalOffset}"
+                                       Maximum="{TemplateBinding ScrollableWidth}"
+                                       ViewportSize="{TemplateBinding ViewportWidth}"
+                                       Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}" />
 
                         </Grid>
                     </ControlTemplate>
@@ -56,29 +56,29 @@
         </Style>
 
         <LinearGradientBrush x:Key="MenuPopupBrush"
-                     EndPoint="0.5,1"
-                     StartPoint="0.5,0">
+                             EndPoint="0.5,1"
+                             StartPoint="0.5,0">
             <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="0" />
+                          Offset="0" />
             <GradientStop Color="{DynamicResource ControlMediumColor}"
-                Offset="0.5" />
+                          Offset="0.5" />
             <GradientStop Color="{DynamicResource ControlLightColor}"
-                Offset="1" />
+                          Offset="1" />
         </LinearGradientBrush>
 
         <LinearGradientBrush x:Key="ProgressBarIndicatorAnimatedFill"
-                     StartPoint="0,0"
-                     EndPoint="1,0">
+                             StartPoint="0,0"
+                             EndPoint="1,0">
             <LinearGradientBrush.GradientStops>
                 <GradientStopCollection>
                     <GradientStop Color="#000000FF"
-                    Offset="0" />
+                                  Offset="0" />
                     <GradientStop Color="#600000FF"
-                    Offset="0.4" />
+                                  Offset="0.4" />
                     <GradientStop Color="#600000FF"
-                    Offset="0.6" />
+                                  Offset="0.6" />
                     <GradientStop Color="#000000FF"
-                    Offset="1" />
+                                  Offset="1" />
                 </GradientStopCollection>
             </LinearGradientBrush.GradientStops>
         </LinearGradientBrush>
@@ -88,48 +88,165 @@
         <DockPanel>
             <!--<component:TopPanel DockPanel.Dock="Top"/>-->
 
-            <component:LeftPanel Margin="0 2" Background="White" DockPanel.Dock="Left" x:Name="ComponentButtons"/>
-            
-            <component:RightPanel Margin="0 2" Background="White" DockPanel.Dock="Right"/>
+            <component:LeftPanel Margin="0 2"
+                                 Background="White"
+                                 DockPanel.Dock="Left"
+                                 x:Name="ComponentButtons" />
 
-            <component:PanelProperty Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300"
-                                     Visibility="Collapsed" x:Name="RightPanel"/>
-            <component:PanelStructuralView Margin="0 2" Background="#d2d2d2" DockPanel.Dock="Right" Width="300" 
-                                           Visibility="Collapsed" x:Name="StructuralView"/>
+            <component:RightPanel Margin="0 2"
+                                  Background="White"
+                                  DockPanel.Dock="Right" />
+
+            <component:PanelProperty Margin="0 2"
+                                     Background="#d2d2d2"
+                                     DockPanel.Dock="Right"
+                                     Width="300"
+                                     Visibility="Collapsed"
+                                     x:Name="RightPanel" />
+
+            <component:PanelStructuralView Margin="0 2"
+                                           Background="#d2d2d2"
+                                           DockPanel.Dock="Right"
+                                           Width="300"
+                                           Visibility="Collapsed"
+                                           x:Name="StructuralView" />
 
             <Grid Margin="0 0 0 2" x:Name="ContentPages" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" x:Name="Pages" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto"
+                              x:Name="Pages"
+                              PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component:PageView HorizontalAlignment="Center" Margin="60" Visibility="Visible" x:Name="PageView"/>
-                        <component:ComponentPage HorizontalAlignment="Center" VerticalAlignment="Center"
-                                                 Margin="60" Visibility="Collapsed" x:Name="PageComponent"/>
+                        <component:PageView HorizontalAlignment="Center"
+                                            Margin="60"
+                                            Visibility="Visible"
+                                            x:Name="PageView" />
+
+                        <component:ComponentPage HorizontalAlignment="Center"
+                                                 VerticalAlignment="Center"
+                                                 Margin="60"
+                                                 Visibility="Collapsed"
+                                                 x:Name="PageComponent" />
                     </Grid>
                 </ScrollViewer>
 
-                <Button Background="#e1e1e1" BorderBrush="#666666" BorderThickness="0.4" Margin="10"
-                        Cursor="Hand" Width="40" Height="40" x:Name="BSave" Tag="Save" Click="BtnClick" 
-                        HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <materialDesign:PackIcon Kind="ContentSave" Width="30" Height="30" Foreground="#666666"/>
-                </Button>
-                <Button Background="#e1e1e1" BorderBrush="#8c8c8a" BorderThickness="0.4" Margin="10 60"
-                    Cursor="Hand" Width="40" Height="40" x:Name="Bpdf" Tag="PDF" Click="BtnClick"
-                        HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <materialDesign:PackIcon Kind="FilePdfBox" Width="30" Height="30" Foreground="#666666"/>
-                </Button>
-                <Button Background="#e1e1e1" BorderBrush="#8c8c8a" BorderThickness="0.4" Margin="10 110"
-                        Cursor="Hand" Width="40" Height="40" x:Name="BtnAdd" Tag="ADD" Click="BtnClick"
-                        HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <materialDesign:PackIcon Kind="Plus" Width="30" Height="30" Foreground="#666666"/>
-                </Button>
-                <Button Background="#e1e1e1" BorderBrush="#8c8c8a" BorderThickness="0.4" Margin="10 160"
-                        Cursor="Hand" Width="40" Height="40" x:Name="BtnTrash" Tag="Trash" Click="BtnClick"
-                        HorizontalAlignment="Left" VerticalAlignment="Top">
-                    <materialDesign:PackIcon Kind="Delete" Width="30" Height="30" Foreground="#666666"/>
-                </Button>
-                
-                <component:TextPage HorizontalAlignment="Right" Margin="4 0" Width="400" Visibility="Collapsed" x:Name="TextPage"/>
-                <component:ColorPalette HorizontalAlignment="Right" VerticalAlignment="Bottom" Visibility="Collapsed" x:Name="ColorPalette"/>
-                <component:LeftCompPanel HorizontalAlignment="Left" Margin="0" Width="400" Visibility="Collapsed" x:Name="CompPage"/>
+                <StackPanel>
+                    <StackPanel Margin="10"
+                                Width="50"
+                                HorizontalAlignment="Left">
+                        <Button Background="#e1e1e1"
+                                BorderBrush="#666666"
+                                BorderThickness="0.4"
+                                Cursor="Hand"
+                                Width="40"
+                                Height="40"
+                                Tag="Save"
+                                Click="BtnClick"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="ContentSave"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="#666666" />
+                        </Button>
+                        <TextBlock Text="ENREGISTRER"
+                                   FontSize="7"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#000000" />
+                    </StackPanel>
+
+                    <StackPanel Margin="10"
+                                Width="50"
+                                HorizontalAlignment="Left">
+                        <Button Background="#e1e1e1"
+                                BorderBrush="#8c8c8a"
+                                BorderThickness="0.4"
+                                Cursor="Hand"
+                                Width="40"
+                                Height="40"
+                                Tag="AddReport"
+                                Click="BtnClick"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="BookPlusOutline"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="#666666" />
+                        </Button>
+                        <TextBlock Text="AJOUTER PAGE"
+                                   FontSize="7"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#000000" />
+                    </StackPanel>
+
+                    <StackPanel Margin="10"
+                                Width="50"
+                                HorizontalAlignment="Left">
+                        <Button Background="#e1e1e1"
+                                BorderBrush="#8c8c8a"
+                                BorderThickness="0.4"
+                                Cursor="Hand"
+                                Width="40"
+                                Height="40"
+                                Tag="AddComponent"
+                                Click="BtnClick"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="ShapeRectanglePlus"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="#666666" />
+                        </Button>
+                        <TextBlock Text="AJOUTER COMPOSANT"
+                                   FontSize="7"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#000000" />
+                    </StackPanel>
+
+
+                    <StackPanel Margin="10"
+                                Width="50"
+                                HorizontalAlignment="Left">
+                        <Button Background="#e1e1e1"
+                                BorderBrush="#8c8c8a"
+                                BorderThickness="0.4"
+                                Cursor="Hand"
+                                Width="40"
+                                Height="40"
+                                Tag="Trash"
+                                Click="BtnClick"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="Delete"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="#666666" />
+                        </Button>
+                        <TextBlock Text="SUPPRIMER"
+                                   FontSize="7"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#000000" />
+                    </StackPanel>
+                </StackPanel>
+
+                <component:TextPage HorizontalAlignment="Right"
+                                    Margin="4 0"
+                                    Width="400"
+                                    Visibility="Collapsed"
+                                    x:Name="TextPage" />
+
+                <component:ColorPalette HorizontalAlignment="Right"
+                                        VerticalAlignment="Bottom"
+                                        Visibility="Collapsed"
+                                        x:Name="ColorPalette" />
+
+                <component:LeftCompPanel HorizontalAlignment="Left"
+                                         Margin="0"
+                                         Width="400"
+                                         Visibility="Collapsed"
+                                         x:Name="CompPage" />
             </Grid>
         </DockPanel>
     </Grid>

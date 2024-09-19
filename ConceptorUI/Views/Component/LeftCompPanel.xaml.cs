@@ -183,23 +183,6 @@ namespace ConceptorUI.Views.Component
                     switch (Properties.Instance.SelectedLeftOnglet)
                     {
                         case 1:
-                            new ConfirmDialogBox(
-                                delegate () {
-                                    Properties.Instance.SelectedSpace = _spaces.Count;
-                                    PageView.Instance.NewSpace();
-                                
-                                    Refresh();
-                                    //PageView.Instance.Refresh();
-                                    ActiveItem(Properties.Instance.SelectedSpace, 1);
-
-                                    // PageView.Instance.OnSaved(0, Properties.Instance.SpaceReportModels[Properties.Instance.SelectedSpace].Count - 1);
-                                    // PageView.Instance.OnSaved(2);
-                                },
-                                delegate () { },
-                                "Ajout d'un Space de travail",
-                                "Êtes-vous sûr de vouloir ajouter un nouvel space ? Le cas échéant, le space se crée et s'enregistre automatiquement.",
-                                0
-                            ).ShowDialog();
                             break;
                         case 2:
                             // new ConfirmDialogBox(

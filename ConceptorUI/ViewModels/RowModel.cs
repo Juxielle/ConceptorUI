@@ -665,10 +665,9 @@ namespace ConceptorUi.ViewModels
                 Children[id].Parent = this;
                 /* Global */
                 Children[id].SetPropertyVisibility(GroupNames.Global,
-                    IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop, false);
+                    !IsVertical ? PropertyNames.MoveLeft : PropertyNames.MoveTop);
                 Children[id].SetPropertyVisibility(GroupNames.Global,
-                    IsVertical ? PropertyNames.MoveRight : PropertyNames.MoveBottom, false);
-                Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+                    !IsVertical ? PropertyNames.MoveRight : PropertyNames.MoveBottom);
 
                 /* Content Alignment */
                 /* Self Alignment */

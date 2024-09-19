@@ -27,7 +27,7 @@ namespace ConceptorUI.Views.Component
 
         private string _copiedComponent;
         private int _clickCount;
-        private ComponentList _componentName;
+        private string? _componentId;
 
         public ICommand? RefreshPropertyPanelCommand;
 
@@ -206,11 +206,14 @@ namespace ConceptorUI.Views.Component
             #endregion
         }
 
-        public void NewReport()
+        public void NewReport(bool isComponent = false)
         {
             #region Adding new Report
 
-            var windowModel = new ComponentModel();
+            ConceptorUi.ViewModels.Component windowModel;
+            if (isComponent) windowModel = new ComponentModel();
+            else windowModel = new WindowModel();
+            
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
             windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
@@ -344,10 +347,11 @@ namespace ConceptorUI.Views.Component
             RefreshStructuralView();
 
             _clickCount++;
-            _componentName = values["componentName"];
-            if (_componentName == values["componentName"] && _clickCount == 2)
+            _componentId = values["Id"];
+            if (_componentId == values["Id"] && _clickCount == 2)
             {
                 _clickCount = 0;
+                Console.WriteLine(@"Clic deux fois.");
             }
         }
 

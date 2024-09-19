@@ -1,11 +1,14 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using System.Collections.Generic;
+using ConceptorUI.Models;
 
 namespace ConceptorUi.ViewModels;
 
 internal class ComponentHelper
 {
     public static string? ProjectPath;
-    
+    private static List<string>? _ids;
+
     public static Component GetComponent(string name)
     {
         if (name == ComponentList.TextSingle.ToString())
@@ -48,5 +51,37 @@ internal class ComponentHelper
                name == ComponentList.ListV.ToString() ||
                name == ComponentList.ListH.ToString();
     }
-    
+
+    public static string GenerateId()
+    {
+        if (_ids == null!)
+            _ids = new List<string>();
+
+        var i = 0;
+        var time = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
+        var generateId =  $"{i}{time}";
+
+        while (_ids.Count > 0)
+        {
+            var found = false;
+            foreach (var id in _ids)
+            {
+                if(id == generateId) continue;
+                found = true;
+                break;
+            }
+
+            i++;
+            generateId = $"{i}{time}";
+            if(found) break;
+        }
+
+        _ids.Add(generateId);
+        return generateId;
+    }
+
+    public static void DeleteId(string id)
+    {
+        _ids?.Remove(id);
+    }
 }

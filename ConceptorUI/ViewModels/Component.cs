@@ -20,6 +20,8 @@ namespace ConceptorUi.ViewModels
         private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
+        public string? Id;
+        
         private bool _canSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
@@ -38,7 +40,7 @@ namespace ConceptorUi.ViewModels
         protected Border SelectedContent;
         protected Border Content;
 
-        public ICommand SelectedCommand;
+        public ICommand? SelectedCommand;
         public ICommand RefreshPropertyPanelCommand;
         public ICommand RefreshStructuralViewCommand;
 
@@ -68,9 +70,10 @@ namespace ConceptorUi.ViewModels
             SelectedContent.BorderThickness = new Thickness(0.6);
             Selected = true;
 
-            SelectedCommand.Execute(
+            SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
+                    { "Id", Id! },
                     { "selected", true },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -111,10 +114,11 @@ namespace ConceptorUi.ViewModels
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
-
-            SelectedCommand.Execute(
+            
+            SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
+                    { "Id", Id! },
                     { "selected", false },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -283,9 +287,10 @@ namespace ConceptorUi.ViewModels
                 {
                     if (Children.Count <= 0) return;
 
-                    SelectedCommand.Execute(
+                    SelectedCommand?.Execute(
                         new Dictionary<string, dynamic>
                         {
+                            { "Id", Id! },
                             { "selected", false },
                             { "propertyGroups", PropertyGroups! },
                             { "componentName", Name }
@@ -683,7 +688,6 @@ namespace ConceptorUi.ViewModels
             }
             else
             {
-                Console.WriteLine(@$"Group: {groupName} -- Property: {propertyName} -- value: {value}");
                 #region
 
                 if (propertyName == PropertyNames.MoveChildToParent)
@@ -1067,6 +1071,7 @@ namespace ConceptorUi.ViewModels
                 var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                //component.CreateId();
 
                 component.OnDeserializer(valueD);
                 
@@ -1105,6 +1110,7 @@ namespace ConceptorUi.ViewModels
 
             return new CompSerializer
             {
+                Id = Id,
                 Name = Name.ToString(),
                 HasChildren = HasChildren,
                 IsVertical = IsVertical,
@@ -1122,6 +1128,7 @@ namespace ConceptorUi.ViewModels
         public void OnDeserializer(CompSerializer compSerializer)
         {
             PropertyGroups = compSerializer.Properties;
+            //Id = compSerializer.Id;
             HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
             AddedChildrenCount = compSerializer.AddedChildrenCount;
@@ -1145,6 +1152,7 @@ namespace ConceptorUi.ViewModels
                     var component = ComponentHelper.GetComponent(child.Name!);
                     component.Parent = this;
                     component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                    component.CreateId();
 
                     component.OnDeserializer(child);
                     components.Add(component);
@@ -1186,7 +1194,7 @@ namespace ConceptorUi.ViewModels
         {
             if (structuralElement.Selected)
             {
-                SelectedCommand.Execute(
+                SelectedCommand?.Execute(
                     new Dictionary<string, dynamic>
                     {
                         { "selected", false },
@@ -1323,9 +1331,10 @@ namespace ConceptorUi.ViewModels
             return isNull;
         }
 
-        public string GetId()
+        private void CreateId()
         {
-            return string.Empty;
+            if(Id != null) return;
+            Id = ComponentHelper.GenerateId();
         }
 
         protected void OnInit()

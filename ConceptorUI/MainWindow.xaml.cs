@@ -6,6 +6,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
+using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
 using ConceptorUi.ViewModels;
 
@@ -136,10 +137,21 @@ namespace ConceptorUI
                 case "Save":
                     PageView.OnSaved(0, PageView.SelectedReport);
                     break;
-                case "PDF":
+                case "AddReport":
+                    new ConfirmDialogBox(
+                        "Confirmation",
+                        "Confirmer la création de la page",
+                        AlertType.Confirm,
+                        ()=> PageView.NewReport()
+                    ).ShowDialog();
                     break;
-                case "ADD":
-                    PageView.NewReport();
+                case "AddComponent":
+                    new ConfirmDialogBox(
+                        "Confirmation",
+                        "Confirmer la création du composant",
+                        AlertType.Confirm,
+                        ()=> PageView.NewReport(true)
+                    ).ShowDialog();
                     break;
                 case "Trash":
                     PageView.DeleteReport();

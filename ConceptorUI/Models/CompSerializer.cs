@@ -5,6 +5,7 @@ namespace ConceptorUI.Models
 {
     public class CompSerializer
     {
+        public string? Id { get; set; }
         public string? Name { get; set; }
         public bool HasChildren { get; set; }
         public bool IsVertical { get; set; }
