@@ -9,6 +9,7 @@ using ConceptorUI.Classes;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
 using ConceptorUi.ViewModels;
+using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI
@@ -33,6 +34,7 @@ namespace ConceptorUI
             RightPanel.MouseDownCommand = new RelayCommand(OnSetPropertyHandle);
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
+            PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
         }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
@@ -200,6 +202,18 @@ namespace ConceptorUI
             var values = sender as Dictionary<string, dynamic>;
 
             RightPanel.FeedProps(values!["propertyGroups"], values["componentName"]);
+        }
+
+        private void OnDisplayTextTypingHandle(object sender)
+        {
+            var group = (sender as List<GroupProperties>)!.Find(g => g.Name == GroupNames.Text.ToString());
+            var text = group!.GetValue(PropertyNames.Text);
+            
+            var textTyping = new TextTyping(text)
+            {
+                TextChangedCommand = new RelayCommand(OnSetPropertyHandle)
+            };
+            textTyping.Show();
         }
     }
 }

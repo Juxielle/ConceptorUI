@@ -30,6 +30,7 @@ namespace ConceptorUI.Views.Component
         private string? _componentId;
 
         public ICommand? RefreshPropertyPanelCommand;
+        public ICommand? DisplayTextTypingCommand;
 
         public PageView()
         {
@@ -348,10 +349,12 @@ namespace ConceptorUI.Views.Component
 
             _clickCount++;
             _componentId = values["Id"];
+            
             if (_componentId == values["Id"] && _clickCount == 2)
             {
                 _clickCount = 0;
-                Console.WriteLine(@"Clic deux fois.");
+                if(values["componentName"] == ComponentList.TextSingle)
+                    DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
             }
         }
 
