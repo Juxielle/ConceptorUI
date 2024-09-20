@@ -643,44 +643,44 @@ namespace ConceptorUi.ViewModels
 
                 #region Shadow Property
 
-                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDepth)
-                {
-                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                    SetPropertyValue(groupName, propertyName, value);
-
-                    if (Content.Effect == null!)
-                        Content.Effect = new DropShadowEffect();
-
-                    (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
-                }
-                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.BlurRadius)
-                {
-                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                    SetPropertyValue(groupName, propertyName, value);
-
-                    if (Content.Effect == null!)
-                        Content.Effect = new DropShadowEffect();
-
-                    (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
-                }
-                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDirection)
-                {
-                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                    SetPropertyValue(groupName, propertyName, value);
-                    (Content.Effect as DropShadowEffect)!.Direction = vd;
-                }
-                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowColor)
-                {
-                    if (value == "0") value = ColorValue.Transparent.ToString();
-                    SetPropertyValue(groupName, propertyName, value);
-
-                    if (Content.Effect == null!)
-                        Content.Effect = new DropShadowEffect();
-
-                    (Content.Effect as DropShadowEffect)!.Color = value == ColorValue.Transparent.ToString()
-                        ? Brushes.Transparent.Color
-                        : (new BrushConverter().ConvertFrom(value) as SolidColorBrush)!.Color;
-                }
+                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDepth)
+                // {
+                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                //     SetPropertyValue(groupName, propertyName, value);
+                //
+                //     if (Content.Effect == null!)
+                //         Content.Effect = new DropShadowEffect();
+                //
+                //     (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
+                // }
+                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.BlurRadius)
+                // {
+                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                //     SetPropertyValue(groupName, propertyName, value);
+                //
+                //     if (Content.Effect == null!)
+                //         Content.Effect = new DropShadowEffect();
+                //
+                //     (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
+                // }
+                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDirection)
+                // {
+                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                //     SetPropertyValue(groupName, propertyName, value);
+                //     (Content.Effect as DropShadowEffect)!.Direction = vd;
+                // }
+                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowColor)
+                // {
+                //     if (value == "0") value = ColorValue.Transparent.ToString();
+                //     SetPropertyValue(groupName, propertyName, value);
+                //
+                //     if (Content.Effect == null!)
+                //         Content.Effect = new DropShadowEffect();
+                //
+                //     (Content.Effect as DropShadowEffect)!.Color = value == ColorValue.Transparent.ToString()
+                //         ? Brushes.Transparent.Color
+                //         : (new BrushConverter().ConvertFrom(value) as SolidColorBrush)!.Color;
+                // }
 
                 #endregion
 
@@ -1005,32 +1005,32 @@ namespace ConceptorUi.ViewModels
 
                     #region Shadow Property
 
-                    else if (prop.Name == PropertyNames.ShadowDepth.ToString())
-                    {
-                        var vd = Helper.ConvertToDouble(prop.Value);
-                        if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                        (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
-                    }
-                    else if (prop.Name == PropertyNames.BlurRadius.ToString())
-                    {
-                        var vd = Helper.ConvertToDouble(prop.Value);
-                        if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                        (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
-                    }
-                    else if (prop.Name == PropertyNames.ShadowDirection.ToString())
-                    {
-                        var vd = Helper.ConvertToDouble(prop.Value);
-                        if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                        (Content.Effect as DropShadowEffect)!.Direction = vd;
-                    }
-                    else if (prop.Name == PropertyNames.ShadowColor.ToString())
-                    {
-                        if (prop.Value == "0") prop.Value = ColorValue.Transparent.ToString();
-                        if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                        (Content.Effect as DropShadowEffect)!.Color = prop.Value == ColorValue.Transparent.ToString()
-                            ? Brushes.Transparent.Color
-                            : (new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!.Color;
-                    }
+                    // else if (prop.Name == PropertyNames.ShadowDepth.ToString())
+                    // {
+                    //     var vd = Helper.ConvertToDouble(prop.Value);
+                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
+                    //     (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
+                    // }
+                    // else if (prop.Name == PropertyNames.BlurRadius.ToString())
+                    // {
+                    //     var vd = Helper.ConvertToDouble(prop.Value);
+                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
+                    //     (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
+                    // }
+                    // else if (prop.Name == PropertyNames.ShadowDirection.ToString())
+                    // {
+                    //     var vd = Helper.ConvertToDouble(prop.Value);
+                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
+                    //     (Content.Effect as DropShadowEffect)!.Direction = vd;
+                    // }
+                    // else if (prop.Name == PropertyNames.ShadowColor.ToString())
+                    // {
+                    //     if (prop.Value == "0") prop.Value = ColorValue.Transparent.ToString();
+                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
+                    //     (Content.Effect as DropShadowEffect)!.Color = prop.Value == ColorValue.Transparent.ToString()
+                    //         ? Brushes.Transparent.Color
+                    //         : (new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!.Color;
+                    // }
 
                     #endregion
 

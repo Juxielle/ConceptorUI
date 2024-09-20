@@ -50,4 +50,9 @@ public partial class TextTyping
     {
         Close();
     }
+
+    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
+    {
+        DragMove();
+    }
 }
