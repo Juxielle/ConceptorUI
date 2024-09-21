@@ -94,33 +94,22 @@ namespace ConceptorUI.Views.Component
 
             page.Children.Clear();
 
-            foreach (var report in _project.Space.Reports)
+            var reports = _project.Space.Reports;
+            var counter = 0;
+            for (var i = 0; i < reports.Count; i++)
             {
-                var filePath = $"{_project.FolderPath}/pages/{report.Code}.json";
+                var filePath = $"{_project.FolderPath}/pages/{reports[i].Code}.json";
 
                 if (!File.Exists(filePath)) continue;
 
-                var content = new StackPanel
-                {
-                    Width = 400,
-                    Margin = new Thickness(0, 0, 0, 30)
-                };
-
-                var title = new TextBlock
-                {
-                    Text = report.Name,
-                    FontSize = 14,
-                    Margin = new Thickness(0, 0, 0, 6),
-                    Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                    HorizontalAlignment = HorizontalAlignment.Center
-                };
-
                 var sc = SynchronizationContext.Current;
+                var i1 = i;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
                     var jsonString = File.ReadAllText(filePath);
                     var component = JsonSerializer.Deserialize<CompSerializer>(jsonString)!;
 
+                    var k = i1;
                     sc!.Post(delegate
                     {
                         ConceptorUi.ViewModels.Component windowModel;
@@ -133,14 +122,34 @@ namespace ConceptorUI.Views.Component
                         windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
                         windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
 
-                        _components.Add(report.Code, windowModel);
-                        content.Children.Add(title);
-                        content.Children.Add(windowModel.ComponentView);
-                        page.Children.Add(content);
+                        _components.Add(reports[k].Code, windowModel);
 
                         windowModel.OnDeserializer(component);
 
-                        //InitStructuralView();
+                        counter++;
+                        if (counter != reports.Count) return;
+                        
+                        foreach (var report in reports)
+                        {
+                            var content = new StackPanel
+                            {
+                                Width = 400,
+                                Margin = new Thickness(0, 0, 0, 30)
+                            };
+
+                            var title = new TextBlock
+                            {
+                                Text = report.Name,
+                                FontSize = 14,
+                                Margin = new Thickness(0, 0, 0, 6),
+                                Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
+                                HorizontalAlignment = HorizontalAlignment.Center
+                            };
+                            
+                            content.Children.Add(title);
+                            content.Children.Add(_components[report.Code].ComponentView);
+                            page.Children.Add(content);
+                        }
                     }, null);
                 });
             }
@@ -348,14 +357,15 @@ namespace ConceptorUI.Views.Component
             RefreshStructuralView();
 
             _clickCount++;
-            _componentId = values["Id"];
-            
             if (_componentId == values["Id"] && _clickCount == 2)
             {
                 _clickCount = 0;
                 if(values["componentName"] == ComponentList.TextSingle)
                     DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
             }
+
+            _clickCount = _clickCount >= 2 ? 0 : _clickCount;
+            _componentId = values["Id"];
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)

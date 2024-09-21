@@ -1071,7 +1071,7 @@ namespace ConceptorUi.ViewModels
                 var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                //component.CreateId();
+                component.CreateId();
 
                 component.OnDeserializer(valueD);
                 

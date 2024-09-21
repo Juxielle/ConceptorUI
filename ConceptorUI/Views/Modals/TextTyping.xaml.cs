@@ -8,12 +8,22 @@ namespace ConceptorUI.Views.Modals;
 
 public partial class TextTyping
 {
+    private static TextTyping? _obj;
     public ICommand? TextChangedCommand;
 
-    public TextTyping(string text)
+    public TextTyping()
     {
         InitializeComponent();
+
+        _obj = this;
+    }
+
+    public static TextTyping Instance => _obj ?? new TextTyping();
+
+    public void Refresh(string text)
+    {
         TextField.Text = text;
+        Show();
     }
 
     private void TextChanged(object sender, EventArgs e)
@@ -22,7 +32,7 @@ public partial class TextTyping
 
         if (TextFormated == null) return;
         TextFormated.Text = text;
-        
+
         TextChangedCommand?.Execute(
             new dynamic[] { GroupNames.Text, PropertyNames.Text, text }
         );
@@ -30,7 +40,6 @@ public partial class TextTyping
 
     private new void MouseDown(object sender, EventArgs e)
     {
-        
     }
 
     private void BtnClick(object sender, RoutedEventArgs e)
@@ -48,7 +57,7 @@ public partial class TextTyping
 
     private void OnClose(object sender, MouseButtonEventArgs e)
     {
-        Close();
+        Hide();
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

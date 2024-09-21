@@ -35,6 +35,8 @@ namespace ConceptorUI
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
+
+            TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
         }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
@@ -209,11 +211,7 @@ namespace ConceptorUI
             var group = (sender as List<GroupProperties>)!.Find(g => g.Name == GroupNames.Text.ToString());
             var text = group!.GetValue(PropertyNames.Text);
             
-            var textTyping = new TextTyping(text)
-            {
-                TextChangedCommand = new RelayCommand(OnSetPropertyHandle)
-            };
-            textTyping.Show();
+            TextTyping.Instance.Refresh(text);
         }
     }
 }
