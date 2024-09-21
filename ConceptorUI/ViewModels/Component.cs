@@ -39,6 +39,8 @@ namespace ConceptorUi.ViewModels
 
         protected Border SelectedContent;
         protected Border Content;
+        private Grid _parentContent;
+        protected Border ShadowContent;
 
         public ICommand? SelectedCommand;
         public ICommand RefreshPropertyPanelCommand;
@@ -394,7 +396,7 @@ namespace ConceptorUi.ViewModels
 
                 else if (propertyName == PropertyNames.FillColor)
                 {
-                    Content.Background = value == ColorValue.Transparent.ToString()
+                    Content.Background = ShadowContent.Background = value == ColorValue.Transparent.ToString()
                         ? Brushes.Transparent
                         : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
                     SetPropertyValue(groupName, propertyName, value);
@@ -473,34 +475,34 @@ namespace ConceptorUi.ViewModels
 
                     SetPropertyValue(groupName, PropertyNames.CPadding, "1");
 
-                    Content.Padding = new Thickness(vd);
+                    Content.Padding = ShadowContent.Padding = new Thickness(vd);
                 }
                 else if (propertyName == PropertyNames.PaddingLeft)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.Padding = new Thickness(vd, Content.Padding.Top, Content.Padding.Right,
+                    Content.Padding = ShadowContent.Padding = new Thickness(vd, Content.Padding.Top, Content.Padding.Right,
                         Content.Padding.Bottom);
                 }
                 else if (propertyName == PropertyNames.PaddingTop)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.Padding = new Thickness(Content.Padding.Left, vd, Content.Padding.Right,
+                    Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, vd, Content.Padding.Right,
                         Content.Padding.Bottom);
                 }
                 else if (propertyName == PropertyNames.PaddingRight)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, vd,
+                    Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, vd,
                         Content.Padding.Bottom);
                 }
                 else if (propertyName == PropertyNames.PaddingBottom)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, Content.Padding.Right,
+                    Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, Content.Padding.Right,
                         vd);
                 }
                 else if (propertyName == PropertyNames.CBorder)
@@ -586,34 +588,34 @@ namespace ConceptorUi.ViewModels
 
                     SetPropertyValue(groupName, PropertyNames.CBorderRadius, "1");
 
-                    Content.CornerRadius = new CornerRadius(vd);
+                    Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusTopLeft)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.CornerRadius = new CornerRadius(vd, Content.CornerRadius.TopRight,
+                    Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd, Content.CornerRadius.TopRight,
                         Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusBottomLeft)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, Content.CornerRadius.TopRight,
+                    Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, Content.CornerRadius.TopRight,
                         Content.CornerRadius.BottomRight, vd);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusTopRight)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, vd,
+                    Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, vd,
                         Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusBottomRight)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
-                    Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, Content.CornerRadius.TopRight,
+                    Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, Content.CornerRadius.TopRight,
                         vd, Content.CornerRadius.BottomLeft);
                 }
 
@@ -643,44 +645,44 @@ namespace ConceptorUi.ViewModels
 
                 #region Shadow Property
 
-                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDepth)
-                // {
-                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                //     SetPropertyValue(groupName, propertyName, value);
-                //
-                //     if (Content.Effect == null!)
-                //         Content.Effect = new DropShadowEffect();
-                //
-                //     (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
-                // }
-                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.BlurRadius)
-                // {
-                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                //     SetPropertyValue(groupName, propertyName, value);
-                //
-                //     if (Content.Effect == null!)
-                //         Content.Effect = new DropShadowEffect();
-                //
-                //     (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
-                // }
-                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDirection)
-                // {
-                //     double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
-                //     SetPropertyValue(groupName, propertyName, value);
-                //     (Content.Effect as DropShadowEffect)!.Direction = vd;
-                // }
-                // else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowColor)
-                // {
-                //     if (value == "0") value = ColorValue.Transparent.ToString();
-                //     SetPropertyValue(groupName, propertyName, value);
-                //
-                //     if (Content.Effect == null!)
-                //         Content.Effect = new DropShadowEffect();
-                //
-                //     (Content.Effect as DropShadowEffect)!.Color = value == ColorValue.Transparent.ToString()
-                //         ? Brushes.Transparent.Color
-                //         : (new BrushConverter().ConvertFrom(value) as SolidColorBrush)!.Color;
-                // }
+                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDepth)
+                {
+                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                    SetPropertyValue(groupName, propertyName, value);
+                
+                    if (ShadowContent.Effect == null!)
+                        ShadowContent.Effect = new DropShadowEffect();
+                
+                    (ShadowContent.Effect as DropShadowEffect)!.ShadowDepth = vd;
+                }
+                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.BlurRadius)
+                {
+                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                    SetPropertyValue(groupName, propertyName, value);
+                
+                    if (ShadowContent.Effect == null!)
+                        ShadowContent.Effect = new DropShadowEffect();
+                
+                    (ShadowContent.Effect as DropShadowEffect)!.BlurRadius = vd;
+                }
+                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowDirection)
+                {
+                    double.TryParse(value, NumberStyles.Any, new CultureInfo("en-US"), out var vd);
+                    SetPropertyValue(groupName, propertyName, value);
+                    (ShadowContent.Effect as DropShadowEffect)!.Direction = vd;
+                }
+                else if (groupName == GroupNames.Shadow && propertyName == PropertyNames.ShadowColor)
+                {
+                    if (value == "0") value = ColorValue.Transparent.ToString();
+                    SetPropertyValue(groupName, propertyName, value);
+                
+                    if (ShadowContent.Effect == null!)
+                        ShadowContent.Effect = new DropShadowEffect();
+                
+                    (ShadowContent.Effect as DropShadowEffect)!.Color = value == ColorValue.Transparent.ToString()
+                        ? Brushes.Transparent.Color
+                        : (new BrushConverter().ConvertFrom(value) as SolidColorBrush)!.Color;
+                }
 
                 #endregion
 
@@ -857,7 +859,7 @@ namespace ConceptorUi.ViewModels
 
                     else if (prop.Name == PropertyNames.FillColor.ToString())
                     {
-                        Content.Background = prop.Value == ColorValue.Transparent.ToString()
+                        Content.Background = ShadowContent.Background = prop.Value == ColorValue.Transparent.ToString()
                             ? Brushes.Transparent
                             : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
                     }
@@ -899,30 +901,30 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.Padding.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Padding = new Thickness(vd);
+                        Content.Padding = ShadowContent.Padding = new Thickness(vd);
                     }
                     else if (prop.Name == PropertyNames.PaddingLeft.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Padding = new Thickness(vd, Content.Padding.Top, Content.Padding.Right,
+                        Content.Padding = ShadowContent.Padding = new Thickness(vd, Content.Padding.Top, Content.Padding.Right,
                             Content.Padding.Bottom);
                     }
                     else if (prop.Name == PropertyNames.PaddingTop.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Padding = new Thickness(Content.Padding.Left, vd, Content.Padding.Right,
+                        Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, vd, Content.Padding.Right,
                             Content.Padding.Bottom);
                     }
                     else if (prop.Name == PropertyNames.PaddingRight.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, vd,
+                        Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top, vd,
                             Content.Padding.Bottom);
                     }
                     else if (prop.Name == PropertyNames.PaddingBottom.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top,
+                        Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, Content.Padding.Top,
                             Content.Padding.Right, vd);
                     }
                     else if (prop.Name == PropertyNames.BorderWidth.ToString())
@@ -963,31 +965,31 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.BorderRadius.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.CornerRadius = new CornerRadius(vd);
+                        Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd);
                     }
                     else if (prop.Name == PropertyNames.BorderRadiusTopLeft.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.CornerRadius = new CornerRadius(vd, Content.CornerRadius.TopRight,
+                        Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd, Content.CornerRadius.TopRight,
                             Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                     }
                     else if (prop.Name == PropertyNames.BorderRadiusBottomLeft.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
                             Content.CornerRadius.TopRight,
                             Content.CornerRadius.BottomRight, vd);
                     }
                     else if (prop.Name == PropertyNames.BorderRadiusTopRight.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, vd,
+                        Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft, vd,
                             Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                     }
                     else if (prop.Name == PropertyNames.BorderRadiusBottomRight.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
                             Content.CornerRadius.TopRight,
                             vd, Content.CornerRadius.BottomLeft);
                     }
@@ -1005,32 +1007,32 @@ namespace ConceptorUi.ViewModels
 
                     #region Shadow Property
 
-                    // else if (prop.Name == PropertyNames.ShadowDepth.ToString())
-                    // {
-                    //     var vd = Helper.ConvertToDouble(prop.Value);
-                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                    //     (Content.Effect as DropShadowEffect)!.ShadowDepth = vd;
-                    // }
-                    // else if (prop.Name == PropertyNames.BlurRadius.ToString())
-                    // {
-                    //     var vd = Helper.ConvertToDouble(prop.Value);
-                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                    //     (Content.Effect as DropShadowEffect)!.BlurRadius = vd;
-                    // }
-                    // else if (prop.Name == PropertyNames.ShadowDirection.ToString())
-                    // {
-                    //     var vd = Helper.ConvertToDouble(prop.Value);
-                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                    //     (Content.Effect as DropShadowEffect)!.Direction = vd;
-                    // }
-                    // else if (prop.Name == PropertyNames.ShadowColor.ToString())
-                    // {
-                    //     if (prop.Value == "0") prop.Value = ColorValue.Transparent.ToString();
-                    //     if (Content.Effect == null!) Content.Effect = new DropShadowEffect();
-                    //     (Content.Effect as DropShadowEffect)!.Color = prop.Value == ColorValue.Transparent.ToString()
-                    //         ? Brushes.Transparent.Color
-                    //         : (new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!.Color;
-                    // }
+                    else if (prop.Name == PropertyNames.ShadowDepth.ToString())
+                    {
+                        var vd = Helper.ConvertToDouble(prop.Value);
+                        if (ShadowContent.Effect == null!) ShadowContent.Effect = new DropShadowEffect();
+                        (ShadowContent.Effect as DropShadowEffect)!.ShadowDepth = vd;
+                    }
+                    else if (prop.Name == PropertyNames.BlurRadius.ToString())
+                    {
+                        var vd = Helper.ConvertToDouble(prop.Value);
+                        if (ShadowContent.Effect == null!) ShadowContent.Effect = new DropShadowEffect();
+                        (ShadowContent.Effect as DropShadowEffect)!.BlurRadius = vd;
+                    }
+                    else if (prop.Name == PropertyNames.ShadowDirection.ToString())
+                    {
+                        var vd = Helper.ConvertToDouble(prop.Value);
+                        if (ShadowContent.Effect == null!) ShadowContent.Effect = new DropShadowEffect();
+                        (ShadowContent.Effect as DropShadowEffect)!.Direction = vd;
+                    }
+                    else if (prop.Name == PropertyNames.ShadowColor.ToString())
+                    {
+                        if (prop.Value == "0") prop.Value = ColorValue.Transparent.ToString();
+                        if (ShadowContent.Effect == null!) ShadowContent.Effect = new DropShadowEffect();
+                        (ShadowContent.Effect as DropShadowEffect)!.Color = prop.Value == ColorValue.Transparent.ToString()
+                            ? Brushes.Transparent.Color
+                            : (new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!.Color;
+                    }
 
                     #endregion
 
@@ -1342,7 +1344,14 @@ namespace ConceptorUi.ViewModels
             InitChildContent();
 
             Content = new Border();
-            SelectedContent = new Border { Child = Content };
+            ShadowContent = new Border();
+            
+            _parentContent = new Grid();
+            _parentContent.Children.Add(ShadowContent);
+            _parentContent.Children.Add(Content);
+            
+            SelectedContent = new Border { Child = _parentContent };
+            
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;

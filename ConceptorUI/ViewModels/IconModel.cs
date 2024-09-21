@@ -108,7 +108,7 @@ namespace ConceptorUi.ViewModels
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
 
-                Content.Background = Brushes.Transparent;
+                Content.Background = ShadowContent.Background = Brushes.Transparent;
             }
             else if ((propertyName is PropertyNames.Width or PropertyNames.Height) &&
                      value != SizeValue.Expand.ToString() && value != SizeValue.Auto.ToString())
@@ -133,7 +133,7 @@ namespace ConceptorUi.ViewModels
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
 
-                Content.Background = Brushes.Transparent;
+                Content.Background = ShadowContent.Background = Brushes.Transparent;
             }
             else if ((propertyName == PropertyNames.Width.ToString() ||
                       propertyName == PropertyNames.Height.ToString()) && value != SizeValue.Expand.ToString() &&
