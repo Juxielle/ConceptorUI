@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
@@ -55,7 +56,7 @@ namespace ConceptorUi.ViewModels
             #region When Alignment Changed
 
             if ((IsVertical && propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR) ||
-                propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
+                (!IsVertical && propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB))
             {
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "0");
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "0");
@@ -79,7 +80,8 @@ namespace ConceptorUi.ViewModels
                             true);
                 }
             }
-            else if ((IsVertical && propertyName == PropertyNames.VT) || propertyName == PropertyNames.HL)
+            else if ((IsVertical && propertyName == PropertyNames.VT) ||
+                     (!IsVertical && propertyName == PropertyNames.HL))
             {
                 if (Children.Count > 0)
                 {
@@ -131,7 +133,8 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
             }
-            else if ((IsVertical && propertyName == PropertyNames.VC) || propertyName == PropertyNames.HC)
+            else if ((IsVertical && propertyName == PropertyNames.VC) ||
+                     (!IsVertical && propertyName == PropertyNames.HC))
             {
                 if (Children.Count > 0)
                 {
@@ -180,7 +183,8 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
             }
-            else if ((IsVertical && propertyName == PropertyNames.VB) || propertyName == PropertyNames.HR)
+            else if ((IsVertical && propertyName == PropertyNames.VB) ||
+                     (!IsVertical && propertyName == PropertyNames.HR))
             {
                 if (Children.Count > 0)
                 {
@@ -453,7 +457,7 @@ namespace ConceptorUi.ViewModels
             }
             else if (IsVertical) _grid.RowDefinitions.RemoveAt(fvbc ? i + 1 : i);
             else _grid.ColumnDefinitions.RemoveAt(fvbc ? i + 1 : i);
-            
+
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
@@ -752,7 +756,7 @@ namespace ConceptorUi.ViewModels
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
                 AddSpace(rd.Height, 0);
-                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 1, component.ComponentView);
+                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 2, component.ComponentView);
 
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
                     component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
@@ -765,12 +769,13 @@ namespace ConceptorUi.ViewModels
 
                 AddSpace(rd.Height, 0);
 
-                SetPosition(isDeserialize ? id + 1 : _grid.RowDefinitions.Count, component.ComponentView);
+                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 2, component.ComponentView);
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
                     component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                         SizeValue.Auto.ToString(), true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
+                Console.WriteLine(@"Entre bien ici.");
             }
             else if (sb == "1")
             {
