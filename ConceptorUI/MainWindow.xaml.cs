@@ -104,14 +104,6 @@ namespace ConceptorUI
             ColorPalette.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public void DisplayTextPage(bool display)
-        {
-            if (display)
-                TextPage.LoadText((PageView.Component as Component)!.GetGroupProperties(GroupNames.Text)
-                    .GetValue(PropertyNames.Text));
-            TextPage.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
-        }
-
         public void DisplayCompPage()
         {
             CompPage.Visibility = CompPage.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;

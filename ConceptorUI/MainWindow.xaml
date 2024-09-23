@@ -231,12 +231,6 @@
                     </StackPanel>
                 </StackPanel>
 
-                <component:TextPage HorizontalAlignment="Right"
-                                    Margin="4 0"
-                                    Width="400"
-                                    Visibility="Collapsed"
-                                    x:Name="TextPage" />
-
                 <component:ColorPalette HorizontalAlignment="Right"
                                         VerticalAlignment="Bottom"
                                         Visibility="Collapsed"

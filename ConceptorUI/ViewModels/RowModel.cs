@@ -767,15 +767,19 @@ namespace ConceptorUi.ViewModels
                 if (isDeserialize && id == 0)
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
-                AddSpace(rd.Height, 0);
-
-                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 2, component.ComponentView);
+                if (isDeserialize)
+                    AddSpace(rd.Height, 0);
+                
+                SetPosition(isDeserialize ? id + 1 : GetSpaceCount(), component.ComponentView);
+                if(!isDeserialize)
+                    AddSpace(rd.Height, GetSpaceCount()-1, false);
+                
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
                     component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                         SizeValue.Auto.ToString(), true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
-                Console.WriteLine(@"Entre bien ici.");
+                /* Exemple pour correction de l'Alignement. */
             }
             else if (sb == "1")
             {

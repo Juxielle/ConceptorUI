@@ -294,7 +294,7 @@ namespace ConceptorUI.Views.Component
 
                     break;
                 case "DisplayText":
-                    MainWindow.Instance.DisplayTextPage(true);
+                    //MainWindow.Instance.DisplayTextPage(true);
                     break;
                 case "TextWrap":
                     idP = 21;

@@ -26,81 +26,255 @@
 
         <Border Grid.Column="0"
                 Grid.Row="1"
-                Background="White"
+                Background="#ffffff"
                 BorderBrush="#8c8c8a"
                 BorderThickness=".5"
                 CornerRadius="4">
-            <DockPanel Margin="10">
-                <TextBlock Text="Ecrire du texte"
-                           DockPanel.Dock="Top"
-                           Foreground="#666666"
-                           FontSize="12"
-                           FontWeight="Bold"
-                           Margin="0 0 0 4"
-                           MouseDown="MouseDown" />
-                
-                <TextBox Text="Text"
-                         Height="Auto"
-                         TextWrapping="Wrap"
-                         AcceptsReturn="True"
-                         BorderBrush="#8c8c8a"
-                         BorderThickness="1"
-                         Foreground="#8c8c8a"
-                         FontSize="12"
-                         DockPanel.Dock="Top"
-                         Padding="4"
-                         x:Name="TextField"
-                         TextChanged="TextChanged" />
 
-                <DockPanel DockPanel.Dock="Top"
-                           Margin="0 8 0 0">
-                    <TextBlock Text="Texte formaté"
-                               Foreground="#666666"
-                               FontSize="12"
-                               FontWeight="Bold" />
-                    
-                    <Button Content="Ajouter"
-                            Foreground="#8c8c8a"
-                            FontSize="8"
-                            Width="80"
+            <StackPanel Margin="10">
+                <DockPanel Margin="0 0 0 2">
+                    <Button Background="Transparent"
+                            BorderBrush="#8c8c8a"
+                            BorderThickness="1 1 0 1"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Click="BtnClick"
+                            x:Name="BAlignLeft"
+                            Tag="AlignLeft">
+                        <materialDesign:PackIcon Kind="FormatAlignLeft"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 x:Name="AlignLeft" />
+                    </Button>
+
+                    <Button Background="Transparent"
+                            BorderBrush="#8c8c8a"
+                            BorderThickness="1 1 0 1"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Click="BtnClick"
+                            x:Name="BAlignCenter"
+                            Tag="AlignCenter">
+                        <materialDesign:PackIcon Kind="FormatAlignCenter"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 x:Name="AlignCenter" />
+                    </Button>
+
+                    <Button Background="Transparent"
+                            BorderBrush="#8c8c8a"
+                            BorderThickness="1 1 0 1"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Click="BtnClick"
+                            x:Name="BAlignRight"
+                            Tag="AlignRight">
+                        <materialDesign:PackIcon Kind="FormatAlignRight"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 x:Name="AlignRight" />
+                    </Button>
+
+                    <Button Background="Transparent"
+                            BorderBrush="#8c8c8a"
+                            BorderThickness="1 1 1 1"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Click="BtnClick"
+                            x:Name="BAlignJustify"
+                            Tag="AlignJustify">
+                        <materialDesign:PackIcon Kind="FormatAlignJustify"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 x:Name="AlignJustify" />
+                    </Button>
+
+                    <Button Background="Transparent"
                             BorderBrush="#8c8c8a"
                             BorderThickness="1"
-                            Background="Transparent"
-                            HorizontalAlignment="Right"
-                            Height="20" 
+                            Tag="TextWrap"
                             Cursor="Hand"
+                            Width="20"
+                            Height="20"
                             Click="BtnClick"
-                            Tag="AddText"
-                            Visibility="Collapsed" />
+                            Margin="2 0 0 0"
+                            x:Name="BTextWrap">
+                        <materialDesign:PackIcon Kind="ArrowUDownRight" Width="15" Height="15"
+                                                 Foreground="#8c8c8a" x:Name="TextWrap" />
+                    </Button>
+
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="FontWeight"
+                            DockPanel.Dock="Right"
+                            x:Name="BFontWeight">
+                        <materialDesign:PackIcon Kind="FormatBold"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="FontWeight" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            Margin="4" Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="FontStyle"
+                            DockPanel.Dock="Right"
+                            x:Name="BFontStyle">
+                        <materialDesign:PackIcon Kind="FormatItalic"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="FontStyle" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextThrough"
+                            DockPanel.Dock="Right"
+                            x:Name="BTextThrough">
+                        <materialDesign:PackIcon Kind="FormatStrikethrough"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextThrough" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextOverline"
+                            DockPanel.Dock="Right"
+                            x:Name="BTextOverline">
+                        <materialDesign:PackIcon Kind="FormatOverline"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextOverline" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextUnderline"
+                            DockPanel.Dock="Right"
+                            x:Name="BTextUnderline">
+                        <materialDesign:PackIcon Kind="FormatUnderline"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextUnderline" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            DockPanel.Dock="Right"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextError"
+                            x:Name="BTextError">
+                        <materialDesign:PackIcon Kind="FormatUnderlineWavy"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextError" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            DockPanel.Dock="Right"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextIndex"
+                            x:Name="BTextIndex">
+                        <materialDesign:PackIcon Kind="FormatSubscript"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextIndex" />
+                    </Border>
+
+                    <Border Background="Transparent"
+                            BorderBrush="Transparent"
+                            DockPanel.Dock="Right"
+                            Margin="4"
+                            Cursor="Hand"
+                            Width="20"
+                            Height="20"
+                            Tag="TextExpo"
+                            x:Name="BTextExpo">
+                        <materialDesign:PackIcon Kind="FormatSuperscript"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Foreground="#8c8c8a"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="TextExpo" />
+                    </Border>
+                    <Grid></Grid>
                 </DockPanel>
-                
-                <TextBlock Text="Texte formaté"
-                           DockPanel.Dock="Top"
-                           Foreground="#000000"
-                           FontSize="12"
-                           Margin="0 4 0 4"
-                           x:Name="TextFormated"
-                           TextWrapping="Wrap" />
 
                 <Border BorderBrush="#8c8c8a"
-                        BorderThickness="0 1 0 0"
-                        Margin="0 10 0 0"
-                        DockPanel.Dock="Top"
-                        Visibility="Collapsed">
-                    <TextBlock Text="Lste de formats"
-                               Foreground="#8c8c8a"
-                               FontSize="12"
-                               FontWeight="Bold"
-                               Margin="0 4 0 4" />
+                        BorderThickness="0.5"
+                        CornerRadius="4"
+                        Padding="2">
+                    <TextBox Text="Text"
+                             Height="100"
+                             AcceptsReturn="True"
+                             BorderBrush="#8c8c8a"
+                             BorderThickness="0"
+                             Foreground="#8c8c8a"
+                             FontSize="12"
+                             Padding="2"
+                             x:Name="TextField"
+                             HorizontalScrollBarVisibility="Disabled"
+                             VerticalScrollBarVisibility="Auto"
+                             TextChanged="TextChanged" />
                 </Border>
-                
-                <ScrollViewer DockPanel.Dock="Top"
-                              VerticalScrollBarVisibility="Auto"
-                              Visibility="Collapsed">
-                    <StackPanel>
-                    </StackPanel>
-                </ScrollViewer>
-            </DockPanel>
+            </StackPanel>
         </Border>
 
         <Border Grid.Column="1"

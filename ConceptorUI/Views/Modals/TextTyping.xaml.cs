@@ -30,8 +30,8 @@ public partial class TextTyping
     {
         var text = (sender as TextBox)!.Text;
 
-        if (TextFormated == null) return;
-        TextFormated.Text = text;
+        // if (TextFormated == null) return;
+        // TextFormated.Text = text;
 
         TextChangedCommand?.Execute(
             new dynamic[] { GroupNames.Text, PropertyNames.Text, text }
@@ -50,7 +50,6 @@ public partial class TextTyping
         {
             case "AddText": break;
             case "Close":
-                MainWindow.Instance.DisplayTextPage(false);
                 break;
         }
     }
