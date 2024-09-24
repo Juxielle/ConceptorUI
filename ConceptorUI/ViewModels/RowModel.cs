@@ -756,7 +756,7 @@ namespace ConceptorUi.ViewModels
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
                 AddSpace(rd.Height, 0);
-                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 2, component.ComponentView);
+                SetPosition(isDeserialize ? id + 1 : GetSpaceCount() - 1, component.ComponentView);
 
                 if (!isDeserialize && h == SizeValue.Expand.ToString())
                     component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
@@ -779,7 +779,6 @@ namespace ConceptorUi.ViewModels
                         SizeValue.Auto.ToString(), true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
-                /* Exemple pour correction de l'Alignement. */
             }
             else if (sb == "1")
             {

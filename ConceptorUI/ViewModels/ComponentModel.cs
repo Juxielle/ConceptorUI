@@ -40,7 +40,7 @@ namespace ConceptorUi.ViewModels
                     --> A chaque fois qu'une propriété modifiable du ca est modifiée, On envoie le signale dans le modèle des propriétés.
 
                 --- Reussir à effectuer la copie directe des mises en page: => Crée un conflit avec (*)
-                    --> Lors de la reception du co, on effecte les props et les mises en pages;
+                    --> Lors de la reception du co, on affecte les props et les mises en pages;
                     --> Lorsqu'un co est demandé et qu'il n'est pas encore construit, on le construit d'abord avant de l'envoyer;
                     --> Pour résoudre le problème (*), il suffit de ne pas effectuer des affectations directes:
                         - Lorsqu'il y a une modification du co: On envoie simplement la nouvelle reference;
@@ -51,7 +51,7 @@ namespace ConceptorUi.ViewModels
 
                     ==> Pratique des Composants:
                         - On crée une liste des co dans PageView
-                        - On crée un evenement qui notifie lorsqu'une propriete est modifier.
+                        - On crée un evenement qui notifie lorsqu'une propriete est modifier (La methode OnUpdate va renvoyer l'id et success)
                           Lors de la notification, on précise les infos suivantes:
                           . Nom du composant;
                           . S'il s'agit d'un co ou d'un ca;
@@ -59,6 +59,7 @@ namespace ConceptorUi.ViewModels
                           . Groupe, propriété et valeur de la propriété.
                         - NB: Les ca ont les même Id que leur co;
                         - On crée une méthode pour envoyer les modification des co aux ca;
+                        - Dans OnCopyOrPaste, on precise que le composant collé est composant ou pas
 
                 --- Application des contraintes de visibilité et de sélection
                     --> On ne peut pas ajouter ou supprimer un composant dans un ca;
