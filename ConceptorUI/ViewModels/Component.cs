@@ -1097,7 +1097,7 @@ namespace ConceptorUi.ViewModels
             if(sender.Children == null) return;
             foreach (var child in Children)
                 if(child.Id == Id)
-                    child.OnUpdateProperties();
+                    child.OnUpdateProperties(sender.Children[0]);
         }
 
         public void OnAdd(Component component, bool isExpanded = false)

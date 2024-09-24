@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:widgets="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -12,7 +13,7 @@
         ShowInTaskbar="False"
         Topmost="True"
         WindowStartupLocation="CenterScreen"
-        Title="ColorPicker" Height="250" Width="400">
+        Title="ColorPicker" Height="300" Width="400">
 
     <Grid>
         <Grid.RowDefinitions>
@@ -274,6 +275,8 @@
                              VerticalScrollBarVisibility="Auto"
                              TextChanged="TextChanged" />
                 </Border>
+                
+                <widgets:TextItem Height="35" Margin="0 10 0 0"/>
             </StackPanel>
         </Border>
 
