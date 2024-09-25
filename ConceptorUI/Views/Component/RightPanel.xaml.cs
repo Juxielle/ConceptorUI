@@ -1,26 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-
+using ConceptorUI.Enums;
 
 
 namespace ConceptorUI.Views.Component
 {
-    /// <summary>
-    /// Logique d'interaction pour RightPanel.xaml
-    /// </summary>
-    public partial class RightPanel : UserControl
+    public partial class RightPanel
     {
         public RightPanel()
         {
@@ -29,12 +14,17 @@ namespace ConceptorUI.Views.Component
 
         private void BtnClick(object sender, MouseButtonEventArgs e)
         {
-            string tag = (sender as Border)!.Tag.ToString()!;
+            var tag = (sender as Border)!.Tag.ToString()!;
             switch (tag)
             {
-                case "Props": MainWindow.Instance.OpenRightPanel(); break;
+                case "Props":
+                    MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayPropertyPanel);
+                    break;
                 case "StructView":
-                    MainWindow.Instance.OpenRightPanel(isStructuralView: true);
+                    MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayStructuralView);
+                    break;
+                case "Component":
+                    MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayComponentPanel);
                     break;
             }
         }

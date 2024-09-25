@@ -4,12 +4,15 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:local="clr-namespace:ConceptorUI"
         xmlns:component="clr-namespace:ConceptorUI.Views.Component"
+        xmlns:propertyPanel="clr-namespace:ConceptorUI.Views.PropertyPanel"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         StateChanged="OnStateChanged"
-        Title="Conceptor UI" Height="700" Width="1035" Background="#d2d2d2">
+        Title="Conceptor UI"
+        Height="700"
+        Width="1035"
+        Background="#d2d2d2">
 
     <Window.Resources>
         <Style x:Key="LeftScrollViewer"
@@ -111,7 +114,16 @@
                                            Visibility="Collapsed"
                                            x:Name="StructuralView" />
 
-            <Grid Margin="0 0 0 2" x:Name="ContentPages" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
+            <propertyPanel:ComponentList Margin="0 2"
+                                     Background="#d2d2d2"
+                                     DockPanel.Dock="Right"
+                                     Width="320"
+                                     Visibility="Collapsed"
+                                     x:Name="ComponentList" />
+
+            <Grid Margin="0 0 0 2"
+                  x:Name="ContentPages"
+                  PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                               VerticalScrollBarVisibility="Auto"
                               x:Name="Pages"
@@ -230,11 +242,6 @@
                                    Foreground="#000000" />
                     </StackPanel>
                 </StackPanel>
-
-                <component:ColorPalette HorizontalAlignment="Right"
-                                        VerticalAlignment="Bottom"
-                                        Visibility="Collapsed"
-                                        x:Name="ColorPalette" />
 
                 <component:LeftCompPanel HorizontalAlignment="Left"
                                          Margin="0"

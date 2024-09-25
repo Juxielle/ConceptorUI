@@ -26,7 +26,7 @@
                        MaxHeight="35"
                        FontWeight="Bold"
                        VerticalAlignment="Center"/>
-
+            
             <Border Grid.Column="1"
                     Background="#ffffff"
                     BorderThickness="0"

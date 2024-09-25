@@ -4,11 +4,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using ConceptorUI.Classes;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
-using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
 
 
@@ -79,7 +77,6 @@ namespace ConceptorUI
         {
             if (!e.OriginalSource.Equals(ContentPages) && !e.OriginalSource.Equals(Pages)) return;
             CompPage.Visibility = Visibility.Collapsed;
-            DisplayColorPalette(Brushes.DodgerBlue, false, "FillColor");
         }
 
         public static MainWindow Instance => _obj != null! ? _obj : new MainWindow();
@@ -90,18 +87,6 @@ namespace ConceptorUI
 
             _projects.Add((Project)project);
             PageView.Refresh(_projects[0]);
-        }
-
-        public void DisplayColorPalette(Brush color, bool display, string propOrigin, double opacity = 1.0)
-        {
-            if (display)
-            {
-                ColorPalette.propOriginColor = propOrigin;
-                ColorPalette.LoadColorValue(color, false, opacity);
-            }
-            else ColorPalette.IsOpened = false;
-
-            ColorPalette.Visibility = display ? Visibility.Visible : Visibility.Collapsed;
         }
 
         public void DisplayCompPage()
@@ -115,14 +100,35 @@ namespace ConceptorUI
             PageComponent.Visibility = !isReport ? Visibility.Visible : Visibility.Collapsed;
         }
 
-        public void OpenRightPanel(bool isStructuralView = false)
+        public void OpenRightPanel(RightPanelAction action)
         {
-            RightPanel.Visibility = !isStructuralView
-                ? (RightPanel.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible)
-                : Visibility.Collapsed;
-            StructuralView.Visibility = isStructuralView
-                ? (StructuralView.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible)
-                : Visibility.Collapsed;
+            switch (action)
+            {
+                case RightPanelAction.DisplayPropertyPanel:
+                    StructuralView.Visibility = Visibility.Collapsed;
+                    ComponentList.Visibility = Visibility.Collapsed;
+
+                    RightPanel.Visibility = RightPanel.Visibility == Visibility.Collapsed
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                    break;
+                case RightPanelAction.DisplayStructuralView:
+                    RightPanel.Visibility = Visibility.Collapsed;
+                    ComponentList.Visibility = Visibility.Collapsed;
+
+                    StructuralView.Visibility = StructuralView.Visibility == Visibility.Collapsed
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                    break;
+                case RightPanelAction.DisplayComponentPanel:
+                    RightPanel.Visibility = Visibility.Collapsed;
+                    StructuralView.Visibility = Visibility.Collapsed;
+
+                    ComponentList.Visibility = ComponentList.Visibility == Visibility.Collapsed
+                        ? Visibility.Visible
+                        : Visibility.Collapsed;
+                    break;
+            }
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)
@@ -138,7 +144,7 @@ namespace ConceptorUI
                         "Confirmation",
                         "Confirmer la création de la page",
                         AlertType.Confirm,
-                        ()=> PageView.NewReport()
+                        () => PageView.NewReport()
                     ).ShowDialog();
                     break;
                 case "AddComponent":
@@ -146,7 +152,7 @@ namespace ConceptorUI
                         "Confirmation",
                         "Confirmer la création du composant",
                         AlertType.Confirm,
-                        ()=> PageView.NewReport(true)
+                        () => PageView.NewReport(true)
                     ).ShowDialog();
                     break;
                 case "Trash":
@@ -202,7 +208,7 @@ namespace ConceptorUI
         {
             var group = (sender as List<GroupProperties>)!.Find(g => g.Name == GroupNames.Text.ToString());
             var text = group!.GetValue(PropertyNames.Text);
-            
+
             TextTyping.Instance.Refresh(text);
         }
     }
