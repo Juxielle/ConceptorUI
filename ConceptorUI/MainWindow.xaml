@@ -100,26 +100,26 @@
                                   Background="White"
                                   DockPanel.Dock="Right" />
 
-            <component:PanelProperty Margin="0 2"
+            <component:PanelProperty Width="320"
+                                     Margin="0 2"
                                      Background="#d2d2d2"
                                      DockPanel.Dock="Right"
-                                     Width="300"
                                      Visibility="Collapsed"
                                      x:Name="RightPanel" />
 
-            <component:PanelStructuralView Margin="0 2"
+            <component:PanelStructuralView Width="320"
+                                           Margin="0 2"
                                            Background="#d2d2d2"
                                            DockPanel.Dock="Right"
-                                           Width="300"
                                            Visibility="Collapsed"
                                            x:Name="StructuralView" />
 
-            <propertyPanel:ComponentList Margin="0 2"
-                                     Background="#d2d2d2"
-                                     DockPanel.Dock="Right"
-                                     Width="320"
-                                     Visibility="Collapsed"
-                                     x:Name="ComponentList" />
+            <propertyPanel:ComponentList Width="320"
+                                         Margin="0 2"
+                                         Background="#d2d2d2"
+                                         DockPanel.Dock="Right"
+                                         Visibility="Collapsed"
+                                         x:Name="ComponentList" />
 
             <Grid Margin="0 0 0 2"
                   x:Name="ContentPages"
@@ -129,10 +129,10 @@
                               x:Name="Pages"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component:PageView HorizontalAlignment="Center"
-                                            Margin="60"
+                        <component:PageView Margin="60"
                                             Visibility="Visible"
-                                            x:Name="PageView" />
+                                            x:Name="PageView"
+                                            HorizontalAlignment="Center"/>
 
                         <component:ComponentPage HorizontalAlignment="Center"
                                                  VerticalAlignment="Center"
@@ -146,16 +146,16 @@
                     <StackPanel Margin="10"
                                 Width="50"
                                 HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#666666"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
+                        <Button Tag="Save"
                                 Width="40"
                                 Height="40"
-                                Tag="Save"
+                                Cursor="Hand"
                                 Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
+                                Background="#e1e1e1"
+                                BorderBrush="#666666"
+                                BorderThickness="0.4"
+                                VerticalAlignment="Top"
+                                HorizontalAlignment="Center">
                             <materialDesign:PackIcon Kind="ContentSave"
                                                      Width="30"
                                                      Height="30"

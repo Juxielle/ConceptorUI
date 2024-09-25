@@ -36,8 +36,8 @@ namespace ConceptorUI.Views.Component
 
         public void Refresh()
         {
-            property.Children.Clear();
-            property.Children.Add(StructuralView.Instance.Panel);
+            Property.Children.Clear();
+            Property.Children.Add(StructuralView.Instance.Panel);
         }
     }
 }
