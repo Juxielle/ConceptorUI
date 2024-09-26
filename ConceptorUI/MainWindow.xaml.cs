@@ -127,6 +127,12 @@ namespace ConceptorUI
                     ComponentList.Visibility = ComponentList.Visibility == Visibility.Collapsed
                         ? Visibility.Visible
                         : Visibility.Collapsed;
+
+                    if (ComponentList.Visibility == Visibility.Visible)
+                    {
+                        var components = PageView.SendComponent();
+                        ComponentList.Refresh(components);
+                    }
                     break;
             }
         }

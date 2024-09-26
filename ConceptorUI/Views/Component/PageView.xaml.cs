@@ -128,7 +128,7 @@ namespace ConceptorUI.Views.Component
 
                         counter++;
                         if (counter != reports.Count) return;
-                        
+
                         foreach (var report in reports)
                         {
                             var content = new StackPanel
@@ -145,7 +145,7 @@ namespace ConceptorUI.Views.Component
                                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
                                 HorizontalAlignment = HorizontalAlignment.Center
                             };
-                            
+
                             content.Children.Add(title);
                             content.Children.Add(_components[report.Code].ComponentView);
                             page.Children.Add(content);
@@ -223,7 +223,7 @@ namespace ConceptorUI.Views.Component
             ConceptorUi.ViewModels.Component windowModel;
             if (isComponent) windowModel = new ComponentModel();
             else windowModel = new WindowModel();
-            
+
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
             windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
@@ -348,10 +348,10 @@ namespace ConceptorUI.Views.Component
                 _components[key].OnUnselected();
 
             if (!values!["selected"]) return;
-            
+
             foreach (var key in _components.Keys.Where(key => _components[key].OnChildSelected()))
                 SelectedReport = _project.Space.Reports.FindIndex(r => r.Code == key);
-            
+
             RefreshPropertyPanelCommand?.Execute(values);
 
             RefreshStructuralView();
@@ -360,7 +360,7 @@ namespace ConceptorUI.Views.Component
             if (_componentId == values["Id"] && _clickCount == 2)
             {
                 _clickCount = 0;
-                if(values["componentName"] == ComponentList.TextSingle)
+                if (values["componentName"] == ComponentList.TextSingle)
                     DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
             }
 
@@ -379,6 +379,16 @@ namespace ConceptorUI.Views.Component
         public void OnUnSelect()
         {
             _components[_project.Space.Reports[SelectedReport].Code].OnUnselected();
+        }
+
+        public object SendComponent()
+        {
+            List<ConceptorUi.ViewModels.Component> components = [];
+            components.AddRange(from key in _components.Keys
+                where _components[key].GetType().Name == nameof(ComponentModel)
+                select _components[key]);
+
+            return components;
         }
 
         public void OnSaved(int isPage = 0, int index = 0)
