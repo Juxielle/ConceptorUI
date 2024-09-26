@@ -13,6 +13,7 @@ namespace ConceptorUI.Views.Component
     partial class PanelProperty
     {
         public ICommand? MouseDownCommand;
+        public ICommand? DisplayStructureViewCommand;
         
         public PanelProperty()
         {

@@ -33,7 +33,7 @@ namespace ConceptorUi.ViewModels
             {
                 Text = structuralElement.Node,
                 Foreground = Brushes.Black,
-                FontWeight = FontWeights.Bold,
+                FontWeight = FontWeights.Light,
                 FontSize = 12,
                 VerticalAlignment = VerticalAlignment.Center,
                 Margin = new Thickness(4, 0, 0, 0)
@@ -43,7 +43,7 @@ namespace ConceptorUi.ViewModels
             /* Icon */
             var contentIcon = new Border {
                 Background = structuralElement.IsSimpleElement ? Brushes.Transparent : 
-                    new BrushConverter().ConvertFrom("#dddddd") as SolidColorBrush,
+                    new BrushConverter().ConvertFrom("#f0f0f0") as SolidColorBrush,
                 Cursor = Cursors.Hand,
                 CornerRadius = new CornerRadius(5),
                 Child = new PackIcon
@@ -51,7 +51,7 @@ namespace ConceptorUi.ViewModels
                     Kind = structuralElement.IsSimpleElement ? PackIconKind.File : PackIconKind.Plus,
                     Width = 15,
                     Height = 15,
-                    Foreground = Brushes.Black,
+                    Foreground = Brushes.DodgerBlue,
                     Margin = new Thickness(2)
                 }
             };
@@ -67,9 +67,9 @@ namespace ConceptorUi.ViewModels
             {
                 Margin = new Thickness(gap, 10, 0, 0),
                 Background = !structuralElement.Selected ? Brushes.White : 
-                        new BrushConverter().ConvertFrom("#dddddd") as SolidColorBrush,
+                        new BrushConverter().ConvertFrom("#f0f0f0") as SolidColorBrush,
                 BorderBrush = Brushes.DodgerBlue,
-                BorderThickness = new Thickness(!structuralElement.Selected ? 0 : 1),
+                BorderThickness = new Thickness(!structuralElement.Selected ? 0 : .5),
                 CornerRadius = new CornerRadius(2),
                 Child = stack
             };
@@ -94,7 +94,7 @@ namespace ConceptorUi.ViewModels
         private void SelectItemView(StructuralElement structuralElement, int index, MouseButtonEventArgs e)
         {
             var border = (Panel.Children[index] as Border);
-            var textBlock = ((Panel.Children[index] as Border)!.Child as StackPanel)!.Children?[1];
+            var textBlock = ((Panel.Children[index] as Border)!.Child as StackPanel)!.Children[1];
 
             if (structuralElement.Selected)
             {
