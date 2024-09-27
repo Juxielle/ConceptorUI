@@ -69,7 +69,7 @@ namespace ConceptorUi.ViewModels
         public void OnSelected()
         {
             SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
-            SelectedContent.BorderThickness = new Thickness(0.6);
+            SelectedContent.BorderThickness = new Thickness(0.6, 0.6, 1, 0.6);
             Selected = true;
 
             SelectedCommand?.Execute(

@@ -79,10 +79,9 @@ namespace ConceptorUi.ViewModels
             /* End Icon */
 
             if (structuralElement.Children == null!) return;
-            for(var i = 0; i < structuralElement.Children.Count; i++)
-            {
-                BuildView(structuralElement.Children[i], (gap + Gap), structuralElement.Children[i].IsSimpleElement);
-            }
+            
+            foreach (var child in structuralElement.Children)
+                BuildView(child, (gap + Gap), child.IsSimpleElement);
         }
         
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
