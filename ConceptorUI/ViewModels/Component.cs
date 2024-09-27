@@ -22,7 +22,7 @@ namespace ConceptorUi.ViewModels
         public bool Selected = false;
         public string? Id;
 
-        private bool _canSelect = true;
+        protected bool CanSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
         protected int AddedChildrenCount = 0;
@@ -112,7 +112,7 @@ namespace ConceptorUi.ViewModels
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) !=
+            if (!CanSelect || GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) !=
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
@@ -1074,7 +1074,7 @@ namespace ConceptorUi.ViewModels
             var compDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(compSerialize);
             OnUpdateProperties(compDeSerialize!);
         }
-        
+
         private void OnUpdateProperties(CompSerializer sender)
         {
             var groups = sender.Properties;
@@ -1083,20 +1083,20 @@ namespace ConceptorUi.ViewModels
                 if (group.Visibility == Visibility.Collapsed.ToString() ||
                     group.Name == GroupNames.Alignment.ToString() ||
                     group.Name == GroupNames.SelfAlignment.ToString()) continue;
-                
+
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
                     if (property.Visibility == Visibility.Collapsed.ToString()) continue;
-                    
+
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
                     OnUpdated(groupEnum, propertyEnum, property.Value);
                 }
             }
-            
-            if(sender.Children == null) return;
+
+            if (sender.Children == null) return;
             foreach (var child in Children)
-                if(child.Id == Id)
+                if (child.Id == Id)
                     child.OnUpdateProperties(sender.Children[0]);
         }
 
@@ -1396,6 +1396,15 @@ namespace ConceptorUi.ViewModels
         {
             if (Id != null) return;
             Id = ComponentHelper.GenerateId();
+        }
+
+        public void CanSelectAll(bool isCan = false)
+        {
+            CanSelect = isCan;
+            foreach (var child in Children)
+            {
+                child.CanSelectAll(isCan);
+            }
         }
 
         protected void OnInit()
