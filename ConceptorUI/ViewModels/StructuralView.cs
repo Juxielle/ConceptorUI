@@ -68,7 +68,7 @@ namespace ConceptorUi.ViewModels
                 Margin = new Thickness(gap, 10, 0, 0),
                 Background = !structuralElement.Selected ? Brushes.White : 
                         new BrushConverter().ConvertFrom("#f0f0f0") as SolidColorBrush,
-                BorderBrush = Brushes.DodgerBlue,
+                BorderBrush = Brushes.Transparent,
                 BorderThickness = new Thickness(!structuralElement.Selected ? 0 : .5),
                 CornerRadius = new CornerRadius(2),
                 Child = stack
