@@ -1,12 +1,8 @@
 ﻿using System.Collections.Generic;
-
-
-
 namespace ConceptorUI.Utils;
 
 public class JsonManager
 {
-
     public static string FormatJson(string code, string space)
     {
         var newCode = string.Empty;

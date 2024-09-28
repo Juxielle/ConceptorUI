@@ -143,8 +143,10 @@ namespace ConceptorUI.Views.Component
                                 FontSize = 14,
                                 Margin = new Thickness(0, 0, 0, 6),
                                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                                HorizontalAlignment = HorizontalAlignment.Center
+                                HorizontalAlignment = HorizontalAlignment.Center,
+                                Tag = report.Code
                             };
+                            title.MouseDown += OnSelectedHandle;
 
                             content.Children.Add(title);
                             content.Children.Add(_components[report.Code].ComponentView);
@@ -258,8 +260,10 @@ namespace ConceptorUI.Views.Component
                 FontSize = 14,
                 Margin = new Thickness(0, 0, 0, 6),
                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                HorizontalAlignment = HorizontalAlignment.Center
+                HorizontalAlignment = HorizontalAlignment.Center,
+                Tag = code
             };
+            title.MouseDown += OnSelectedHandle;
 
             content.Children.Add(title);
             content.Children.Add(windowModel.ComponentView);
@@ -491,6 +495,21 @@ namespace ConceptorUI.Views.Component
             }
 
             return index == -1 ? n + 1 : index;
+        }
+
+        private void OnSelectedHandle(object sender, MouseButtonEventArgs e)
+        {
+            var tag = (sender as FrameworkElement)!.Tag as string;
+
+            foreach (var component in _components)
+            {
+                if (component.Key == tag)
+                {
+                    _components[component.Key].OnUnselected();
+                    _components[component.Key].OnSelected();
+                }
+                else _components[component.Key].OnUnselected();
+            }
         }
     }
 }

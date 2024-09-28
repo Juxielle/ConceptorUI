@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
 using System.Threading;
-using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Classes;
@@ -56,7 +55,7 @@ namespace ConceptorUI
                     
                     if(!dircf.Exists)
                     {
-                        var dic = Directory.CreateDirectory(dirBase + @"\UIConceptor\Configs");
+                        Directory.CreateDirectory(dirBase + @"\UIConceptor\Configs");
                     }
                     if (!dirpj.Exists)
                     {

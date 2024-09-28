@@ -89,7 +89,10 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.SelfAlignment, false);
             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "1");
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform);
+            SetGroupVisibility(GroupNames.Transform, false);
+            SetGroupOnlyVisibility(GroupNames.Transform);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
             SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
             SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "620");
             /* Text */

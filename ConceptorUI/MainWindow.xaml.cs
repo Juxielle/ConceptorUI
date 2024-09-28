@@ -187,7 +187,6 @@ namespace ConceptorUI
                     {
                         //
                     }
-
                     break;
             }
         }

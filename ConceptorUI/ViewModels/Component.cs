@@ -20,9 +20,9 @@ namespace ConceptorUi.ViewModels
         private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
-        public string? Id;
+        private string? _id;
 
-        protected bool CanSelect = true;
+        private bool _canSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
         protected int AddedChildrenCount = 0;
@@ -30,7 +30,7 @@ namespace ConceptorUi.ViewModels
         protected int ChildContentLimit = 100;
 
         protected bool IsInComponent = false;
-        public bool IsOriginalComponent = false;
+        private bool _isOriginalComponent = false;
         protected bool IsForceAlignment = false;
 
         public FrameworkElement ComponentView;
@@ -69,13 +69,13 @@ namespace ConceptorUi.ViewModels
         public void OnSelected()
         {
             SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
-            SelectedContent.BorderThickness = new Thickness(0.6, 0.6, 1, 0.6);
+            SelectedContent.BorderThickness = new Thickness(0.6, 0.6, 0.9, 0.9);
             Selected = true;
 
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
-                    { "Id", Id! },
+                    { "Id", _id! },
                     { "selected", true },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -112,7 +112,7 @@ namespace ConceptorUi.ViewModels
 
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
-            if (!CanSelect || GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) !=
+            if (!_canSelect || GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.CanSelect) !=
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
@@ -120,7 +120,7 @@ namespace ConceptorUi.ViewModels
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
-                    { "Id", Id! },
+                    { "Id", _id! },
                     { "selected", false },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -294,7 +294,7 @@ namespace ConceptorUi.ViewModels
                     SelectedCommand?.Execute(
                         new Dictionary<string, dynamic>
                         {
-                            { "Id", Id! },
+                            { "Id", _id! },
                             { "selected", false },
                             { "propertyGroups", PropertyGroups! },
                             { "componentName", Name }
@@ -1062,7 +1062,7 @@ namespace ConceptorUi.ViewModels
 
         public void OnUpdateComponent(CompSerializer sender)
         {
-            if (sender.Id != Id)
+            if (sender.Id != _id)
             {
                 OnUpdateComponent(sender);
                 return;
@@ -1096,7 +1096,7 @@ namespace ConceptorUi.ViewModels
 
             if (sender.Children == null) return;
             foreach (var child in Children)
-                if (child.Id == Id)
+                if (child._id == _id)
                     child.OnUpdateProperties(sender.Children[0]);
         }
 
@@ -1171,7 +1171,7 @@ namespace ConceptorUi.ViewModels
 
             return new CompSerializer
             {
-                Id = Id,
+                Id = _id,
                 Name = Name.ToString(),
                 HasChildren = HasChildren,
                 IsVertical = IsVertical,
@@ -1179,7 +1179,7 @@ namespace ConceptorUi.ViewModels
                 CanAddIntoChildContent = CanAddIntoChildContent,
                 ChildContentLimit = ChildContentLimit,
                 IsInComponent = IsInComponent,
-                IsOriginalComponent = IsOriginalComponent,
+                IsOriginalComponent = _isOriginalComponent,
                 IsForceAlignment = IsForceAlignment,
                 Properties = PropertyGroups,
                 Children = Children.Count > 0 ? children : null
@@ -1196,7 +1196,7 @@ namespace ConceptorUi.ViewModels
             CanAddIntoChildContent = compSerializer.CanAddIntoChildContent;
             ChildContentLimit = compSerializer.ChildContentLimit;
             IsInComponent = compSerializer.IsInComponent;
-            IsOriginalComponent = compSerializer.IsOriginalComponent;
+            _isOriginalComponent = compSerializer.IsOriginalComponent;
             IsForceAlignment = compSerializer.IsForceAlignment;
 
             #region
@@ -1394,13 +1394,13 @@ namespace ConceptorUi.ViewModels
 
         private void CreateId()
         {
-            if (Id != null) return;
-            Id = ComponentHelper.GenerateId();
+            if (_id != null) return;
+            _id = ComponentHelper.GenerateId();
         }
 
         public void CanSelectAll(bool isCan = false)
         {
-            CanSelect = isCan;
+            _canSelect = isCan;
             foreach (var child in Children)
             {
                 child.CanSelectAll(isCan);

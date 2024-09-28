@@ -7,7 +7,7 @@ namespace ConceptorUi.ViewModels
 {
     internal class ComponentModel : Component
     {
-        public readonly ContainerModel _body;
+        private readonly ContainerModel _body;
 
         public ComponentModel(bool allowConstraints = false)
         {
@@ -126,6 +126,9 @@ namespace ConceptorUi.ViewModels
             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "1");
             /* Transform */
             SetGroupVisibility(GroupNames.Transform, false);
+            SetGroupOnlyVisibility(GroupNames.Transform);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
