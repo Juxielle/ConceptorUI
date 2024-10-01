@@ -105,7 +105,7 @@ namespace ConceptorUI
             switch (action)
             {
                 case RightPanelAction.DisplayPropertyPanel:
-                    StructuralView.Visibility = Visibility.Collapsed;
+                    //StructuralView.Visibility = Visibility.Collapsed;
                     ComponentList.Visibility = Visibility.Collapsed;
 
                     RightPanel.Visibility = RightPanel.Visibility == Visibility.Collapsed
@@ -116,13 +116,13 @@ namespace ConceptorUI
                     RightPanel.Visibility = Visibility.Collapsed;
                     ComponentList.Visibility = Visibility.Collapsed;
 
-                    StructuralView.Visibility = StructuralView.Visibility == Visibility.Collapsed
-                        ? Visibility.Visible
-                        : Visibility.Collapsed;
+                    // StructuralView.Visibility = StructuralView.Visibility == Visibility.Collapsed
+                    //     ? Visibility.Visible
+                    //     : Visibility.Collapsed;
                     break;
                 case RightPanelAction.DisplayComponentPanel:
                     RightPanel.Visibility = Visibility.Collapsed;
-                    StructuralView.Visibility = Visibility.Collapsed;
+                    //StructuralView.Visibility = Visibility.Collapsed;
 
                     ComponentList.Visibility = ComponentList.Visibility == Visibility.Collapsed
                         ? Visibility.Visible

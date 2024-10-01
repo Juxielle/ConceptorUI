@@ -107,12 +107,12 @@
                                      Visibility="Collapsed"
                                      x:Name="RightPanel" />
 
-            <component:PanelStructuralView Width="320"
-                                           Margin="0 2"
-                                           Background="#d2d2d2"
-                                           DockPanel.Dock="Right"
-                                           Visibility="Collapsed"
-                                           x:Name="StructuralView" />
+            <!-- <component:PanelStructuralView Width="320" -->
+            <!--                                Margin="0 2" -->
+            <!--                                Background="#d2d2d2" -->
+            <!--                                DockPanel.Dock="Right" -->
+            <!--                                Visibility="Collapsed" -->
+            <!--                                x:Name="StructuralView" /> -->
 
             <propertyPanel:ComponentList Width="320"
                                          Margin="0 2"

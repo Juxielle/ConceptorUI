@@ -9,25 +9,12 @@
     
     <Border Background="White"
             BorderBrush="#c2c2c2"
-            BorderThickness="2 0 0 0">
+            BorderThickness="0">
         <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
             <StackPanel>
-                <Border BorderBrush="#e4e4e4"
-                        Padding="10 10"
-                        BorderThickness="0 0 0 2">
-                    <Grid>
-                        <TextBlock Text="VUE STRUCTURELLE"
-                                   Foreground="DodgerBlue"
-                                   VerticalAlignment="Center"
-                                   FontSize="10"
-                                   FontWeight="Bold"
-                                   HorizontalAlignment="Left"
-                                   x:Name="GroupTitle"/>
-                    </Grid>
-                </Border>
-                
                 <StackPanel x:Name="Property"
-                            Margin="10"></StackPanel>
+                            Margin="10">
+                </StackPanel>
             </StackPanel>
         </ScrollViewer>
     </Border>
