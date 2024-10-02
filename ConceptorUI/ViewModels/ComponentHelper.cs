@@ -79,6 +79,11 @@ internal class ComponentHelper
         _ids.Add(generateId);
         return generateId;
     }
+    
+    public static void SaveId(string id)
+    {
+        _ids?.Add(id);
+    }
 
     public static void DeleteId(string id)
     {

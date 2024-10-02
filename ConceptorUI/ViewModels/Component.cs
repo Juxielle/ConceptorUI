@@ -20,7 +20,7 @@ namespace ConceptorUi.ViewModels
         private List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
-        private string? _id;
+        public string? Id;
 
         private bool _canSelect = true;
         protected bool HasChildren = true;
@@ -35,7 +35,7 @@ namespace ConceptorUi.ViewModels
 
         public FrameworkElement ComponentView;
         public Component Parent;
-        protected List<Component> Children;
+        public List<Component> Children;
 
         protected Border SelectedContent;
         protected Border Content;
@@ -75,7 +75,7 @@ namespace ConceptorUi.ViewModels
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
-                    { "Id", _id! },
+                    { "Id", Id! },
                     { "selected", true },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -120,7 +120,7 @@ namespace ConceptorUi.ViewModels
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
-                    { "Id", _id! },
+                    { "Id", Id! },
                     { "selected", false },
                     { "propertyGroups", PropertyGroups! },
                     { "componentName", Name }
@@ -294,7 +294,7 @@ namespace ConceptorUi.ViewModels
                     SelectedCommand?.Execute(
                         new Dictionary<string, dynamic>
                         {
-                            { "Id", _id! },
+                            { "Id", Id! },
                             { "selected", false },
                             { "propertyGroups", PropertyGroups! },
                             { "componentName", Name }
@@ -1062,7 +1062,7 @@ namespace ConceptorUi.ViewModels
 
         public void OnUpdateComponent(CompSerializer sender)
         {
-            if (sender.Id != _id)
+            if (sender.Id != Id)
             {
                 OnUpdateComponent(sender);
                 return;
@@ -1096,7 +1096,7 @@ namespace ConceptorUi.ViewModels
 
             if (sender.Children == null) return;
             foreach (var child in Children)
-                if (child._id == _id)
+                if (child.Id == Id)
                     child.OnUpdateProperties(sender.Children[0]);
         }
 
@@ -1171,7 +1171,7 @@ namespace ConceptorUi.ViewModels
 
             return new CompSerializer
             {
-                Id = _id,
+                Id = Id,
                 Name = Name.ToString(),
                 HasChildren = HasChildren,
                 IsVertical = IsVertical,
@@ -1189,7 +1189,6 @@ namespace ConceptorUi.ViewModels
         public void OnDeserializer(CompSerializer compSerializer)
         {
             PropertyGroups = compSerializer.Properties;
-            //Id = compSerializer.Id;
             HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
             AddedChildrenCount = compSerializer.AddedChildrenCount;
@@ -1198,6 +1197,13 @@ namespace ConceptorUi.ViewModels
             IsInComponent = compSerializer.IsInComponent;
             _isOriginalComponent = compSerializer.IsOriginalComponent;
             IsForceAlignment = compSerializer.IsForceAlignment;
+            
+            if(compSerializer.Id == null) CreateId();
+            else
+            {
+                Id = compSerializer.Id;
+                ComponentHelper.SaveId(Id);
+            }
 
             #region
 
@@ -1258,6 +1264,7 @@ namespace ConceptorUi.ViewModels
                 SelectedCommand?.Execute(
                     new Dictionary<string, dynamic>
                     {
+                        { "Id", Id! },
                         { "selected", false },
                         { "propertyGroups", PropertyGroups! },
                         { "componentName", Name }
@@ -1394,8 +1401,8 @@ namespace ConceptorUi.ViewModels
 
         private void CreateId()
         {
-            if (_id != null) return;
-            _id = ComponentHelper.GenerateId();
+            if (Id != null) return;
+            Id = ComponentHelper.GenerateId();
         }
 
         public void CanSelectAll(bool isCan = false)

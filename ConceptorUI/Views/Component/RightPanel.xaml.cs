@@ -21,7 +21,7 @@ namespace ConceptorUI.Views.Component
                     MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayPropertyPanel);
                     break;
                 case "StructView":
-                    MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayStructuralView);
+                    //MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayStructuralView);
                     break;
                 case "Component":
                     MainWindow.Instance.OpenRightPanel(RightPanelAction.DisplayComponentPanel);

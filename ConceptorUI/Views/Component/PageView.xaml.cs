@@ -159,7 +159,7 @@ namespace ConceptorUI.Views.Component
             #endregion
         }
 
-        public void NewSpace()
+        private void NewSpace()
         {
             #region Adding new Space
 
@@ -312,6 +312,16 @@ namespace ConceptorUI.Views.Component
             else
             {
             }
+        }
+
+        public void AddReusableComponent(string id)
+        {
+            var component = _components.Values.First(c => c.Id == id);
+            if(component == null! || component.Children.Count == 0) return;
+            
+            var model = (ComponentModel)component;
+            var compText = JsonSerializer.Serialize(model.Children[0].OnSerializer());
+            _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
         }
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)

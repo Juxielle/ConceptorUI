@@ -35,6 +35,8 @@ namespace ConceptorUI
             PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
 
             TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
+
+            ComponentList.SendComponentCommand = new RelayCommand(OnSendComponentHandle);
         }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
@@ -215,6 +217,12 @@ namespace ConceptorUI
             var text = group!.GetValue(PropertyNames.Text);
 
             TextTyping.Instance.Refresh(text);
+        }
+
+        private void OnSendComponentHandle(object sender)
+        {
+            Console.WriteLine($@"sended ID: {sender}");
+            PageView.AddReusableComponent(sender.ToString()!);
         }
     }
 }

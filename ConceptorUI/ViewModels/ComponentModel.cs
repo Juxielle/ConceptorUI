@@ -7,7 +7,7 @@ namespace ConceptorUi.ViewModels
 {
     internal class ComponentModel : Component
     {
-        private readonly ContainerModel _body;
+        public readonly ContainerModel Body;
 
         public ComponentModel(bool allowConstraints = false)
         {
@@ -17,8 +17,8 @@ namespace ConceptorUi.ViewModels
             IsInComponent = true;
             ChildContentLimit = 1;
             
-            _body = new ContainerModel();
-            Content.Child = _body.ComponentView;
+            Body = new ContainerModel();
+            Content.Child = Body.ComponentView;
             
             if (!allowConstraints) _init();
             
@@ -91,28 +91,28 @@ namespace ConceptorUi.ViewModels
 
         private void _init()
         {
-            _body.SelfConstraints();
-            _body.SetGroupVisibility(GroupNames.Global, false);
-            _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            Body.SelfConstraints();
+            Body.SetGroupVisibility(GroupNames.Global, false);
+            Body.SetGroupVisibility(GroupNames.SelfAlignment, false);
             
-            _body.SetGroupVisibility(GroupNames.Transform, false);
-            _body.SetGroupOnlyVisibility(GroupNames.Transform);
-            _body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Width);
-            _body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height);
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
+            Body.SetGroupVisibility(GroupNames.Transform, false);
+            Body.SetGroupOnlyVisibility(GroupNames.Transform);
+            Body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Width);
+            Body.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height);
+            Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
+            Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
 
-            _body.SetGroupVisibility(GroupNames.Text, false);
+            Body.SetGroupVisibility(GroupNames.Text, false);
 
-            _body.SetGroupVisibility(GroupNames.Appearance, false);
-            _body.SetGroupOnlyVisibility(GroupNames.Appearance);
-            _body.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
-            _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#ffffff");
+            Body.SetGroupVisibility(GroupNames.Appearance, false);
+            Body.SetGroupOnlyVisibility(GroupNames.Appearance);
+            Body.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
+            Body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#ffffff");
 
-            _body.SetGroupVisibility(GroupNames.Shadow, false);
-            _body.OnInitialize();
+            Body.SetGroupVisibility(GroupNames.Shadow, false);
+            Body.OnInitialize();
 
-            Children.Add(_body);
+            Children.Add(Body);
         }
 
         public sealed override void SelfConstraints()
