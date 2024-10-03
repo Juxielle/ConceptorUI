@@ -53,11 +53,18 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
+            if(Children.Count == 0) return;
+            
             #region When Alignment Changed
-            Console.WriteLine($@"propertyName: {propertyName}, value: {value}");
             if ((IsVertical && propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR) ||
                 (!IsVertical && propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB))
             {
+                if (value == "0")
+                {
+                    WhenAlignmentChanged(IsVertical ? PropertyNames.HL : PropertyNames.VT, "1");
+                    return;
+                }
+                
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "0");
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "0");
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, "0");
@@ -83,16 +90,10 @@ namespace ConceptorUi.ViewModels
             else if ((IsVertical && propertyName == PropertyNames.VT) ||
                      (!IsVertical && propertyName == PropertyNames.HL))
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
-                    
-                    // Console.WriteLine($@"-------------------------------");
-                    // Console.WriteLine($@"propertyName = {propertyName}");
-                    // Console.WriteLine($@"nc = {nc}");
-                    // Console.WriteLine($@"nl = {nl}");
-                    // Console.WriteLine($@"-------------------------------");
                     
                     if (value == "1" && nc != 0 && nl == nc)
                     {
@@ -138,20 +139,15 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
             else if ((IsVertical && propertyName == PropertyNames.VC) ||
                      (!IsVertical && propertyName == PropertyNames.HC))
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
-                    
-                    // Console.WriteLine($@"-------------------------------");
-                    // Console.WriteLine($@"propertyName = {propertyName}");
-                    // Console.WriteLine($@"nc = {nc}");
-                    // Console.WriteLine($@"nl = {nl}");
-                    // Console.WriteLine($@"-------------------------------");
 
                     if (value == "1" && nc != 0 && nl == nc)
                     {
@@ -194,11 +190,12 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
             else if ((IsVertical && propertyName == PropertyNames.VB) ||
                      (!IsVertical && propertyName == PropertyNames.HR))
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
@@ -244,10 +241,11 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
             else if (propertyName == PropertyNames.SpaceBetween)
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -302,10 +300,11 @@ namespace ConceptorUi.ViewModels
                                 IsVertical ? PropertyNames.VC : PropertyNames.HR, "1", true);
                     }
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
             else if (propertyName == PropertyNames.SpaceAround)
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -352,10 +351,11 @@ namespace ConceptorUi.ViewModels
                             IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                     }
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
             else if (propertyName == PropertyNames.SpaceEvery)
             {
-                if (Children.Count > 0 && value == "1")
+                if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -409,6 +409,7 @@ namespace ConceptorUi.ViewModels
                                 IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
                     }
                 }
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
             }
 
             #endregion
@@ -687,6 +688,7 @@ namespace ConceptorUi.ViewModels
 
                 /* Content Alignment */
                 /* Self Alignment */
+                Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                     IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,

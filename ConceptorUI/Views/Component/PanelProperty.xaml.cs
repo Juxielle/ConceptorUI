@@ -54,13 +54,15 @@ namespace ConceptorUI.Views.Component
             {
                 if(group.Name == GroupNames.Alignment.ToString())
                 {
-                    alignment.FeedProps(group);
+                    alignment.Refresh(true);
+                    alignment.FeedProps(group, componentName);
                     alignment.Visibility = Visibility.Visible;
                     alignment.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }
                 else if (group.Name == GroupNames.SelfAlignment.ToString())
                 {
-                    selfAlignment.FeedProps(group);
+                    selfAlignment.Refresh(false);
+                    selfAlignment.FeedProps(group, componentName);
                     selfAlignment.Visibility = Visibility.Visible;
                     selfAlignment.MouseDownCommand = new RelayCommand(OnValueChangedHandle);
                 }

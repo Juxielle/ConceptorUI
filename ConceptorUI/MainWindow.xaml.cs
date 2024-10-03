@@ -221,7 +221,6 @@ namespace ConceptorUI
 
         private void OnSendComponentHandle(object sender)
         {
-            Console.WriteLine($@"sended ID: {sender}");
             PageView.AddReusableComponent(sender.ToString()!);
         }
     }
