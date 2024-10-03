@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
@@ -53,7 +54,7 @@ namespace ConceptorUi.ViewModels
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             #region When Alignment Changed
-
+            Console.WriteLine($@"propertyName: {propertyName}, value: {value}");
             if ((IsVertical && propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR) ||
                 (!IsVertical && propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB))
             {
@@ -82,11 +83,17 @@ namespace ConceptorUi.ViewModels
             else if ((IsVertical && propertyName == PropertyNames.VT) ||
                      (!IsVertical && propertyName == PropertyNames.HL))
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
-
+                    
+                    // Console.WriteLine($@"-------------------------------");
+                    // Console.WriteLine($@"propertyName = {propertyName}");
+                    // Console.WriteLine($@"nc = {nc}");
+                    // Console.WriteLine($@"nl = {nl}");
+                    // Console.WriteLine($@"-------------------------------");
+                    
                     if (value == "1" && nc != 0 && nl == nc)
                     {
                         if (IsVertical)
@@ -135,10 +142,16 @@ namespace ConceptorUi.ViewModels
             else if ((IsVertical && propertyName == PropertyNames.VC) ||
                      (!IsVertical && propertyName == PropertyNames.HC))
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
+                    
+                    // Console.WriteLine($@"-------------------------------");
+                    // Console.WriteLine($@"propertyName = {propertyName}");
+                    // Console.WriteLine($@"nc = {nc}");
+                    // Console.WriteLine($@"nl = {nl}");
+                    // Console.WriteLine($@"-------------------------------");
 
                     if (value == "1" && nc != 0 && nl == nc)
                     {
@@ -185,7 +198,7 @@ namespace ConceptorUi.ViewModels
             else if ((IsVertical && propertyName == PropertyNames.VB) ||
                      (!IsVertical && propertyName == PropertyNames.HR))
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var nl = GetSpaceCount();
                     var nc = Children.Count;
@@ -234,7 +247,7 @@ namespace ConceptorUi.ViewModels
             }
             else if (propertyName == PropertyNames.SpaceBetween)
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -292,7 +305,7 @@ namespace ConceptorUi.ViewModels
             }
             else if (propertyName == PropertyNames.SpaceAround)
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
@@ -342,7 +355,7 @@ namespace ConceptorUi.ViewModels
             }
             else if (propertyName == PropertyNames.SpaceEvery)
             {
-                if (Children.Count > 0)
+                if (Children.Count > 0 && value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);

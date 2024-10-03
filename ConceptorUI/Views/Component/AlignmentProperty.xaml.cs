@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using ConceptorUI.Models;
 using System.Windows.Controls;
@@ -119,31 +120,37 @@ namespace ConceptorUI.Views.Component
                 case "HL": 
                     propertyName = PropertyNames.HL;
                     sendValue = HL.Tag.ToString() == "0" ? "1" : "0";
+                    HL.Tag = HC.Tag = HR.Tag = 0;
                     HL.Tag = sendValue;
                     break;
                 case "HC":
                     propertyName = PropertyNames.HC;
                     sendValue = HC.Tag.ToString() == "0" ? "1" : "0";
+                    HL.Tag = HC.Tag = HR.Tag = 0;
                     HC.Tag = sendValue;
                     break;
                 case "HR":
                     propertyName = PropertyNames.HR;
                     sendValue = HR.Tag.ToString() == "0" ? "1" : "0";
+                    HL.Tag = HC.Tag = HR.Tag = 0;
                     HR.Tag = sendValue;
                     break;
                 case "VT":
                     propertyName = PropertyNames.VT;
                     sendValue = VT.Tag.ToString() == "0" ? "1" : "0";
+                    VT.Tag = VC.Tag = VB.Tag = 0;
                     VT.Tag = sendValue;
                     break;
                 case "VC":
                     propertyName = PropertyNames.VC;
                     sendValue = VC.Tag.ToString() == "0" ? "1" : "0";
+                    VT.Tag = VC.Tag = VB.Tag = 0;
                     VC.Tag = sendValue;
                     break;
                 case "VB":
                     propertyName = PropertyNames.VB;
                     sendValue = VB.Tag.ToString() == "0" ? "1" : "0";
+                    VT.Tag = VC.Tag = VB.Tag = 0;
                     VB.Tag = sendValue;
                     break;
                 case "SB":

@@ -122,6 +122,7 @@ namespace ConceptorUi.ViewModels
             SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
             /* Transform */
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
+            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.HE);
             /* Text */

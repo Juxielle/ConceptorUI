@@ -317,10 +317,10 @@ namespace ConceptorUI.Views.Component
         public void AddReusableComponent(string id)
         {
             var component = _components.Values.First(c => c.Id == id);
-            if (component == null! || component.Children.Count == 0) return;
+            if (component == null! || component.Children.Count == 0 ||
+                component.Children[0].Children.Count == 0) return;
 
-            var model = (ComponentModel)component;
-            var compText = JsonSerializer.Serialize(model.Children[0].OnSerializer());
+            var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
             _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
         }
 
