@@ -319,7 +319,7 @@ namespace ConceptorUI.Views.Component
             var component = _components.Values.First(c => c.Id == id);
             if (component == null! || component.Children.Count == 0 ||
                 component.Children[0].Children.Count == 0) return;
-
+            
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
             _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
         }

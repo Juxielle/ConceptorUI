@@ -16,11 +16,10 @@ namespace ConceptorUi.ViewModels
         public GridModel()
         {
             _grid = new Grid();
-            Rows = new List<List<Component>>();
-            MergedCells = new List<Component>();
+            Rows = [];
+            MergedCells = [];
 
             Content.Child = _grid;
-
             Name = ComponentList.Grid;
 
             OnInitialize();
@@ -29,21 +28,17 @@ namespace ConceptorUi.ViewModels
         public override void SelfConstraints()
         {
             /* Global */
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "20");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
+            SetGroupVisibility(GroupNames.Transform);
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Padding, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderWidth, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.BorderRadius, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.FillColor, false);
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            SetGroupVisibility(GroupNames.Shadow);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
@@ -71,7 +66,6 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
-            
         }
 
         protected override void WhenTextChanged(string propertyName, string value)
