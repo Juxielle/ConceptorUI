@@ -29,6 +29,7 @@ namespace ConceptorUi.ViewModels
         {
             /* Global */
             SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.Focus);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
@@ -46,7 +47,8 @@ namespace ConceptorUi.ViewModels
             /* Global */
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveLeft, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
-            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveTop);
+            Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveBottom);
 
             /* Content Alignment */
             /* Self Alignment */
@@ -151,10 +153,54 @@ namespace ConceptorUi.ViewModels
 
         protected override void OnMoveTop()
         {
+            var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+            var k = -1;
+            foreach (var child in Children.Where(child => child.Selected))
+            {
+                k = Children.IndexOf(child);
+                break;
+            }
+
+            if (k == -1) return;
+            if (focus)
+            {
+                var child = Children[k];
+                Children.RemoveAt(k);
+                Children.Insert(k - 1, child);
+                _grid.Children.RemoveAt(k);
+                _grid.Children.Insert(k - 1, child.ComponentView);
+            }
+            else
+            {
+                Children[k].OnUnselected();
+                Children[k - 1].OnSelected();
+            }
         }
 
         protected override void OnMoveBottom()
         {
+            var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+            var k = -1;
+            foreach (var child in Children.Where(child => child.Selected))
+            {
+                k = Children.IndexOf(child);
+                break;
+            }
+
+            if (k == -1) return;
+            if (focus)
+            {
+                var child = Children[k];
+                Children.RemoveAt(k);
+                Children.Insert(k + 1, child);
+                _grid.Children.RemoveAt(k);
+                _grid.Children.Insert(k + 1, child.ComponentView);
+            }
+            else
+            {
+                Children[k].OnUnselected();
+                Children[k + 1].OnSelected();
+            }
         }
     }
 }

@@ -1,12 +1,10 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.Views.Component;
 using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ConceptorUI.Constants;
 
 
 namespace ConceptorUi.ViewModels

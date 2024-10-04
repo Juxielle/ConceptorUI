@@ -69,7 +69,7 @@ public partial class ColorPicker
         var vd = Convert.ToDouble(value.Replace(",", ".")) / 100;
         ColorBox.Background.Opacity = vd;
         TbA.Text = ColorBox.Background.Opacity.ToString(CultureInfo.InvariantCulture);
-
+        
         OpacityChangedCommand?.Execute(vd);
     }
 

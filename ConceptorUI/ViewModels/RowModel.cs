@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
@@ -39,6 +38,7 @@ namespace ConceptorUi.ViewModels
         {
             /* Global */
             SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            SetPropertyVisibility(GroupNames.Global, PropertyNames.Focus);
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment);
             /* Self Alignment */

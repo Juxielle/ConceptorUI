@@ -406,7 +406,7 @@ namespace ConceptorUi.ViewModels
                 else if (propertyName == PropertyNames.Opacity)
                 {
                     var vd = Helper.ConvertToDouble(value);
-                    Content.Opacity = vd;
+                    SelectedContent.Opacity = vd;
                     SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.CMargin)
@@ -876,7 +876,7 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.Opacity.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        Content.Opacity = vd;
+                        SelectedContent.Opacity = vd;
                     }
                     else if (prop.Name == PropertyNames.Margin.ToString())
                     {
