@@ -258,25 +258,50 @@
                     <Grid></Grid>
                 </DockPanel>
 
-                <Border BorderBrush="#8c8c8a"
-                        BorderThickness="0.5"
-                        CornerRadius="4"
-                        Padding="2">
-                    <TextBox Text="Text"
-                             Height="100"
-                             AcceptsReturn="True"
-                             BorderBrush="#8c8c8a"
-                             BorderThickness="0"
-                             Foreground="#8c8c8a"
-                             FontSize="12"
-                             Padding="2"
-                             x:Name="TextField"
-                             HorizontalScrollBarVisibility="Disabled"
-                             VerticalScrollBarVisibility="Auto"
-                             TextChanged="TextChanged" />
-                </Border>
-                
-                <widgets:TextItem Height="35" Margin="0 10 0 0"/>
+                <Grid>
+                    <Border BorderBrush="#8c8c8a"
+                            BorderThickness="0.5"
+                            CornerRadius="4"
+                            Padding="2"
+                            Margin="0 0 7 2">
+                        <TextBox Text="Text"
+                                 Height="100"
+                                 AcceptsReturn="True"
+                                 BorderBrush="#8c8c8a"
+                                 BorderThickness="0"
+                                 Foreground="#8c8c8a"
+                                 FontSize="12"
+                                 Padding="2"
+                                 x:Name="TextField"
+                                 HorizontalScrollBarVisibility="Disabled"
+                                 VerticalScrollBarVisibility="Auto"
+                                 TextChanged="TextChanged" />
+                    </Border>
+                    
+                    <Border Grid.Row="0"
+                            Background="#F44336"
+                            BorderBrush="#F44336"
+                            BorderThickness="0.4"
+                            MouseLeftButtonDown="OnMouseDown"
+                            Tag="AddText"
+                            Margin="-10 0 0 -10"
+                            Padding="2"
+                            Cursor="Hand"
+                            HorizontalAlignment="Right"
+                            VerticalAlignment="Bottom"
+                            CornerRadius="20"
+                            ToolTip="Ajouter du texte">
+                        <materialDesign:PackIcon Kind="Plus"
+                                                 Width="15"
+                                                 Height="15"
+                                                 Margin="2"
+                                                 Foreground="#ffffff" />
+                    </Border>
+                </Grid>
+
+                <StackPanel x:Name="TextItems"
+                            Margin="0 5 0 0">
+                </StackPanel>
             </StackPanel>
         </Border>
 
@@ -285,7 +310,7 @@
                 Background="#ffffff"
                 BorderBrush="#F44336"
                 BorderThickness="0.4"
-                MouseLeftButtonDown="OnClose"
+                MouseLeftButtonDown="OnMouseDown"
                 Tag="Close"
                 Margin="-12 0 0 -10"
                 Cursor="Hand"

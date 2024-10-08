@@ -1,8 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Inputs;
 using ConceptorUI.Models;
+using ConceptorUI.Views.Widgets;
 
 namespace ConceptorUI.Views.Modals;
 
@@ -11,11 +15,14 @@ public partial class TextTyping
     private static TextTyping? _obj;
     public ICommand? TextChangedCommand;
 
+    private List<int> _ids;
+
     public TextTyping()
     {
         InitializeComponent();
 
         _obj = this;
+        _ids = [];
     }
 
     public static TextTyping Instance => _obj ?? new TextTyping();
@@ -38,29 +45,89 @@ public partial class TextTyping
         );
     }
 
-    private new void MouseDown(object sender, EventArgs e)
-    {
-    }
-
     private void BtnClick(object sender, RoutedEventArgs e)
     {
         var tag = (sender as Button)!.Tag.ToString();
 
         switch (tag)
         {
-            case "AddText": break;
-            case "Close":
+            case "AddText":
                 break;
         }
     }
 
-    private void OnClose(object sender, MouseButtonEventArgs e)
+    private void OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        Hide();
+        var tag = ((FrameworkElement)sender).Tag.ToString();
+
+        switch (tag)
+        {
+            case "AddText":
+                var textItem = new TextItem
+                {
+                    Height = 35,
+                    Tag = GetId(),
+                    Margin = new Thickness(0, 10, 0, 0),
+                    Command = new RelayCommand(TextItemEventHandle)
+                };
+                TextItems.Children.Add(textItem);
+                break;
+            case "Close":
+                Hide();
+                break;
+        }
+    }
+
+    private void TextItemEventHandle(object sender)
+    {
+        var dictionary = (Dictionary<string, object>)sender;
+        var action = dictionary["action"];
+        var index = Convert.ToInt32(dictionary["tag"]);
+        var count = TextItems.Children.Count;
+        Console.WriteLine($@"Selected index: {index}");
+
+        switch (action)
+        {
+            case "MoveUp":
+                if (index == 0) return;
+                var item = TextItems.Children[index];
+                TextItems.Children.RemoveAt(index);
+                TextItems.Children.Insert(index - 1, item);
+                break;
+            case "MoveDown":
+                if (index == count - 1) return;
+                var item2 = TextItems.Children[index];
+                TextItems.Children.RemoveAt(index);
+                TextItems.Children.Insert(index + 1, item2);
+                break;
+            case "Delete":
+                if (count == 1) return;
+                TextItems.Children.RemoveAt(index);
+                break;
+        }
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         DragMove();
+    }
+
+    private int GetId()
+    {
+        var newId = 0;
+        while (true)
+        {
+            var found = false;
+            foreach (var id in _ids.Where(id => id == newId))
+            {
+                found = true;
+            }
+
+            if (!found) break;
+            newId++;
+        }
+
+        _ids.Add(newId);
+        return newId;
     }
 }
