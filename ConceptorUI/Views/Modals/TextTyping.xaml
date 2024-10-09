@@ -4,7 +4,6 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        xmlns:widgets="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -277,7 +276,7 @@
                                  VerticalScrollBarVisibility="Auto"
                                  TextChanged="TextChanged" />
                     </Border>
-                    
+
                     <Border Grid.Row="0"
                             Background="#F44336"
                             BorderBrush="#F44336"
@@ -299,9 +298,14 @@
                     </Border>
                 </Grid>
 
-                <StackPanel x:Name="TextItems"
-                            Margin="0 5 0 0">
-                </StackPanel>
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                              VerticalScrollBarVisibility="Auto"
+                              Margin="0 15 -10 0"
+                              Padding="0 0 5 0"
+                              Height="115">
+                    <StackPanel x:Name="TextItems">
+                    </StackPanel>
+                </ScrollViewer>
             </StackPanel>
         </Border>
 

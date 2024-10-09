@@ -12,6 +12,16 @@ public partial class TextItem
     {
         InitializeComponent();
     }
+    
+    public static readonly DependencyProperty TextProperty =
+        DependencyProperty.Register(nameof(Text), typeof(string), typeof(TextItem),
+            new PropertyMetadata(string.Empty));
+
+    public string Text
+    {
+        get => (string)GetValue(TextProperty);
+        set => SetValue(TextProperty, value);
+    }
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {

@@ -18,7 +18,7 @@
             </Grid.ColumnDefinitions>
             
             <TextBlock Grid.Column="0"
-                       Text="Téléchargements µTorrent pour Windows Téléchargements µTorrent pour Windows Téléchargements µTorrent pour Windows"
+                       Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontSize="12"
                        Foreground="#8c8c8a"
                        TextWrapping="Wrap"

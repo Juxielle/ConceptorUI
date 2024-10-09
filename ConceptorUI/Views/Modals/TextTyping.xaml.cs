@@ -63,10 +63,13 @@ public partial class TextTyping
         switch (tag)
         {
             case "AddText":
+                var id = GetId();
+                
                 var textItem = new TextItem
                 {
                     Height = 35,
-                    Tag = GetId(),
+                    Tag = id,
+                    Text = $"Text numéro {id}",
                     Margin = new Thickness(0, 10, 0, 0),
                     Command = new RelayCommand(TextItemEventHandle)
                 };
@@ -82,8 +85,13 @@ public partial class TextTyping
     {
         var dictionary = (Dictionary<string, object>)sender;
         var action = dictionary["action"];
-        var index = Convert.ToInt32(dictionary["tag"]);
+        var id = Convert.ToInt32(dictionary["tag"]);
         var count = TextItems.Children.Count;
+        var index = 0;
+        
+        for (var i = 0; i < TextItems.Children.Count; i++)
+            if (id == Convert.ToInt32(((TextItem)TextItems.Children[i]).Tag))
+                index = i;
         Console.WriteLine($@"Selected index: {index}");
 
         switch (action)
