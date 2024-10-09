@@ -165,6 +165,9 @@ namespace ConceptorUI
                         () => PageView.NewReport(true)
                     ).ShowDialog();
                     break;
+                case "RefreshComponent":
+                    PageView.RefreshReusableComponent();
+                    break;
                 case "Trash":
                     PageView.DeleteReport();
                     break;

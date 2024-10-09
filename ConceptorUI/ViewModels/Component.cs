@@ -52,9 +52,9 @@ namespace ConceptorUi.ViewModels
         protected abstract void WhenTextChanged(string propertyName, string value);
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();
-        protected abstract void AddIntoChildContent(FrameworkElement child);
+        protected abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
         protected abstract bool AllowExpanded(bool isWidth = true);
-        protected abstract void Delete();
+        protected abstract void Delete(int k = -1);
         protected abstract void WhenWidthChanged(string value);
         protected abstract void WhenHeightChanged(string value);
         protected abstract void OnMoveLeft();
@@ -1062,17 +1062,38 @@ namespace ConceptorUi.ViewModels
 
         public void OnUpdateComponent(CompSerializer sender)
         {
-            if (sender.Id != Id)
+            if (Children.Count == 0) return;
+
+            var index = new List<int>();
+            var found = false;
+            foreach (var child in Children)
             {
-                OnUpdateComponent(sender);
-                return;
+                if (sender.Id != child.Id)
+                {
+                    child.OnUpdateComponent(sender);
+                    continue;
+                }
+
+                found = true;
+                index.Add(Children.IndexOf(child));
             }
 
-            var compSerialize = System.Text.Json.JsonSerializer.Serialize(OnSerializer());
-            OnDeserializer(sender);
+            if (!found) return;
 
-            var compDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(compSerialize);
-            OnUpdateProperties(compDeSerialize!);
+            foreach (var i in index)
+            {
+                Console.WriteLine(@$"Component index: {i}");
+                var compSerialize = System.Text.Json.JsonSerializer.Serialize(Children[i].OnSerializer());
+
+                var component = ComponentHelper.GetComponent(sender.Name!);
+                component.OnDeserializer(sender);
+                Delete(i);
+                Children.Insert(i, component);
+                AddIntoChildContent(component.ComponentView, i);
+
+                var compDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(compSerialize);
+                Children[i].OnUpdateProperties(compDeSerialize!);
+            }
         }
 
         private void OnUpdateProperties(CompSerializer sender)
@@ -1120,7 +1141,7 @@ namespace ConceptorUi.ViewModels
             LayoutConstraints(Children.Count - 1, false, expanded);
         }
 
-        public string OnCopyOrPaste(string value = null!, bool isPaste = false)
+        public string OnCopyOrPaste(string value = null!, bool isPaste = false, bool isComponent = false)
         {
             CompSerializer valueD = null!;
             if (value != null!)
@@ -1132,8 +1153,9 @@ namespace ConceptorUi.ViewModels
                 var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                component.CreateId();
 
+                if (!isComponent)
+                    component.CreateId(false);
                 component.OnDeserializer(valueD);
 
                 var expanded = false;
@@ -1197,8 +1219,8 @@ namespace ConceptorUi.ViewModels
             IsInComponent = compSerializer.IsInComponent;
             _isOriginalComponent = compSerializer.IsOriginalComponent;
             IsForceAlignment = compSerializer.IsForceAlignment;
-            
-            if(compSerializer.Id == null) CreateId();
+
+            if (compSerializer.Id == null) CreateId();
             else
             {
                 Id = compSerializer.Id;
@@ -1399,19 +1421,28 @@ namespace ConceptorUi.ViewModels
             return isNull;
         }
 
-        private void CreateId()
+        private void CreateId(bool isMyself = true)
         {
-            if (Id != null) return;
             Id = ComponentHelper.GenerateId();
+            if (isMyself) return;
+
+            foreach (var child in Children)
+                child.CreateId(isMyself);
+        }
+
+        public void CheckIsExistId()
+        {
+            if (Id == null) CreateId();
+
+            foreach (var child in Children)
+                child.CheckIsExistId();
         }
 
         public void CanSelectAll(bool isCan = false)
         {
             _canSelect = isCan;
             foreach (var child in Children)
-            {
                 child.CanSelectAll(isCan);
-            }
         }
 
         protected void OnInit()

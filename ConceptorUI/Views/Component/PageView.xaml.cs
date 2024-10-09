@@ -320,8 +320,15 @@ namespace ConceptorUI.Views.Component
             if (component == null! || component.Children.Count == 0 ||
                 component.Children[0].Children.Count == 0) return;
             
+            component.CheckIsExistId();
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
-            _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
+            _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true, true);
+        }
+
+        public void RefreshReusableComponent()
+        {
+            var serializer = _components["report4"].Children[0].Children[0].OnSerializer();
+            _components[_project.Space.Reports[SelectedReport].Code].OnUpdateComponent(serializer);
         }
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
