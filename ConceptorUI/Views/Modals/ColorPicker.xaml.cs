@@ -159,6 +159,15 @@ public partial class ColorPicker
         }
     }
 
+    private void OnChangePosition(object sender, MouseButtonEventArgs e)
+    {
+        var point = e.GetPosition(GradientOrientationPanel);
+        var x = point.X;
+        var y = point.Y;
+        var width = 145;
+        var height = 100;
+    }
+
     private void CheckColor(Brush color)
     {
         if (!color.ToString().Equals(Btn00.Background.ToString())) return;
