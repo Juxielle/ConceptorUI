@@ -419,9 +419,11 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child)
+        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
-            _grid.Children.Add(child);
+            if(k == -1)
+                _grid.Children.Add(child);
+            else _grid.Children.Insert(k, child);
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -429,13 +431,16 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
-        protected override void Delete()
+        protected override void Delete(int j = -1)
         {
-            var i = -1;
-            foreach (var child in Children.Where(child => child.Selected))
+            var i = j;
+            if(i == -1)
             {
-                i = Children.IndexOf(child);
-                break;
+                foreach (var child in Children.Where(child => child.Selected))
+                {
+                    i = Children.IndexOf(child);
+                    break;
+                }
             }
 
             if (i == -1) return;

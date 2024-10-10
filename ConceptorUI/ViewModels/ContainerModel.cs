@@ -31,7 +31,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child)
+        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             (Content.Child as Border)!.Child ??= child;
             
@@ -196,13 +196,14 @@ namespace ConceptorUi.ViewModels
             }
         }
 
-        protected override void Delete()
+        protected override void Delete(int k = -1)
         {
-            if (Children.Count == 0 || !Children[0].Selected) return;
+            if ((Children.Count == 0 || !Children[0].Selected) && k == -1) return;
             
             Children.RemoveAt(0);
             (Content.Child as Border)!.Child = null;
             
+            if(k > 0) return;
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HC, "0");
             SetPropertyValue(GroupNames.Alignment, PropertyNames.HR, "0");

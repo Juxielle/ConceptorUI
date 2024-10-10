@@ -164,7 +164,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child)
+        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
         }
 
@@ -173,7 +173,7 @@ namespace ConceptorUi.ViewModels
             return false;
         }
 
-        protected override void Delete()
+        protected override void Delete(int k = -1)
         {
         }
 
