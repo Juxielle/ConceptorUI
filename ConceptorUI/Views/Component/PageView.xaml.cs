@@ -327,7 +327,7 @@ namespace ConceptorUI.Views.Component
 
         public void RefreshReusableComponent()
         {
-            var serializer = _components["report4"].Children[0].Children[0].OnSerializer();
+            var serializer = _components["report2"].Children[0].Children[0].OnSerializer();
             _components[_project.Space.Reports[SelectedReport].Code].OnUpdateComponent(serializer);
         }
 

@@ -53,6 +53,10 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HL);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HR);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VT);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VB);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HC, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
             /* Transform */

@@ -1082,43 +1082,49 @@ namespace ConceptorUi.ViewModels
 
             foreach (var i in index)
             {
-                Console.WriteLine(@$"Component index: {i}");
                 var compSerialize = System.Text.Json.JsonSerializer.Serialize(Children[i].OnSerializer());
 
                 var component = ComponentHelper.GetComponent(sender.Name!);
+                component.SelectedCommand = new RelayCommand(OnSelectedHandle);
                 component.OnDeserializer(sender);
                 Delete(i);
                 Children.Insert(i, component);
                 AddIntoChildContent(component.ComponentView, i);
+                ResetChildAlignment(i);
+                LayoutConstraints(i);
 
                 var compDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(compSerialize);
-                Children[i].OnUpdateProperties(compDeSerialize!);
+                OnUpdateProperties(compDeSerialize!, i);
             }
         }
 
-        private void OnUpdateProperties(CompSerializer sender)
+        private void OnUpdateProperties(CompSerializer sender, int i)
         {
             var groups = sender.Properties;
             foreach (var group in groups!)
             {
-                if (group.Visibility == Visibility.Collapsed.ToString() ||
-                    group.Name == GroupNames.Alignment.ToString() ||
-                    group.Name == GroupNames.SelfAlignment.ToString()) continue;
-
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
-                    if (property.Visibility == Visibility.Collapsed.ToString()) continue;
-
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-                    OnUpdated(groupEnum, propertyEnum, property.Value);
+                    
+                    if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
+                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+
+                    #region Apparance
+
+                    else if (groupEnum == GroupNames.Appearance)
+                    {
+                        if (propertyEnum is PropertyNames.MarginLeft or
+                            PropertyNames.MarginRight or
+                            PropertyNames.MarginTop or
+                            PropertyNames.MarginBottom)
+                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                    }
+
+                    #endregion
                 }
             }
-
-            if (sender.Children == null) return;
-            foreach (var child in Children)
-                if (child.Id == Id)
-                    child.OnUpdateProperties(sender.Children[0]);
         }
 
         public void OnAdd(Component component, bool isExpanded = false)
@@ -1299,6 +1305,17 @@ namespace ConceptorUi.ViewModels
                 for (var i = 0; i < structuralElement.Children.Count; i++)
                     Children[i].SelectFromStructuralView(structuralElement.Children[i]);
             }
+        }
+
+        private void ResetChildAlignment(int i)
+        {
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
+
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
         }
 
         public GroupProperties GetGroupProperties(GroupNames groupName)

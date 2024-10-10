@@ -145,9 +145,9 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "Save":
-                    //PageView.OnSaved(0, PageView.SelectedReport);
+                    PageView.OnSaved(0, PageView.SelectedReport);
 
-                    TextTyping.Instance.Refresh("text");
+                    //TextTyping.Instance.Refresh("text");
                     break;
                 case "AddReport":
                     new ConfirmDialogBox(
