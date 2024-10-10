@@ -1083,10 +1083,12 @@ namespace ConceptorUi.ViewModels
             foreach (var i in index)
             {
                 var compSerialize = System.Text.Json.JsonSerializer.Serialize(Children[i].OnSerializer());
+                var senderSerialize = System.Text.Json.JsonSerializer.Serialize(sender);
+                var senderDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(senderSerialize);
 
-                var component = ComponentHelper.GetComponent(sender.Name!);
+                var component = ComponentHelper.GetComponent(senderDeSerialize!.Name!);
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                component.OnDeserializer(sender);
+                component.OnDeserializer(senderDeSerialize);
                 Delete(i);
                 Children.Insert(i, component);
                 AddIntoChildContent(component.ComponentView, i);
@@ -1109,7 +1111,9 @@ namespace ConceptorUi.ViewModels
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
                     
                     if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
+                    {
                         Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                    }
 
                     #region Apparance
 

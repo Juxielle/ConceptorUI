@@ -309,9 +309,6 @@ namespace ConceptorUI.Views.Component
                 var compText = JsonSerializer.Serialize(component.OnSerializer());
                 _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true);
             }
-            else
-            {
-            }
         }
 
         public void AddReusableComponent(string id)
@@ -319,7 +316,7 @@ namespace ConceptorUI.Views.Component
             var component = _components.Values.First(c => c.Id == id);
             if (component == null! || component.Children.Count == 0 ||
                 component.Children[0].Children.Count == 0) return;
-            
+
             component.CheckIsExistId();
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
             _components[_project.Space.Reports[SelectedReport].Code].OnCopyOrPaste(compText, true, true);
@@ -327,8 +324,13 @@ namespace ConceptorUI.Views.Component
 
         public void RefreshReusableComponent()
         {
-            var serializer = _components["report2"].Children[0].Children[0].OnSerializer();
-            _components[_project.Space.Reports[SelectedReport].Code].OnUpdateComponent(serializer);
+            foreach (var key in _components.Keys)
+            {
+                if (_components[key].GetType().Name != nameof(ComponentModel)) continue;
+                var serializer = _components[key].Children[0].Children[0].OnSerializer();
+                foreach (var key2 in _components.Keys.Where(key2 => key != key2))
+                    _components[key2].OnUpdateComponent(serializer);
+            }
         }
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
@@ -419,32 +421,37 @@ namespace ConceptorUI.Views.Component
             {
                 #region
 
-                sc!.Post(delegate
+                switch (isPage)
                 {
-                    switch (isPage)
+                    case 0:
                     {
-                        case 0:
+                        foreach (var key in _components.Keys)
                         {
-                            var componentSerializer = _components[_project.Space.Reports[index].Code].OnSerializer();
-                            var filePath = $"{_project.FolderPath}/pages/{_project.Space.Reports[index].Code}.json";
+                            var componentSerializer = _components[key].OnSerializer();
+                            var filePath = @$"{_project.FolderPath}\pages\{key}.json";
 
                             File.Create(filePath).Dispose();
 
                             var jsonString = JsonSerializer.Serialize(componentSerializer);
                             File.WriteAllText(filePath, jsonString);
-                            break;
                         }
-                        case 2:
+                        
+                        sc!.Post(delegate
                         {
-                            var filePath = $"{_project.FolderPath}/config.json";
-                            File.Create(filePath).Dispose();
-                            var jsonString = JsonSerializer.Serialize(_project);
-
-                            File.WriteAllText(filePath, jsonString);
-                            break;
-                        }
+                            RefreshReusableComponent();
+                        }, null);
+                        break;
                     }
-                }, null);
+                    case 2:
+                    {
+                        var filePath = $"{_project.FolderPath}/config.json";
+                        File.Create(filePath).Dispose();
+                        var jsonString = JsonSerializer.Serialize(_project);
+
+                        File.WriteAllText(filePath, jsonString);
+                        break;
+                    }
+                }
 
                 #endregion
             });

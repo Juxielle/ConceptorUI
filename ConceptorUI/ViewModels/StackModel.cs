@@ -67,7 +67,6 @@ namespace ConceptorUi.ViewModels
 
             /* Appearance */
             /* Shadow */
-
             Children[id].OnInitialize();
 
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
@@ -127,7 +126,7 @@ namespace ConceptorUi.ViewModels
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
-            OnSelected();
+            if(k == -1) OnSelected();
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)

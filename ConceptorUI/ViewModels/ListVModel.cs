@@ -100,7 +100,7 @@ namespace ConceptorUi.ViewModels
             _stack.Children.RemoveAt(i);
             Children.RemoveAt(i);
             
-            OnSelected();
+            if(k == -1) OnSelected();
         }
 
         protected override void WhenWidthChanged(string value)

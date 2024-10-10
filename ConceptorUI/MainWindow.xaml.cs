@@ -57,12 +57,7 @@ namespace ConceptorUI
                     Console.WriteLine("Ctrl + V is pressed.");
                     break;
                 case Key.S when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
-                    PageView.OnSaved(
-                        Properties.Instance.SelectedLeftOnglet == 1 ? 0 : 1,
-                        Properties.Instance.SelectedLeftOnglet == 1
-                            ? Properties.Instance.SelectedReport
-                            : Properties.Instance.SelectedComponent
-                    );
+                    PageView.OnSaved();
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
             }
@@ -145,7 +140,7 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "Save":
-                    PageView.OnSaved(0, PageView.SelectedReport);
+                    PageView.OnSaved();
 
                     //TextTyping.Instance.Refresh("text");
                     break;
