@@ -12,7 +12,7 @@ namespace ConceptorUI.Views.Component
 {
     public partial class LeftPanel : IComponentButton
     {
-        public event EventHandler? PreMouseDownEvent;
+        public event EventHandler? OnPreMouseDownEvent;
         private readonly object _mouseDownLock = new();
         
         public LeftPanel()
@@ -26,14 +26,14 @@ namespace ConceptorUI.Views.Component
             {
                 lock (_mouseDownLock)
                 {
-                    PreMouseDownEvent += value;
+                    OnPreMouseDownEvent += value;
                 }
             }
             remove
             {
                 lock (_mouseDownLock)
                 {
-                    PreMouseDownEvent -= value;
+                    OnPreMouseDownEvent -= value;
                 }
             }
         }
@@ -49,7 +49,7 @@ namespace ConceptorUI.Views.Component
                     componentName = "Menu";
                     break;
                 case "Text":
-                    componentName = ComponentList.TextSingle.ToString();
+                    componentName = ComponentList.Text.ToString();
                     break;
                 case "Grid":
                     componentName = ComponentList.Grid.ToString();
@@ -86,7 +86,7 @@ namespace ConceptorUI.Views.Component
                     break;
             }
             
-            PreMouseDownEvent!.Invoke(componentName, EventArgs.Empty);
+            OnPreMouseDownEvent!.Invoke(componentName, EventArgs.Empty);
         }
 
         private void BtnMouseEnter(object sender, MouseEventArgs e)

@@ -23,7 +23,7 @@ namespace ConceptorUi.ViewModels
             OnInitialize();
         }
 
-        protected override void WhenTextChanged(string propertyName, string value)
+        public override void WhenTextChanged(string propertyName, string value)
         {
         }
 

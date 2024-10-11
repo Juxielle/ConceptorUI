@@ -14,7 +14,7 @@ internal class ComponentHelper
         if (name == ComponentList.TextSingle.ToString())
             return new TextSingleModel();
         if (name == ComponentList.Text.ToString())
-            return new TextSingleModel();
+            return new TextModel();
         if (name == ComponentList.Image.ToString())
             return new ImageModel();
         if (name == ComponentList.Column.ToString())

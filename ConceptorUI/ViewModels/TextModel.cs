@@ -1,4 +1,6 @@
-﻿using System.Windows;
+﻿using System;
+using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Models;
@@ -9,11 +11,13 @@ namespace ConceptorUi.ViewModels
     internal class TextModel : Component
     {
         private readonly TextBlock _text;
+        private List<TextBlock> _textBlocks;
 
         public TextModel(bool allowConstraints = false)
         {
             OnInit();
 
+            _textBlocks = [];
             _text = new TextBlock();
             _text.SizeChanged -= OnTextSizeChanged;
             _text.SizeChanged += OnTextSizeChanged;
@@ -24,6 +28,7 @@ namespace ConceptorUi.ViewModels
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
+            AddFirstChild();
         }
 
         private void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
@@ -37,7 +42,7 @@ namespace ConceptorUi.ViewModels
                 SelectedContent.Width = control.ActualWidth;
         }
 
-        protected override void WhenTextChanged(string propertyName, string value)
+        public override void WhenTextChanged(string propertyName, string value)
         {
             if (propertyName == PropertyNames.AlignLeft.ToString() && value == "1")
             {
@@ -64,6 +69,19 @@ namespace ConceptorUi.ViewModels
                 var vd = Helper.ConvertToDouble(value);
                 vd = vd == 0 ? 1 : vd;
                 _text.LineHeight = vd;
+            }
+            else
+            {
+                foreach (var child in Children)
+                {
+                    child.WhenTextChanged(propertyName, value);
+                    var textSource = GetSource(child.ComponentView);
+                    var textTarget = new TextBlock();
+                    
+                    WhenTextChangedOwn(textSource, textTarget);
+                    _text.Inlines.Clear();
+                    _text.Inlines.Add(textTarget);
+                }
             }
         }
 
@@ -120,9 +138,19 @@ namespace ConceptorUi.ViewModels
 
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
-            var text = child as TextBlock;
-            
-            _text.Inlines.Add(text!);
+            try
+            {
+                var textSource = GetSource(child);
+                var textTarget = new TextBlock();
+                
+                WhenTextChangedOwn(textSource, textTarget);
+                _text.Inlines.Add(textTarget);
+                _textBlocks.Add(textTarget);
+            }
+            catch (Exception)
+            {
+                //
+            }
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -160,6 +188,29 @@ namespace ConceptorUi.ViewModels
 
         protected override void OnMoveBottom()
         {
+        }
+
+        private void AddFirstChild()
+        {
+            var textComponent = new TextSingleModel();
+            Children.Add(textComponent);
+            AddIntoChildContent(textComponent.ComponentView);
+        }
+
+        private TextBlock GetSource(FrameworkElement element)
+        {
+            return ((((element as Border)!.Child as Grid)!.Children[1] as Border)!.Child as TextBlock)!;
+        }
+
+        private static void WhenTextChangedOwn(TextBlock textSource, TextBlock textTarget)
+        {
+            textTarget.FontFamily = textSource.FontFamily;
+            textTarget.FontWeight = textSource.FontWeight;
+            textTarget.FontStyle = textSource.FontStyle;
+            textTarget.FontSize = textSource.FontSize;
+            textTarget.Foreground = textSource.Foreground;
+            textTarget.Text = textSource.Text;
+            textTarget.TextDecorations = textSource.TextDecorations;
         }
     }
 }

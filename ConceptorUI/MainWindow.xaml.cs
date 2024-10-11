@@ -24,11 +24,11 @@ namespace ConceptorUI
             _obj = this;
             _projects = new List<Project>();
 
-            ComponentButtons.PreMouseDownEvent += OnComponentButtonMouseClick!;
+            ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
             ContentPages.PreviewMouseDown += OnMouseDown;
 
-            ComponentButtons.PreMouseDownEvent += OnAddComponentHandle!;
+            ComponentButtons.OnPreMouseDownEvent += OnAddComponentHandle!;
             RightPanel.MouseDownCommand = new RelayCommand(OnSetPropertyHandle);
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
