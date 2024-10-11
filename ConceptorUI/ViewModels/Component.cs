@@ -1444,7 +1444,11 @@ namespace ConceptorUi.ViewModels
 
         private void CreateId(bool isMyself = true)
         {
+            if(Id != null)
+                ComponentHelper.DeleteId(Id);
+            
             Id = ComponentHelper.GenerateId();
+            
             if (isMyself) return;
 
             foreach (var child in Children)

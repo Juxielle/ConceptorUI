@@ -59,25 +59,25 @@ internal class ComponentHelper
 
         var i = 0;
         var time = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
-        var generateId =  $"{i}{time}";
+        var generatedId =  $"{i}{time}";
 
         while (_ids.Count > 0)
         {
             var found = false;
             foreach (var id in _ids)
             {
-                if(id == generateId) continue;
+                if(id != generatedId) continue;
                 found = true;
                 break;
             }
-
+            
+            if(!found) break;
             i++;
-            generateId = $"{i}{time}";
-            if(found) break;
+            generatedId = $"{i}{time}";
         }
 
-        _ids.Add(generateId);
-        return generateId;
+        _ids.Add(generatedId);
+        return generatedId;
     }
     
     public static void SaveId(string id)
