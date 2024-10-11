@@ -72,15 +72,13 @@ namespace ConceptorUi.ViewModels
             }
             else
             {
-                foreach (var child in Children)
+                for (var i = 0; i < Children.Count; i++)
                 {
-                    child.WhenTextChanged(propertyName, value);
-                    var textSource = GetSource(child.ComponentView);
-                    var textTarget = new TextBlock();
+                    Children[i].WhenTextChanged(propertyName, value);
+                    var textSource = GetSource(Children[i].ComponentView);
+                    var textTarget = _textBlocks[i];
                     
                     WhenTextChangedOwn(textSource, textTarget);
-                    _text.Inlines.Clear();
-                    _text.Inlines.Add(textTarget);
                 }
             }
         }
@@ -142,7 +140,7 @@ namespace ConceptorUi.ViewModels
             {
                 var textSource = GetSource(child);
                 var textTarget = new TextBlock();
-                
+
                 WhenTextChangedOwn(textSource, textTarget);
                 _text.Inlines.Add(textTarget);
                 _textBlocks.Add(textTarget);
