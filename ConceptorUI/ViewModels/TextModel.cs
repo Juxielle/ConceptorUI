@@ -38,8 +38,12 @@ namespace ConceptorUi.ViewModels
             SelectedContent.Height = control!.ActualHeight;
 
             var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            var height = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+            
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
+            if (height != SizeValue.Expand.ToString())
+                SelectedContent.Height = control.ActualHeight;
         }
 
         public override void WhenTextChanged(string propertyName, string value)

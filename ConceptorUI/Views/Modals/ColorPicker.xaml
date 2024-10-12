@@ -1261,7 +1261,8 @@
                                           Y2="80"
                                           StrokeThickness="1"
                                           Stroke="#6200EA"
-                                          Opacity=".4">
+                                          Opacity=".4"
+                                          x:Name="LineOrientation">
                                     </Line>
 
                                     <Border Background="#6200EA"
@@ -1284,7 +1285,8 @@
                                             Opacity=".4"
                                             Margin="0 0 0 10"
                                             HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom" />
+                                            VerticalAlignment="Bottom"
+                                            x:Name="RightButton"/>
                                 </Grid>
 
                                 <ItemsControl Grid.Row="1"
