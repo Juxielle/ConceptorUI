@@ -53,14 +53,14 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HL);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HR);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VT);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VB);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.HC, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.VC, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hl);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hr);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vt);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vb);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hc, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vc, false);
             /* Transform */
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
@@ -72,12 +72,12 @@ namespace ConceptorUi.ViewModels
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             if (w != SizeValue.Expand.ToString() &&
                 (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal") || IsForceAlignment))
-                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.HL, "1", true);
+                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.Hl, "1", true);
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             if (h != SizeValue.Expand.ToString() &&
                 (Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical") || IsForceAlignment))
-                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.VT, "1", true);
+                Children[id].OnUpdated(GroupNames.SelfAlignment, PropertyNames.Vt, "1", true);
 
             IsForceAlignment = false;
         }

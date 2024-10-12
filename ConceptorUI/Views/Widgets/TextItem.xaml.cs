@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace ConceptorUI.Views.Widgets;
 
@@ -22,6 +23,16 @@ public partial class TextItem
         get => (string)GetValue(TextProperty);
         set => SetValue(TextProperty, value);
     }
+    
+    public new static readonly DependencyProperty BorderBrushProperty =
+        DependencyProperty.Register(nameof(BorderBrush), typeof(Brush), typeof(TextItem),
+            new PropertyMetadata(new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush));
+
+    public new Brush BorderBrush
+    {
+        get => (Brush)GetValue(BorderBrushProperty);
+        set => SetValue(BorderBrushProperty, value);
+    }
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
     {
@@ -31,7 +42,7 @@ public partial class TextItem
         {
             case "Text":
                 Command?.Execute(
-                    new Dictionary<string, object>{{"action", "Text"}, {"tag", Tag}}
+                    new Dictionary<string, object>{{"action", "Click"}, {"tag", Tag}}
                 );
                 break;
             case "ButtonUp":

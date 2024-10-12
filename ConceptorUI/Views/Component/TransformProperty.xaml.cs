@@ -70,24 +70,24 @@ namespace ConceptorUI.Views.Component
                     Y.Visibility = Visibility.Visible;
                     YTB.Text = prop.Value.Replace(",", ".");
                 }
-                else if (prop.Name == PropertyNames.ROT.ToString())
+                else if (prop.Name == PropertyNames.Rot.ToString())
                 {
                     R.Visibility = Visibility.Visible;
                     RTB.Text = prop.Value.Replace(",", ".");
                 }
-                else if (prop.Name == PropertyNames.HE.ToString())
+                else if (prop.Name == PropertyNames.He.ToString())
                 {
                     BHE.Visibility = Visibility.Visible;
                     HE.Foreground = BHE.BorderBrush =
                         new BrushConverter().ConvertFrom(prop.Value == "1" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                 }
-                else if (prop.Name == PropertyNames.VE.ToString())
+                else if (prop.Name == PropertyNames.Ve.ToString())
                 {
                     BVE.Visibility = Visibility.Visible;
                     VE.Foreground = BVE.BorderBrush =
                         new BrushConverter().ConvertFrom(prop.Value == "1" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                 }
-                else if (prop.Name == PropertyNames.HVE.ToString())
+                else if (prop.Name == PropertyNames.Hve.ToString())
                 {
                     BHVE.Visibility = Visibility.Visible;
                     LoadValue(7, prop.Value);
@@ -131,7 +131,7 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Y;
                     break;
                 case "R":
-                    propertyName = PropertyNames.ROT;
+                    propertyName = PropertyNames.Rot;
                     break;
             }
 
@@ -151,16 +151,16 @@ namespace ConceptorUI.Views.Component
             {
                 case "HE":
                     WTB.Text = "";
-                    propertyName = PropertyNames.HE;
-                    value = _properties.GetValue(PropertyNames.HE);
+                    propertyName = PropertyNames.He;
+                    value = _properties.GetValue(PropertyNames.He);
                     HE.Foreground = BHE.BorderBrush =
                         new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                     value = value == "0" ? "1" : "0";
                     break;
                 case "VE":
                     HTB.Text = "";
-                    propertyName = PropertyNames.VE;
-                    value = _properties.GetValue(PropertyNames.VE);
+                    propertyName = PropertyNames.Ve;
+                    value = _properties.GetValue(PropertyNames.Ve);
                     VE.Foreground = BVE.BorderBrush =
                         new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                     value = value == "0" ? "1" : "0";

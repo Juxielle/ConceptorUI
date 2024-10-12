@@ -147,17 +147,17 @@ namespace ConceptorUi.ViewModels
                 }
                 else if (groupName == GroupNames.SelfAlignment)
                 {
-                    if (propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR)
+                    if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
                     {
-                        SetPropertyValue(groupName, PropertyNames.HL, "0");
-                        SetPropertyValue(groupName, PropertyNames.HC, "0");
-                        SetPropertyValue(groupName, PropertyNames.HR, "0");
+                        SetPropertyValue(groupName, PropertyNames.Hl, "0");
+                        SetPropertyValue(groupName, PropertyNames.Hc, "0");
+                        SetPropertyValue(groupName, PropertyNames.Hr, "0");
                         SetPropertyValue(groupName, propertyName, value);
 
                         SelectedContent.HorizontalAlignment = propertyName switch
                         {
-                            PropertyNames.HL when value == "1" => HorizontalAlignment.Left,
-                            PropertyNames.HC when value == "1" => HorizontalAlignment.Center,
+                            PropertyNames.Hl when value == "1" => HorizontalAlignment.Left,
+                            PropertyNames.Hc when value == "1" => HorizontalAlignment.Center,
                             _ when value == "1" => HorizontalAlignment.Right,
                             _ => HorizontalAlignment.Left
                         };
@@ -167,19 +167,19 @@ namespace ConceptorUi.ViewModels
                             AllowExpanded())
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
                         else if (value == "0")
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.HL, "1", true);
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "1", true);
                     }
-                    else if (propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB)
+                    else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
                     {
-                        SetPropertyValue(groupName, PropertyNames.VT, "0");
-                        SetPropertyValue(groupName, PropertyNames.VC, "0");
-                        SetPropertyValue(groupName, PropertyNames.VB, "0");
+                        SetPropertyValue(groupName, PropertyNames.Vt, "0");
+                        SetPropertyValue(groupName, PropertyNames.Vc, "0");
+                        SetPropertyValue(groupName, PropertyNames.Vb, "0");
                         SetPropertyValue(groupName, propertyName, value);
 
                         SelectedContent.VerticalAlignment = propertyName switch
                         {
-                            PropertyNames.VT when value == "1" => VerticalAlignment.Top,
-                            PropertyNames.VC when value == "1" => VerticalAlignment.Center,
+                            PropertyNames.Vt when value == "1" => VerticalAlignment.Top,
+                            PropertyNames.Vc when value == "1" => VerticalAlignment.Center,
                             _ when value == "1" => VerticalAlignment.Bottom,
                             _ => VerticalAlignment.Top
                         };
@@ -189,7 +189,7 @@ namespace ConceptorUi.ViewModels
                             AllowExpanded(false))
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
                         else if (value == "0")
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.VT, "1", true);
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "1", true);
                     }
                 }
 
@@ -206,10 +206,10 @@ namespace ConceptorUi.ViewModels
                         SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
 
                         SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "0");
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
-                        SetPropertyValue(GroupNames.Transform, PropertyNames.HE, "1");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.He, "1");
                     }
                     else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
@@ -223,18 +223,18 @@ namespace ConceptorUi.ViewModels
                             SelectedContent.Width = vd;
                         }
 
-                        SetPropertyValue(GroupNames.Transform, PropertyNames.HE, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.He, "0");
 
-                        if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HL) == "1")
+                        if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hl) == "1")
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
-                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HC) == "1")
+                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hc) == "1")
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
-                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.HR) == "1")
+                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hr) == "1")
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
                         else
                         {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
-                            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "1");
+                            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "1");
                             //Evenement pour remplacer la vue des props
                         }
                     }
@@ -248,10 +248,10 @@ namespace ConceptorUi.ViewModels
                         SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
 
                         SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "0");
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
-                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
-                        SetPropertyValue(GroupNames.Transform, PropertyNames.VE, "1");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
+                        SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.Ve, "1");
                     }
                     else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
                     {
@@ -265,26 +265,26 @@ namespace ConceptorUi.ViewModels
                             SelectedContent.Height = vd;
                         }
 
-                        SetPropertyValue(GroupNames.Transform, PropertyNames.VE, "0");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.Ve, "0");
 
-                        if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VT) == "1")
+                        if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vt) == "1")
                             SelectedContent.VerticalAlignment = VerticalAlignment.Top;
-                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VC) == "1")
+                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vc) == "1")
                             SelectedContent.VerticalAlignment = VerticalAlignment.Center;
-                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.VB) == "1")
+                        else if (GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vb) == "1")
                             SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
                         else
                         {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Top;
-                            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
+                            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "1");
                         }
                     }
                 }
-                else if (propertyName is PropertyNames.HE or PropertyNames.VE)
+                else if (propertyName is PropertyNames.He or PropertyNames.Ve)
                 {
                     SetPropertyValue(groupName, propertyName, value);
                     OnUpdated(groupName,
-                        propertyName is PropertyNames.HE ? PropertyNames.Width : PropertyNames.Height,
+                        propertyName is PropertyNames.He ? PropertyNames.Width : PropertyNames.Height,
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
                 }
                 else if (propertyName == PropertyNames.MoveParentToChild)
@@ -757,41 +757,41 @@ namespace ConceptorUi.ViewModels
 
                     if (group.Name == GroupNames.SelfAlignment.ToString())
                     {
-                        if (prop.Name == PropertyNames.HL.ToString() && prop.Value == "1")
+                        if (prop.Name == PropertyNames.Hl.ToString() && prop.Value == "1")
                         {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                         }
-                        else if (prop.Name == PropertyNames.HC.ToString() && prop.Value == "1")
+                        else if (prop.Name == PropertyNames.Hc.ToString() && prop.Value == "1")
                         {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
                         }
-                        else if (prop.Name == PropertyNames.HR.ToString() && prop.Value == "1")
+                        else if (prop.Name == PropertyNames.Hr.ToString() && prop.Value == "1")
                         {
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
                         }
-                        else if (prop.Name == PropertyNames.VT.ToString() && prop.Value == "1")
+                        else if (prop.Name == PropertyNames.Vt.ToString() && prop.Value == "1")
                         {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Top;
                         }
-                        else if (prop.Name == PropertyNames.VC.ToString() && prop.Value == "1")
+                        else if (prop.Name == PropertyNames.Vc.ToString() && prop.Value == "1")
                         {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Center;
                         }
-                        else if (prop.Name == PropertyNames.VB.ToString() && prop.Value == "1")
+                        else if (prop.Name == PropertyNames.Vb.ToString() && prop.Value == "1")
                         {
                             SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
                         }
 
-                        var hl = group.GetValue(PropertyNames.HL);
-                        var hc = group.GetValue(PropertyNames.HC);
-                        var hr = group.GetValue(PropertyNames.HR);
+                        var hl = group.GetValue(PropertyNames.Hl);
+                        var hc = group.GetValue(PropertyNames.Hc);
+                        var hr = group.GetValue(PropertyNames.Hr);
                         var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (hl == "0" && hc == "0" && hr == "0" && w == SizeValue.Expand.ToString())
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-                        var vt = group.GetValue(PropertyNames.VT);
-                        var vc = group.GetValue(PropertyNames.VC);
-                        var vb = group.GetValue(PropertyNames.VB);
+                        var vt = group.GetValue(PropertyNames.Vt);
+                        var vc = group.GetValue(PropertyNames.Vc);
+                        var vb = group.GetValue(PropertyNames.Vb);
                         var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         if (vt == "0" && vc == "0" && vb == "0" && h == SizeValue.Expand.ToString())
                             SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
@@ -818,11 +818,11 @@ namespace ConceptorUi.ViewModels
                             }
                             else SelectedContent.Width = double.NaN;
 
-                            if (selfAlignGroup.GetValue(PropertyNames.HL) == "1")
+                            if (selfAlignGroup.GetValue(PropertyNames.Hl) == "1")
                                 SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
-                            else if (selfAlignGroup.GetValue(PropertyNames.HC) == "1")
+                            else if (selfAlignGroup.GetValue(PropertyNames.Hc) == "1")
                                 SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
-                            else if (selfAlignGroup.GetValue(PropertyNames.HR) == "1")
+                            else if (selfAlignGroup.GetValue(PropertyNames.Hr) == "1")
                                 SelectedContent.HorizontalAlignment = HorizontalAlignment.Right;
                             else SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
                         }
@@ -844,11 +844,11 @@ namespace ConceptorUi.ViewModels
                             }
                             else SelectedContent.Height = double.NaN;
 
-                            if (selfAlignGroup.GetValue(PropertyNames.VT) == "1")
+                            if (selfAlignGroup.GetValue(PropertyNames.Vt) == "1")
                                 SelectedContent.VerticalAlignment = VerticalAlignment.Top;
-                            else if (selfAlignGroup.GetValue(PropertyNames.VC) == "1")
+                            else if (selfAlignGroup.GetValue(PropertyNames.Vc) == "1")
                                 SelectedContent.VerticalAlignment = VerticalAlignment.Center;
-                            else if (selfAlignGroup.GetValue(PropertyNames.VB) == "1")
+                            else if (selfAlignGroup.GetValue(PropertyNames.Vb) == "1")
                                 SelectedContent.VerticalAlignment = VerticalAlignment.Bottom;
                             else SelectedContent.VerticalAlignment = VerticalAlignment.Top;
                         }
@@ -1313,13 +1313,13 @@ namespace ConceptorUi.ViewModels
 
         private void ResetChildAlignment(int i)
         {
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HL, "0");
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HC, "0");
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.HR, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
 
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "0");
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VC, "0");
-            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VB, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
+            Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
         }
 
         public GroupProperties GetGroupProperties(GroupNames groupName)
@@ -1502,42 +1502,42 @@ namespace ConceptorUi.ViewModels
                     {
                         new()
                         {
-                            Name = PropertyNames.HL.ToString(),
+                            Name = PropertyNames.Hl.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HC.ToString(),
+                            Name = PropertyNames.Hc.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HR.ToString(),
+                            Name = PropertyNames.Hr.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VT.ToString(),
+                            Name = PropertyNames.Vt.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VC.ToString(),
+                            Name = PropertyNames.Vc.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VB.ToString(),
+                            Name = PropertyNames.Vb.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
@@ -1601,28 +1601,28 @@ namespace ConceptorUi.ViewModels
                         },
                         new()
                         {
-                            Name = PropertyNames.ROT.ToString(),
+                            Name = PropertyNames.Rot.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HE.ToString(),
+                            Name = PropertyNames.He.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VE.ToString(),
+                            Name = PropertyNames.Ve.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HVE.ToString(),
+                            Name = PropertyNames.Hve.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
@@ -1772,7 +1772,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.Text.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "Text",
+                            Value = "My Text",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
@@ -1793,6 +1793,13 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.LineSpacing.ToString(),
                             Type = PropertyTypes.Action.ToString(),
+                            Value = "0",
+                            Visibility = VisibilityValue.Visible.ToString()
+                        },
+                        new()
+                        {
+                            Name = PropertyNames.CurrentTextIndex.ToString(),
+                            Type = PropertyTypes.String.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         }
@@ -2094,42 +2101,42 @@ namespace ConceptorUi.ViewModels
                     {
                         new()
                         {
-                            Name = PropertyNames.HL.ToString(),
+                            Name = PropertyNames.Hl.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HC.ToString(),
+                            Name = PropertyNames.Hc.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.HR.ToString(),
+                            Name = PropertyNames.Hr.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VT.ToString(),
+                            Name = PropertyNames.Vt.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VC.ToString(),
+                            Name = PropertyNames.Vc.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
                         new()
                         {
-                            Name = PropertyNames.VB.ToString(),
+                            Name = PropertyNames.Vb.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()

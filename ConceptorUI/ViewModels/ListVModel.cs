@@ -202,26 +202,26 @@ namespace ConceptorUi.ViewModels
             /* Self Alignment */
             Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
+                IsVertical ? PropertyNames.Vt : PropertyNames.Hl, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
+                IsVertical ? PropertyNames.Vc : PropertyNames.Hc, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
+                IsVertical ? PropertyNames.Vb : PropertyNames.Hr, false);
             
             /* Transform */
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.HVE, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.VE : PropertyNames.HE, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.HE : PropertyNames.VE);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Hve, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.Ve : PropertyNames.He, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.He : PropertyNames.Ve);
 
             /* Appearance */
             /* Shadow */
 
             Children[id].OnInitialize();
-            Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1",
+            Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1",
                 true);
 
             var d = Children[id].GetGroupProperties(GroupNames.Transform)
@@ -229,7 +229,7 @@ namespace ConceptorUi.ViewModels
             
             if (d != SizeValue.Expand.ToString() && Children[id]
                     .IsNullAlignment(GroupNames.SelfAlignment, IsVertical ? "Vertical" : "Horizontal"))
-                Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1",
+                Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
         }
     }

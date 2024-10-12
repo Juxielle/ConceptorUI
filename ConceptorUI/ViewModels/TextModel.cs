@@ -11,7 +11,7 @@ namespace ConceptorUi.ViewModels
     internal class TextModel : Component
     {
         private readonly TextBlock _text;
-        private List<TextBlock> _textBlocks;
+        private readonly List<TextBlock> _textBlocks;
 
         public TextModel(bool allowConstraints = false)
         {
@@ -39,7 +39,7 @@ namespace ConceptorUi.ViewModels
 
             var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             var height = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            
+
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
             if (height != SizeValue.Expand.ToString())
@@ -76,14 +76,14 @@ namespace ConceptorUi.ViewModels
             }
             else
             {
-                for (var i = 0; i < Children.Count; i++)
-                {
-                    Children[i].WhenTextChanged(propertyName, value);
-                    var textSource = GetSource(Children[i].ComponentView);
-                    var textTarget = _textBlocks[i];
-                    
-                    WhenTextChangedOwn(textSource, textTarget);
-                }
+                var index = Convert.ToInt32(
+                    GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
+
+                Children[index].WhenTextChanged(propertyName, value);
+                var textSource = GetSource(Children[index].ComponentView);
+                var textTarget = _textBlocks[index];
+
+                WhenTextChangedOwn(textSource, textTarget);
             }
         }
 
@@ -94,12 +94,12 @@ namespace ConceptorUi.ViewModels
             /* Content Alignment */
             SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
-            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.VT, "1");
+            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "1");
             /* Transform */
             SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
             SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.VE, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.HE);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Ve, false);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.He);
             /* Text */
             SetGroupVisibility(GroupNames.Text);
             SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");

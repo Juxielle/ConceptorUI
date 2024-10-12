@@ -43,37 +43,37 @@ namespace ConceptorUI.Views.Component
 
             foreach (var prop in _properties.Properties.Where(prop => prop.Visibility == VisibilityValue.Visible.ToString()))
             {
-                if (prop.Name == PropertyNames.HL.ToString())
+                if (prop.Name == PropertyNames.Hl.ToString())
                 {
                     BHL.Visibility = Visibility.Visible;
                     HL.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     HL.Tag = prop.Value;
                 }
-                else if (prop.Name == PropertyNames.HC.ToString())
+                else if (prop.Name == PropertyNames.Hc.ToString())
                 {
                     BHC.Visibility = Visibility.Visible;
                     HC.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     HC.Tag = prop.Value;
                 }
-                else if (prop.Name == PropertyNames.HR.ToString())
+                else if (prop.Name == PropertyNames.Hr.ToString())
                 {
                     BHR.Visibility = Visibility.Visible;
                     HR.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     HR.Tag = prop.Value;
                 }
-                else if (prop.Name == PropertyNames.VT.ToString())
+                else if (prop.Name == PropertyNames.Vt.ToString())
                 {
                     BVT.Visibility = Visibility.Visible;
                     VT.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     VT.Tag = prop.Value;
                 }
-                else if (prop.Name == PropertyNames.VC.ToString())
+                else if (prop.Name == PropertyNames.Vc.ToString())
                 {
                     BVC.Visibility = Visibility.Visible;
                     VC.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                     VC.Tag = prop.Value;
                 }
-                else if (prop.Name == PropertyNames.VB.ToString())
+                else if (prop.Name == PropertyNames.Vb.ToString())
                 {
                     BVB.Visibility = Visibility.Visible;
                     VB.Foreground = new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
@@ -119,42 +119,42 @@ namespace ConceptorUI.Views.Component
             switch (tag)
             {
                 case "HL": 
-                    propertyName = PropertyNames.HL;
+                    propertyName = PropertyNames.Hl;
                     sendValue = HL.Tag.ToString() == "0" ? "1" : "0";
                     
                     HL.Tag = HC.Tag = HR.Tag = 0;
                     HL.Tag = sendValue;
                     break;
                 case "HC":
-                    propertyName = PropertyNames.HC;
+                    propertyName = PropertyNames.Hc;
                     sendValue = HC.Tag.ToString() == "0" ? "1" : "0";
                     
                     HL.Tag = HC.Tag = HR.Tag = 0;
                     HC.Tag = sendValue;
                     break;
                 case "HR":
-                    propertyName = PropertyNames.HR;
+                    propertyName = PropertyNames.Hr;
                     sendValue = HR.Tag.ToString() == "0" ? "1" : "0";
                     
                     HL.Tag = HC.Tag = HR.Tag = 0;
                     HR.Tag = sendValue;
                     break;
                 case "VT":
-                    propertyName = PropertyNames.VT;
+                    propertyName = PropertyNames.Vt;
                     sendValue = VT.Tag.ToString() == "0" ? "1" : "0";
                     
                     VT.Tag = VC.Tag = VB.Tag = 0;
                     VT.Tag = sendValue;
                     break;
                 case "VC":
-                    propertyName = PropertyNames.VC;
+                    propertyName = PropertyNames.Vc;
                     sendValue = VC.Tag.ToString() == "0" ? "1" : "0";
                     
                     VT.Tag = VC.Tag = VB.Tag = 0;
                     VC.Tag = sendValue;
                     break;
                 case "VB":
-                    propertyName = PropertyNames.VB;
+                    propertyName = PropertyNames.Vb;
                     sendValue = VB.Tag.ToString() == "0" ? "1" : "0";
                     
                     VT.Tag = VC.Tag = VB.Tag = 0;

@@ -104,7 +104,7 @@ namespace ConceptorUI.Models
     }
     public enum PropertyNames
     {
-        HorizontalAlignment, VerticalAlignment, Width, Height, None,
+        Width, Height, None,
         Margin, MarginLeft, MarginTop, MarginRight, MarginBottom,
         Padding, PaddingLeft, PaddingTop, PaddingRight, PaddingBottom,
         BorderWidth, BorderColor, BorderStyle, BorderLeftWidth, BorderLeftColor, BorderLeftStyle,
@@ -113,11 +113,11 @@ namespace ConceptorUI.Models
         BorderRadius, BorderRadiusTopLeft, BorderRadiusTopRight, BorderRadiusBottomLeft, BorderRadiusBottomRight,
         Color, FontSize, FontWeight, FontFamily, FontStyle, TextUnderline, TextOverline, TextThrough,
         AlignLeft, AlignCenter, AlignRight, AlignJustify, ListOrd, ListNOrd, TabLeft, TabRight, TextError, TextIndex, TextExpo,
-        SelectedMode, SelectedElement, ElementSize, Add,
+        SelectedMode, SelectedElement, Add,
         Row, Column, RowSpan, ColumnSpan, MoveLeft, MoveRight, MoveTop, MoveBottom,
-        HL, HC, HR, VT, VC, VB, HE, VE, HVE, ROT, X, Y, CMargin, CPadding, CBorder, CBorderRadius,
+        Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, CBorder, CBorderRadius,
         MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
-        SpaceBetween, SpaceAround, SpaceEvery, Text, AddText, EditText, RemoveText, DisplayText,
+        SpaceBetween, SpaceAround, SpaceEvery, Text, DisplayText, CurrentTextIndex,
         Focus, MoveParentToChild, MoveChildToParent, Trash, Fusion, Merged, TextWrap, LineSpacing, FilePicker,
         CanSelect, HideBorder, ShadowDepth, BlurRadius, ShadowColor, ShadowDirection, Stretch, Copy, Paste
     }

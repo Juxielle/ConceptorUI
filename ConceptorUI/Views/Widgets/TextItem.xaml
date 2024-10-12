@@ -7,7 +7,7 @@
              mc:Ignorable="d"
              d:DesignHeight="35" d:DesignWidth="300">
     <Border Background="#ffffff"
-            BorderBrush="#8c8c8a"
+            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
             BorderThickness=".5"
             CornerRadius="2"
             Padding="6 0 0 0">
@@ -42,7 +42,7 @@
                 <Border Grid.Column="0"
                         Grid.Row="0"
                         Background="#ffffff"
-                        BorderBrush="#8c8c8a"
+                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         BorderThickness=".5"
                         Cursor="Hand"
                         ToolTip="Déplacer vers le haut"
@@ -52,12 +52,12 @@
                                              Width="10"
                                              Height="10"
                                              Margin="2"
-                                             Foreground="#8c8c8a" />
+                                             Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                 </Border>
                 <Border Grid.Column="0"
                         Grid.Row="1"
                         Background="#ffffff"
-                        BorderBrush="#8c8c8a"
+                        BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
                         BorderThickness=".5"
                         Cursor="Hand"
                         ToolTip="Déplacer vers le bas"
@@ -67,7 +67,7 @@
                                              Width="10"
                                              Height="10"
                                              Margin="2"
-                                             Foreground="#8c8c8a" />
+                                             Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" />
                 </Border>
                 
                 <Border Grid.Column="1"

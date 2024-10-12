@@ -56,18 +56,18 @@ namespace ConceptorUi.ViewModels
             if(Children.Count == 0) return;
             
             #region When Alignment Changed
-            if ((IsVertical && propertyName is PropertyNames.HL or PropertyNames.HC or PropertyNames.HR) ||
-                (!IsVertical && propertyName is PropertyNames.VT or PropertyNames.VC or PropertyNames.VB))
+            if ((IsVertical && propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr) ||
+                (!IsVertical && propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb))
             {
                 if (value == "0")
                 {
-                    WhenAlignmentChanged(IsVertical ? PropertyNames.HL : PropertyNames.VT, "1");
+                    WhenAlignmentChanged(IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1");
                     return;
                 }
                 
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, "0");
                 SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
                 foreach (var child in Children)
@@ -83,12 +83,12 @@ namespace ConceptorUi.ViewModels
                                 true);
                     }
                     else if (d != SizeValue.Expand.ToString())
-                        child.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1",
+                        child.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                             true);
                 }
             }
-            else if ((IsVertical && propertyName == PropertyNames.VT) ||
-                     (!IsVertical && propertyName == PropertyNames.HL))
+            else if ((IsVertical && propertyName == PropertyNames.Vt) ||
+                     (!IsVertical && propertyName == PropertyNames.Hl))
             {
                 if (value == "1")
                 {
@@ -115,7 +115,7 @@ namespace ConceptorUi.ViewModels
                         AddSpace(new GridLength(1, GridUnitType.Star), 0);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment)
-                                 .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR) == "1")
+                                 .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr) == "1")
                     {
                         _grid.RowDefinitions.RemoveAt(0);
                         RemoveSpace(0);
@@ -124,25 +124,25 @@ namespace ConceptorUi.ViewModels
                             SetPosition(i, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 2 && GetGroupProperties(GroupNames.Alignment)
-                                 .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC) == "1")
+                                 .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc) == "1")
                     {
                         RemoveSpace(0);
                         for (var i = 0; i < Children.Count; i++)
                             SetPosition(i, Children[i].ComponentView);
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
-            else if ((IsVertical && propertyName == PropertyNames.VC) ||
-                     (!IsVertical && propertyName == PropertyNames.HC))
+            else if ((IsVertical && propertyName == PropertyNames.Vc) ||
+                     (!IsVertical && propertyName == PropertyNames.Hc))
             {
                 if (value == "1")
                 {
@@ -172,28 +172,28 @@ namespace ConceptorUi.ViewModels
                             SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment)
-                                 .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL) == "1")
+                                 .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl) == "1")
                     {
                         AddSpace(new GridLength(1, GridUnitType.Star), 0, false);
                         for (var i = 0; i < Children.Count; i++)
                             SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 1 && GetGroupProperties(GroupNames.Alignment)
-                                 .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR) == "1")
+                                 .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr) == "1")
                         AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
-            else if ((IsVertical && propertyName == PropertyNames.VB) ||
-                     (!IsVertical && propertyName == PropertyNames.HR))
+            else if ((IsVertical && propertyName == PropertyNames.Vb) ||
+                     (!IsVertical && propertyName == PropertyNames.Hr))
             {
                 if (value == "1")
                 {
@@ -222,7 +222,7 @@ namespace ConceptorUi.ViewModels
                             SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 1 &&
-                             GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VT) == "1")
+                             GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt) == "1")
                     {
                         RemoveSpace(nl - 1);
                         AddSpace(new GridLength(1, GridUnitType.Star), 0, false);
@@ -230,33 +230,33 @@ namespace ConceptorUi.ViewModels
                             SetPosition(i + 1, Children[i].ComponentView);
                     }
                     else if (value == "1" && nc != 0 && nl == nc + 2 &&
-                             GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.VC) == "1")
+                             GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc) == "1")
                         RemoveSpace(nl - 1);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
                     SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
             else if (propertyName == PropertyNames.SpaceBetween)
             {
                 if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                        .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
                     var vc = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                        .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
                     var vb = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                        .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -291,31 +291,31 @@ namespace ConceptorUi.ViewModels
 
                         if (i == 0)
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
+                                IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1", true);
                         else if (i == (IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count) - 1)
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VB : PropertyNames.HC, "1", true);
+                                IsVertical ? PropertyNames.Vb : PropertyNames.Hc, "1", true);
                         else
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VC : PropertyNames.HR, "1", true);
+                                IsVertical ? PropertyNames.Vc : PropertyNames.Hr, "1", true);
                     }
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
             else if (propertyName == PropertyNames.SpaceAround)
             {
                 if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                        .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
                     var vc = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                        .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
                     var vb = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                        .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -348,25 +348,25 @@ namespace ConceptorUi.ViewModels
                         if (IsVertical) _grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
                         else _grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
                         Children[i].OnUpdated(GroupNames.SelfAlignment,
-                            IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
+                            IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "1", true);
                     }
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
             else if (propertyName == PropertyNames.SpaceEvery)
             {
                 if (value == "1")
                 {
                     var vt = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                        .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
                     var vc = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                        .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
                     var vb = GetGroupProperties(GroupNames.Alignment)
-                        .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                        .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -400,16 +400,16 @@ namespace ConceptorUi.ViewModels
 
                         if (i == 0)
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VB : PropertyNames.HR, "1", true);
+                                IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "1", true);
                         else if (i == GetSpaceCount() - 1)
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VT : PropertyNames.HL, "1", true);
+                                IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1", true);
                         else
                             Children[i].OnUpdated(GroupNames.SelfAlignment,
-                                IsVertical ? PropertyNames.VC : PropertyNames.HC, "1", true);
+                                IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "1", true);
                     }
                 }
-                else WhenAlignmentChanged(IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
 
             #endregion
@@ -450,9 +450,9 @@ namespace ConceptorUi.ViewModels
 
             //var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
             var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
             //var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
             //var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
             //var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
@@ -463,12 +463,12 @@ namespace ConceptorUi.ViewModels
                 if (IsVertical) _grid.RowDefinitions.Clear();
                 else _grid.ColumnDefinitions.Clear();
 
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.VT, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.VC, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.VB, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HL, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HC, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.HR, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -501,11 +501,11 @@ namespace ConceptorUi.ViewModels
             var nc = Children.Count;
 
             var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
             var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
             var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
             var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
             var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
@@ -528,9 +528,9 @@ namespace ConceptorUi.ViewModels
                     RemoveSpace(0);
                 }
 
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
@@ -556,7 +556,7 @@ namespace ConceptorUi.ViewModels
 
             if (!found && i != -1)
             {
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
         }
 
@@ -576,11 +576,11 @@ namespace ConceptorUi.ViewModels
             var nc = Children.Count;
 
             var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
             var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
@@ -630,11 +630,11 @@ namespace ConceptorUi.ViewModels
             var nc = Children.Count;
 
             var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
             var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
@@ -695,14 +695,14 @@ namespace ConceptorUi.ViewModels
                 /* Self Alignment */
                 Children[id].SetGroupVisibility(GroupNames.SelfAlignment);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                    IsVertical ? PropertyNames.VT : PropertyNames.HL, false);
+                    IsVertical ? PropertyNames.Vt : PropertyNames.Hl, false);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                    IsVertical ? PropertyNames.VC : PropertyNames.HC, false);
+                    IsVertical ? PropertyNames.Vc : PropertyNames.Hc, false);
                 Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
-                    IsVertical ? PropertyNames.VB : PropertyNames.HR, false);
+                    IsVertical ? PropertyNames.Vb : PropertyNames.Hr, false);
 
                 /* Transform */
-                Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.ROT, false);
+                Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
                 Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
@@ -723,22 +723,22 @@ namespace ConceptorUi.ViewModels
             var nc = Children.Count - 1;
 
             var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
+                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
             var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VC : PropertyNames.HC);
+                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.VB : PropertyNames.HR);
+                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
             var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
             var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
             var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
 
             var hl = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.HL : PropertyNames.VT);
+                .GetValue(IsVertical ? PropertyNames.Hl : PropertyNames.Vt);
             var hc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.HC : PropertyNames.VC);
+                .GetValue(IsVertical ? PropertyNames.Hc : PropertyNames.Vc);
             var hr = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.HR : PropertyNames.VB);
+                .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
 
             var w = component.GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
@@ -746,16 +746,16 @@ namespace ConceptorUi.ViewModels
                 .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
 
             if (hl == "1")
-                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, hl,
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, hl,
                     true);
             if (hc == "1")
-                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, hc,
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, hc,
                     true);
             if (hr == "1")
-                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, hr,
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, hr,
                     true);
             else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString())
-                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HL : PropertyNames.VT, "1",
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
 
             if ((nl == nc + 1 && vt == "1") || (isDeserialize && vt == "1"))
@@ -802,17 +802,17 @@ namespace ConceptorUi.ViewModels
             else if (sb == "1")
             {
                 if (isDeserialize && id == 0)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1",
                         true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "1",
                         true);
                 else if (isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "1",
                         true);
 
                 if (!isDeserialize && Children.Count > 0)
-                    Children[^1].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC,
+                    Children[^1].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc,
                         "1", true);
 
                 AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : GetSpaceCount() - 1, false);
@@ -820,7 +820,7 @@ namespace ConceptorUi.ViewModels
                 SetPosition(isDeserialize ? id : GetSpaceCount() - 1, component.ComponentView);
 
                 if (!isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "1",
                         true);
             }
             else if (sa == "1")
@@ -833,23 +833,23 @@ namespace ConceptorUi.ViewModels
                         isDeserialize ? id : _grid.ColumnDefinitions.Count - 1, false);
 
                 SetPosition(isDeserialize ? id : _grid.RowDefinitions.Count - 1, component.ComponentView);
-                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HC : PropertyNames.VC, "1",
+                component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, "1",
                     true);
             }
             else if (se == "1")
             {
                 if (isDeserialize && id == 0)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VB : PropertyNames.HR, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "1",
                         true);
                 else if (isDeserialize && id == AddedChildrenCount - 1)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1",
                         true);
                 else if (isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "1",
                         true);
 
                 if (!isDeserialize && Children.Count > 0)
-                    Children[^1].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.VC : PropertyNames.HC,
+                    Children[^1].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc,
                         "1", true);
 
                 AddSpace(new GridLength(1, GridUnitType.Star), isDeserialize ? id : _grid.RowDefinitions.Count - 1,
@@ -857,7 +857,7 @@ namespace ConceptorUi.ViewModels
                 SetPosition(isDeserialize ? id : _grid.RowDefinitions.Count - 1, component.ComponentView);
 
                 if (!isDeserialize)
-                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.HR : PropertyNames.VB, "1",
+                    component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, "1",
                         true);
             }
             else if (nl == nc)
@@ -879,7 +879,7 @@ namespace ConceptorUi.ViewModels
                     AddSpace(rd.Height, 0);
                     AddSpace(new GridLength(1, GridUnitType.Star), 0);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.VT : PropertyNames.HL, "1");
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
                 }
             }
 

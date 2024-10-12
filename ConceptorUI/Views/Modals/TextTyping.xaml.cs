@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using ConceptorUI.Inputs;
 using ConceptorUI.Models;
 using ConceptorUI.Views.Widgets;
@@ -64,7 +65,7 @@ public partial class TextTyping
         {
             case "AddText":
                 var id = GetId();
-                
+
                 var textItem = new TextItem
                 {
                     Height = 35,
@@ -88,14 +89,25 @@ public partial class TextTyping
         var id = Convert.ToInt32(dictionary["tag"]);
         var count = TextItems.Children.Count;
         var index = 0;
-        
+
         for (var i = 0; i < TextItems.Children.Count; i++)
             if (id == Convert.ToInt32(((TextItem)TextItems.Children[i]).Tag))
                 index = i;
-        Console.WriteLine($@"Selected index: {index}");
 
         switch (action)
         {
+            case "Click":
+                foreach (var child in TextItems.Children)
+                    (child as TextItem)!.BorderBrush =
+                        (new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush)!;
+
+                var textItem = TextItems.Children[index] as TextItem;
+                textItem!.BorderBrush = (new BrushConverter().ConvertFrom("#35A9BF") as SolidColorBrush)!;
+                
+                TextChangedCommand?.Execute(
+                    new dynamic[] { GroupNames.Text, PropertyNames.CurrentTextIndex, index.ToString() }
+                );
+                break;
             case "MoveUp":
                 if (index == 0) return;
                 var item = TextItems.Children[index];
