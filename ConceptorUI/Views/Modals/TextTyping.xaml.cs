@@ -16,7 +16,8 @@ public partial class TextTyping
     private static TextTyping? _obj;
     public ICommand? TextChangedCommand;
 
-    private List<int> _ids;
+    private readonly List<int> _ids;
+    private int _selectedTextIndex;
 
     public TextTyping()
     {
@@ -24,22 +25,45 @@ public partial class TextTyping
 
         _obj = this;
         _ids = [];
+        _selectedTextIndex = 0;
+
+        foreach (var fontFamily in Fonts.SystemFontFamilies)
+        {
+            CFontFamily.Items.Add(
+                new ComboBoxItem { Content = fontFamily.Source }
+            );
+        }
     }
 
     public static TextTyping Instance => _obj ?? new TextTyping();
 
-    public void Refresh(string text)
+    public void Refresh(object sender)
     {
-        TextField.Text = text;
+        TextItems.Children.Clear();
+        
+        var groups = sender as List<List<GroupProperties>>;
+        var group0 = groups![0].Find(g => g.Name == GroupNames.Text.ToString());
+        
+        _selectedTextIndex = Convert.ToInt32(group0!.GetValue(PropertyNames.CurrentTextIndex));
+        if (groups.Count > 1)
+        {
+            var group = groups[_selectedTextIndex + 1].Find(g => g.Name == GroupNames.Text.ToString());
+            TextField.Text = group!.GetValue(PropertyNames.Text);
+        
+            for (var i = 0; i < groups.Count; i++)
+            {
+                if(i == 0) continue;
+                var text = group.GetValue(PropertyNames.Text);
+                AddTextItem(text);
+            }
+        }
+        
         Show();
     }
 
     private void TextChanged(object sender, EventArgs e)
     {
         var text = (sender as TextBox)!.Text;
-
-        // if (TextFormated == null) return;
-        // TextFormated.Text = text;
 
         TextChangedCommand?.Execute(
             new dynamic[] { GroupNames.Text, PropertyNames.Text, text }
@@ -64,17 +88,11 @@ public partial class TextTyping
         switch (tag)
         {
             case "AddText":
-                var id = GetId();
-
-                var textItem = new TextItem
-                {
-                    Height = 35,
-                    Tag = id,
-                    Text = $"Text numéro {id}",
-                    Margin = new Thickness(0, 10, 0, 0),
-                    Command = new RelayCommand(TextItemEventHandle)
-                };
-                TextItems.Children.Add(textItem);
+                const string text = "Text numéro";
+                AddTextItem(text);
+                TextChangedCommand?.Execute(
+                    new dynamic[] { GroupNames.Text, PropertyNames.Add, text }
+                );
                 break;
             case "Close":
                 Hide();
@@ -130,6 +148,21 @@ public partial class TextTyping
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         DragMove();
+    }
+
+    private void AddTextItem(string text)
+    {
+        var id = GetId();
+
+        var textItem = new TextItem
+        {
+            Height = 35,
+            Tag = id,
+            Text = text,
+            Margin = new Thickness(0, 10, 0, 0),
+            Command = new RelayCommand(TextItemEventHandle)
+        };
+        TextItems.Children.Add(textItem);
     }
 
     private int GetId()

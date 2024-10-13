@@ -227,6 +227,11 @@ namespace ConceptorUi.ViewModels
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
         }
 
+        protected override object GetPropertyGroups()
+        {
+            return PropertyGroups!;
+        }
+
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
         }

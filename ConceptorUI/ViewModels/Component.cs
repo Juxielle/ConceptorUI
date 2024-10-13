@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Shapes;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
 
@@ -17,7 +18,7 @@ namespace ConceptorUi.ViewModels
     internal abstract class Component
     {
         protected ComponentList Name { get; set; }
-        private List<GroupProperties>? PropertyGroups { get; set; }
+        public List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected = false;
         public string? Id;
@@ -37,10 +38,11 @@ namespace ConceptorUi.ViewModels
         public Component Parent;
         public List<Component> Children;
 
-        protected Border SelectedContent;
+        public Border SelectedContent;
         protected Border Content;
         private Grid _parentContent;
         protected Border ShadowContent;
+        protected Rectangle BorderContent;
 
         public ICommand? SelectedCommand;
         public ICommand RefreshPropertyPanelCommand;
@@ -65,11 +67,12 @@ namespace ConceptorUi.ViewModels
 
         protected abstract void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract void ContinueToInitialize(string groupName, string propertyName, string value);
+        protected abstract object GetPropertyGroups();
 
         public void OnSelected()
         {
-            SelectedContent.BorderBrush = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
-            SelectedContent.BorderThickness = new Thickness(0.6, 0.6, 0.9, 0.9);
+            BorderContent.Stroke = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
+            BorderContent.StrokeThickness = 0.6;
             Selected = true;
 
             SelectedCommand?.Execute(
@@ -77,7 +80,7 @@ namespace ConceptorUi.ViewModels
                 {
                     { "Id", Id! },
                     { "selected", true },
-                    { "propertyGroups", PropertyGroups! },
+                    { "propertyGroups", GetPropertyGroups() },
                     { "componentName", Name }
                 }
             );
@@ -103,8 +106,8 @@ namespace ConceptorUi.ViewModels
         public void OnUnselected()
         {
             Selected = false;
-            SelectedContent.BorderBrush = Brushes.Transparent;
-            SelectedContent.BorderThickness = new Thickness(0);
+            BorderContent.Stroke = Brushes.Transparent;
+            BorderContent.StrokeThickness = 0;
 
             foreach (var child in Children)
                 child.OnUnselected();
@@ -122,7 +125,7 @@ namespace ConceptorUi.ViewModels
                 {
                     { "Id", Id! },
                     { "selected", false },
-                    { "propertyGroups", PropertyGroups! },
+                    { "propertyGroups", GetPropertyGroups() },
                     { "componentName", Name }
                 }
             );
@@ -296,7 +299,7 @@ namespace ConceptorUi.ViewModels
                         {
                             { "Id", Id! },
                             { "selected", false },
-                            { "propertyGroups", PropertyGroups! },
+                            { "propertyGroups", GetPropertyGroups() },
                             { "componentName", Name }
                         }
                     );
@@ -406,7 +409,7 @@ namespace ConceptorUi.ViewModels
                 else if (propertyName == PropertyNames.Opacity)
                 {
                     var vd = Helper.ConvertToDouble(value);
-                    SelectedContent.Opacity = vd;
+                    Content.Opacity = ShadowContent.Opacity = vd;
                     SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.CMargin)
@@ -876,7 +879,7 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.Opacity.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Opacity = vd;
+                        Content.Opacity = ShadowContent.Opacity = vd;
                     }
                     else if (prop.Name == PropertyNames.Margin.ToString())
                     {
@@ -1259,7 +1262,8 @@ namespace ConceptorUi.ViewModels
                         .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
-
+                
+                Children.Clear();
                 foreach (var component in components)
                 {
                     Children.Add(component);
@@ -1298,7 +1302,7 @@ namespace ConceptorUi.ViewModels
                     {
                         { "Id", Id! },
                         { "selected", false },
-                        { "propertyGroups", PropertyGroups! },
+                        { "propertyGroups", GetPropertyGroups() },
                         { "componentName", Name }
                     }
                 );
@@ -1476,9 +1480,14 @@ namespace ConceptorUi.ViewModels
 
             Content = new Border();
             ShadowContent = new Border();
+            BorderContent = new Rectangle
+            {
+                StrokeDashArray = new DoubleCollection([6.0, 3.0])
+            };
 
             _parentContent = new Grid();
             _parentContent.Children.Add(ShadowContent);
+            _parentContent.Children.Add(BorderContent);
             _parentContent.Children.Add(Content);
 
             SelectedContent = new Border { Child = _parentContent };

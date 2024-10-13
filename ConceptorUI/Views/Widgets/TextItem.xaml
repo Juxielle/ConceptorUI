@@ -19,12 +19,11 @@
             
             <TextBlock Grid.Column="0"
                        Text="{Binding Text, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                       FontSize="12"
+                       FontSize="11"
                        Foreground="#8c8c8a"
                        TextWrapping="Wrap"
                        TextTrimming="CharacterEllipsis"
                        MaxHeight="35"
-                       FontWeight="Bold"
                        VerticalAlignment="Center"
                        Tag="Text"
                        MouseDown="OnMouseLeftButtonDown"/>

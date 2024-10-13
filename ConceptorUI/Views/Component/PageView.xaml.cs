@@ -383,7 +383,7 @@ namespace ConceptorUI.Views.Component
             if (_componentId == values["Id"] && _clickCount == 2)
             {
                 _clickCount = 0;
-                if (values["componentName"] == ComponentList.TextSingle)
+                if (values["componentName"] == ComponentList.Text)
                     DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
             }
 

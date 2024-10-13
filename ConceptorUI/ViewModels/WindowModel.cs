@@ -141,6 +141,11 @@ namespace ConceptorUi.ViewModels
             return false;
         }
 
+        protected override object GetPropertyGroups()
+        {
+            return PropertyGroups!;
+        }
+
         protected override void Delete(int k = -1)
         {
         }

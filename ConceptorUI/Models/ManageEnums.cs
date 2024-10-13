@@ -98,10 +98,6 @@ namespace ConceptorUI.Models
         }
     }
 
-    public enum Alignments
-    {
-        Start, Center, End, Stretch
-    }
     public enum PropertyNames
     {
         Width, Height, None,
@@ -151,7 +147,7 @@ namespace ConceptorUI.Models
     }
     public enum VisibilityValue
     {
-        Visible, Hidden, Collapsed
+        Visible, Collapsed
     }
     public enum ComponentList
     {

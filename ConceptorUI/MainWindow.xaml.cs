@@ -140,9 +140,7 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "Save":
-                    //PageView.OnSaved();
-
-                    TextTyping.Instance.Refresh("text");
+                    PageView.OnSaved();
                     break;
                 case "AddReport":
                     new ConfirmDialogBox(
@@ -201,22 +199,27 @@ namespace ConceptorUI
         private void OnSetPropertyHandle(object sender)
         {
             var infos = sender as dynamic[];
-            PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
+            var property = (PropertyNames)infos![1];
+            
+            if(property == PropertyNames.Add)
+                PageView.AddComponent(Models.ComponentList.TextSingle.ToString());
+            else PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)
         {
             var values = sender as Dictionary<string, dynamic>;
+            List<GroupProperties> groups;
+            if(((ComponentList)values!["componentName"]) == Models.ComponentList.Text)
+                groups = ((List<List<GroupProperties>>)values["propertyGroups"])[0];
+            else groups = (List<GroupProperties>)values["propertyGroups"];
 
-            RightPanel.FeedProps(values!["propertyGroups"], values["componentName"]);
+            RightPanel.FeedProps(groups, values["componentName"]);
         }
 
         private void OnDisplayTextTypingHandle(object sender)
         {
-            var group = (sender as List<GroupProperties>)!.Find(g => g.Name == GroupNames.Text.ToString());
-            var text = group!.GetValue(PropertyNames.Text);
-
-            TextTyping.Instance.Refresh(text);
+            TextTyping.Instance.Refresh(sender);
         }
 
         private void OnSendComponentHandle(object sender)

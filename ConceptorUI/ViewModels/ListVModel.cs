@@ -103,6 +103,11 @@ namespace ConceptorUi.ViewModels
             if(k == -1) OnSelected();
         }
 
+        protected override object GetPropertyGroups()
+        {
+            return PropertyGroups!;
+        }
+
         protected override void WhenWidthChanged(string value)
         {
         }

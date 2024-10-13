@@ -143,6 +143,11 @@ namespace ConceptorUi.ViewModels
             return false;
         }
 
+        protected override object GetPropertyGroups()
+        {
+            return PropertyGroups!;
+        }
+
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
         }
