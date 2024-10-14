@@ -37,6 +37,7 @@ namespace ConceptorUi.ViewModels
 
         private void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Console.WriteLine(@$"Entre quand même. _isEventCanHandled: {_isEventCanHandled}");
             if (!_isEventCanHandled) return;
             var control = sender as TextBlock;
 
@@ -81,10 +82,11 @@ namespace ConceptorUi.ViewModels
             }
             else
             {
-                _isEventCanHandled = propertyName == PropertyNames.FontSize.ToString() ||
-                                     propertyName == PropertyNames.FontFamily.ToString() ||
-                                     propertyName == PropertyNames.FontWeight.ToString() ||
-                                     propertyName == PropertyNames.Text.ToString();
+                // _isEventCanHandled = propertyName == PropertyNames.FontSize.ToString() ||
+                //                      propertyName == PropertyNames.FontFamily.ToString() ||
+                //                      propertyName == PropertyNames.FontWeight.ToString() ||
+                //                      propertyName == PropertyNames.Text.ToString();
+                _isEventCanHandled = true;
 
                 var index = Convert.ToInt32(
                     GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
@@ -245,20 +247,6 @@ namespace ConceptorUi.ViewModels
             textTarget.Foreground = textSource.Foreground;
             textTarget.Text = textSource.Text;
             textTarget.TextDecorations = textSource.TextDecorations;
-        }
-
-        private static TextBlock EquivalentText(Run run)
-        {
-            return new TextBlock
-            {
-                FontFamily = run.FontFamily,
-                FontWeight = run.FontWeight,
-                FontStyle = run.FontStyle,
-                FontSize = run.FontSize,
-                Foreground = run.Foreground,
-                Text = run.Text,
-                TextDecorations = run.TextDecorations
-            };
         }
     }
 }

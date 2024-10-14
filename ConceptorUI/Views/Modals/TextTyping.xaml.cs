@@ -70,17 +70,6 @@ public partial class TextTyping
         );
     }
 
-    private void BtnClick(object sender, RoutedEventArgs e)
-    {
-        var tag = (sender as Button)!.Tag.ToString();
-
-        switch (tag)
-        {
-            case "AddText":
-                break;
-        }
-    }
-
     private void OnMouseDown(object sender, MouseButtonEventArgs e)
     {
         var tag = ((FrameworkElement)sender).Tag.ToString();
@@ -171,7 +160,7 @@ public partial class TextTyping
         while (true)
         {
             var found = false;
-            foreach (var id in _ids.Where(id => id == newId))
+            foreach (var unused in _ids.Where(id => id == newId))
             {
                 found = true;
             }

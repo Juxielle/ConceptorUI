@@ -227,11 +227,9 @@ namespace ConceptorUI.Views.Component
 
             if (propertyName == PropertyNames.None) return;
 
-            if (_firstCount > 1 && value != null!)
-                MouseDownCommand?.Execute(
-                    new dynamic[] { GroupNames.Text, propertyName, value }
-                );
-            if (_firstCount < 2) _firstCount++;
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Text, propertyName, value }
+            );
         }
 
         private void BtnClick(object sender, RoutedEventArgs e)

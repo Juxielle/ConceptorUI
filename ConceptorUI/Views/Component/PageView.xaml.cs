@@ -324,12 +324,19 @@ namespace ConceptorUI.Views.Component
 
         public void RefreshReusableComponent()
         {
-            foreach (var key in _components.Keys)
+            try
             {
-                if (_components[key].GetType().Name != nameof(ComponentModel)) continue;
-                var serializer = _components[key].Children[0].Children[0].OnSerializer();
-                foreach (var key2 in _components.Keys.Where(key2 => key != key2))
-                    _components[key2].OnUpdateComponent(serializer);
+                foreach (var key in _components.Keys)
+                {
+                    if (_components[key].GetType().Name != nameof(ComponentModel)) continue;
+                    var serializer = _components[key].Children[0].Children[0].OnSerializer();
+                    foreach (var key2 in _components.Keys.Where(key2 => key != key2))
+                        _components[key2].OnUpdateComponent(serializer);
+                }
+            }
+            catch (Exception e)
+            {
+                //
             }
         }
 
@@ -435,11 +442,8 @@ namespace ConceptorUI.Views.Component
                             var jsonString = JsonSerializer.Serialize(componentSerializer);
                             File.WriteAllText(filePath, jsonString);
                         }
-                        
-                        sc!.Post(delegate
-                        {
-                            RefreshReusableComponent();
-                        }, null);
+
+                        sc!.Post(delegate { RefreshReusableComponent(); }, null);
                         break;
                     }
                     case 2:
