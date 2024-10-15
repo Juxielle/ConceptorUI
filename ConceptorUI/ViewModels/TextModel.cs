@@ -104,6 +104,7 @@ namespace ConceptorUi.ViewModels
                 var textTarget = _runs[index];
 
                 WhenTextChangedOwn(textSource, textTarget);
+                Console.WriteLine($@"Selected child index: {index}");
             }
 
             if (propertyName == PropertyNames.FontSize.ToString())
@@ -173,7 +174,7 @@ namespace ConceptorUi.ViewModels
 
                 var textSource = GetSource(child);
                 var textTarget = new Run();
-                
+
                 WhenTextChangedOwn(textSource, textTarget);
                 _text.Inlines.Add(textTarget);
                 _runs.Add(textTarget);
@@ -236,7 +237,7 @@ namespace ConceptorUi.ViewModels
         {
             _text.Text = string.Empty;
             var textComponent = new TextSingleModel();
-            
+
             Children.Add(textComponent);
             AddIntoChildContent(textComponent.ComponentView);
         }

@@ -76,7 +76,6 @@ namespace ConceptorUi.ViewModels
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
                 SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
-                Console.WriteLine($@"Color: {value}");
             }
             else if (propertyName == PropertyNames.Text.ToString())
             {
