@@ -40,7 +40,7 @@ namespace ConceptorUi.ViewModels
 
         public Border SelectedContent;
         protected Border Content;
-        private Grid _parentContent;
+        public Grid ParentContent;
         protected Border ShadowContent;
         protected Rectangle BorderContent;
 
@@ -390,6 +390,10 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(groupName, propertyName, value);
                     }
                     else if (propertyName == PropertyNames.LineSpacing)
+                    {
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
+                    else if (propertyName == PropertyNames.CurrentTextIndex)
                     {
                         SetPropertyValue(groupName, propertyName, value);
                     }
@@ -1485,12 +1489,12 @@ namespace ConceptorUi.ViewModels
                 StrokeDashArray = new DoubleCollection([6.0, 3.0])
             };
 
-            _parentContent = new Grid();
-            _parentContent.Children.Add(ShadowContent);
-            _parentContent.Children.Add(BorderContent);
-            _parentContent.Children.Add(Content);
+            ParentContent = new Grid();
+            ParentContent.Children.Add(ShadowContent);
+            ParentContent.Children.Add(BorderContent);
+            ParentContent.Children.Add(Content);
 
-            SelectedContent = new Border { Child = _parentContent };
+            SelectedContent = new Border { Child = ParentContent };
 
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;
@@ -1774,7 +1778,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.Color.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "#6739b7",
+                            Value = "#000000",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()

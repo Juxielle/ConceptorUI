@@ -18,6 +18,8 @@ public partial class TextTyping
 
     private readonly List<int> _ids;
     private int _selectedTextIndex;
+    private List<List<GroupProperties>> _groups;
+    private bool _allowModify;
 
     public TextTyping()
     {
@@ -25,7 +27,9 @@ public partial class TextTyping
 
         _obj = this;
         _ids = [];
+        _allowModify = true;
         _selectedTextIndex = 0;
+        _groups = new List<List<GroupProperties>>();
 
         foreach (var fontFamily in Fonts.SystemFontFamilies)
         {
@@ -41,21 +45,20 @@ public partial class TextTyping
     {
         TextItems.Children.Clear();
         
-        var groups = sender as List<List<GroupProperties>>;
-        var group0 = groups![0].Find(g => g.Name == GroupNames.Text.ToString());
+        _groups = (sender as List<List<GroupProperties>>)!;
+        var group0 = _groups![0].Find(g => g.Name == GroupNames.Text.ToString());
         
         _selectedTextIndex = Convert.ToInt32(group0!.GetValue(PropertyNames.CurrentTextIndex));
-        if (groups.Count > 1)
+        if (_groups.Count > 1)
         {
-            var group = groups[_selectedTextIndex + 1].Find(g => g.Name == GroupNames.Text.ToString());
-            TextField.Text = group!.GetValue(PropertyNames.Text);
-        
-            for (var i = 0; i < groups.Count; i++)
+            for (var i = 0; i < _groups.Count; i++)
             {
                 if(i == 0) continue;
-                var text = group.GetValue(PropertyNames.Text);
+                var group = _groups[i].Find(g => g.Name == GroupNames.Text.ToString());
+                var text = group!.GetValue(PropertyNames.Text);
                 AddTextItem(text);
             }
+            OnSelectedItemChanged(_selectedTextIndex);
         }
         
         Show();
@@ -63,6 +66,11 @@ public partial class TextTyping
 
     private void TextChanged(object sender, EventArgs e)
     {
+        if(!_allowModify)
+        {
+            _allowModify = true;
+            return;
+        }
         var text = (sender as TextBox)!.Text;
 
         TextChangedCommand?.Execute(
@@ -104,12 +112,7 @@ public partial class TextTyping
         switch (action)
         {
             case "Click":
-                foreach (var child in TextItems.Children)
-                    (child as TextItem)!.BorderBrush =
-                        (new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush)!;
-
-                var textItem = TextItems.Children[index] as TextItem;
-                textItem!.BorderBrush = (new BrushConverter().ConvertFrom("#35A9BF") as SolidColorBrush)!;
+                OnSelectedItemChanged(index);
                 
                 TextChangedCommand?.Execute(
                     new dynamic[] { GroupNames.Text, PropertyNames.CurrentTextIndex, index.ToString() }
@@ -132,6 +135,20 @@ public partial class TextTyping
                 TextItems.Children.RemoveAt(index);
                 break;
         }
+    }
+
+    private void OnSelectedItemChanged(int index)
+    {
+        foreach (var child in TextItems.Children)
+            (child as TextItem)!.BorderBrush =
+                (new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush)!;
+
+        _allowModify = false;
+        var group = _groups[index + 1].Find(g => g.Name == GroupNames.Text.ToString());
+        TextField.Text = group!.GetValue(PropertyNames.Text);
+        
+        var textItem = TextItems.Children[index] as TextItem;
+        textItem!.BorderBrush = (new BrushConverter().ConvertFrom("#35A9BF") as SolidColorBrush)!;
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

@@ -32,23 +32,30 @@ namespace ConceptorUi.ViewModels
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
-            AddFirstChild();
+            //AddFirstChild();
         }
 
         private void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
         {
-            Console.WriteLine(@$"Entre quand même. _isEventCanHandled: {_isEventCanHandled}");
             if (!_isEventCanHandled) return;
             var control = sender as TextBlock;
 
-            SelectedContent.Height = control!.ActualHeight;
+            var height = control!.ActualHeight;
+            // foreach (var child in Children)
+            // {
+            //     var text = GetSource(child.ComponentView);
+            //     if(height < text.ActualHeight)
+            //         height = text.ActualHeight;
+            //     Console.WriteLine($@"Text child height: {text.ActualHeight}");
+            // }
+            SelectedContent.Height = height;
 
             var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
             _isEventCanHandled = false;
-            Console.WriteLine($@"Text Height: {control.ActualHeight}");
+            Console.WriteLine($@"Text Height: {height}");
         }
 
         public override void WhenTextChanged(string propertyName, string value)
@@ -162,11 +169,11 @@ namespace ConceptorUi.ViewModels
         {
             try
             {
-                if (Children.Count <= _runs.Count) return;
+                //if (Children.Count <= _runs.Count) return;
 
                 var textSource = GetSource(child);
                 var textTarget = new Run();
-
+                
                 WhenTextChangedOwn(textSource, textTarget);
                 _text.Inlines.Add(textTarget);
                 _runs.Add(textTarget);
@@ -229,6 +236,7 @@ namespace ConceptorUi.ViewModels
         {
             _text.Text = string.Empty;
             var textComponent = new TextSingleModel();
+            
             Children.Add(textComponent);
             AddIntoChildContent(textComponent.ComponentView);
         }
