@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
@@ -75,6 +76,7 @@ namespace ConceptorUi.ViewModels
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
                 SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
+                Console.WriteLine($@"Color: {value}");
             }
             else if (propertyName == PropertyNames.Text.ToString())
             {

@@ -18,7 +18,7 @@ public partial class TextTyping
 
     private readonly List<int> _ids;
     private int _selectedTextIndex;
-    private List<List<GroupProperties>> _groups;
+    private List<TextItem> _textItems;
     private bool _allowModify;
 
     public TextTyping()
@@ -29,7 +29,7 @@ public partial class TextTyping
         _ids = [];
         _allowModify = true;
         _selectedTextIndex = 0;
-        _groups = new List<List<GroupProperties>>();
+        _textItems = [];
 
         foreach (var fontFamily in Fonts.SystemFontFamilies)
         {
@@ -44,34 +44,42 @@ public partial class TextTyping
     public void Refresh(object sender)
     {
         TextItems.Children.Clear();
-        
-        _groups = (sender as List<List<GroupProperties>>)!;
-        var group0 = _groups![0].Find(g => g.Name == GroupNames.Text.ToString());
-        
+
+        var groups = (sender as List<List<GroupProperties>>)!;
+        var group0 = groups![0].Find(g => g.Name == GroupNames.Text.ToString());
+
         _selectedTextIndex = Convert.ToInt32(group0!.GetValue(PropertyNames.CurrentTextIndex));
-        if (_groups.Count > 1)
+        if (groups.Count > 1)
         {
-            for (var i = 0; i < _groups.Count; i++)
+            for (var i = 0; i < groups.Count; i++)
             {
-                if(i == 0) continue;
-                var group = _groups[i].Find(g => g.Name == GroupNames.Text.ToString());
+                if (i == 0) continue;
+                var group = groups[i].Find(g => g.Name == GroupNames.Text.ToString());
+
                 var text = group!.GetValue(PropertyNames.Text);
-                AddTextItem(text);
+                var fontFamily = group.GetValue(PropertyNames.FontFamily);
+                var fontWeight = group.GetValue(PropertyNames.FontWeight);
+                var fontStyle = group.GetValue(PropertyNames.FontStyle);
+                var foreground = group.GetValue(PropertyNames.Color);
+                AddTextItem(text, fontFamily, fontWeight, fontStyle, foreground);
             }
+
             OnSelectedItemChanged(_selectedTextIndex);
         }
-        
+
         Show();
     }
 
     private void TextChanged(object sender, EventArgs e)
     {
-        if(!_allowModify)
+        if (!_allowModify)
         {
             _allowModify = true;
             return;
         }
+
         var text = (sender as TextBox)!.Text;
+        _textItems[_selectedTextIndex].Text = text;
 
         TextChangedCommand?.Execute(
             new dynamic[] { GroupNames.Text, PropertyNames.Text, text }
@@ -97,6 +105,34 @@ public partial class TextTyping
         }
     }
 
+    private void BtnMouseDown(object sender, MouseButtonEventArgs e)
+    {
+        var tag = (sender as Border)!.Tag.ToString()!;
+        var index = 0;
+        var propertyName = PropertyNames.None;
+
+        switch (tag)
+        {
+            case "FontWeight":
+                propertyName = PropertyNames.FontWeight;
+                index = _textItems[_selectedTextIndex].FontWeight == FontWeights.Normal ? 1 : 0;
+                _textItems[_selectedTextIndex].FontWeight = index == 0 ? FontWeights.Normal : FontWeights.Bold;
+                break;
+            case "FontStyle":
+                propertyName = PropertyNames.FontStyle;
+                index = _textItems[_selectedTextIndex].FontStyle == FontStyles.Normal ? 1 : 0;
+                _textItems[_selectedTextIndex].FontStyle = index == 0 ? FontStyles.Normal : FontStyles.Italic;
+                break;
+        }
+
+        if (propertyName == PropertyNames.None) return;
+
+        ChangeColor(_selectedTextIndex);
+        TextChangedCommand?.Execute(
+            new dynamic[] { GroupNames.Text, propertyName, index.ToString() }
+        );
+    }
+
     private void TextItemEventHandle(object sender)
     {
         var dictionary = (Dictionary<string, object>)sender;
@@ -112,8 +148,9 @@ public partial class TextTyping
         switch (action)
         {
             case "Click":
+                _selectedTextIndex = index;
                 OnSelectedItemChanged(index);
-                
+
                 TextChangedCommand?.Execute(
                     new dynamic[] { GroupNames.Text, PropertyNames.CurrentTextIndex, index.ToString() }
                 );
@@ -140,15 +177,54 @@ public partial class TextTyping
     private void OnSelectedItemChanged(int index)
     {
         foreach (var child in TextItems.Children)
-            (child as TextItem)!.BorderBrush =
-                (new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush)!;
+        {
+            var textI = child as TextItem;
+            textI!.BorderBrush = (new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush)!;
+            textI.Background = Brushes.White;
+        }
 
         _allowModify = false;
-        var group = _groups[index + 1].Find(g => g.Name == GroupNames.Text.ToString());
-        TextField.Text = group!.GetValue(PropertyNames.Text);
-        
+        TextField.Text = _textItems[index].Text;
+        CFontFamily.SelectedIndex = Convert.ToInt32(ManageEnums.GetFfIndex(_textItems[index].FontFamily.ToString()));
+        ChangeColor(index);
+
         var textItem = TextItems.Children[index] as TextItem;
         textItem!.BorderBrush = (new BrushConverter().ConvertFrom("#35A9BF") as SolidColorBrush)!;
+        textItem!.Background = Brushes.Beige;
+    }
+
+    private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
+    {
+        var comboBox = (sender as ComboBox)!;
+        var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
+        var propertyName = PropertyNames.None;
+        string value = null!;
+
+        switch (tag)
+        {
+            case "FontFamily":
+                propertyName = PropertyNames.FontFamily;
+                value = (comboBox.SelectedValue as ComboBoxItem) != null
+                    ? (comboBox.SelectedValue as ComboBoxItem)!.Content.ToString()!
+                    : null!;
+                break;
+        }
+
+        if (propertyName == PropertyNames.None) return;
+
+        TextChangedCommand?.Execute(
+            new dynamic[] { GroupNames.Text, propertyName, value }
+        );
+    }
+
+    private void ChangeColor(int index)
+    {
+        FontStyle.Foreground = _textItems[index].FontStyle.ToString() == "Normal"
+            ? new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush
+            : new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush;
+        FontWeight.Foreground = _textItems[index].FontWeight.ToString() == "Normal"
+            ? new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush
+            : new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush;
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -156,7 +232,11 @@ public partial class TextTyping
         DragMove();
     }
 
-    private void AddTextItem(string text)
+    private void AddTextItem(string text = "My text",
+        string fontFamily = "Arial",
+        string fontWeight = "0",
+        string fontStyle = "0",
+        string foreground = "#000000")
     {
         var id = GetId();
 
@@ -165,10 +245,15 @@ public partial class TextTyping
             Height = 35,
             Tag = id,
             Text = text,
-            Margin = new Thickness(0, 10, 0, 0),
+            FontFamily = new FontFamily(fontFamily),
+            FontStyle = fontStyle == "1" ? FontStyles.Italic : FontStyles.Normal,
+            FontWeight = fontWeight == "1" ? FontWeights.Bold : FontWeights.Normal,
+            Foreground = (new BrushConverter().ConvertFrom(foreground) as SolidColorBrush)!,
+            Margin = new Thickness(0, 6, 0, 0),
             Command = new RelayCommand(TextItemEventHandle)
         };
         TextItems.Children.Add(textItem);
+        _textItems.Add(textItem);
     }
 
     private int GetId()

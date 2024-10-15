@@ -24,6 +24,46 @@ public partial class TextItem
         set => SetValue(TextProperty, value);
     }
     
+    public new static readonly DependencyProperty FontFamilyProperty =
+        DependencyProperty.Register(nameof(FontFamily), typeof(FontFamily), typeof(TextItem),
+            new PropertyMetadata(new FontFamily("Arial")));
+
+    public new FontFamily FontFamily
+    {
+        get => (FontFamily)GetValue(FontFamilyProperty);
+        set => SetValue(FontFamilyProperty, value);
+    }
+    
+    public new static readonly DependencyProperty FontWeightProperty =
+        DependencyProperty.Register(nameof(FontWeight), typeof(FontWeight), typeof(TextItem),
+            new PropertyMetadata(FontWeights.Normal));
+
+    public new FontWeight FontWeight
+    {
+        get => (FontWeight)GetValue(FontWeightProperty);
+        set => SetValue(FontWeightProperty, value);
+    }
+    
+    public new static readonly DependencyProperty FontStyleProperty =
+        DependencyProperty.Register(nameof(FontStyle), typeof(FontStyle), typeof(TextItem),
+            new PropertyMetadata(FontStyles.Normal));
+
+    public new FontStyle FontStyle
+    {
+        get => (FontStyle)GetValue(FontStyleProperty);
+        set => SetValue(FontStyleProperty, value);
+    }
+    
+    public new static readonly DependencyProperty ForegroundProperty =
+        DependencyProperty.Register(nameof(Foreground), typeof(Brush), typeof(TextItem),
+            new PropertyMetadata(new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush));
+
+    public new Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+    
     public new static readonly DependencyProperty BorderBrushProperty =
         DependencyProperty.Register(nameof(BorderBrush), typeof(Brush), typeof(TextItem),
             new PropertyMetadata(new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush));
@@ -32,6 +72,16 @@ public partial class TextItem
     {
         get => (Brush)GetValue(BorderBrushProperty);
         set => SetValue(BorderBrushProperty, value);
+    }
+    
+    public new static readonly DependencyProperty BackgroundProperty =
+        DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(TextItem),
+            new PropertyMetadata(new BrushConverter().ConvertFrom("#ffffff") as SolidColorBrush));
+
+    public new Brush Background
+    {
+        get => (Brush)GetValue(BackgroundProperty);
+        set => SetValue(BackgroundProperty, value);
     }
 
     private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

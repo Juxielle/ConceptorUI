@@ -49,7 +49,8 @@
                             FontSize="10"
                             FontWeight="Bold"
                             Tag="FontFamily"
-                            x:Name="CFontFamily">
+                            x:Name="CFontFamily"
+                            SelectionChanged="OnSelectedChanged">
                         </ComboBox>
                     </Border>
 
@@ -62,7 +63,8 @@
                             Height="20"
                             Tag="FontWeight"
                             DockPanel.Dock="Right"
-                            x:Name="BFontWeight">
+                            x:Name="BFontWeight"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatBold"
                                                  Width="15"
                                                  Height="15"
@@ -79,7 +81,8 @@
                             Height="20"
                             Tag="FontStyle"
                             DockPanel.Dock="Right"
-                            x:Name="BFontStyle">
+                            x:Name="BFontStyle"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatItalic"
                                                  Width="15"
                                                  Height="15"
@@ -97,7 +100,8 @@
                             Height="20"
                             Tag="TextThrough"
                             DockPanel.Dock="Right"
-                            x:Name="BTextThrough">
+                            x:Name="BTextThrough"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatStrikethrough"
                                                  Width="15"
                                                  Height="15"
@@ -115,7 +119,8 @@
                             Height="20"
                             Tag="TextOverline"
                             DockPanel.Dock="Right"
-                            x:Name="BTextOverline">
+                            x:Name="BTextOverline"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatOverline"
                                                  Width="15"
                                                  Height="15"
@@ -133,7 +138,8 @@
                             Height="20"
                             Tag="TextUnderline"
                             DockPanel.Dock="Right"
-                            x:Name="BTextUnderline">
+                            x:Name="BTextUnderline"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatUnderline"
                                                  Width="15"
                                                  Height="15"
@@ -151,7 +157,8 @@
                             Width="20"
                             Height="20"
                             Tag="TextError"
-                            x:Name="BTextError">
+                            x:Name="BTextError"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatUnderlineWavy"
                                                  Width="15"
                                                  Height="15"
@@ -169,7 +176,8 @@
                             Width="20"
                             Height="20"
                             Tag="TextIndex"
-                            x:Name="BTextIndex">
+                            x:Name="BTextIndex"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatSubscript"
                                                  Width="15"
                                                  Height="15"
@@ -187,7 +195,8 @@
                             Width="20"
                             Height="20"
                             Tag="TextExpo"
-                            x:Name="BTextExpo">
+                            x:Name="BTextExpo"
+                            MouseLeftButtonDown="BtnMouseDown">
                         <materialDesign:PackIcon Kind="FormatSuperscript"
                                                  Width="15"
                                                  Height="15"
