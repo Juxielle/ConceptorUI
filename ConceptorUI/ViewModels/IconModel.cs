@@ -156,7 +156,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        public override void WhenTextChanged(string propertyName, string value)
+        public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
         {
         }
 

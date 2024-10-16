@@ -51,7 +51,7 @@ namespace ConceptorUi.ViewModels
         public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
-        public abstract void WhenTextChanged(string propertyName, string value);
+        public abstract void WhenTextChanged(string propertyName, string value, bool isInitialize = false);
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();
         protected abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
@@ -867,7 +867,7 @@ namespace ConceptorUi.ViewModels
 
                     else if (group.Name == GroupNames.Text.ToString())
                     {
-                        WhenTextChanged(prop.Name, prop.Value);
+                        WhenTextChanged(prop.Name, prop.Value, true);
                     }
 
                     #endregion

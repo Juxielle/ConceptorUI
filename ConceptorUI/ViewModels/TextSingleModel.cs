@@ -31,56 +31,65 @@ namespace ConceptorUi.ViewModels
             OnInitialize();
         }
 
-        public override void WhenTextChanged(string propertyName, string value)
+        public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
         {
             if (propertyName == PropertyNames.FontFamily.ToString())
             {
                 _text.FontFamily = ManageEnums.Instance.GetFontFamily(value);
-                SetPropertyValue(GroupNames.Text, PropertyNames.FontFamily, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.FontFamily, value);
             }
             else if (propertyName == PropertyNames.FontWeight.ToString())
             {
                 _text.FontWeight = value == "0" ? FontWeights.Normal : FontWeights.Bold;
-                SetPropertyValue(GroupNames.Text, PropertyNames.FontWeight, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.FontWeight, value);
             }
             else if (propertyName == PropertyNames.FontStyle.ToString())
             {
                 _text.FontStyle = value == "0" ? FontStyles.Normal : FontStyles.Italic;
-                SetPropertyValue(GroupNames.Text, PropertyNames.FontStyle, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.FontStyle, value);
             }
             else if (propertyName == PropertyNames.FontSize.ToString())
             {
                 var vd = Helper.ConvertToDouble(value);
                 vd = vd == 0 ? 10 : vd;
                 _text.FontSize = vd;
-                SetPropertyValue(GroupNames.Text, PropertyNames.FontSize, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.FontSize, value);
             }
             else if (propertyName == PropertyNames.TextUnderline.ToString())
             {
                 _text.TextDecorations = value == "1" ? TextDecorations.Underline : null;
-                SetPropertyValue(GroupNames.Text, PropertyNames.TextUnderline, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.TextUnderline, value);
             }
             else if (propertyName == PropertyNames.TextOverline.ToString())
             {
                 _text.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
-                SetPropertyValue(GroupNames.Text, PropertyNames.TextOverline, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.TextOverline, value);
             }
             else if (propertyName == PropertyNames.TextThrough.ToString())
             {
                 _text.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
-                SetPropertyValue(GroupNames.Text, PropertyNames.TextThrough, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.TextThrough, value);
             }
             else if (propertyName == PropertyNames.Color.ToString())
             {
                 _text.Foreground = value == ColorValue.Transparent.ToString()
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
-                SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
             }
             else if (propertyName == PropertyNames.Text.ToString())
             {
                 _text.Text = value;
-                SetPropertyValue(GroupNames.Text, PropertyNames.Text, value);
+                if(!isInitialize)
+                    SetPropertyValue(GroupNames.Text, PropertyNames.Text, value);
             }
         }
 

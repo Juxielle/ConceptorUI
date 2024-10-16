@@ -10,7 +10,9 @@
             BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
             BorderThickness=".5"
             CornerRadius="2"
-            Padding="6 0 0 0">
+            Padding="6 0 0 0"
+            Tag="Text"
+            MouseDown="OnMouseLeftButtonDown">
         <Grid>
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="*" />
@@ -27,9 +29,7 @@
                        TextWrapping="Wrap"
                        TextTrimming="CharacterEllipsis"
                        MaxHeight="35"
-                       VerticalAlignment="Center"
-                       Tag="Text"
-                       MouseDown="OnMouseLeftButtonDown"/>
+                       VerticalAlignment="Center"/>
             
             <Grid Grid.Column="1"
                   Margin="1 0 0 0">

@@ -18,8 +18,9 @@ public partial class TextTyping
 
     private readonly List<int> _ids;
     private int _selectedTextIndex;
-    private List<TextItem> _textItems;
+    private readonly List<TextItem> _textItems;
     private bool _allowModify;
+    private bool _allowModifyComboBox;
 
     public TextTyping()
     {
@@ -28,6 +29,7 @@ public partial class TextTyping
         _obj = this;
         _ids = [];
         _allowModify = true;
+        _allowModifyComboBox = true;
         _selectedTextIndex = 0;
         _textItems = [];
 
@@ -184,22 +186,29 @@ public partial class TextTyping
         }
 
         _allowModify = false;
+        _allowModifyComboBox = false;
         TextField.Text = _textItems[index].Text;
         CFontFamily.SelectedIndex = Convert.ToInt32(ManageEnums.GetFfIndex(_textItems[index].FontFamily.ToString()));
         ChangeColor(index);
 
         var textItem = TextItems.Children[index] as TextItem;
         textItem!.BorderBrush = (new BrushConverter().ConvertFrom("#35A9BF") as SolidColorBrush)!;
-        textItem!.Background = Brushes.Beige;
+        textItem.Background = Brushes.Beige;
     }
 
     private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
     {
+        if (!_allowModifyComboBox)
+        {
+            _allowModifyComboBox = true;
+            return;
+        }
+
         var comboBox = (sender as ComboBox)!;
         var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
         var propertyName = PropertyNames.None;
         string value = null!;
-
+        
         switch (tag)
         {
             case "FontFamily":

@@ -58,7 +58,7 @@ namespace ConceptorUi.ViewModels
             Console.WriteLine($@"Text Height: {height}");
         }
 
-        public override void WhenTextChanged(string propertyName, string value)
+        public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
         {
             if (propertyName == PropertyNames.AlignLeft.ToString() && value == "1")
             {
@@ -87,7 +87,7 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 _text.LineHeight = vd;
             }
-            else
+            else if(!isInitialize)
             {
                 // _isEventCanHandled = propertyName == PropertyNames.FontSize.ToString() ||
                 //                      propertyName == PropertyNames.FontFamily.ToString() ||
@@ -104,7 +104,7 @@ namespace ConceptorUi.ViewModels
                 var textTarget = _runs[index];
 
                 WhenTextChangedOwn(textSource, textTarget);
-                Console.WriteLine($@"Selected child index: {index}");
+                Console.WriteLine($@"Children count: {Children.Count}");
             }
 
             if (propertyName == PropertyNames.FontSize.ToString())
