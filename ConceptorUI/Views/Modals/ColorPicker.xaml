@@ -1253,7 +1253,7 @@
                                             BorderThickness="0"
                                             CornerRadius="2"
                                             Margin="6"
-                                            MouseLeftButtonDown="OnChangePosition"/>
+                                            MouseLeftButtonDown="OnChangePosition" />
 
                                     <Line X1="12"
                                           Y1="20"
@@ -1265,28 +1265,35 @@
                                           x:Name="LineOrientation">
                                     </Line>
 
-                                    <Border Background="#6200EA"
+                                    <Border Background="#ff2c2c"
                                             Padding="0"
                                             Width="14"
                                             Height="14"
-                                            BorderThickness="0"
+                                            BorderBrush="#6200EA"
+                                            BorderThickness="2"
                                             CornerRadius="10"
                                             Opacity=".4"
                                             Margin="0 10 0 0"
                                             HorizontalAlignment="Left"
-                                            VerticalAlignment="Top" />
+                                            VerticalAlignment="Top"
+                                            x:Name="LeftButton"
+                                            Tag="LeftButton"
+                                            MouseLeftButtonDown="OnChangeButton" />
 
                                     <Border Background="#6200EA"
                                             Padding="0"
                                             Width="14"
                                             Height="14"
-                                            BorderThickness="0"
+                                            BorderBrush="#6200EA"
+                                            BorderThickness="2"
                                             CornerRadius="10"
                                             Opacity=".4"
-                                            Margin="0 0 0 10"
-                                            HorizontalAlignment="Right"
-                                            VerticalAlignment="Bottom"
-                                            x:Name="RightButton"/>
+                                            Margin="131 75 0 0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            x:Name="RightButton"
+                                            Tag="RightButton"
+                                            MouseLeftButtonDown="OnChangeButton" />
                                 </Grid>
 
                                 <ItemsControl Grid.Row="1"
