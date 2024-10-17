@@ -23,8 +23,16 @@ namespace ConceptorUi.ViewModels
             OnInit();
 
             _grid = new Grid();
-            _materialIcon = new PackIcon();
-            _awesomeIcon = new ImageAwesome { Visibility = Visibility.Collapsed };
+            _materialIcon = new PackIcon
+            {
+                Margin = new Thickness(1, 1, 0, 0),
+                VerticalContentAlignment = VerticalAlignment.Center,
+                HorizontalContentAlignment = HorizontalAlignment.Center
+            };
+            _awesomeIcon = new ImageAwesome
+            {
+                Visibility = Visibility.Collapsed
+            };
 
             _grid.Children.Add(_materialIcon);
             _grid.Children.Add(_awesomeIcon);

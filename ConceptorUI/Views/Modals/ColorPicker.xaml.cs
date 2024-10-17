@@ -169,33 +169,57 @@ public partial class ColorPicker
         var mouseY = point.Y;
         const int width = 145;
         const int height = 100;
-        var widthMouse = mouseX - 5;
-        var heightMouse = mouseY - 5;
 
-        if (widthMouse > width || heightMouse > height) return;
-        if (mouseX <= mouseY && _selectedPosition == "left")
+        /* Left Button */
+        if (mouseX is >= 0 and <= 15 && _selectedPosition == "left")
         {
             LeftButton.Margin = new Thickness(0, mouseY, 0, 0);
             LineOrientation.X1 = 12;
             LineOrientation.Y1 = mouseY + 10;
         }
-        else if (mouseX > mouseY && _selectedPosition == "left")
+        else if (mouseX is >= width - 15 and <= width && _selectedPosition == "left")
+        {
+            LeftButton.Margin = new Thickness(131, mouseY, 0, 0);
+            LineOrientation.X1 = 132;
+            LineOrientation.Y1 = mouseY + 5;
+        }
+        else if (mouseY is >= 0 and <= 15 && _selectedPosition == "left")
         {
             LeftButton.Margin = new Thickness(mouseX, 0, 0, 0);
             LineOrientation.X1 = mouseX + 10;
             LineOrientation.Y1 = 12;
         }
-        else if ((width - widthMouse) <= mouseY && _selectedPosition == "right")
+        else if (mouseY is >= height - 15 and <= height && _selectedPosition == "left")
+        {
+            LeftButton.Margin = new Thickness(mouseX, 86, 0, 0);
+            LineOrientation.X1 = mouseX + 10;
+            LineOrientation.Y1 = 87;
+        }
+        
+        /* Right Button */
+        if (mouseX is >= 0 and <= 15 && _selectedPosition == "right")
+        {
+            RightButton.Margin = new Thickness(0, mouseY, 0, 0);
+            LineOrientation.X2 = 12;
+            LineOrientation.Y2 = mouseY + 10;
+        }
+        else if (mouseX is >= width - 15 and <= width && _selectedPosition == "right")
         {
             RightButton.Margin = new Thickness(131, mouseY, 0, 0);
             LineOrientation.X2 = 132;
             LineOrientation.Y2 = mouseY + 5;
         }
-        else if (mouseX > mouseY && _selectedPosition == "right")
+        else if (mouseY is >= 0 and <= 15 && _selectedPosition == "right")
         {
-            RightButton.Margin = new Thickness(mouseX, 100, 0, 0);
-            LineOrientation.X2 = mouseX - 5;
-            LineOrientation.Y2 = 85;
+            RightButton.Margin = new Thickness(mouseX, 0, 0, 0);
+            LineOrientation.X2 = mouseX + 10;
+            LineOrientation.Y2 = 12;
+        }
+        else if (mouseY is >= height - 15 and <= height && _selectedPosition == "right")
+        {
+            RightButton.Margin = new Thickness(mouseX, 86, 0, 0);
+            LineOrientation.X2 = mouseX + 10;
+            LineOrientation.Y2 = 87;
         }
     }
 

@@ -1227,7 +1227,6 @@
 
                                 <ComboBox Grid.Row="0"
                                           Grid.Column="0"
-                                          Grid.ColumnSpan="2"
                                           BorderBrush="#8c8c8a"
                                           BorderThickness="0 0 0 2"
                                           Foreground="#8c8c8a"
@@ -1241,6 +1240,73 @@
                                     <ComboBoxItem Content="Linear Gradient" />
                                     <ComboBoxItem Content="Radial Gradient" />
                                 </ComboBox>
+
+                                <StackPanel Grid.Row="0"
+                                            Grid.Column="1"
+                                            Orientation="Horizontal"
+                                            Margin="10 0 0 0">
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="#8c8c8a"
+                                                Width="18"
+                                                BorderThickness="1"
+                                                BorderBrush="#8c8c8a">
+                                            <TextBlock Text="bX"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBox Text="0.0"
+                                                 Width="24"
+                                                 BorderBrush="#8c8c8a"
+                                                 BorderThickness="1"
+                                                 Foreground="#8c8c8a"
+                                                 FontSize="10"
+                                                 Padding="0 3"
+                                                 HorizontalContentAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Border Background="#8c8c8a"
+                                                Width="18"
+                                                BorderThickness="1"
+                                                BorderBrush="#8c8c8a">
+                                            <TextBlock Text="bY"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBox Text="0.0"
+                                                 Width="24"
+                                                 BorderBrush="#8c8c8a"
+                                                 BorderThickness="1"
+                                                 Foreground="#8c8c8a"
+                                                 FontSize="10"
+                                                 Padding="0 3"
+                                                 HorizontalContentAlignment="Center" />
+                                    </StackPanel>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="5 0  0 0">
+                                        <Border Background="#8c8c8a"
+                                                Width="18"
+                                                BorderThickness="1"
+                                                BorderBrush="#8c8c8a">
+                                            <TextBlock Text="Of"
+                                                       Foreground="#ffffff"
+                                                       FontSize="12"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center" />
+                                        </Border>
+                                        <TextBox Text="0.45"
+                                                 Width="28"
+                                                 BorderBrush="#8c8c8a"
+                                                 BorderThickness="1"
+                                                 Foreground="#8c8c8a"
+                                                 FontSize="10"
+                                                 Padding="0 3"
+                                                 HorizontalContentAlignment="Center" />
+                                    </StackPanel>
+                                </StackPanel>
 
                                 <Grid Grid.Row="1"
                                       Grid.Column="0"
