@@ -25,14 +25,15 @@ public partial class TextTyping
 
     public TextTyping()
     {
+        _selectedTextIndex = 0;
+        _textItems = [];
+        
         InitializeComponent();
 
         _obj = this;
         _ids = [];
         _allowModify = true;
         _allowModifyComboBox = true;
-        _selectedTextIndex = 0;
-        _textItems = [];
 
         foreach (var fontFamily in Fonts.SystemFontFamilies)
         {
@@ -47,6 +48,7 @@ public partial class TextTyping
     public void Refresh(object sender)
     {
         TextItems.Children.Clear();
+        _textItems.Clear();
 
         var groups = (sender as List<List<GroupProperties>>)!;
         var group0 = groups![0].Find(g => g.Name == GroupNames.Text.ToString());
@@ -246,13 +248,16 @@ public partial class TextTyping
                 value = (comboBox.SelectedValue as ComboBoxItem) != null
                     ? (comboBox.SelectedValue as ComboBoxItem)!.Content.ToString()!
                     : null!;
+                
+                if(_textItems.Count > _selectedTextIndex)
+                    _textItems[_selectedTextIndex].FontFamily = new FontFamily(value);
                 break;
         }
 
         if (propertyName == PropertyNames.None) return;
 
         TextChangedCommand?.Execute(
-            new dynamic[] { GroupNames.Text, propertyName, value }
+            new dynamic[] { GroupNames.Text, propertyName, value! }
         );
     }
 
@@ -306,6 +311,7 @@ public partial class TextTyping
             Margin = new Thickness(0, 6, 0, 0),
             Command = new RelayCommand(TextItemEventHandle)
         };
+
         TextItems.Children.Add(textItem);
         _textItems.Add(textItem);
     }

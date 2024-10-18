@@ -334,7 +334,7 @@ namespace ConceptorUI.Views.Component
                         _components[key2].OnUpdateComponent(serializer);
                 }
             }
-            catch (Exception e)
+            catch (Exception)
             {
                 //
             }
