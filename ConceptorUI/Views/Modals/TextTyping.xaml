@@ -167,44 +167,6 @@
                                                  HorizontalAlignment="Center"
                                                  x:Name="TextError" />
                     </Border>
-
-                    <Border Background="Transparent"
-                            BorderBrush="Transparent"
-                            DockPanel.Dock="Right"
-                            Margin="4"
-                            Cursor="Hand"
-                            Width="20"
-                            Height="20"
-                            Tag="TextIndex"
-                            x:Name="BTextIndex"
-                            MouseLeftButtonDown="BtnMouseDown">
-                        <materialDesign:PackIcon Kind="FormatSubscript"
-                                                 Width="15"
-                                                 Height="15"
-                                                 Foreground="#8c8c8a"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Center"
-                                                 x:Name="TextIndex" />
-                    </Border>
-
-                    <Border Background="Transparent"
-                            BorderBrush="Transparent"
-                            DockPanel.Dock="Right"
-                            Margin="4"
-                            Cursor="Hand"
-                            Width="20"
-                            Height="20"
-                            Tag="TextExpo"
-                            x:Name="BTextExpo"
-                            MouseLeftButtonDown="BtnMouseDown">
-                        <materialDesign:PackIcon Kind="FormatSuperscript"
-                                                 Width="15"
-                                                 Height="15"
-                                                 Foreground="#8c8c8a"
-                                                 VerticalAlignment="Center"
-                                                 HorizontalAlignment="Center"
-                                                 x:Name="TextExpo" />
-                    </Border>
                     <Grid></Grid>
                 </DockPanel>
 

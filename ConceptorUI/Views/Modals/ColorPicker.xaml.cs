@@ -14,14 +14,18 @@ public partial class ColorPicker
     public string PropOriginColor { get; set; }
     private Brush _brush;
     private Button _btnIntermed;
-    public bool IsOpened;
     private Dictionary<int, string[]> _colors;
     private List<Button> _colorButtons;
     private bool _canSetFieldColor;
     private int _pasteCount;
     private readonly List<ColorModel> _gradientColors;
-    private CustomColor _customColor;
     private string _selectedPosition;
+
+    private const int ConstantX0 = 10;
+    private const int ConstantY0 = 10;
+    private const int ConstantX1 = 135;
+    private const int ConstantY1 = 90;
+    private CustomColor _currentPosition;
 
     public ICommand? ColorSelectedCommand;
 
@@ -34,11 +38,11 @@ public partial class ColorPicker
         PropOriginColor = "";
         _brush = null!;
         _btnIntermed = null!;
-        IsOpened = false;
         _canSetFieldColor = true;
         _pasteCount = 0;
-        _customColor = new CustomColor();
         _selectedPosition = "left";
+        
+        _currentPosition = new CustomColor();
 
         _gradientColors =
         [
@@ -117,7 +121,6 @@ public partial class ColorPicker
         TbG.Text = sb.Color.G.ToString();
         TbB.Text = sb.Color.B.ToString();
         TbA.Text = color.Opacity.ToString(CultureInfo.InvariantCulture);
-        IsOpened = true;
 
         SelectColor(color);
         ColorBox.Background = color;
