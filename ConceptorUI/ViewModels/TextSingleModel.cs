@@ -61,19 +61,22 @@ namespace ConceptorUi.ViewModels
             }
             else if (propertyName == PropertyNames.TextUnderline.ToString())
             {
-                _text.TextDecorations = value == "1" ? TextDecorations.Underline : null;
+                if((isInitialize && value == "1") || !isInitialize)
+                    _text.TextDecorations = value == "1" ? TextDecorations.Underline : null;
                 if(!isInitialize)
                     SetPropertyValue(GroupNames.Text, PropertyNames.TextUnderline, value);
             }
             else if (propertyName == PropertyNames.TextOverline.ToString())
             {
-                _text.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
+                if((isInitialize && value == "1") || !isInitialize)
+                    _text.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
                 if(!isInitialize)
                     SetPropertyValue(GroupNames.Text, PropertyNames.TextOverline, value);
             }
             else if (propertyName == PropertyNames.TextThrough.ToString())
             {
-                _text.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
+                if((isInitialize && value == "1") || !isInitialize)
+                    _text.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
                 if(!isInitialize)
                     SetPropertyValue(GroupNames.Text, PropertyNames.TextThrough, value);
             }

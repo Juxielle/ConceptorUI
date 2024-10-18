@@ -26,6 +26,7 @@
                        FontStyle="{Binding FontStyle, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontWeight="{Binding FontWeight, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        FontFamily="{Binding FontFamily, RelativeSource={RelativeSource AncestorType=UserControl}}"
+                       TextDecorations="{Binding TextDecoration, RelativeSource={RelativeSource AncestorType=UserControl}}"
                        TextWrapping="Wrap"
                        TextTrimming="CharacterEllipsis"
                        MaxHeight="35"

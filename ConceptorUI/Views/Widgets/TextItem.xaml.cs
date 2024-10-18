@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
+using TextDecorations = ConceptorUI.Enums.TextDecorations;
 
 namespace ConceptorUI.Views.Widgets;
 
@@ -52,6 +53,16 @@ public partial class TextItem
     {
         get => (FontStyle)GetValue(FontStyleProperty);
         set => SetValue(FontStyleProperty, value);
+    }
+    
+    public static readonly DependencyProperty TextDecorationProperty =
+        DependencyProperty.Register(nameof(TextDecoration), typeof(string), typeof(TextItem),
+            new PropertyMetadata(TextDecorations.None.ToString()));
+
+    public string TextDecoration
+    {
+        get => (string)GetValue(TextDecorationProperty);
+        set => SetValue(TextDecorationProperty, value);
     }
     
     public new static readonly DependencyProperty ForegroundProperty =
