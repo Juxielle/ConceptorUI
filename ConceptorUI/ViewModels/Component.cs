@@ -1278,6 +1278,8 @@ namespace ConceptorUi.ViewModels
 
             #endregion
 
+            if(Name == ComponentList.Text && Children.Count == 0)
+                (this as TextModel)?.AddFirstChild();
             OnInitialize();
         }
 

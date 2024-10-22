@@ -113,9 +113,6 @@ namespace ConceptorUi.ViewModels
                 _text.FontSize = Helper.ConvertToDouble(value);
                 SelectedContent.Height += 0.000000001;
             }
-            
-            // if (Children.Count == 0)
-            //     AddFirstChild();
         }
 
         public sealed override void SelfConstraints()
@@ -234,7 +231,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        private void AddFirstChild()
+        public void AddFirstChild()
         {
             _text.Text = string.Empty;
             var textComponent = new TextSingleModel();
