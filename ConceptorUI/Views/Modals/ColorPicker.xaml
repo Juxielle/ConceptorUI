@@ -1256,7 +1256,7 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center" />
                                         </Border>
-                                        <TextBox Text="0.0"
+                                        <TextBox Text="0"
                                                  Width="24"
                                                  BorderBrush="#8c8c8a"
                                                  BorderThickness="1"
@@ -1276,7 +1276,7 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center" />
                                         </Border>
-                                        <TextBox Text="0.0"
+                                        <TextBox Text="0"
                                                  Width="24"
                                                  BorderBrush="#8c8c8a"
                                                  BorderThickness="1"
@@ -1297,7 +1297,7 @@
                                                        HorizontalAlignment="Center"
                                                        VerticalAlignment="Center" />
                                         </Border>
-                                        <TextBox Text="0.45"
+                                        <TextBox Text="0"
                                                  Width="28"
                                                  BorderBrush="#8c8c8a"
                                                  BorderThickness="1"
@@ -1362,33 +1362,81 @@
                                             MouseLeftButtonDown="OnChangeButton" />
                                 </Grid>
 
-                                <ItemsControl Grid.Row="1"
-                                              Grid.Column="1"
-                                              BorderThickness="0"
-                                              x:Name="LvColors"
-                                              Background="Transparent"
-                                              Margin="5 10 0 0 "
-                                              Height="100">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <WrapPanel />
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                    <ItemsControl.ItemTemplate>
-                                        <DataTemplate>
-                                            <Border Width="20"
-                                                    Height="20"
-                                                    Background="{Binding Color}"
-                                                    Padding="0"
-                                                    BorderBrush="#dddddd"
-                                                    BorderThickness="0.5"
-                                                    VerticalAlignment="Top"
-                                                    Margin="0 0 5 5"
-                                                    CornerRadius="2"
-                                                    d:DataContext="{d:DesignInstance }" />
-                                        </DataTemplate>
-                                    </ItemsControl.ItemTemplate>
-                                </ItemsControl>
+                                <StackPanel Grid.Row="1"
+                                            Grid.Column="1">
+                                    <ItemsControl BorderThickness="0"
+                                                  x:Name="LvColors"
+                                                  Background="Transparent"
+                                                  Margin="5 14 0 0 "
+                                                  Height="67">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel />
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                        <ItemsControl.ItemTemplate>
+                                            <DataTemplate>
+                                                <Border Width="20"
+                                                        Height="20"
+                                                        Background="{Binding Color}"
+                                                        Padding="0"
+                                                        BorderBrush="#dddddd"
+                                                        BorderThickness="0.5"
+                                                        VerticalAlignment="Top"
+                                                        Margin="0 0 5 5"
+                                                        CornerRadius="2"
+                                                        MouseLeftButtonDown="GradientColorSelected"
+                                                        d:DataContext="{d:DesignInstance }" />
+                                            </DataTemplate>
+                                        </ItemsControl.ItemTemplate>
+                                    </ItemsControl>
+
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="6 2 0 0">
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="0 0 4 0">
+                                            <Border Background="#8c8c8a"
+                                                    Width="16"
+                                                    BorderThickness="1"
+                                                    BorderBrush="#8c8c8a">
+                                                <TextBlock Text="X"
+                                                           Foreground="#ffffff"
+                                                           FontSize="12"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <TextBox Text="0"
+                                                     Width="50"
+                                                     BorderBrush="#8c8c8a"
+                                                     BorderThickness="1"
+                                                     Foreground="#8c8c8a"
+                                                     FontSize="10"
+                                                     Padding="0 3"
+                                                     HorizontalContentAlignment="Left" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Border Background="#8c8c8a"
+                                                    Width="16"
+                                                    BorderThickness="1"
+                                                    BorderBrush="#8c8c8a">
+                                                <TextBlock Text="Y"
+                                                           Foreground="#ffffff"
+                                                           FontSize="12"
+                                                           HorizontalAlignment="Center"
+                                                           VerticalAlignment="Center" />
+                                            </Border>
+                                            <TextBox Text="0"
+                                                     Width="50"
+                                                     BorderBrush="#8c8c8a"
+                                                     BorderThickness="1"
+                                                     Foreground="#8c8c8a"
+                                                     FontSize="10"
+                                                     Padding="0 3"
+                                                     HorizontalContentAlignment="Left" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
                             </Grid>
                         </StackPanel>
                     </Border>

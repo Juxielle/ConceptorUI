@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 
+
 namespace ConceptorUi.ViewModels
 {
     internal class TextModel : Component
@@ -32,7 +33,6 @@ namespace ConceptorUi.ViewModels
             if (allowConstraints) return;
             SelfConstraints();
             OnInitialize();
-            //AddFirstChild();
         }
 
         private void OnTextSizeChanged(object sender, SizeChangedEventArgs e)
@@ -113,6 +113,9 @@ namespace ConceptorUi.ViewModels
                 _text.FontSize = Helper.ConvertToDouble(value);
                 SelectedContent.Height += 0.000000001;
             }
+            
+            // if (Children.Count == 0)
+            //     AddFirstChild();
         }
 
         public sealed override void SelfConstraints()
@@ -170,8 +173,6 @@ namespace ConceptorUi.ViewModels
         {
             try
             {
-                //if (Children.Count <= _runs.Count) return;
-
                 var textSource = GetSource(child);
                 var textTarget = new Run();
 

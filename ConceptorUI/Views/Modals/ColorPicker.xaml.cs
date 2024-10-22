@@ -55,8 +55,6 @@ public partial class ColorPicker
             new ColorModel { Color = "#6200EA" },
             new ColorModel { Color = "#6200EA" },
             new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
             new ColorModel { Color = "#6200EA" }
         ];
         LvColors.ItemsSource = _gradientColors;
@@ -242,6 +240,11 @@ public partial class ColorPicker
                 LeftButton.Background = new BrushConverter().ConvertFrom("#6200EA") as SolidColorBrush;
                 break;
         }
+    }
+
+    private void GradientColorSelected(object sender, MouseButtonEventArgs e)
+    {
+        Console.WriteLine(@"GradientColorSelected");
     }
 
     private void CheckColor(Brush color)
