@@ -104,14 +104,20 @@ namespace ConceptorUi.ViewModels
                 var textTarget = _runs[index];
 
                 WhenTextChangedOwn(textSource, textTarget);
-                Console.WriteLine($@"Children count: {Children.Count}");
             }
 
             if (propertyName == PropertyNames.FontSize.ToString())
             {
+                Console.WriteLine($@"Old fontSize: {_text.FontSize} -- newFontSize: {value}");
+                var oldFontSize = _text.FontSize;
+                var newFontSize = Helper.ConvertToDouble(value);
+                if(oldFontSize > newFontSize)
+                {
+                    _text.FontSize = 0;
+                }
+
                 _isEventCanHandled = true;
-                _text.FontSize = Helper.ConvertToDouble(value);
-                SelectedContent.Height += 0.000000001;
+                _text.FontSize = newFontSize;
             }
         }
 
