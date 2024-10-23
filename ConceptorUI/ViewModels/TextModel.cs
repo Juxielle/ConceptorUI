@@ -104,15 +104,9 @@ namespace ConceptorUi.ViewModels
                 var textTarget = _runs[index];
 
                 WhenTextChangedOwn(textSource, textTarget);
-                Console.WriteLine($@"Children count: {Children.Count}");
             }
 
-            if (propertyName == PropertyNames.FontSize.ToString())
-            {
-                _isEventCanHandled = true;
-                _text.FontSize = Helper.ConvertToDouble(value);
-                SelectedContent.Height += 0.000000001;
-            }
+            Refresh();
         }
 
         public sealed override void SelfConstraints()
@@ -172,6 +166,7 @@ namespace ConceptorUi.ViewModels
             {
                 var textSource = GetSource(child);
                 var textTarget = new Run();
+                textTarget.MouseDown += OnTextItemMouseDown;
 
                 WhenTextChangedOwn(textSource, textTarget);
                 _text.Inlines.Add(textTarget);
@@ -201,6 +196,16 @@ namespace ConceptorUi.ViewModels
 
         protected override void Delete(int k = -1)
         {
+            if(Children.Count == 1 || k > -1 && Children.Count >= k) return;
+            var index = k != -1 ? k : Convert.ToInt32(
+                GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
+            
+            Children.RemoveAt(index);
+            _text.Inlines.Remove(_runs[index]);
+            _runs.RemoveAt(index);
+            
+            Refresh();
+            WhenTextChanged(PropertyNames.CurrentTextIndex.ToString(), "0");
         }
 
         protected override void WhenWidthChanged(string value)
@@ -240,6 +245,19 @@ namespace ConceptorUi.ViewModels
             AddIntoChildContent(textComponent.ComponentView);
         }
 
+        private void Refresh()
+        {
+            var maxItemSize = _runs.Select(run => run.FontSize).Prepend(0.0).Max();
+            if(maxItemSize <= 0) return;
+
+            var textSize = _text.FontSize;
+            if(maxItemSize < textSize)
+                SelectedContent.Height = 0;
+                
+            _isEventCanHandled = true;
+            _text.FontSize = maxItemSize;
+        }
+
         private TextBlock GetSource(FrameworkElement element)
         {
             return ((((element as Border)!.Child as Grid)!.Children[2] as Border)!.Child as TextBlock)!;
@@ -254,6 +272,20 @@ namespace ConceptorUi.ViewModels
             textTarget.Foreground = textSource.Foreground;
             textTarget.Text = textSource.Text;
             textTarget.TextDecorations = textSource.TextDecorations;
+        }
+
+        private void OnTextItemMouseDown(object sender, MouseButtonEventArgs e)
+        {
+            SelectedCommand?.Execute(
+                new Dictionary<string, dynamic>
+                {
+                    { "Id", Id! },
+                    { "selected", false },
+                    { "propertyGroups", GetPropertyGroups() },
+                    { "componentName", Name }
+                }
+            );
+            OnSelected();
         }
     }
 }
