@@ -55,7 +55,6 @@ namespace ConceptorUi.ViewModels
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
             _isEventCanHandled = false;
-            Console.WriteLine($@"Text Height: {height}");
         }
 
         public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
@@ -87,7 +86,7 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 _text.LineHeight = vd;
             }
-            else if(!isInitialize)
+            else if (!isInitialize)
             {
                 // _isEventCanHandled = propertyName == PropertyNames.FontSize.ToString() ||
                 //                      propertyName == PropertyNames.FontFamily.ToString() ||
@@ -196,14 +195,16 @@ namespace ConceptorUi.ViewModels
 
         protected override void Delete(int k = -1)
         {
-            if(Children.Count == 1 || k > -1 && Children.Count >= k) return;
-            var index = k != -1 ? k : Convert.ToInt32(
-                GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
-            
+            if (Children.Count == 1 || k > -1 && Children.Count >= k) return;
+            var index = k != -1
+                ? k
+                : Convert.ToInt32(
+                    GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
+
             Children.RemoveAt(index);
             _text.Inlines.Remove(_runs[index]);
             _runs.RemoveAt(index);
-            
+
             Refresh();
             WhenTextChanged(PropertyNames.CurrentTextIndex.ToString(), "0");
         }
@@ -248,12 +249,12 @@ namespace ConceptorUi.ViewModels
         private void Refresh()
         {
             var maxItemSize = _runs.Select(run => run.FontSize).Prepend(0.0).Max();
-            if(maxItemSize <= 0) return;
+            if (maxItemSize <= 0) return;
 
             var textSize = _text.FontSize;
-            if(maxItemSize < textSize)
+            if (maxItemSize < textSize)
                 SelectedContent.Height = 0;
-                
+
             _isEventCanHandled = true;
             _text.FontSize = maxItemSize;
         }
