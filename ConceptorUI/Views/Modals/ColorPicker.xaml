@@ -4,6 +4,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:binding="clr-namespace:ConceptorUI.Binding"
         mc:Ignorable="d"
         WindowStyle="None"
         ResizeMode="NoResize"
@@ -15,6 +16,7 @@
         Title="ColorPicker" Height="420" Width="330">
 
     <Window.Resources>
+        <binding:BooleanBorderThicknessConverter x:Key="BorderThicknessConverter" />
         <!-- Tab control styling -->
         <Style TargetType="{x:Type TabControl}">
             <Setter Property="Padding" Value="0" />
@@ -1236,7 +1238,8 @@
                                           Tag="GradientType"
                                           Text="0"
                                           FontSize="10"
-                                          SelectedIndex="0">
+                                          SelectedIndex="0"
+                                          SelectionChanged="GradientTypeChanged">
                                     <ComboBoxItem Content="Linear Gradient" />
                                     <ComboBoxItem Content="Radial Gradient" />
                                 </ComboBox>
@@ -1263,7 +1266,10 @@
                                                  Foreground="#8c8c8a"
                                                  FontSize="10"
                                                  Padding="0 3"
-                                                 HorizontalContentAlignment="Center" />
+                                                 HorizontalContentAlignment="Center"
+                                                 Tag="BlurX"
+                                                 x:Name="TbBlurX"
+                                                 TextChanged="GradientTextChanged" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal">
                                         <Border Background="#8c8c8a"
@@ -1283,7 +1289,10 @@
                                                  Foreground="#8c8c8a"
                                                  FontSize="10"
                                                  Padding="0 3"
-                                                 HorizontalContentAlignment="Center" />
+                                                 HorizontalContentAlignment="Center"
+                                                 Tag="BlurY"
+                                                 x:Name="TbBlurY"
+                                                 TextChanged="GradientTextChanged" />
                                     </StackPanel>
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="5 0  0 0">
@@ -1304,7 +1313,10 @@
                                                  Foreground="#8c8c8a"
                                                  FontSize="10"
                                                  Padding="0 3"
-                                                 HorizontalContentAlignment="Center" />
+                                                 HorizontalContentAlignment="Center"
+                                                 Tag="Offset"
+                                                 x:Name="TbOffset"
+                                                 TextChanged="GradientTextChanged" />
                                     </StackPanel>
                                 </StackPanel>
 
@@ -1380,11 +1392,12 @@
                                                         Height="20"
                                                         Background="{Binding Color}"
                                                         Padding="0"
-                                                        BorderBrush="#dddddd"
-                                                        BorderThickness="0.5"
+                                                        BorderBrush="#FFE91E63"
+                                                        BorderThickness="{Binding IsSelected, Converter={StaticResource BorderThicknessConverter}, ConverterParameter=2}"
                                                         VerticalAlignment="Top"
                                                         Margin="0 0 5 5"
                                                         CornerRadius="2"
+                                                        Tag="{Binding Id}"
                                                         MouseLeftButtonDown="GradientColorSelected"
                                                         d:DataContext="{d:DesignInstance }" />
                                             </DataTemplate>
@@ -1406,13 +1419,16 @@
                                                            VerticalAlignment="Center" />
                                             </Border>
                                             <TextBox Text="0"
-                                                     Width="50"
+                                                     Width="35"
                                                      BorderBrush="#8c8c8a"
                                                      BorderThickness="1"
                                                      Foreground="#8c8c8a"
                                                      FontSize="10"
                                                      Padding="0 3"
-                                                     HorizontalContentAlignment="Left" />
+                                                     HorizontalContentAlignment="Left"
+                                                     Tag="PointX"
+                                                     x:Name="TbPointX"
+                                                     TextChanged="GradientTextChanged" />
                                         </StackPanel>
 
                                         <StackPanel Orientation="Horizontal">
@@ -1427,13 +1443,33 @@
                                                            VerticalAlignment="Center" />
                                             </Border>
                                             <TextBox Text="0"
-                                                     Width="50"
+                                                     Width="35"
                                                      BorderBrush="#8c8c8a"
                                                      BorderThickness="1"
                                                      Foreground="#8c8c8a"
                                                      FontSize="10"
                                                      Padding="0 3"
-                                                     HorizontalContentAlignment="Left" />
+                                                     HorizontalContentAlignment="Left"
+                                                     Tag="PointY"
+                                                     x:Name="TbPointY"
+                                                     TextChanged="GradientTextChanged" />
+
+                                            <Border Background="#6200EA"
+                                                    BorderBrush="#6200EA"
+                                                    BorderThickness="0.4"
+                                                    Tag="AddColor"
+                                                    Cursor="Hand"
+                                                    Margin="14 0 0 0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    CornerRadius="4"
+                                                    MouseLeftButtonDown="OnMouseDown">
+                                                <materialDesign:PackIcon Kind="Plus"
+                                                                         Width="15"
+                                                                         Height="15"
+                                                                         Margin="3"
+                                                                         Foreground="#ffffff" />
+                                            </Border>
                                         </StackPanel>
                                     </StackPanel>
                                 </StackPanel>
@@ -1449,13 +1485,13 @@
                 Background="#ffffff"
                 BorderBrush="#F44336"
                 BorderThickness="0.4"
-                MouseLeftButtonDown="OnClose"
                 Tag="Close"
                 Margin="-12 0 0 -10"
                 Cursor="Hand"
                 HorizontalAlignment="Right"
                 VerticalAlignment="Top"
-                CornerRadius="10">
+                CornerRadius="10"
+                MouseLeftButtonDown="OnMouseDown">
             <materialDesign:PackIcon Kind="Close"
                                      Width="15"
                                      Height="15"

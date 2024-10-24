@@ -6,6 +6,8 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
+using ConceptorUI.Models;
+using ConceptorUI.Utils;
 
 namespace ConceptorUI.Views.Modals;
 
@@ -18,14 +20,15 @@ public partial class ColorPicker
     private List<Button> _colorButtons;
     private bool _canSetFieldColor;
     private int _pasteCount;
-    private readonly List<ColorModel> _gradientColors;
+
     private string _selectedPosition;
+    private int _selectedColorIndex;
 
     private const int ConstantX0 = 10;
     private const int ConstantY0 = 10;
     private const int ConstantX1 = 135;
     private const int ConstantY1 = 90;
-    private CustomColor _currentPosition;
+    private CustomColor _customColor;
 
     public ICommand? ColorSelectedCommand;
 
@@ -41,23 +44,25 @@ public partial class ColorPicker
         _canSetFieldColor = true;
         _pasteCount = 0;
         _selectedPosition = "left";
-        
-        _currentPosition = new CustomColor();
+        _selectedColorIndex = 0;
 
-        _gradientColors =
-        [
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" },
-            new ColorModel { Color = "#6200EA" }
-        ];
-        LvColors.ItemsSource = _gradientColors;
+        _customColor = new CustomColor
+        {
+            Colors =
+            [
+                new SingleColor { Id = 0, Color = "#6200EA" },
+                new SingleColor { Id = 1, Color = "#6200EA" },
+                new SingleColor { Id = 2, Color = "#6200EA" },
+                new SingleColor { Id = 3, Color = "#6200EA" },
+                new SingleColor { Id = 4, Color = "#6200EA", IsSelected = true },
+                new SingleColor { Id = 5, Color = "#6200EA" },
+                new SingleColor { Id = 6, Color = "#6200EA" },
+                new SingleColor { Id = 7, Color = "#6200EA" },
+                new SingleColor { Id = 8, Color = "#6200EA" }
+            ]
+        };
+
+        LvColors.ItemsSource = _customColor.Colors;
 
         InitColors();
         LoadColorValue(color, false, opacity);
@@ -66,7 +71,8 @@ public partial class ColorPicker
     private void ValueChanged(object sender, EventArgs e)
     {
         var value = (sender as Slider)!.Value.ToString(CultureInfo.InvariantCulture);
-        if (OpacityValue != null) OpacityValue.Text = value + "%";
+        if (OpacityValue != null)
+            OpacityValue.Text = value + "%";
         if (ColorBox == null) return;
 
         var vd = Convert.ToDouble(value.Replace(",", ".")) / 100;
@@ -130,9 +136,19 @@ public partial class ColorPicker
         CheckColor(color);
     }
 
-    private void OnClose(object sender, MouseButtonEventArgs e)
+    private void OnMouseDown(object sender, MouseButtonEventArgs e)
     {
-        Close();
+        var border = sender as Border;
+        var tag = border!.Tag.ToString();
+
+        switch (tag)
+        {
+            case "Close":
+                Close();
+                break;
+            case "AddColor":
+                break;
+        }
     }
 
     private void OnTextChanged(object sender, RoutedEventArgs e)
@@ -196,7 +212,7 @@ public partial class ColorPicker
             LineOrientation.X1 = mouseX + 10;
             LineOrientation.Y1 = 87;
         }
-        
+
         /* Right Button */
         if (mouseX is >= 0 and <= 15 && _selectedPosition == "right")
         {
@@ -244,7 +260,16 @@ public partial class ColorPicker
 
     private void GradientColorSelected(object sender, MouseButtonEventArgs e)
     {
-        Console.WriteLine(@"GradientColorSelected");
+        var border = sender as Border;
+        if(border!.Tag == null) return;
+        LvColors.ItemsSource = null;
+        
+        var index = Convert.ToInt32(border.Tag.ToString());
+        foreach (var color in _customColor.Colors)
+            color.IsSelected = false;
+
+        _customColor.Colors[index].IsSelected = true;
+        LvColors.ItemsSource = _customColor.Colors;
     }
 
     private void CheckColor(Brush color)
@@ -268,6 +293,46 @@ public partial class ColorPicker
                 colorButton.BorderBrush = colorButton.Background;
                 colorButton.BorderThickness = new Thickness(0);
             }
+        }
+    }
+
+    private void GradientTypeChanged(object sender, SelectionChangedEventArgs e)
+    {
+        
+    }
+
+    private void GradientTextChanged(object sender, TextChangedEventArgs e)
+    {
+        var textBox = sender as TextBox;
+        if (textBox!.Tag == null) return;
+
+        var tag = textBox.Tag.ToString();
+        textBox.Text = ManageEnums.GetNumberFieldValue(textBox.Text);
+        var value = textBox.Text;
+
+        switch (tag)
+        {
+            case "BlurX":
+                var bx = Helper.ConvertToDouble(value);
+                _customColor.BlurRadiusPoint = _customColor.BlurRadiusPoint with { X = bx };
+                break;
+            case "BlurY":
+                var by = Helper.ConvertToDouble(value);
+                _customColor.BlurRadiusPoint = _customColor.BlurRadiusPoint with { Y = by };
+                break;
+            case "Offset":
+                if (_customColor.Colors.Count <= _selectedColorIndex) return;
+                var offset = Helper.ConvertToDouble(value);
+                _customColor.Colors[_selectedColorIndex].Offset = offset;
+                break;
+            case "PointX":
+                var x = Helper.ConvertToDouble(value);
+                _customColor.StartPoint = _customColor.BlurRadiusPoint with { Y = x };
+                break;
+            case "PointY":
+                var y = Helper.ConvertToDouble(value);
+                _customColor.StartPoint = _customColor.BlurRadiusPoint with { Y = y };
+                break;
         }
     }
 
