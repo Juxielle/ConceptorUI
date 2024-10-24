@@ -1406,8 +1406,7 @@
 
                                     <StackPanel Orientation="Horizontal"
                                                 Margin="6 2 0 0">
-                                        <StackPanel Orientation="Horizontal"
-                                                    Margin="0 0 4 0">
+                                        <StackPanel Orientation="Horizontal">
                                             <Border Background="#8c8c8a"
                                                     Width="16"
                                                     BorderThickness="1"
@@ -1419,7 +1418,7 @@
                                                            VerticalAlignment="Center" />
                                             </Border>
                                             <TextBox Text="0"
-                                                     Width="35"
+                                                     Width="28"
                                                      BorderBrush="#8c8c8a"
                                                      BorderThickness="1"
                                                      Foreground="#8c8c8a"
@@ -1443,7 +1442,7 @@
                                                            VerticalAlignment="Center" />
                                             </Border>
                                             <TextBox Text="0"
-                                                     Width="35"
+                                                     Width="28"
                                                      BorderBrush="#8c8c8a"
                                                      BorderThickness="1"
                                                      Foreground="#8c8c8a"
@@ -1454,21 +1453,38 @@
                                                      x:Name="TbPointY"
                                                      TextChanged="GradientTextChanged" />
 
-                                            <Border Background="#6200EA"
+                                            <Border Background="#ffffff"
                                                     BorderBrush="#6200EA"
-                                                    BorderThickness="0.4"
+                                                    BorderThickness="0.8"
                                                     Tag="AddColor"
                                                     Cursor="Hand"
-                                                    Margin="14 0 0 0"
+                                                    Margin="6 0 0 0"
                                                     HorizontalAlignment="Right"
                                                     VerticalAlignment="Top"
                                                     CornerRadius="4"
                                                     MouseLeftButtonDown="OnMouseDown">
-                                                <materialDesign:PackIcon Kind="Plus"
+                                                <materialDesign:PackIcon Kind="PlusBold"
                                                                          Width="15"
                                                                          Height="15"
                                                                          Margin="3"
-                                                                         Foreground="#ffffff" />
+                                                                         Foreground="#6200EA" />
+                                            </Border>
+
+                                            <Border Background="#ffffff"
+                                                    BorderBrush="Red"
+                                                    BorderThickness="0.8"
+                                                    Tag="DeleteColor"
+                                                    Cursor="Hand"
+                                                    Margin="4 0 0 0"
+                                                    HorizontalAlignment="Right"
+                                                    VerticalAlignment="Top"
+                                                    CornerRadius="4"
+                                                    MouseLeftButtonDown="OnMouseDown">
+                                                    <materialDesign:PackIcon Kind="CloseBold"
+                                                                             Width="15"
+                                                                             Height="15"
+                                                                             Margin="3"
+                                                                             Foreground="Red" />
                                             </Border>
                                         </StackPanel>
                                     </StackPanel>

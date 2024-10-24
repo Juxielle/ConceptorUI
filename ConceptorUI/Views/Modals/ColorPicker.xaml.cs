@@ -28,7 +28,7 @@ public partial class ColorPicker
     private const int ConstantY0 = 10;
     private const int ConstantX1 = 135;
     private const int ConstantY1 = 90;
-    private CustomColor _customColor;
+    private readonly CustomColor _customColor;
 
     public ICommand? ColorSelectedCommand;
 
@@ -46,21 +46,12 @@ public partial class ColorPicker
         _selectedPosition = "left";
         _selectedColorIndex = 0;
 
-        _customColor = new CustomColor
+        _customColor = new CustomColor{ Colors = [new SingleColor
         {
-            Colors =
-            [
-                new SingleColor { Id = 0, Color = "#6200EA" },
-                new SingleColor { Id = 1, Color = "#6200EA" },
-                new SingleColor { Id = 2, Color = "#6200EA" },
-                new SingleColor { Id = 3, Color = "#6200EA" },
-                new SingleColor { Id = 4, Color = "#6200EA", IsSelected = true },
-                new SingleColor { Id = 5, Color = "#6200EA" },
-                new SingleColor { Id = 6, Color = "#6200EA" },
-                new SingleColor { Id = 7, Color = "#6200EA" },
-                new SingleColor { Id = 8, Color = "#6200EA" }
-            ]
-        };
+            Id = 0,
+            Color = "#6200EA",
+            IsSelected = true
+        }] };
 
         LvColors.ItemsSource = _customColor.Colors;
 
@@ -147,6 +138,19 @@ public partial class ColorPicker
                 Close();
                 break;
             case "AddColor":
+                if(_customColor.Colors.Count >= 10) return;
+                _customColor.Colors.Add(new SingleColor
+                {
+                    Id = _customColor.Colors.Count,
+                    Color = "#6200EA"
+                });
+                
+                SelectColor(_customColor.Colors.Count - 1);
+                LvColors.ItemsSource = null;
+                LvColors.ItemsSource = _customColor.Colors;
+                break;
+            case "DeleteColor":
+                Console.WriteLine(@"Delete Color Selected.");
                 break;
         }
     }
@@ -265,6 +269,12 @@ public partial class ColorPicker
         LvColors.ItemsSource = null;
         
         var index = Convert.ToInt32(border.Tag.ToString());
+        _selectedColorIndex = index;
+        SelectColor(index);
+    }
+
+    private void SelectColor(int index)
+    {
         foreach (var color in _customColor.Colors)
             color.IsSelected = false;
 
