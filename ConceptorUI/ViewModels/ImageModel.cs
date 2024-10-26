@@ -87,6 +87,20 @@ namespace ConceptorUi.ViewModels
             return PropertyGroups!;
         }
 
+        protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override void RestoreProperties()
+        {
+        }
+
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
         }

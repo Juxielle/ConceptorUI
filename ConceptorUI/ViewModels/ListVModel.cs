@@ -237,5 +237,19 @@ namespace ConceptorUi.ViewModels
                 Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
         }
+
+        protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override void RestoreProperties()
+        {
+        }
     }
 }

@@ -64,6 +64,9 @@ namespace ConceptorUi.ViewModels
         protected abstract void OnMoveTop();
         protected abstract void OnMoveBottom();
         protected abstract bool IsSelected(MouseButtonEventArgs e);
+        protected abstract bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
+        protected abstract bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
+        protected abstract void RestoreProperties();
 
         protected abstract void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract void ContinueToInitialize(string groupName, string propertyName, string value);

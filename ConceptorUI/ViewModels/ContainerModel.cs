@@ -264,5 +264,71 @@ namespace ConceptorUi.ViewModels
         protected override void OnMoveBottom()
         {
         }
+
+        protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override void RestoreProperties()
+        {
+            var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+            var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+            var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+
+            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+
+            /*---------------------*/
+            var activationCount = 0;
+            if (hl == "1") activationCount++;
+            if (hc == "1") activationCount++;
+            if (hr == "1") activationCount++;
+            if(activationCount >= 2)
+            {
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, Children.Count > 0 ? "1" : "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            }
+
+            activationCount = 0;
+            if (vt == "1") activationCount++;
+            if (vc == "1") activationCount++;
+            if (vb == "1") activationCount++;
+            if (activationCount >= 2)
+            {
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, Children.Count > 0 ? "1" : "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            }
+
+            /*---------------------*/
+            foreach (var child in Children)
+            {
+                var height = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                if (vt == "1")
+                {
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Ve, "0");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Hve, "0");
+
+                    var h = height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() ? height : SizeValue.Auto.ToString();
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, h);
+                }
+                else if (vt == "0" && vc == "0" && vc == "0" && height != SizeValue.Expand.ToString())
+                {
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                }
+            }
+        }
     }
 }

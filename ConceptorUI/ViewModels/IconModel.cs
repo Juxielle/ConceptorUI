@@ -219,5 +219,19 @@ namespace ConceptorUi.ViewModels
                                                    new BrushConverter().ConvertFrom(value) as SolidColorBrush;
              */
         }
+
+        protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            return true;
+        }
+
+        protected override void RestoreProperties()
+        {
+        }
     }
 }
