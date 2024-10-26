@@ -234,6 +234,18 @@ namespace ConceptorUi.ViewModels
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
+            if (groupName == GroupNames.Transform && propertyName is PropertyNames.He or PropertyNames.Hve)
+            {
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, value == "1" ? "0" : "1");
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            }
+            if (groupName == GroupNames.Transform && propertyName is PropertyNames.Ve or PropertyNames.Hve)
+            {
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt,value == "1" ? "0" : "1");
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            }
         }
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
@@ -311,7 +323,9 @@ namespace ConceptorUi.ViewModels
             /*---------------------*/
             foreach (var child in Children)
             {
-                var height = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                var height = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                var width = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                
                 if (vt == "1")
                 {
                     child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
@@ -324,9 +338,26 @@ namespace ConceptorUi.ViewModels
                     var h = height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() ? height : SizeValue.Auto.ToString();
                     child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, h);
                 }
-                else if (vt == "0" && vc == "0" && vc == "0" && height != SizeValue.Expand.ToString())
+                else if (vt == "0" && vc == "0" && vb == "0" && height != SizeValue.Expand.ToString())
                 {
                     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                }
+                
+                if (hl == "1")
+                {
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                    child.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.He, "0");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Hve, "0");
+
+                    var w = width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString() ? width : SizeValue.Auto.ToString();
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, w);
+                }
+                else if (hl == "0" && hc == "0" && hr == "0" && width != SizeValue.Expand.ToString())
+                {
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Width, "1");
                 }
             }
         }
