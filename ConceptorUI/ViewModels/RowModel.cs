@@ -519,9 +519,6 @@ namespace ConceptorUi.ViewModels
 
             var component = Children[id];
 
-            var nl = GetSpaceCount();
-            var nc = Children.Count - 1;
-
             var vt = GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
             var vc = GetGroupProperties(GroupNames.Alignment)
@@ -577,7 +574,7 @@ namespace ConceptorUi.ViewModels
                     component.OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                         SizeValue.Auto.ToString(), true);
             }
-            else if ((nl == nc + 2 && vc == "1") || (isDeserialize && vc == "1"))
+            else if (vc == "1")
             {
                 SetDimension(0, new GridLength(1, GridUnitType.Star));
                 SetDimension(GetSpaceCount() - 1, new GridLength(1, GridUnitType.Star));
@@ -611,12 +608,11 @@ namespace ConceptorUi.ViewModels
                         SetDimension(i, new GridLength(1, GridUnitType.Star));
                 }
             }
-            else if (nl == nc)
+            else
             {
                 if (h == SizeValue.Expand.ToString())
                 {
                     SetDimension(GetSpaceCount() - 2, new GridLength(1, GridUnitType.Star));
-                    Console.WriteLine(@"Size is Expanded.");
                 }
                 else if ((h == SizeValue.Auto.ToString() || h != SizeValue.Old.ToString()) && existExpand)
                 {
