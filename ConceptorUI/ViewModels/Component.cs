@@ -736,7 +736,7 @@ namespace ConceptorUi.ViewModels
                             .Auto.ToString();
                     WhenHeightChanged(value2);
                 }
-                
+
                 if (propertyName is PropertyNames.Width or PropertyNames.He or PropertyNames.Hve)
                 {
                     var value2 = propertyName is PropertyNames.Width ? value :
