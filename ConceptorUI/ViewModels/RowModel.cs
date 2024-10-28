@@ -555,10 +555,16 @@ namespace ConceptorUi.ViewModels
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
 
-            var rd = new RowDefinition { Height = new GridLength(0, GridUnitType.Auto) };
+            if(GetSpaceCount() > 0)
+                SetDimension(GetSpaceCount() - 1, new GridLength(0, GridUnitType.Auto));
+            else AddSpace(new GridLength(0, GridUnitType.Auto), 0);
+
             AddSpace(new GridLength(0, GridUnitType.Auto), 0);
             AddSpace(new GridLength(0, GridUnitType.Auto), 0);
             SetPosition(GetSpaceCount() - 2, component.ComponentView);
+
+            SetDimension(0, new GridLength(0, GridUnitType.Auto));
+            SetDimension(GetSpaceCount() - 1, new GridLength(0, GridUnitType.Auto));
 
             if (vt == "1")
             {
