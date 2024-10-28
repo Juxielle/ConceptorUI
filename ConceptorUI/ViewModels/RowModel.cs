@@ -312,18 +312,6 @@ namespace ConceptorUi.ViewModels
         protected override void WhenHeightChanged(string value)
         {
             var i = -1;
-            var nl = GetSpaceCount();
-            var nc = Children.Count;
-
-            var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
-            var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-            var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
-            var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
-            var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
-            var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
             var found = false;
 
             foreach (var child in Children)
@@ -356,7 +344,7 @@ namespace ConceptorUi.ViewModels
                 SetDimension(2 * i + 1, new GridLength(0, GridUnitType.Auto));
             }
 
-            if (!found && i != -1)
+            if (!found && i != -1 && value != SizeValue.Expand.ToString())
             {
                 SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -537,21 +525,30 @@ namespace ConceptorUi.ViewModels
             var hr = GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
 
+            var hlc = component.GetGroupProperties(GroupNames.Alignment)
+                .GetValue(IsVertical ? PropertyNames.Hl : PropertyNames.Vt);
+            var hcc = component.GetGroupProperties(GroupNames.Alignment)
+                .GetValue(IsVertical ? PropertyNames.Hc : PropertyNames.Vc);
+            var hrc = component.GetGroupProperties(GroupNames.Alignment)
+                .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
+            
+            var hasAlignment = hlc == "1" || hcc == "1" || hrc == "1";
+
             var w = component.GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
             var h = component.GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
 
-            if (hl == "1")
+            if (hl == "1" && !hasAlignment)
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, hl,
                     true);
-            if (hc == "1")
+            else if (hc == "1" && !hasAlignment)
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, hc,
                     true);
-            if (hr == "1")
+            else if (hr == "1" && !hasAlignment)
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, hr,
                     true);
-            else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString())
+            else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString() && !hasAlignment)
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
 

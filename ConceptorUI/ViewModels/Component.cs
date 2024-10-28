@@ -17,6 +17,10 @@ namespace ConceptorUi.ViewModels
 {
     internal abstract class Component
     {
+        /*
+         * Mettre en place un système de remplacement de composants
+         * Donner une mise en page à un composant
+         */
         protected ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
 
@@ -26,7 +30,7 @@ namespace ConceptorUi.ViewModels
         private bool _canSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
-        protected int AddedChildrenCount = 0;
+        private int _addedChildrenCount = 0;
         protected bool CanAddIntoChildContent = true;
         protected int ChildContentLimit = 100;
 
@@ -725,13 +729,20 @@ namespace ConceptorUi.ViewModels
                 {
                     Delete();
                 }
-                else if (propertyName == PropertyNames.Height)
+                else if (propertyName is PropertyNames.Height or PropertyNames.Ve or PropertyNames.Hve)
                 {
-                    WhenHeightChanged(value);
+                    var value2 = propertyName is PropertyNames.Height ? value :
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue
+                            .Auto.ToString();
+                    WhenHeightChanged(value2);
                 }
-                else if (propertyName == PropertyNames.Width)
+                
+                if (propertyName is PropertyNames.Width or PropertyNames.He or PropertyNames.Hve)
                 {
-                    WhenWidthChanged(value);
+                    var value2 = propertyName is PropertyNames.Width ? value :
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue
+                            .Auto.ToString();
+                    WhenWidthChanged(value2);
                 }
                 else if (propertyName == PropertyNames.MoveLeft)
                 {
@@ -1119,7 +1130,7 @@ namespace ConceptorUi.ViewModels
                 foreach (var property in group.Properties)
                 {
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-                    
+
                     if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
                     {
                         Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
@@ -1217,7 +1228,7 @@ namespace ConceptorUi.ViewModels
                 Name = Name.ToString(),
                 HasChildren = HasChildren,
                 IsVertical = IsVertical,
-                AddedChildrenCount = AddedChildrenCount,
+                AddedChildrenCount = _addedChildrenCount,
                 CanAddIntoChildContent = CanAddIntoChildContent,
                 ChildContentLimit = ChildContentLimit,
                 IsInComponent = IsInComponent,
@@ -1233,7 +1244,7 @@ namespace ConceptorUi.ViewModels
             PropertyGroups = compSerializer.Properties;
             HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
-            AddedChildrenCount = compSerializer.AddedChildrenCount;
+            _addedChildrenCount = compSerializer.AddedChildrenCount;
             CanAddIntoChildContent = compSerializer.CanAddIntoChildContent;
             ChildContentLimit = compSerializer.ChildContentLimit;
             IsInComponent = compSerializer.IsInComponent;
@@ -1251,7 +1262,7 @@ namespace ConceptorUi.ViewModels
 
             if (compSerializer.Children != null)
             {
-                AddedChildrenCount = compSerializer.Children.Count;
+                _addedChildrenCount = compSerializer.Children.Count;
 
                 var components = new List<Component>();
                 var expanded = false;
@@ -1269,7 +1280,7 @@ namespace ConceptorUi.ViewModels
                         .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                     expanded = expanded || d == SizeValue.Expand.ToString();
                 }
-                
+
                 Children.Clear();
                 foreach (var component in components)
                 {
@@ -1281,7 +1292,7 @@ namespace ConceptorUi.ViewModels
 
             #endregion
 
-            if(Name == ComponentList.Text && Children.Count == 0)
+            if (Name == ComponentList.Text && Children.Count == 0)
                 (this as TextModel)?.AddFirstChild();
             OnInitialize();
         }
@@ -1457,11 +1468,11 @@ namespace ConceptorUi.ViewModels
 
         private void CreateId(bool isMyself = true)
         {
-            if(Id != null)
+            if (Id != null)
                 ComponentHelper.DeleteId(Id);
-            
+
             Id = ComponentHelper.GenerateId();
-            
+
             if (isMyself) return;
 
             foreach (var child in Children)
@@ -1499,7 +1510,10 @@ namespace ConceptorUi.ViewModels
             ParentContent.Children.Add(BorderContent);
             ParentContent.Children.Add(Content);
 
-            SelectedContent = new Border { Child = ParentContent };
+            SelectedContent = new Border
+            {
+                Child = ParentContent
+            };
 
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseDown += OnMouseDown;
