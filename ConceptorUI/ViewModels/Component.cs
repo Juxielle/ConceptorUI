@@ -24,19 +24,19 @@ namespace ConceptorUi.ViewModels
         protected ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
 
-        public bool Selected = false;
+        public bool Selected;
         public string? Id;
 
         private bool _canSelect = true;
         protected bool HasChildren = true;
         protected bool IsVertical = true;
-        private int _addedChildrenCount = 0;
+        private int _addedChildrenCount;
         protected bool CanAddIntoChildContent = true;
         protected int ChildContentLimit = 100;
 
-        protected bool IsInComponent = false;
-        private bool _isOriginalComponent = false;
-        protected bool IsForceAlignment = false;
+        protected bool IsInComponent;
+        private bool _isOriginalComponent;
+        protected bool IsForceAlignment;
 
         public FrameworkElement ComponentView;
         public Component Parent;
@@ -80,6 +80,7 @@ namespace ConceptorUi.ViewModels
         {
             BorderContent.Stroke = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             BorderContent.StrokeThickness = 0.6;
+            ShadowContent.Margin = Content.Margin = new Thickness(1);
             Selected = true;
 
             SelectedCommand?.Execute(
@@ -115,6 +116,7 @@ namespace ConceptorUi.ViewModels
             Selected = false;
             BorderContent.Stroke = Brushes.Transparent;
             BorderContent.StrokeThickness = 0;
+            ShadowContent.Margin = Content.Margin = new Thickness(0);
 
             foreach (var child in Children)
                 child.OnUnselected();
