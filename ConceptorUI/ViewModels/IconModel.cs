@@ -122,11 +122,16 @@ namespace ConceptorUi.ViewModels
                      value != SizeValue.Expand.ToString() && value != SizeValue.Auto.ToString())
             {
                 var vd = Helper.ConvertToDouble(value);
+                if(vd < 0) return;
+                
                 SelectedContent.Width = vd;
                 SelectedContent.Height = vd;
 
-                _materialIcon.Width = _materialIcon.Height = vd - 2;
-                _awesomeIcon.Width = _awesomeIcon.Height = vd - 2;
+                var vd2 = vd - 2;
+                if(vd2 < 0) return;
+                
+                _materialIcon.Width = _materialIcon.Height = vd2;
+                _awesomeIcon.Width = _awesomeIcon.Height = vd2;
 
                 SetPropertyValue(GroupNames.Transform, PropertyNames.Width, value);
                 SetPropertyValue(GroupNames.Transform, PropertyNames.Height, value);

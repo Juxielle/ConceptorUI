@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
 using ConceptorUI.Models;
@@ -17,7 +16,7 @@ namespace ConceptorUi.ViewModels
             OnInit();
 
             _stack = new StackPanel { Orientation = Orientation.Vertical };
-            Children = new List<Component>();
+            Children = [];
             IsVertical = isVertical;
             Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
 
@@ -28,7 +27,7 @@ namespace ConceptorUi.ViewModels
                 Content = _stack
             };
             scrollViewer.PreviewMouseWheel += OnMouseWheel;
-            
+
             Content.Child = scrollViewer;
 
             if (allowConstraints) return;
@@ -74,7 +73,33 @@ namespace ConceptorUi.ViewModels
 
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
-            if(k == -1) _stack.Children.Add(child);
+            if (k == -1)
+            {
+                var columnCount = 1;
+                var childrenCount = 0;
+                var lineCount = _stack.Children.Count;
+
+                if (lineCount == childrenCount! / columnCount!)
+                {
+                    var grid = new Grid();
+                    for (var i = 0; i < columnCount; i++)
+                        grid.ColumnDefinitions.Add(
+                            new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+                    Grid.SetColumn(child, 0);
+                    Grid.SetRow(child, lineCount);
+                    grid.Children.Add(child);
+                    _stack.Children.Add(grid);
+                }
+                else
+                {
+                    var lastColumn = 0 + 1;
+                    var grid = _stack.Children[lineCount - 1] as Grid;
+                    Grid.SetColumn(child, lastColumn);
+                    Grid.SetRow(child, lineCount - 1);
+                    grid?.Children.Add(child);
+                }
+            }
             else _stack.Children.Insert(k, child);
         }
 
@@ -86,7 +111,7 @@ namespace ConceptorUi.ViewModels
         protected override void Delete(int k = -1)
         {
             var i = k;
-            if(i == -1)
+            if (i == -1)
             {
                 foreach (var child in Children.Where(child => child.Selected))
                 {
@@ -96,11 +121,11 @@ namespace ConceptorUi.ViewModels
             }
 
             if (i == -1) return;
-            
+
             _stack.Children.RemoveAt(i);
             Children.RemoveAt(i);
-            
-            if(k == -1) OnSelected();
+
+            if (k == -1) OnSelected();
         }
 
         protected override object GetPropertyGroups()
@@ -212,14 +237,15 @@ namespace ConceptorUi.ViewModels
                 IsVertical ? PropertyNames.Vc : PropertyNames.Hc, false);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment,
                 IsVertical ? PropertyNames.Vb : PropertyNames.Hr, false);
-            
+
             /* Transform */
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Hve, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.Ve : PropertyNames.He, false);
+            Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.Ve : PropertyNames.He,
+                false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, IsVertical ? PropertyNames.He : PropertyNames.Ve);
 
             /* Appearance */
@@ -231,7 +257,7 @@ namespace ConceptorUi.ViewModels
 
             var d = Children[id].GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Width : PropertyNames.Height);
-            
+
             if (d != SizeValue.Expand.ToString() && Children[id]
                     .IsNullAlignment(GroupNames.SelfAlignment, IsVertical ? "Vertical" : "Horizontal"))
                 Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
