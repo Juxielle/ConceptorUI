@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 
@@ -41,13 +42,6 @@ namespace ConceptorUi.ViewModels
             var control = sender as TextBlock;
 
             var height = control!.ActualHeight;
-            // foreach (var child in Children)
-            // {
-            //     var text = GetSource(child.ComponentView);
-            //     if(height < text.ActualHeight)
-            //         height = text.ActualHeight;
-            //     Console.WriteLine($@"Text child height: {text.ActualHeight}");
-            // }
             SelectedContent.Height = height;
 
             var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
@@ -86,12 +80,18 @@ namespace ConceptorUi.ViewModels
                 vd = vd == 0 ? 1 : vd;
                 _text.LineHeight = vd;
             }
+            else if (propertyName == PropertyNames.TextTrimming.ToString())
+            {
+                _text.TextTrimming = value == TextTrimmings.CharacterEllipsis.ToString()
+                    ?
+                    TextTrimming.CharacterEllipsis
+                    :
+                    value == TextTrimmings.WordEllipsis.ToString()
+                        ? TextTrimming.WordEllipsis
+                        : TextTrimming.None;
+            }
             else if (!isInitialize)
             {
-                // _isEventCanHandled = propertyName == PropertyNames.FontSize.ToString() ||
-                //                      propertyName == PropertyNames.FontFamily.ToString() ||
-                //                      propertyName == PropertyNames.FontWeight.ToString() ||
-                //                      propertyName == PropertyNames.Text.ToString();
                 _isEventCanHandled = true;
 
                 var index = Convert.ToInt32(

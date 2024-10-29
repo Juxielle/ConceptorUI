@@ -113,7 +113,7 @@ namespace ConceptorUI.Models
         Row, Column, RowSpan, ColumnSpan, MoveLeft, MoveRight, MoveTop, MoveBottom,
         Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, CBorder, CBorderRadius,
         MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
-        SpaceBetween, SpaceAround, SpaceEvery, Text, DisplayText, CurrentTextIndex,
+        SpaceBetween, SpaceAround, SpaceEvery, Text, DisplayText, CurrentTextIndex, TextTrimming,
         Focus, MoveParentToChild, MoveChildToParent, Trash, Fusion, Merged, TextWrap, LineSpacing, FilePicker,
         CanSelect, HideBorder, ShadowDepth, BlurRadius, ShadowColor, ShadowDirection, Stretch, Copy, Paste
     }

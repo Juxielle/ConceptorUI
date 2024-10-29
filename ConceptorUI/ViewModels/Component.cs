@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
+using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
 
@@ -1835,6 +1836,13 @@ namespace ConceptorUi.ViewModels
                             Name = PropertyNames.CurrentTextIndex.ToString(),
                             Type = PropertyTypes.String.ToString(),
                             Value = "0",
+                            Visibility = VisibilityValue.Visible.ToString()
+                        },
+                        new()
+                        {
+                            Name = PropertyNames.TextTrimming.ToString(),
+                            Type = PropertyTypes.String.ToString(),
+                            Value = TextTrimmings.None.ToString(),
                             Visibility = VisibilityValue.Visible.ToString()
                         }
                     }
