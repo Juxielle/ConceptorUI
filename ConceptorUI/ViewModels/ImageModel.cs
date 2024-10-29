@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Utils;
 
 
 namespace ConceptorUi.ViewModels
@@ -17,9 +18,11 @@ namespace ConceptorUi.ViewModels
         {
             OnInit();
 
-            _child = new ImageBrush();
-            _child.Stretch = Stretch.Fill;
-            Content.Child = new Border{ Background = _child };
+            _child = new ImageBrush
+            {
+                Stretch = Stretch.Fill
+            };
+            Content.Child = new Border { Background = _child };
 
             Name = ComponentList.Image;
             HasChildren = false;
@@ -73,6 +76,7 @@ namespace ConceptorUi.ViewModels
             SetGroupVisibility(GroupNames.Appearance, false);
             SetGroupOnlyVisibility(GroupNames.Appearance);
             SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
+            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
         }
@@ -103,10 +107,58 @@ namespace ConceptorUi.ViewModels
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
+            if (groupName == GroupNames.Appearance)
+            {
+                if (propertyName == PropertyNames.BorderRadius)
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(vd);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusTopLeft)
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(vd,
+                        Content.CornerRadius.TopRight,
+                        Content.CornerRadius.BottomRight,
+                        Content.CornerRadius.BottomLeft);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusBottomLeft)
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius.TopRight,
+                        Content.CornerRadius.BottomRight,
+                        vd);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusTopRight)
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        vd,
+                        Content.CornerRadius.BottomRight,
+                        Content.CornerRadius.BottomLeft);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusBottomRight)
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius.TopRight,
+                        vd,
+                        Content.CornerRadius.BottomLeft);
+                }
+            }
         }
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
         {
+            if (groupName == GroupNames.Appearance.ToString())
+            {
+                if (propertyName == PropertyNames.BorderRadius.ToString())
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(vd);
+                }
+            }
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
