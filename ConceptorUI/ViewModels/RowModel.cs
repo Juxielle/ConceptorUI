@@ -261,17 +261,14 @@ namespace ConceptorUi.ViewModels
             if (i == -1) return;
 
             var nc = Children.Count;
-            //var nl = IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count;
 
-            //var vt = GetGroupProperties(GroupNames.Alignment).GetValue(IsVertical ? PropertyNames.VT : PropertyNames.HL);
             var vc = GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
             var vb = GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
-            //var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
-            //var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
-            //var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
-            var fvbc = vb == "1" || vc == "1";
+            var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
+            var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
+            var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
 
             if (nc == 1)
             {
@@ -288,18 +285,19 @@ namespace ConceptorUi.ViewModels
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
             }
-            else if (IsVertical) _grid.RowDefinitions.RemoveAt(fvbc ? i + 1 : i);
-            else _grid.ColumnDefinitions.RemoveAt(fvbc ? i + 1 : i);
-
+            else if (IsVertical)
+            {
+                _grid.RowDefinitions.RemoveAt(i - 1);
+                _grid.RowDefinitions.RemoveAt(i - 1);
+            }
+            else
+            {
+                _grid.ColumnDefinitions.RemoveAt(i - 1);
+                _grid.ColumnDefinitions.RemoveAt(i - 1);
+            }
+            //Ecrire la methode permettant de restorer l'alignment
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
-
-            if (Children.Count <= 0) return;
-            for (var k = i; k < Children.Count; k++)
-            {
-                if (IsVertical) Grid.SetRow(Children[k].ComponentView, fvbc ? k + 1 : k);
-                else Grid.SetColumn(Children[k].ComponentView, fvbc ? k + 1 : k);
-            }
 
             if(j == -1) OnSelected();
         }

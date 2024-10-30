@@ -17,7 +17,7 @@ internal class GridViewModel : Component
         _stack = new StackPanel { Orientation = Orientation.Vertical };
         Children = [];
         IsVertical = isVertical;
-        Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
+        //Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
 
         var scrollViewer = new ScrollViewer
         {
@@ -122,9 +122,30 @@ internal class GridViewModel : Component
     {
         if (k == -1)
         {
-            var grid = new Grid();
-            grid.Children.Add(child);
-            _stack.Children.Add(grid);
+            var columnCount = 1;
+            var childrenCount = 0;
+            var lineCount = _stack.Children.Count;
+
+            if (lineCount == childrenCount! / columnCount!)
+            {
+                var grid = new Grid();
+                for (var i = 0; i < columnCount; i++)
+                    grid.ColumnDefinitions.Add(
+                        new ColumnDefinition { Width = new GridLength(1, GridUnitType.Star) });
+
+                Grid.SetColumn(child, 0);
+                Grid.SetRow(child, lineCount);
+                grid.Children.Add(child);
+                _stack.Children.Add(grid);
+            }
+            else
+            {
+                var lastColumn = 0 + 1;
+                var grid = _stack.Children[lineCount - 1] as Grid;
+                Grid.SetColumn(child, lastColumn);
+                Grid.SetRow(child, lineCount - 1);
+                grid?.Children.Add(child);
+            }
         }
         else _stack.Children.Insert(k, child);
     }
