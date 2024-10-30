@@ -5,6 +5,7 @@ using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Enums;
 using ConceptorUI.Utils;
 
 
@@ -147,6 +148,15 @@ namespace ConceptorUi.ViewModels
                         Content.CornerRadius.BottomLeft);
                 }
             }
+            else if (groupName == GroupNames.Transform)
+            {
+                if (propertyName == PropertyNames.Stretch)
+                {
+                    _child.Stretch = value == ImageStretch.Fill.ToString() ? Stretch.Fill :
+                        value == ImageStretch.Uniform.ToString() ? Stretch.Uniform :
+                        value == ImageStretch.UniformToFill.ToString() ? Stretch.UniformToFill : Stretch.None;
+                }
+            }
         }
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
@@ -157,6 +167,47 @@ namespace ConceptorUi.ViewModels
                 {
                     var vd = Helper.ConvertToDouble(value);
                     (Content.Child as Border)!.CornerRadius = new CornerRadius(vd);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusTopLeft.ToString())
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(vd,
+                        Content.CornerRadius.TopRight,
+                        Content.CornerRadius.BottomRight,
+                        Content.CornerRadius.BottomLeft);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusBottomLeft.ToString())
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius.TopRight,
+                        Content.CornerRadius.BottomRight,
+                        vd);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusTopRight.ToString())
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        vd,
+                        Content.CornerRadius.BottomRight,
+                        Content.CornerRadius.BottomLeft);
+                }
+                else if (propertyName == PropertyNames.BorderRadiusBottomRight.ToString())
+                {
+                    var vd = Helper.ConvertToDouble(value);
+                    (Content.Child as Border)!.CornerRadius = new CornerRadius(Content.CornerRadius.TopLeft,
+                        Content.CornerRadius.TopRight,
+                        vd,
+                        Content.CornerRadius.BottomLeft);
+                }
+            }
+            else if (groupName == GroupNames.Transform.ToString())
+            {
+                if (propertyName == PropertyNames.Stretch.ToString())
+                {
+                    _child.Stretch = value == ImageStretch.Fill.ToString() ? Stretch.Fill :
+                        value == ImageStretch.Uniform.ToString() ? Stretch.Uniform :
+                        value == ImageStretch.UniformToFill.ToString() ? Stretch.UniformToFill : Stretch.None;
                 }
             }
         }

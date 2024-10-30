@@ -38,7 +38,7 @@ namespace ConceptorUI.Views.Component
         public void FeedProps(object value)
         {
             SFontFamily.Visibility = SFontWeight.Visibility = BFontStyle.Visibility = SColor.Visibility =
-                SFontSize.Visibility = BListOrd.Visibility = BListNOrd.Visibility =
+                SFontSize.Visibility = BListOrd.Visibility = BTextTrimming.Visibility =
                     BTabRight.Visibility = SLineSpacing.Visibility = Visibility.Collapsed;
             _properties = (value as GroupProperties)!;
             _allowSetField = false;
@@ -108,10 +108,6 @@ namespace ConceptorUI.Views.Component
                 {
                     BListOrd.Visibility = Visibility.Visible;
                 }
-                else if (prop.Name == PropertyNames.ListNOrd.ToString())
-                {
-                    BListNOrd.Visibility = Visibility.Visible;
-                }
                 else if (prop.Name == PropertyNames.TabLeft.ToString())
                 {
                     BTabLeft.Visibility = Visibility.Visible;
@@ -160,6 +156,12 @@ namespace ConceptorUI.Views.Component
                 {
                     BTextWrap.Visibility = Visibility.Visible;
                     TextWrap.Foreground = BTextWrap.BorderBrush =
+                        new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
+                }
+                else if (prop.Name == PropertyNames.TextTrimming.ToString())
+                {
+                    BTextTrimming.Visibility = Visibility.Visible;
+                    TextTrimming.Foreground = BTextTrimming.BorderBrush =
                         new BrushConverter().ConvertFrom(prop.Value == "0" ? "#8c8c8a" : "#6739b7") as SolidColorBrush;
                 }
                 else if (prop.Name == PropertyNames.LineSpacing.ToString())
@@ -298,6 +300,11 @@ namespace ConceptorUI.Views.Component
                     idP = 21;
                     propertyName = PropertyNames.TextWrap;
                     index = _properties.GetValue(PropertyNames.TextWrap) == "0" ? 1 : 0;
+                    break;
+                case "TextTrimming":
+                    idP = 22;
+                    propertyName = PropertyNames.TextTrimming;
+                    index = _properties.GetValue(PropertyNames.TextTrimming) == "0" ? 1 : 0;
                     break;
                 case "UpValueF":
                     TFontSize.Text = ManageEnums.SetNumber(TFontSize.Text).Replace(",", ".");
@@ -462,6 +469,11 @@ namespace ConceptorUI.Views.Component
             {
                 TextWrap.Foreground =
                     BTextWrap.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
+            }
+            else if (btnName == "BTextTrimming")
+            {
+                TextTrimming.Foreground =
+                    BTextTrimming.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
             }
         }
     }

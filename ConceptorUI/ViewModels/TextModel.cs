@@ -82,13 +82,7 @@ namespace ConceptorUi.ViewModels
             }
             else if (propertyName == PropertyNames.TextTrimming.ToString())
             {
-                _text.TextTrimming = value == TextTrimmings.CharacterEllipsis.ToString()
-                    ?
-                    TextTrimming.CharacterEllipsis
-                    :
-                    value == TextTrimmings.WordEllipsis.ToString()
-                        ? TextTrimming.WordEllipsis
-                        : TextTrimming.None;
+                _text.TextTrimming = value == "0" ? TextTrimming.None : TextTrimming.CharacterEllipsis;
             }
             else if (!isInitialize)
             {

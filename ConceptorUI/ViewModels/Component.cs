@@ -399,6 +399,10 @@ namespace ConceptorUi.ViewModels
                     {
                         SetPropertyValue(groupName, propertyName, value);
                     }
+                    else if (propertyName == PropertyNames.TextTrimming)
+                    {
+                        SetPropertyValue(groupName, propertyName, value);
+                    }
                     else if (propertyName == PropertyNames.LineSpacing)
                     {
                         SetPropertyValue(groupName, propertyName, value);
@@ -1662,6 +1666,13 @@ namespace ConceptorUi.ViewModels
                             Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
+                        new()
+                        {
+                            Name = PropertyNames.Stretch.ToString(),
+                            Type = PropertyTypes.Action.ToString(),
+                            Value = ImageStretch.Fill.ToString(),
+                            Visibility = VisibilityValue.Collapsed.ToString()
+                        },
                     }
                 },
                 new()
@@ -1842,7 +1853,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.TextTrimming.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = TextTrimmings.None.ToString(),
+                            Value = "0",
                             Visibility = VisibilityValue.Visible.ToString()
                         }
                     }

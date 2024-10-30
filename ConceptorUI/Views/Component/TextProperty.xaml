@@ -159,10 +159,10 @@
                     <materialDesign:PackIcon Kind="FormatListBulleted" Width="15" Height="15"
                                              Foreground="#8c8c8a" x:Name="ListOrd"/>
                 </Button>
-                <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="1" Tag="ListNOrd"
-                        Cursor="Hand" Width="20" Height="20" DockPanel.Dock="Right" Click="BtnClick" x:Name="BListNOrd">
-                    <materialDesign:PackIcon Kind="FormatListNumbered" Width="15" Height="15"
-                                             Foreground="#8c8c8a" x:Name="ListNOrd"/>
+                <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="1 1 0 1" Tag="TextTrimming"
+                        Cursor="Hand" Width="20" Height="20" DockPanel.Dock="Right" Click="BtnClick" x:Name="BTextTrimming">
+                    <materialDesign:PackIcon Kind="DotsHorizontal" Width="15" Height="15"
+                                             Foreground="#8c8c8a" x:Name="TextTrimming"/>
                 </Button>
                 <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="1 1 0 1" Tag="TextWrap"
                         Cursor="Hand" Width="20" Height="20" DockPanel.Dock="Right" Click="BtnClick" x:Name="BTextWrap">
