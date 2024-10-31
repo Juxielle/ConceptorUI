@@ -34,23 +34,6 @@ namespace ConceptorUi.ViewModels
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             (Content.Child as Border)!.Child ??= child;
-            
-            // if (Children[0].GetType().Name == nameof(TextSingleModel))
-            // {
-            //     Console.WriteLine($@"SelectContent: {(Content.Child as Border)!.Child.GetType()}");
-            //     
-            //     Console.WriteLine($@"Content: {((Content.Child as Border)!.Child as Border)!.Child.GetType()}");
-            //
-            //     Console.WriteLine($@"Text: {(((Content.Child as Border)!.Child as Border)!.Child as Border)!.Child.GetType()}");
-            //     
-            //     // (Content.Child as Border)!.Child = new Border
-            //     // {
-            //     //     Background = Brushes.Yellow,
-            //     //     HorizontalAlignment = HorizontalAlignment.Center,
-            //     //     VerticalAlignment = VerticalAlignment.Center,
-            //     //     Child = new Border { Child = new TextBlock { Text = "ENREGISTRER" } }
-            //     // };
-            // }
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -117,7 +100,7 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, horizontal, "1");
                 }
             }
-
+            
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
                 OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "1", true);

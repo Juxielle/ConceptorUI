@@ -7,7 +7,8 @@
              mc:Ignorable="d"
              d:DesignHeight="200" d:DesignWidth="300">
     <StackPanel>
-        <Border BorderBrush="#c2c2c2" Padding="10 5"
+        <Border BorderBrush="#c2c2c2"
+                Padding="10 5"
                 BorderThickness="0 2 0 2">
             <Grid>
                 <TextBlock Text="GROUPE SHADOW"
@@ -16,12 +17,12 @@
                            FontSize="10"
                            FontWeight="Bold"
                            HorizontalAlignment="Left"
-                           x:Name="GroupTitle"/>
-                
+                           x:Name="GroupTitle" />
+
                 <Button Background="#ffffff"
                         BorderBrush="Transparent"
                         Tag="Close"
-                        Cursor="Hand" 
+                        Cursor="Hand"
                         Width="20"
                         Height="20"
                         HorizontalAlignment="Right">
@@ -29,13 +30,13 @@
                         Kind="CloseBold"
                         Width="12"
                         Height="12"
-                        Foreground="IndianRed"/>
+                        Foreground="IndianRed" />
                 </Button>
             </Grid>
         </Border>
-        
+
         <Border BorderBrush="#c2c2c2"
-                BorderThickness="0 0 0 2">
+                BorderThickness="0 0 0 1">
             <StackPanel>
                 <TextBlock Text="SHADOW COLOR"
                            Foreground="#666666"
@@ -43,8 +44,8 @@
                            FontSize="10"
                            FontWeight="Bold"
                            Margin="10 0"
-                           x:Name="Title"/>
-                
+                           x:Name="Title" />
+
                 <StackPanel Orientation="Horizontal"
                             Margin="10 10 10 0">
                     <StackPanel Orientation="Horizontal">
@@ -53,31 +54,31 @@
                                   IsChecked="True"
                                   VerticalAlignment="Center"
                                   Margin="0 6 0 0"
-                                  Cursor="Hand" 
-                                  Tag="Color"/>
+                                  Cursor="Hand"
+                                  Tag="Color" />
                         <TextBlock Text="MODIFIABLE"
                                    Foreground="#666666"
                                    FontSize="10"
                                    VerticalAlignment="Center"
-                                   Margin="4 0"/>
+                                   Margin="4 0" />
                     </StackPanel>
-                    
+
                     <StackPanel Orientation="Horizontal"
                                 Margin="10 0 0 0">
                         <CheckBox Width="20"
-                                  Height="20" 
+                                  Height="20"
                                   IsChecked="True"
                                   VerticalAlignment="Center"
                                   Margin="0 6 0 0"
-                                  Cursor="Hand" 
-                                  Tag="Color"/>
+                                  Cursor="Hand"
+                                  Tag="Color" />
                         <TextBlock Text="VISIBLE"
                                    Foreground="#666666"
-                                   FontSize="10" VerticalAlignment="Center" Margin="4 0"/>
+                                   FontSize="10" VerticalAlignment="Center" Margin="4 0" />
                     </StackPanel>
                 </StackPanel>
             </StackPanel>
         </Border>
-        
+
     </StackPanel>
 </UserControl>

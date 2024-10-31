@@ -13,16 +13,15 @@
                 <RowDefinition Height="40"/>
                 <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
-
-
+            
             <TextBlock Text="CONTENT ALIGNMENT" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
                        FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="5" x:Name="Title"/>
-            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0" Grid.Column="6"
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0"
                     Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="ContentPaste" Width="15" Height="15" Foreground="#8c8c8a"/>
             </Button>
-            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0" Grid.Column="6"
+            <Button Background="Transparent" BorderBrush="Transparent" Grid.Row="0"
                     Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="ContentCopy" Width="15" Height="15" Foreground="#8c8c8a"/>
@@ -39,19 +38,19 @@
                         <ColumnDefinition Width="*"/>
                     </Grid.ColumnDefinitions>
 
-                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Row="1"
+                    <Border Background="Transparent" BorderBrush="Transparent"
                         MouseDown="BtnClick" Tag="VT" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVT">
                         <materialDesign:PackIcon Kind="AlignVerticalTop" Width="15" Height="15"
                                          Foreground="#8c8c8a" x:Name="VT" HorizontalAlignment="Center"
                                          VerticalAlignment="Center" Tag="0"/>
                     </Border>
-                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="1" Grid.Row="1"
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="1"
                         MouseDown="BtnClick" Tag="VC" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVC">
                         <materialDesign:PackIcon Kind="AlignHorizontalDistribute" Width="15" Height="15"
                                          Foreground="#8c8c8a" x:Name="VC" HorizontalAlignment="Center"
                                          VerticalAlignment="Center" Tag="0"/>
                     </Border>
-                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="2" Grid.Row="1"
+                    <Border Background="Transparent" BorderBrush="Transparent" Grid.Column="2"
                         MouseDown="BtnClick" Tag="VB" Margin="4" Cursor="Hand" Width="20" Height="20" x:Name="BVB">
                         <materialDesign:PackIcon Kind="AlignVerticalBottom" Width="15" Height="15"
                                          Foreground="#8c8c8a" x:Name="VB" HorizontalAlignment="Center"

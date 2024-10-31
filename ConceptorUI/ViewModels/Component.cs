@@ -1142,20 +1142,40 @@ namespace ConceptorUi.ViewModels
                     {
                         Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
-
-                    #region Apparance
-
+                    else if (groupEnum == GroupNames.Global)
+                    {
+                        if (propertyEnum == PropertyNames.FilePicker)
+                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                    }
+                    else if (groupEnum == GroupNames.Transform)
+                    {
+                        if (propertyEnum is PropertyNames.Width or PropertyNames.Height)
+                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                    }
                     else if (groupEnum == GroupNames.Appearance)
                     {
                         if (propertyEnum is PropertyNames.MarginLeft or
                             PropertyNames.MarginRight or
                             PropertyNames.MarginTop or
-                            PropertyNames.MarginBottom)
+                            PropertyNames.MarginBottom or
+                            PropertyNames.FillColor)
                             Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
-
-                    #endregion
+                    else if (groupEnum == GroupNames.Shadow)
+                    {
+                        if (propertyEnum is PropertyNames.ShadowColor or
+                            PropertyNames.ShadowDepth or
+                            PropertyNames.ShadowDirection)
+                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                    }
                 }
+            }
+
+            for (var k = 0; k < Children[k].Children.Count; k++)
+            {
+                if (k >= sender.Children!.Count ||
+                    sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
+                Children[i].Children[k].OnUpdateProperties(sender.Children![k], k);
             }
         }
 
