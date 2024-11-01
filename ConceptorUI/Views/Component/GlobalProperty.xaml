@@ -16,10 +16,11 @@
 
             <TextBlock Text="GLOBAL" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
                        FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="5" x:Name="Title"/>
-            <Button Grid.Row="0" Background="Transparent" BorderBrush="Transparent"
+            <Button Grid.Row="0" Background="#ffffff" BorderBrush="Transparent"
                     Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
-                    VerticalAlignment="Center">
-                <materialDesign:PackIcon Kind="ContentPaste" Width="15" Height="15" Foreground="#8c8c8a"/>
+                    VerticalAlignment="Center"
+                    Click="OnSettingClick">
+                <materialDesign:PackIcon Kind="Settings" Width="15" Height="15" Foreground="#8c8c8a"/>
             </Button>
             <Button Grid.Row="0" Background="Transparent" BorderBrush="Transparent"
                     Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"

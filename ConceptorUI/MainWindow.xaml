@@ -10,8 +10,8 @@
         Icon="/Assets/icon2.png"
         StateChanged="OnStateChanged"
         Title="Conceptor UI"
-        Height="700"
-        Width="1035"
+        MinHeight="700"
+        MinWidth="1035"
         Background="#d2d2d2">
 
     <Window.Resources>

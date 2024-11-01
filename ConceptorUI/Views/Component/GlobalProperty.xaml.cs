@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUi.ViewModels;
+using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI.Views.Component
@@ -208,6 +209,11 @@ namespace ConceptorUI.Views.Component
             {
                 //
             }
+        }
+
+        private void OnSettingClick(object sender, RoutedEventArgs e)
+        {
+            ComponentPropertyConfig.Instance.Refresh();
         }
 
         private static string PickFile()

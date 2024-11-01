@@ -362,16 +362,6 @@ namespace ConceptorUi.ViewModels
 
         protected override void OnMoveTop()
         {
-            var nl = GetSpaceCount();
-            var nc = Children.Count;
-
-            var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
-            var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-            var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
-
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
 
@@ -381,30 +371,26 @@ namespace ConceptorUi.ViewModels
                 break;
             }
 
-            if (k != -1 && k > 0 &&
-                (nl == nc || (nl == nc + 1 && vt == "1") || (nl == nc + 1 && vb == "1") || (nl == nc + 2 && vc == "1")))
+            if (k != -1 && k > 0)
             {
                 if (focus)
                 {
-                    var fvbc = vb == "1" || vc == "1";
                     var child = Children[k];
 
-                    var rd = new RowDefinition();
-                    var cd = new ColumnDefinition();
-                    if (IsVertical) rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
-                    else cd = _grid.ColumnDefinitions[fvbc ? k + 1 : k];
+                    var resizeType = IsVertical ? _grid.RowDefinitions[2 * (k - 1) + 1].Height.GridUnitType :
+                                                  _grid.ColumnDefinitions[2 * (k - 1) + 1].Width.GridUnitType;
+                    var resizeType2 = IsVertical ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType :
+                                                  _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+
+                    SetDimension(2 * (k - 1) + 1, new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
+                    SetDimension(2 * k + 1, new GridLength(resizeType == GridUnitType.Auto ? 0 : 1, resizeType));
+                    SetPosition(2 * (k - 1) + 1, Children[k].ComponentView);
+                    SetPosition(2 * k + 1, Children[k - 1].ComponentView);
 
                     Children.RemoveAt(k);
                     Children.Insert(k - 1, child);
                     _grid.Children.RemoveAt(k);
                     _grid.Children.Insert(k - 1, child.ComponentView);
-
-                    RemoveSpace(fvbc ? k + 1 : k);
-                    if (IsVertical) _grid.RowDefinitions.Insert(fvbc ? k : k - 1, rd);
-                    else _grid.ColumnDefinitions.Insert(fvbc ? k : k - 1, cd);
-
-                    SetPosition(fvbc ? k : k - 1, Children[k - 1].ComponentView);
-                    SetPosition(fvbc ? k + 1 : k, Children[k].ComponentView);
                 }
                 else
                 {
@@ -416,16 +402,6 @@ namespace ConceptorUi.ViewModels
 
         protected override void OnMoveBottom()
         {
-            var nl = _grid.RowDefinitions.Count;
-            var nc = Children.Count;
-
-            var vt = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
-            var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-            var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
-
             var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
             foreach (var i in from child in Children let i = Children.IndexOf(child) where child.Selected select i)
@@ -434,31 +410,26 @@ namespace ConceptorUi.ViewModels
                 break;
             }
 
-            if (k != -1 && k < nc - 1 &&
-                (nl == nc || (nl == nc + 1 && vb == "1") || (nl == nc + 1 && vt == "1") || (nl == nc + 2 && vc == "1")))
+            if (k != -1 && k < Children.Count - 1)
             {
                 if (focus)
                 {
-                    var fvbc = vb == "1" || vc == "1";
                     var child = Children[k];
 
-                    var rd = new RowDefinition();
-                    var cd = new ColumnDefinition();
-                    if (IsVertical) rd = _grid.RowDefinitions[fvbc ? k + 1 : k];
-                    else cd = _grid.ColumnDefinitions[fvbc ? k + 1 : k];
+                    var resizeType = IsVertical ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType :
+                                                  _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+                    var resizeType2 = IsVertical ? _grid.RowDefinitions[2 * (k + 1) + 1].Height.GridUnitType :
+                                                  _grid.ColumnDefinitions[2 * (k + 1) + 1].Width.GridUnitType;
+
+                    SetDimension(2 * k + 1, new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
+                    SetDimension(2 * (k + 1) + 1, new GridLength(resizeType == GridUnitType.Auto ? 0 : 1, resizeType));
+                    SetPosition(2 * (k + 1) + 1, Children[k].ComponentView);
+                    SetPosition(2 * k + 1, Children[k + 1].ComponentView);
 
                     Children.RemoveAt(k);
                     Children.Insert(k + 1, child);
                     _grid.Children.RemoveAt(k);
                     _grid.Children.Insert(k + 1, child.ComponentView);
-
-                    RemoveSpace(fvbc ? k + 1 : k);
-
-                    if (IsVertical) _grid.RowDefinitions.Insert(fvbc ? k + 2 : k + 1, rd);
-                    else _grid.ColumnDefinitions.Insert(fvbc ? k + 2 : k + 1, cd);
-
-                    SetPosition(fvbc ? k + 2 : k + 1, Children[k + 1].ComponentView);
-                    SetPosition(fvbc ? k + 1 : k, Children[k].ComponentView);
                 }
                 else
                 {
