@@ -10,7 +10,9 @@
         Icon="/Assets/icon2.png"
         Title="Conceptor UI"
         MinHeight="700"
-        MinWidth="1035">
+        MinWidth="1035"
+        Height="700"
+        Width="1035">
     
     <Grid Background="#e1e1e1">
         <Grid.ColumnDefinitions>
