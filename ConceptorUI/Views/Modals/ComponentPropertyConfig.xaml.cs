@@ -1,4 +1,8 @@
-﻿using System.Windows;
+﻿using ConceptorUI.Classes;
+using ConceptorUI.Models;
+using System;
+using System.Collections.ObjectModel;
+using System.Windows;
 using System.Windows.Input;
 
 namespace ConceptorUI.Views.Modals;
@@ -15,8 +19,11 @@ public partial class ComponentPropertyConfig
 
     public static ComponentPropertyConfig Instance => _obj ?? new ComponentPropertyConfig();
 
-    public void Refresh()
+    public void Refresh(object sender)
     {
+        LvProperty.Items.Clear();
+        var properties = sender as ObservableCollection<PropertyConfig>;
+        LvProperty.ItemsSource = properties;
         Show();
     }
 
@@ -30,6 +37,11 @@ public partial class ComponentPropertyConfig
                 Hide();
                 break;
         }
+    }
+
+    private void OnColorChecked(object sender, RoutedEventArgs e)
+    {
+        Console.WriteLine(@"----------------------");
     }
 
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)

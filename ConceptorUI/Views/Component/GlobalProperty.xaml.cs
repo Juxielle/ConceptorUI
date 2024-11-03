@@ -8,6 +8,9 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
+using ConceptorUI.Classes;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 
 
 namespace ConceptorUI.Views.Component
@@ -213,7 +216,25 @@ namespace ConceptorUI.Views.Component
 
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
-            ComponentPropertyConfig.Instance.Refresh();
+            var componentSetting = new ObservableCollection<PropertyConfig>
+            {
+                new(){
+                    Name = "DELETE COMPONENT",
+                    IsVisible = true,
+                    PropertyName = PropertyNames.Trash
+                },
+                new(){
+                    Name = "COPY COMPONENT",
+                    IsVisible = true,
+                    PropertyName = PropertyNames.Copy
+                },
+                new(){
+                    Name = "PASTE COMPONENT",
+                    IsVisible = true,
+                    PropertyName = PropertyNames.Paste
+                },
+            };
+            ComponentPropertyConfig.Instance.Refresh(componentSetting);
         }
 
         private static string PickFile()

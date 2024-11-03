@@ -47,50 +47,68 @@
                     </Grid>
                 </Border>
 
-                <Border BorderBrush="#c2c2c2"
-                        BorderThickness="0 0 0 1">
-                    <StackPanel>
-                        <TextBlock Text="SHADOW COLOR"
-                                   Foreground="#666666"
-                                   VerticalAlignment="Center"
-                                   FontSize="10"
-                                   FontWeight="Bold"
-                                   Margin="10 0"
-                                   x:Name="Title" />
 
-                        <StackPanel Orientation="Horizontal"
-                                    Margin="10 10 10 0">
-                            <StackPanel Orientation="Horizontal">
-                                <CheckBox Width="20"
-                                          Height="20"
-                                          IsChecked="True"
-                                          VerticalAlignment="Center"
-                                          Margin="0 6 0 0"
-                                          Cursor="Hand"
-                                          Tag="Color" />
-                                <TextBlock Text="MODIFIABLE"
-                                           Foreground="#666666"
-                                           FontSize="10"
-                                           VerticalAlignment="Center"
-                                           Margin="4 0" />
-                            </StackPanel>
+                <ItemsControl BorderThickness="0"
+                            x:Name="LvProperty"
+                            Background="Transparent">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel />
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                    <ItemsControl.ItemTemplate>
+                        <DataTemplate>
+                            <Border BorderBrush="#c2c2c2"
+                                    BorderThickness="0 0 0 1">
+                                <StackPanel>
+                                    <TextBlock Text="{Binding Name}"
+                                               Foreground="#666666"
+                                               VerticalAlignment="Center"
+                                               FontSize="10"
+                                               FontWeight="Bold"
+                                               Margin="10 0"
+                                               x:Name="Title" />
 
-                            <StackPanel Orientation="Horizontal"
-                                        Margin="10 0 0 0">
-                                <CheckBox Width="20"
-                                          Height="20"
-                                          IsChecked="True"
-                                          VerticalAlignment="Center"
-                                          Margin="0 6 0 0"
-                                          Cursor="Hand"
-                                          Tag="Color" />
-                                <TextBlock Text="VISIBLE"
-                                           Foreground="#666666"
-                                           FontSize="10" VerticalAlignment="Center" Margin="4 0" />
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
-                </Border>
+                                    <StackPanel Orientation="Horizontal"
+                                                Margin="10 10 10 0">
+                                        <StackPanel Orientation="Horizontal">
+                                            <CheckBox Width="20"
+                                                      Height="20"
+                                                      IsChecked="{Binding IsVisible}"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0 6 0 0"
+                                                      Cursor="Hand"
+                                                      Tag="Color"
+                                                      Checked="OnColorChecked"
+                                                      Unchecked="OnColorChecked"/>
+                                            <TextBlock Text="MODIFIABLE"
+                                                       Foreground="#666666"
+                                                       FontSize="10"
+                                                       VerticalAlignment="Center"
+                                                       Margin="4 0" />
+                                        </StackPanel>
+
+                                        <StackPanel Orientation="Horizontal"
+                                                    Margin="10 0 0 0">
+                                            <CheckBox Width="20"
+                                                      Height="20"
+                                                      IsChecked="True"
+                                                      VerticalAlignment="Center"
+                                                      Margin="0 6 0 0"
+                                                      Cursor="Hand"
+                                                      Tag="Color" />
+                                            <TextBlock Text="VISIBLE"
+                                                       Foreground="#666666"
+                                                       FontSize="10"
+                                                       VerticalAlignment="Center"
+                                                       Margin="4 0" />
+                                        </StackPanel>
+                                    </StackPanel>
+                                </StackPanel>
+                            </Border>
+                        </DataTemplate>
+                    </ItemsControl.ItemTemplate>
+                </ItemsControl>
 
             </StackPanel>
         </Border>
