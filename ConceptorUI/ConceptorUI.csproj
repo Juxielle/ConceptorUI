@@ -57,11 +57,8 @@
     <Resource Include="Assets\image.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="Assets\mobile.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <None Remove="Assets\app_img.png" />
-    <Resource Include="Assets\app_img.png" />
+    <Resource Include="Assets\mobile.png" />
   </ItemGroup>
 
 </Project>

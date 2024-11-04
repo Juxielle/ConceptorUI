@@ -39,7 +39,7 @@
                                 </Border.BorderBrush>
                                 <ScrollContentPresenter CanContentScroll="{TemplateBinding CanContentScroll}" />
                             </Border>
-                            <ScrollBar x:Name="PART_VerticalScrollBar"
+                            <ScrollBar Grid.Row="0" Grid.Column="0" x:Name="PART_VerticalScrollBar"
                                        Value="{TemplateBinding VerticalOffset}"
                                        Maximum="{TemplateBinding ScrollableHeight}"
                                        ViewportSize="{TemplateBinding ViewportHeight}"
@@ -89,10 +89,10 @@
         </LinearGradientBrush>
     </Window.Resources>
 
-    <Grid x:Name="Content" Background="#e4e4e4" PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
+    <Grid x:Name="Content"
+          Background="#e4e4e4"
+          PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
         <DockPanel>
-            <!--<component:TopPanel DockPanel.Dock="Top"/>-->
-
             <component:LeftPanel Margin="0 2"
                                  Background="White"
                                  DockPanel.Dock="Left"
@@ -108,13 +108,6 @@
                                      DockPanel.Dock="Right"
                                      Visibility="Collapsed"
                                      x:Name="RightPanel" />
-
-            <!-- <component:PanelStructuralView Width="320" -->
-            <!--                                Margin="0 2" -->
-            <!--                                Background="#d2d2d2" -->
-            <!--                                DockPanel.Dock="Right" -->
-            <!--                                Visibility="Collapsed" -->
-            <!--                                x:Name="StructuralView" /> -->
 
             <propertyPanel:ComponentList Width="320"
                                          Margin="0 2"

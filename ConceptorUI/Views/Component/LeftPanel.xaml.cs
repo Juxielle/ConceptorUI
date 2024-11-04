@@ -47,6 +47,7 @@ namespace ConceptorUI.Views.Component
             {
                 case "Menu":
                     componentName = "Menu";
+                    MainWindow.Instance.DisplayCompPage();
                     break;
                 case "Text":
                     componentName = ComponentList.Text.ToString();

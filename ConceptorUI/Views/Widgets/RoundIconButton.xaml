@@ -1,16 +1,16 @@
 ﻿<UserControl x:Class="ConceptorUI.Views.Widgets.RoundIconButton"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:ConceptorUI.Views.Widgets"
-            xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-             mc:Ignorable="d" 
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="50">
-    
+
     <Border Background="#ffffff"
-            CornerRadius="25">
-        <materialDesign:PackIcon Kind="HeartOutline"
+            CornerRadius="25"
+            Cursor="Hand">
+        <materialDesign:PackIcon Kind="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                  Width="16"
                                  Height="16"
                                  Foreground="#000000"

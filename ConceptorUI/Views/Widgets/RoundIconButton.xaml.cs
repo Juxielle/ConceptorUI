@@ -1,28 +1,23 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+﻿using System.Windows;
+using MaterialDesignThemes.Wpf;
 
 namespace ConceptorUI.Views.Widgets
 {
-    /// <summary>
-    /// Logique d'interaction pour RoundIconButton.xaml
-    /// </summary>
-    public partial class RoundIconButton : UserControl
+    public partial class RoundIconButton
     {
         public RoundIconButton()
         {
             InitializeComponent();
+        }
+
+        public static readonly DependencyProperty IconProperty =
+            DependencyProperty.Register(nameof(Icon), typeof(PackIconKind), typeof(RoundIconButton),
+                new PropertyMetadata(PackIconKind.HeartOutline));
+        
+        public PackIconKind Icon
+        {
+            get => (PackIconKind)GetValue(IconProperty);
+            set => SetValue(IconProperty, value);
         }
     }
 }

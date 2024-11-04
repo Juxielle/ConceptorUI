@@ -41,8 +41,8 @@ namespace ConceptorUI
             _selectedProject = -1;
             _formState = FormStates.Closed;
 
-            PBPassword.Password = TBPassword.Text = string.Empty;
-            PBRPassword.Password = TBRPassword.Text = string.Empty;
+            PbPassword.Password = TbPassword.Text = string.Empty;
+            PbrPassword.Password = TbrPassword.Text = string.Empty;
         }
 
         public static PreviewPage Instance => _obj == null! ? new PreviewPage() : _obj;
@@ -61,16 +61,16 @@ namespace ConceptorUI
             switch (tag)
             {
                 case "PASSWORD_EYE":
-                    PBPassword.Visibility = PBPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                    TBPassword.Visibility = TBPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                    PVisible.Kind = TBPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PBPassword.Password = TBPassword.Text = _projects[_selectedProject].Password;
+                    PbPassword.Visibility = PbPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    TbPassword.Visibility = TbPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    PVisible.Kind = TbPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
+                    PbPassword.Password = TbPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "RPASSWORD_EYE":
-                    PBRPassword.Visibility = PBRPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                    TBRPassword.Visibility = TBRPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
-                    RPVisible.Kind = TBRPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PBRPassword.Password = TBRPassword.Text = _projects[_selectedProject].Password;
+                    PbrPassword.Visibility = PbrPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    TbrPassword.Visibility = TbrPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+                    RpVisible.Kind = TbrPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
+                    PbrPassword.Password = TbrPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "UploadImage":
                     var fileName = Helper.PickFile();
@@ -95,7 +95,7 @@ namespace ConceptorUI
                     if (_formState is FormStates.Closed or FormStates.Opened)
                     {
                         TNameApp.Text = _name = "";
-                        IDApp.Text = _appId = "A" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
+                        IdApp.Text = _appId = "A" + ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
                         TVersion.Text = _version = "1.0";
                         var dateString = DateTime.Now.ToString(CultureInfo.InvariantCulture);
                         CreatedDate.Text = dateString;
@@ -133,7 +133,7 @@ namespace ConceptorUI
             _selectedProject = _projects.FindIndex(d => d.ID == id);
             var project = _projects[_selectedProject];
             TNameApp.Text = project.Name;
-            IDApp.Text = project.ID;
+            IdApp.Text = project.ID;
             TVersion.Text = project.Version;
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
@@ -184,8 +184,8 @@ namespace ConceptorUI
                 case "Close":
                     TNameApp.Text = string.Empty;
                     TVersion.Text = string.Empty;
-                    PBPassword.Password = TBPassword.Text = string.Empty;
-                    PBRPassword.Password = TBRPassword.Text = string.Empty;
+                    PbPassword.Password = TbPassword.Text = string.Empty;
+                    PbrPassword.Password = TbrPassword.Text = string.Empty;
                     _formState = FormStates.Closed;
                     Form.Visibility = Visibility.Collapsed; 
                     break;

@@ -127,7 +127,9 @@ namespace ConceptorUI.Views.Component
             switch (tag)
             {
                 case "AddText": break;
-                case "Close": MainWindow.Instance.DisplayCompPage(); break;
+                case "Close":
+                    MainWindow.Instance.DisplayCompPage();
+                    break;
                 case "Component":
                     button.Background = new BrushConverter().ConvertFrom("#f4f6f8") as SolidColorBrush;
                     button.Foreground = new BrushConverter().ConvertFrom("#1960ea") as SolidColorBrush;
