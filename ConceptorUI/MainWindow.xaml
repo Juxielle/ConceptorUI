@@ -12,6 +12,8 @@
         Title="Conceptor UI"
         MinHeight="700"
         MinWidth="1035"
+        Height="700"
+        Width="1035"
         Background="#d2d2d2">
 
     <Window.Resources>

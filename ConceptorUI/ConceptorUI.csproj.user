@@ -19,6 +19,9 @@
     <Compile Update="PreviewPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Views\Widgets\RoundIconButton.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="ConfirmDialogBox.xaml">
@@ -34,6 +37,9 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="PreviewPage.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Views\Widgets\RoundIconButton.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>

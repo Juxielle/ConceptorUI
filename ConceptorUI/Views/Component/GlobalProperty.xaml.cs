@@ -239,10 +239,12 @@ namespace ConceptorUI.Views.Component
 
         private static string PickFile()
         {
-            var dialog = new Microsoft.Win32.OpenFileDialog();
-            dialog.FileName = "Download";
-            dialog.DefaultExt = ".png";
-            dialog.Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
+            var dialog = new Microsoft.Win32.OpenFileDialog
+            {
+                FileName = "Download",
+                DefaultExt = ".png",
+                Filter = "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg"
+            };
             return dialog.ShowDialog() == true ? dialog.FileName : string.Empty;
         }
     }
