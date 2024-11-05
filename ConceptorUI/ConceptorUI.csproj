@@ -15,10 +15,20 @@
     <None Remove="Assets\ComposantIcons\input.png" />
     <None Remove="Assets\ComposantIcons\switch.png" />
     <None Remove="Assets\ComposantIcons\text.png" />
+    <None Remove="Assets\Fonts\SourceSans3-Black.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-Bold.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-ExtraBold.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-ExtraLight.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-Italic.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-Light.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-Medium.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-Regular.ttf" />
+    <None Remove="Assets\Fonts\SourceSans3-SemiBold.ttf" />
     <None Remove="Assets\icon.png" />
     <None Remove="Assets\icon2.png" />
     <None Remove="Assets\image.png" />
     <None Remove="Assets\mobile.png" />
+    <None Remove="Assets\product_back.png" />
   </ItemGroup>
 
   <ItemGroup>
@@ -48,6 +58,33 @@
     <Resource Include="Assets\ComposantIcons\text.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Black.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Bold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-ExtraBold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-ExtraLight.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Italic.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Light.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Medium.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-Regular.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Assets\Fonts\SourceSans3-SemiBold.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Assets\icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -59,6 +96,9 @@
     </Resource>
     <None Remove="Assets\app_img.png" />
     <Resource Include="Assets\mobile.png" />
+    <Resource Include="Assets\product_back.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

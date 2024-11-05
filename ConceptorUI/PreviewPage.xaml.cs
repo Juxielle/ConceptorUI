@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Classes;
 using ConceptorUI.Utils;
+using ConceptorUI.Views.Modals;
 
 
 namespace ConceptorUI
@@ -141,6 +142,8 @@ namespace ConceptorUI
             BCreate.Content = "EXECUTER";
             _formState = FormStates.Opened;
             Form.Visibility = Visibility.Visible;
+
+            new ProductDetail().ShowDialog();
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
