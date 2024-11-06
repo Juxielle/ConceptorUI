@@ -7,13 +7,15 @@
              mc:Ignorable="d"
              d:DesignHeight="50" d:DesignWidth="50">
 
-    <Border Background="#ffffff"
-            CornerRadius="25"
-            Cursor="Hand">
+    <Border CornerRadius="25"
+            Cursor="Hand"
+            BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}"
+            BorderThickness="1">
         <materialDesign:PackIcon Kind="{Binding Icon, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                  Width="16"
                                  Height="16"
-                                 Foreground="#000000"
+                                 Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                  HorizontalAlignment="Center"
                                  VerticalAlignment="Center" />
     </Border>

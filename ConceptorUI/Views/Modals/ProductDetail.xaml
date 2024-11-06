@@ -16,8 +16,7 @@
         <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                       VerticalScrollBarVisibility="Auto">
             <StackPanel Margin="50 40">
-                <TextBlock Grid.Column="0"
-                           FontSize="25"
+                <TextBlock FontSize="25"
                            Foreground="#000000"
                            TextTrimming="CharacterEllipsis"
                            Text="Freelance Marketplace App"
@@ -33,25 +32,40 @@
                         <ColumnDefinition Width="Auto"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
+                    
                     <Border Grid.Column="0"
                             Background="#dddddd"
                             CornerRadius="30"
                             Width="50"
                             Height="50"></Border>
-
-
+                    
+                    <StackPanel Grid.Column="1"
+                                Margin="10 0"
+                                VerticalAlignment="Center">
+                        <TextBlock FontSize="14"
+                                   Foreground="#000000"
+                                   Text="Jordan Hughes"
+                                   FontFamily="/Assets/Fonts/SourceSans3-Black.ttf#Source Sans 3 Black" />
+                        
+                        <TextBlock FontSize="14"
+                                   Foreground="#000000"
+                                   Text="Follow"
+                                   Margin="0 2 0 0"
+                                   FontFamily="/Assets/Fonts/SourceSans3-Regular.ttf#Source Sans 3" />
+                    </StackPanel>
+                    
 
                     <component:RoundIconButton Grid.Column="3"
                                                Width="36"
                                                Height="36"
-                                               Background="#dddddd"
-                                               Icon="ClipboardSearchOutline"
+                                               BorderBrush="#dddddd"
+                                               Icon="HeartOutline"
                                                Margin="0 0 10 0" />
                     
                     <component:RoundIconButton Grid.Column="4"
                                                Width="36"
                                                Height="36"
-                                               Background="#dddddd"
+                                               BorderBrush="#dddddd"
                                                Icon="ClipboardSearchOutline"
                                                Margin="0 0 10 0" />
                     
@@ -74,8 +88,7 @@
                        Stretch="Uniform"
                        Margin="0 15 0 0"/>
 
-                <TextBlock Grid.Column="0"
-                           FontSize="22"
+                <TextBlock FontSize="22"
                            Foreground="#000000"
                            VerticalAlignment="Center"
                            Margin="60 30 60 0"
@@ -87,8 +100,7 @@
                     hello@ronasit.com | Telegram | WhatsApp | Website
                 </TextBlock>
 
-                <TextBlock Grid.Column="0"
-                           FontSize="22"
+                <TextBlock FontSize="22"
                            Foreground="#000000"
                            VerticalAlignment="Center"
                            Margin="60 30 60 0"
@@ -99,8 +111,7 @@
                     businesses can find digital specialists. Let's dive into its design features.
                 </TextBlock>
 
-                <TextBlock Grid.Column="0"
-                           FontSize="22"
+                <TextBlock FontSize="22"
                            Foreground="#000000"
                            VerticalAlignment="Center"
                            Margin="60 30 60 0"
