@@ -12,9 +12,9 @@ using ConceptorUI.Utils;
 
 namespace ConceptorUI
 {
-    public partial class FlashWiew
+    public partial class SplashView
     {
-        public FlashWiew()
+        public SplashView()
         {
             InitializeComponent();
             DoWork();

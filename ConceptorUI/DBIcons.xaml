@@ -6,58 +6,59 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:syncfusion="http://schemas.syncfusion.com/wpf"
         xmlns:fa="http://schemas.fontawesome.io/icons/"
+        xmlns:googleFontIcons="clr-namespace:ConceptorUI.Assets.GoogleFontIcons"
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Sélection Icons" Height="500" Width="800">
-    
+
     <Window.Resources>
         <Style TargetType="Border">
-            <Setter Property="Background" Value="White"/>
+            <Setter Property="Background" Value="White" />
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    <Setter Property="Background" Value="#89d69b"/>
-                    <Setter Property="BorderBrush" Value="#89bc9b"/>
-                    <Setter Property="BorderThickness" Value="1"/>
+                    <Setter Property="Background" Value="#89d69b" />
+                    <Setter Property="BorderBrush" Value="#89bc9b" />
+                    <Setter Property="BorderThickness" Value="1" />
                 </Trigger>
             </Style.Triggers>
         </Style>
-        
+
         <!-- Tab control styling -->
         <Style TargetType="{x:Type TabControl}">
-            <Setter Property="Padding" Value="0 5 0 0"/>
-            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Padding" Value="0 5 0 0" />
+            <Setter Property="BorderThickness" Value="0" />
         </Style>
         <!-- Tab item styling -->
         <Style TargetType="{x:Type TabItem}">
-            <Setter Property="Foreground" Value="#8c8c8a"/>
-            <Setter Property="FontWeight" Value="Bold"/>
+            <Setter Property="Foreground" Value="#8c8c8a" />
+            <Setter Property="FontWeight" Value="Bold" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="{x:Type TabItem}">
                         <Grid Background="Transparent">
                             <Grid x:Name="tabBorder">
                                 <Border Grid.Column="0"
-                                    Height="32" Width="140"
-                                    BorderThickness="0"
-                                    Background="Transparent"
-                                    CornerRadius="4"
-                                    x:Name="BackBorder"/>
+                                        Height="32" Width="140"
+                                        BorderThickness="0"
+                                        Background="Transparent"
+                                        CornerRadius="4"
+                                        x:Name="BackBorder" />
                                 <ContentPresenter Grid.Column="0" x:Name="tabContent"
                                                   ContentSource="Header"
                                                   RecognizesAccessKey="True"
                                                   VerticalAlignment="Center"
-                                                  HorizontalAlignment="Center"/>
+                                                  HorizontalAlignment="Center" />
                             </Grid>
                         </Grid>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsSelected" Value="True">
-                                <Setter Property="BorderBrush" TargetName="BackBorder" Value="#1960ea"/>
-                                <Setter Property="BorderThickness" TargetName="BackBorder" Value="0 0 0 3"/>
-                                <Setter Property="Foreground" Value="#1960ea"/>
+                                <Setter Property="BorderBrush" TargetName="BackBorder" Value="#1960ea" />
+                                <Setter Property="BorderThickness" TargetName="BackBorder" Value="0 0 0 3" />
+                                <Setter Property="Foreground" Value="#1960ea" />
                             </Trigger>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter Property="Foreground" Value="#1960ea"/>
+                                <Setter Property="Foreground" Value="#1960ea" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -65,7 +66,7 @@
             </Setter>
         </Style>
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="60" />
@@ -74,34 +75,43 @@
 
         <Grid Grid.Row="0" HorizontalAlignment="Left" VerticalAlignment="Bottom" Width="200" Margin="20 10">
             <TextBox BorderBrush="#8c8c8a" BorderThickness="0.8" Foreground="#000000" Height="30"
-                     FontSize="14" x:Name="TbSearch" Tag="LeftSearch" Text="" Padding="6 4" TextChanged="OnSearch"/>
+                     FontSize="14" x:Name="TbSearch" Tag="LeftSearch" Text="" Padding="6 4" TextChanged="OnSearch" />
             <Grid HorizontalAlignment="Right" VerticalAlignment="Center" Background="White" Margin="2 0" Cursor="Hand">
-                <materialDesign:PackIcon Kind="Search" Width="24" Height="24" Foreground="#c2c2c2"/>
+                <materialDesign:PackIcon Kind="Search" Width="24" Height="24" Foreground="#c2c2c2" />
             </Grid>
         </Grid>
-        <Border Grid.Row="0" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right" VerticalAlignment="Top"
+        <Border Grid.Row="0" Background="Transparent" Width="30" Height="30" HorizontalAlignment="Right"
+                VerticalAlignment="Top"
                 Cursor="Hand" MouseDown="OnMouseDown" Tag="Close" Visibility="Collapsed">
-            <materialDesign:PackIcon Kind="Close" Width="24" Height="24" Foreground="IndianRed" VerticalAlignment="Center"
-                                     HorizontalAlignment="Center"/>
+            <materialDesign:PackIcon Kind="Close" Width="24" Height="24" Foreground="IndianRed"
+                                     VerticalAlignment="Center"
+                                     HorizontalAlignment="Center" />
         </Border>
-        
+
         <TabControl Grid.Row="1" Grid.Column="0" Background="Transparent" x:Name="Tabs" Margin="0 10 0 0"
                     SelectionChanged="OnSelectionChanged">
-            <TabItem Background="Transparent" Header="Material Icons" FontSize="16" FontFamily="Aria" FontWeight="Normal">
-                
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0 10 0 60">
+            <TabItem Background="Transparent" Header="Material Icons" FontSize="16" FontFamily="Aria"
+                     FontWeight="Normal">
+
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              Margin="0 10 0 60">
                     <StackPanel Margin="20 10">
                         <ItemsControl x:Name="Items">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
+                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon"
+                                                MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
                                                 Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
                                         <Border Background="{Binding Color}" Height="50">
-                                            <materialDesign:PackIcon Kind="{Binding Code}" Width="30" Height="30" Foreground="#000000"
-                                                                     VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                            <materialDesign:PackIcon Kind="{Binding Code}" Width="30" Height="30"
+                                                                     Foreground="#000000"
+                                                                     VerticalAlignment="Center"
+                                                                     HorizontalAlignment="Center" />
                                         </Border>
-                                        <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10" Margin="0 4" TextAlignment="Center"
-                                                   TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10"
+                                                   Margin="0 4" TextAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"
+                                                   TextWrapping="Wrap" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -113,24 +123,29 @@
                         </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
-                
+
             </TabItem>
 
             <TabItem Background="Transparent" Header="FontAwesome" FontSize="16" FontFamily="Aria" FontWeight="Normal">
 
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0 10 0 60">
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              Margin="0 10 0 60">
                     <StackPanel Margin="20 10">
                         <ItemsControl x:Name="FontAwesonItems">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
-                                                    Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
+                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon"
+                                                MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
+                                                Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
                                         <Border Background="{Binding Color}" Height="50">
-                                            <fa:ImageAwesome Icon="{Binding Code}" Width="20" Height="20" Foreground="#000000" 
-                                                                 VerticalAlignment="Center" HorizontalAlignment="Center" />
+                                            <fa:ImageAwesome Icon="{Binding Code}" Width="20" Height="20"
+                                                             Foreground="#000000"
+                                                             VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         </Border>
-                                        <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10" Margin="0 4" TextAlignment="Center"
-                                                        TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10"
+                                                   Margin="0 4" TextAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis" HorizontalAlignment="Center"
+                                                   TextWrapping="Wrap" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -142,25 +157,34 @@
                         </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
-                
-            </TabItem>
-            
-            <TabItem Background="Transparent" Header="Google Font Icons" FontSize="16" FontFamily="Aria" FontWeight="Normal">
 
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto" Margin="0 10 0 60">
+            </TabItem>
+
+            <TabItem Background="Transparent" Header="Google Font Icons" FontSize="16" FontFamily="Aria"
+                     FontWeight="Normal">
+
+                <ScrollViewer HorizontalScrollBarVisibility="Disabled" VerticalScrollBarVisibility="Auto"
+                              Margin="0 10 0 60">
                     <StackPanel Margin="20 10">
                         <ItemsControl x:Name="GoogleIconItems">
                             <ItemsControl.ItemTemplate>
                                 <DataTemplate>
-                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon" MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
+                                    <StackPanel Margin="10 10 0 0" MouseDown="OnMouseDownIcon"
+                                                MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
                                                 Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
                                         <Border Background="{Binding Color}" Height="50">
-                                            <TextBlock Text="{Binding Code}" FontSize="25" Foreground="#000000" 
-                                                       HorizontalAlignment="Center" VerticalAlignment="Center"  Padding="0"
-                                                       FontFamily="{Binding FontPath}"/>
+                                            <googleFontIcons:Home FontSize="25"
+                                                                  Foreground="#000000"
+                                                                  VerticalAlignment="Center" />
                                         </Border>
-                                        <TextBlock Text="{Binding Name}" Foreground="#000000" FontSize="10" Margin="0 4" TextAlignment="Center"
-                                                        TextTrimming="CharacterEllipsis" HorizontalAlignment="Center" TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding Name}"
+                                                   Foreground="#000000"
+                                                   FontSize="10"
+                                                   Margin="0 4"
+                                                   TextAlignment="Center"
+                                                   TextTrimming="CharacterEllipsis"
+                                                   HorizontalAlignment="Center"
+                                                   TextWrapping="Wrap" />
                                     </StackPanel>
                                 </DataTemplate>
                             </ItemsControl.ItemTemplate>
@@ -172,42 +196,47 @@
                         </ItemsControl>
                     </StackPanel>
                 </ScrollViewer>
-                
+
             </TabItem>
         </TabControl>
 
-        <Border Grid.Row="1" Background="#ffffff" BorderBrush="#1960ea" BorderThickness="0 0.5 0 0" VerticalAlignment="Bottom" Height="60">
-            <syncfusion:SfDataPager 
+        <Border Grid.Row="1" Background="#ffffff" BorderBrush="#1960ea" BorderThickness="0 0.5 0 0"
+                VerticalAlignment="Bottom" Height="60">
+            <syncfusion:SfDataPager
                 x:Name="DataPager"
                 NumericButtonCount="10"
                 PageSize="200"
                 HorizontalAlignment="Left"
                 Margin="20 0"
                 AccentBackground="#1960ea"
-                AccentForeground="#ffffff" 
-                PageIndexChanged="OnPageIndexChanged"/>
+                AccentForeground="#ffffff"
+                PageIndexChanged="OnPageIndexChanged" />
         </Border>
 
         <StackPanel Grid.Row="1" HorizontalAlignment="Right" VerticalAlignment="Bottom" Orientation="Horizontal">
             <Border Background="Transparent" Tag="Select" CornerRadius="10"
                     Cursor="Hand" Width="60" Height="60" Margin="20 0" MouseDown="OnMouseDown">
                 <Grid>
-                    <materialDesign:PackIcon Kind="Music" Width="45" Height="45" Foreground="#000000" Visibility="Visible"
-                                             HorizontalAlignment="Center" VerticalAlignment="Center" x:Name="MaterialPreview"/>
-                    
+                    <materialDesign:PackIcon Kind="Music" Width="45" Height="45" Foreground="#000000"
+                                             Visibility="Visible"
+                                             HorizontalAlignment="Center" VerticalAlignment="Center"
+                                             x:Name="MaterialPreview" />
+
                     <fa:ImageAwesome Icon="Home" Width="45" Height="45" Foreground="#000000" Visibility="Collapsed"
-                                     VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="FontAwesomePreview"/>
-                    
+                                     VerticalAlignment="Center" HorizontalAlignment="Center"
+                                     x:Name="FontAwesomePreview" />
+
                     <TextBlock Text="&#xE88A;" FontSize="45" Foreground="#000000" Visibility="Collapsed"
-                               HorizontalAlignment="Center" VerticalAlignment="Center"  Padding="0" x:Name="GooglePreview"
-                               FontFamily="C:\Users\INITIAL Dev\Documents\UIConceptor\Icons\MaterialIcons-Regular.ttf#Material Icons"/>
+                               HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"
+                               x:Name="GooglePreview"
+                               FontFamily="C:\Users\INITIAL Dev\Documents\UIConceptor\Icons\MaterialIcons-Regular.ttf#Material Icons" />
                 </Grid>
             </Border>
-            
+
             <Border Background="#f4f6f8" BorderBrush="#1960ea" BorderThickness="0.5" Tag="Select" CornerRadius="10"
                     Cursor="Hand" Width="50" Height="50" Margin="20 0" MouseDown="OnMouseDown">
-                <materialDesign:PackIcon Kind="Success" Width="30" Height="30" Foreground="#1960ea" 
-                                         HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                <materialDesign:PackIcon Kind="Success" Width="30" Height="30" Foreground="#1960ea"
+                                         HorizontalAlignment="Center" VerticalAlignment="Center" />
             </Border>
         </StackPanel>
     </Grid>

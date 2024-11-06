@@ -99,6 +99,8 @@
     <Resource Include="Assets\product_back.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <None Remove="Assets\Icons\MaterialIcons-Regular.ttf" />
+    <Resource Include="Assets\Icons\MaterialIcons-Regular.ttf" />
   </ItemGroup>
 
 </Project>
