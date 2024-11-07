@@ -599,7 +599,7 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
                 }
             }
-
+            
             if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
                 Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                     SizeValue.Auto.ToString(), true);
