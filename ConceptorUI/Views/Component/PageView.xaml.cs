@@ -31,6 +31,7 @@ namespace ConceptorUI.Views.Component
 
         public ICommand? RefreshPropertyPanelCommand;
         public ICommand? DisplayTextTypingCommand;
+        public ICommand? DisplayLoadingCommand;
 
         public PageView()
         {
@@ -92,7 +93,7 @@ namespace ConceptorUI.Views.Component
         {
             #region Load spage
 
-            page.Children.Clear();
+            Page.Children.Clear();
 
             var reports = _project.Space.Reports;
             var counter = 0;
@@ -150,12 +151,11 @@ namespace ConceptorUI.Views.Component
 
                             content.Children.Add(title);
                             content.Children.Add(_components[report.Code].ComponentView);
-                            page.Children.Add(content);
+                            Page.Children.Add(content);
                         }
                     }, null);
                 });
             }
-
             #endregion
         }
 
@@ -208,7 +208,7 @@ namespace ConceptorUI.Views.Component
 
             content.Children.Add(title);
             content.Children.Add(windowModel.ComponentView);
-            page.Children.Add(content);
+            Page.Children.Add(content);
 
             OnSaved();
             OnSaved(2);
@@ -267,7 +267,7 @@ namespace ConceptorUI.Views.Component
 
             content.Children.Add(title);
             content.Children.Add(windowModel.ComponentView);
-            page.Children.Add(content);
+            Page.Children.Add(content);
 
             OnSaved(0, index);
             OnSaved(2);
@@ -290,8 +290,8 @@ namespace ConceptorUI.Views.Component
 
             _components.Remove(_project.Space.Reports[SelectedReport].Code);
 
-            var n = page.Children.Count;
-            page.Children.RemoveAt(SelectedReport);
+            var n = Page.Children.Count;
+            Page.Children.RemoveAt(SelectedReport);
 
             if (n > 1)
             {
@@ -423,11 +423,11 @@ namespace ConceptorUI.Views.Component
 
         public void OnSaved(int isPage = 0, int index = 0)
         {
+            DisplayLoadingCommand?.Execute(true);
             var sc = SynchronizationContext.Current;
             ThreadPool.QueueUserWorkItem(delegate
             {
                 #region
-
                 switch (isPage)
                 {
                     case 0:
@@ -456,7 +456,11 @@ namespace ConceptorUI.Views.Component
                         break;
                     }
                 }
-
+                
+                sc!.Post(delegate
+                {
+                    DisplayLoadingCommand?.Execute(false);
+                }, null);
                 #endregion
             });
         }

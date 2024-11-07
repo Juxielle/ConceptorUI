@@ -271,5 +271,19 @@
                                          x:Name="CompPage" />
             </Grid>
         </DockPanel>
+        
+        <ProgressBar Width="100"
+                     Height="4"
+                     IsIndeterminate="True"
+                     Background="#5dacff"
+                     Foreground="#1960ea"
+                     Margin="50 0 0 20"
+                     BorderThickness="0"
+                     Minimum="0"
+                     Maximum="100"
+                     HorizontalAlignment="Left"
+                     VerticalAlignment="Bottom"
+                     Visibility="Collapsed"
+                     x:Name="Loading"/>
     </Grid>
 </Window>

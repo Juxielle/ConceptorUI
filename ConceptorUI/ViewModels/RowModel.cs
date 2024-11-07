@@ -496,11 +496,11 @@ namespace ConceptorUi.ViewModels
             var hr = GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
 
-            var hlc = component.GetGroupProperties(GroupNames.Alignment)
+            var hlc = component.GetGroupProperties(GroupNames.SelfAlignment)
                 .GetValue(IsVertical ? PropertyNames.Hl : PropertyNames.Vt);
-            var hcc = component.GetGroupProperties(GroupNames.Alignment)
+            var hcc = component.GetGroupProperties(GroupNames.SelfAlignment)
                 .GetValue(IsVertical ? PropertyNames.Hc : PropertyNames.Vc);
-            var hrc = component.GetGroupProperties(GroupNames.Alignment)
+            var hrc = component.GetGroupProperties(GroupNames.SelfAlignment)
                 .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
 
             var hasAlignment = hlc == "1" || hcc == "1" || hrc == "1";
@@ -510,13 +510,13 @@ namespace ConceptorUi.ViewModels
             var h = component.GetGroupProperties(GroupNames.Transform)
                 .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
 
-            if (hl == "1" && !hasAlignment)
+            if (hl == "1" && !hasAlignment && w != SizeValue.Expand.ToString())
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, hl,
                     true);
-            else if (hc == "1" && !hasAlignment)
+            else if (hc == "1" && !hasAlignment && w != SizeValue.Expand.ToString())
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, hc,
                     true);
-            else if (hr == "1" && !hasAlignment)
+            else if (hr == "1" && !hasAlignment && w != SizeValue.Expand.ToString())
                 component.OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, hr,
                     true);
             else if (!isDeserialize && hl == "0" && hc == "0" && hr == "0" && w != SizeValue.Expand.ToString() &&
@@ -593,7 +593,7 @@ namespace ConceptorUi.ViewModels
                 {
                     SetDimension(GetSpaceCount() - 2, new GridLength(0, GridUnitType.Auto));
                 }
-                else
+                else if(!existExpand)
                 {
                     SetDimension(GetSpaceCount() - 1, new GridLength(1, GridUnitType.Star));
                     SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");

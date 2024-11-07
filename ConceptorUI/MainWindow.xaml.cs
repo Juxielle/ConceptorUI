@@ -33,6 +33,7 @@ namespace ConceptorUI
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
+            PageView.DisplayLoadingCommand = new RelayCommand(OnDisplayLoadingHandle);
 
             TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
 
@@ -130,6 +131,7 @@ namespace ConceptorUI
                         var components = PageView.SendComponent();
                         ComponentList.Refresh(components);
                     }
+
                     break;
             }
         }
@@ -187,6 +189,7 @@ namespace ConceptorUI
                     {
                         //
                     }
+
                     break;
             }
         }
@@ -200,17 +203,17 @@ namespace ConceptorUI
         {
             var infos = sender as dynamic[];
             var property = (PropertyNames)infos![1];
-            
-            if(property == PropertyNames.Add)
+
+            if (property == PropertyNames.Add)
                 PageView.AddComponent(Models.ComponentList.TextSingle.ToString());
-            else PageView.SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
+            else PageView.SetProperty((GroupNames)infos[0], (PropertyNames)infos[1], infos[2]);
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)
         {
             var values = sender as Dictionary<string, dynamic>;
             List<GroupProperties> groups;
-            if(((ComponentList)values!["componentName"]) == Models.ComponentList.Text)
+            if (((ComponentList)values!["componentName"]) == Models.ComponentList.Text)
                 groups = ((List<List<GroupProperties>>)values["propertyGroups"])[0];
             else groups = (List<GroupProperties>)values["propertyGroups"];
 
@@ -225,6 +228,11 @@ namespace ConceptorUI
         private void OnSendComponentHandle(object sender)
         {
             PageView.AddReusableComponent(sender.ToString()!);
+        }
+
+        private void OnDisplayLoadingHandle(object sender)
+        {
+            Loading.Visibility = Loading.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 }
