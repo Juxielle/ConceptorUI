@@ -143,7 +143,7 @@ namespace ConceptorUI
             _formState = FormStates.Opened;
             Form.Visibility = Visibility.Visible;
 
-            new ProductDetail().ShowDialog();
+            //new ProductDetail().ShowDialog();
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)

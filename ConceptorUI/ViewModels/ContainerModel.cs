@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
@@ -96,8 +97,10 @@ namespace ConceptorUi.ViewModels
                 var hl = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hl);
                 if (hl == "1" || hc == "1" || hr == "1")
                 {
-                    var horizontal = hr == "1" ? PropertyNames.Hr : (hc == "1" ? PropertyNames.Hc : PropertyNames.Hl);
+                    var horizontal = hr == "1" ? PropertyNames.Hr : hc == "1" ? PropertyNames.Hc : PropertyNames.Hl;
                     SetPropertyValue(GroupNames.Alignment, horizontal, "1");
+                    WhenAlignmentChanged(horizontal, "0");
+                    WhenAlignmentChanged(horizontal, "1");
                 }
             }
             
@@ -111,7 +114,7 @@ namespace ConceptorUi.ViewModels
                 var vt = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vt);
                 
                 if (vt != "1" && vc != "1" && vb != "1") return;
-                var vertical = vb == "1" ? PropertyNames.Vb : (vc == "1" ? PropertyNames.Vc : PropertyNames.Vt);
+                var vertical = vb == "1" ? PropertyNames.Vb : vc == "1" ? PropertyNames.Vc : PropertyNames.Vt;
                 SetPropertyValue(GroupNames.Alignment, vertical, "1");
             }
         }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Assets.GoogleFontIcons;
 using ConceptorUI.Constants;
 using ConceptorUI.Interfaces;
 using FontAwesome.WPF;
@@ -21,15 +22,15 @@ namespace ConceptorUI
     {
         private string _selectedIcon;
         private int _selectedTab;
-        private int _clicCount;
+        private int _clickCount;
 
         private bool _allowChangingTab;
         private List<Icon> _icons;
-        
+
         private const int PageSize = 200;
         private static List<IconPack>? _iconPacks;
         //public string IconPath = $"{Env.dirEnv}/Icons/MaterialIcons-Regular.ttf#Material Icons";
-        
+
         public event EventHandler? OnValueChangedEvent;
         private readonly object _valueChangedLock = new();
 
@@ -37,9 +38,10 @@ namespace ConceptorUI
         {
             _allowChangingTab = false;
             InitializeComponent();
-            
+
             _selectedTab = 0;
-            _clicCount = 0;
+            _clickCount = 0;
+            _selectedIcon = string.Empty;
             _icons = new List<Icon>();
             DataContext = this;
 
@@ -48,19 +50,13 @@ namespace ConceptorUI
             {
                 Label = "FontAwesome",
                 Version = "v7.4.47",
-                Icons = new List<Icon>()
+                Icons = []
             };
-            
+
             foreach (var icon in listIcons)
             {
-                var found = false;
-                foreach (var iconExist in packIcons.Icons)
-                {
-                    if (iconExist.Code != icon.ToString()) continue;
-                    found = true;
-                    break;
-                }
-            
+                var found = packIcons.Icons.Any(iconExist => iconExist.Code == icon.ToString());
+
                 if (found) continue;
                 packIcons.Icons.Add(new Icon
                 {
@@ -68,7 +64,7 @@ namespace ConceptorUI
                     Code = icon.ToString()
                 });
             }
-            
+
             var jsonString = System.Text.Json.JsonSerializer.Serialize(packIcons);
             File.WriteAllText(
                 $"{Env.dirEnv}/Icons/fontawesome.json",
@@ -78,18 +74,18 @@ namespace ConceptorUI
             if (_iconPacks == null || _iconPacks.Count == 0)
             {
                 _iconPacks = new List<IconPack>();
-                _iconPacks = new List<IconPack>
-                {
-                    new(),
-                    new(),
-                    new()
-                };
+                _iconPacks =
+                [
+                    new IconPack(),
+                    new IconPack(),
+                    new IconPack()
+                ];
             }
-            
+
             _allowChangingTab = true;
             Tabs.SelectedIndex = 0;
         }
-        
+
         event EventHandler IValue.OnValueChanged
         {
             add
@@ -108,7 +104,7 @@ namespace ConceptorUI
             }
         }
 
-        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e) 
+        private void OnSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_allowChangingTab)
             {
@@ -146,23 +142,30 @@ namespace ConceptorUI
 
             if (_iconPacks![_selectedTab].Icons == null!)
             {
-                var iconPack = System.Text.Json.JsonSerializer.Deserialize<IconPack>(
-                    File.ReadAllText($"{Env.dirEnv}/Icons/{fileName}")
-                );
-                _iconPacks[_selectedTab] = iconPack!;
+                if (_selectedTab != 2)
+                {
+                    var iconPack = System.Text.Json.JsonSerializer.Deserialize<IconPack>(
+                        File.ReadAllText($"{Env.dirEnv}/Icons/{fileName}")
+                    );
+                    _iconPacks[_selectedTab] = iconPack!;
+                }
+                else
+                {
+                    _iconPacks[_selectedTab] = GoogleFontIcons.GetIconPack();
+                }
             }
 
             _icons = _iconPacks[_selectedTab].Icons;
             var count = _icons.Count >= PageSize ? PageSize : _icons.Count;
             var icons = _icons.GetRange(0, count);
-            
+
             items.ItemsSource = icons;
             DataPager.Source = _icons;
             DataPager.PageIndex = 0;
             _selectedIcon = string.Empty;
             TbSearch.Text = string.Empty;
         }
-        
+
         private void OnMouseDown(object sender, MouseButtonEventArgs e)
         {
             var tag = (sender as FrameworkElement)!.Tag.ToString()!;
@@ -180,17 +183,19 @@ namespace ConceptorUI
         private void OnMouseDownIcon(object sender, MouseButtonEventArgs e)
         {
             var tag = (sender as FrameworkElement)!.Tag.ToString()!;
-            _selectedIcon = tag;
-            
-            var myDataObject = new Icon{Code = tag};
-            var myBinding = new System.Windows.Data.Binding("Code");
-            myBinding.Source = myDataObject;
-            
-            if (_selectedIcon == tag && _clicCount >= 1)
+
+            var myDataObject = new Icon { Code = tag };
+            var myBinding = new System.Windows.Data.Binding("Code")
+            {
+                Source = myDataObject
+            };
+
+            if (_selectedIcon == tag && _clickCount >= 1)
                 OnIconSelected();
-            else if (_clicCount >= 1)
-                _clicCount = 0;
-            _clicCount++;
+            else if (_clickCount >= 1)
+                _clickCount = 0;
+            _clickCount++;
+            _selectedIcon = tag;
 
             switch (_selectedTab)
             {
@@ -207,7 +212,7 @@ namespace ConceptorUI
                 case 2:
                     MaterialPreview.Visibility = FontAwesomePreview.Visibility = Visibility.Collapsed;
                     GooglePreview.Visibility = Visibility.Visible;
-                    BindingOperations.SetBinding(GooglePreview, TextBlock.TextProperty, myBinding);
+                    BindingOperations.SetBinding(GooglePreview, GoogleFontIcon.IconNameProperty, myBinding);
                     break;
             }
         }
@@ -232,7 +237,7 @@ namespace ConceptorUI
         private void OnSearch(object sender, RoutedEventArgs e)
         {
             var text = (sender as TextBox)!.Text;
-            
+
             //if(text.Length < 3) return;
             _icons = _iconPacks![_selectedTab].Icons;
 
@@ -254,16 +259,22 @@ namespace ConceptorUI
 
         private void OnIconSelected()
         {
-            if(_selectedIcon != string.Empty)
+            if (_selectedIcon != string.Empty)
             {
-                var package = _selectedTab == 0 ? "Material" : "FontAwesome";
+                var package = _selectedTab switch
+                {
+                    0 => "Material",
+                    1 => "FontAwesome",
+                    _ => "GoogleFontIcons"
+                };
                 var sendValue = new[] { _selectedIcon, package };
-                        
+
                 OnValueChangedEvent!.Invoke(
                     System.Text.Json.JsonSerializer.Serialize(sendValue),
                     EventArgs.Empty
                 );
             }
+
             _selectedIcon = string.Empty;
             Close();
         }

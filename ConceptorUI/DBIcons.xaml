@@ -138,7 +138,9 @@
                                                 MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
                                                 Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
                                         <Border Background="{Binding Color}" Height="50">
-                                            <fa:ImageAwesome Icon="{Binding Code}" Width="20" Height="20"
+                                            <fa:ImageAwesome Icon="{Binding Code}"
+                                                             Width="20"
+                                                             Height="20"
                                                              Foreground="#000000"
                                                              VerticalAlignment="Center" HorizontalAlignment="Center" />
                                         </Border>
@@ -173,9 +175,8 @@
                                                 MouseEnter="OnMouseEnter" MouseLeave="OnMouseLeave"
                                                 Tag="{Binding Code}" Cursor="Hand" Background="Transparent" Width="80">
                                         <Border Background="{Binding Color}" Height="50">
-                                            <googleFontIcons:Home FontSize="25"
-                                                                  Foreground="#000000"
-                                                                  VerticalAlignment="Center" />
+                                            <googleFontIcons:GoogleFontIcon IconName="{Binding Code}"
+                                                                            VerticalAlignment="Center" />
                                         </Border>
                                         <TextBlock Text="{Binding Name}"
                                                    Foreground="#000000"
@@ -226,10 +227,10 @@
                                      VerticalAlignment="Center" HorizontalAlignment="Center"
                                      x:Name="FontAwesomePreview" />
 
-                    <TextBlock Text="&#xE88A;" FontSize="45" Foreground="#000000" Visibility="Collapsed"
-                               HorizontalAlignment="Center" VerticalAlignment="Center" Padding="0"
-                               x:Name="GooglePreview"
-                               FontFamily="C:\Users\INITIAL Dev\Documents\UIConceptor\Icons\MaterialIcons-Regular.ttf#Material Icons" />
+                    <googleFontIcons:GoogleFontIcon x:Name="GooglePreview"
+                                                    VerticalAlignment="Center"
+                                                    HorizontalAlignment="Center"
+                                                    Visibility="Collapsed" />
                 </Grid>
             </Border>
 
