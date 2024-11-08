@@ -72,6 +72,7 @@ namespace ConceptorUi.ViewModels
         protected abstract bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract void RestoreProperties();
+        protected abstract void CallBack(GroupNames groupName, PropertyNames propertyName, string value);
 
         protected abstract void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract void ContinueToInitialize(string groupName, string propertyName, string value);
@@ -176,11 +177,13 @@ namespace ConceptorUi.ViewModels
                         };
 
                         var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                        if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
-                            AllowExpanded())
+                        if (value == "0" && AllowExpanded())
+                        {
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-                        else if (value == "0")
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "1", true);
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "0", true);
+                        }
+                        else if (value == "0" && !AllowExpanded())
+                            SetPropertyValue(groupName, PropertyNames.Hl, "1");
                     }
                     else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
                     {
@@ -198,11 +201,13 @@ namespace ConceptorUi.ViewModels
                         };
 
                         var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-                        if (value == "0" && (d == SizeValue.Expand.ToString() || d == SizeValue.Auto.ToString()) &&
-                            AllowExpanded(false))
+                        if (value == "0" && AllowExpanded(false))
+                        {
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
-                        else if (value == "0")
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "1", true);
+                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "0", true);
+                        }
+                        else if (value == "0" && !AllowExpanded(false))
+                            SetPropertyValue(groupName, PropertyNames.Vt, "1");
                     }
                 }
 
@@ -718,6 +723,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
+                CallBack(groupName, propertyName, value);
             }
             else
             {
@@ -779,8 +785,11 @@ namespace ConceptorUi.ViewModels
         {
             foreach (var group in PropertyGroups!)
             {
+                var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var prop in group.Properties)
                 {
+                    var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), prop.Name);
+                    
                     #region Alignement
 
                     if (group.Name == GroupNames.SelfAlignment.ToString())
@@ -1084,6 +1093,7 @@ namespace ConceptorUi.ViewModels
                     #endregion
 
                     ContinueToInitialize(group.Name, prop.Name, prop.Value);
+                    CallBack(groupName, propertyName, prop.Value);
                 }
             }
         }
@@ -1321,7 +1331,7 @@ namespace ConceptorUi.ViewModels
 
             if (Name == ComponentList.Text && Children.Count == 0)
                 (this as TextModel)?.AddFirstChild();
-            
+
             OnInitialize();
         }
 
