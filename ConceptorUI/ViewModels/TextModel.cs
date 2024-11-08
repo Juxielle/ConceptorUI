@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
-using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 

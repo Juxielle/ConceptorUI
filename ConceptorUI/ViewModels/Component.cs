@@ -1321,6 +1321,7 @@ namespace ConceptorUi.ViewModels
 
             if (Name == ComponentList.Text && Children.Count == 0)
                 (this as TextModel)?.AddFirstChild();
+            
             OnInitialize();
         }
 
