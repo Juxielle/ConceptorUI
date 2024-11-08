@@ -723,7 +723,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
-                CallBack(groupName, propertyName, value);
+                //CallBack(groupName, propertyName, value);
             }
             else
             {
@@ -1093,7 +1093,7 @@ namespace ConceptorUi.ViewModels
                     #endregion
 
                     ContinueToInitialize(group.Name, prop.Name, prop.Value);
-                    CallBack(groupName, propertyName, prop.Value);
+                    //CallBack(groupName, propertyName, prop.Value);
                 }
             }
         }

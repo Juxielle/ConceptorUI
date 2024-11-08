@@ -102,6 +102,10 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
+        protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
         protected override void RestoreProperties()
         {
         }

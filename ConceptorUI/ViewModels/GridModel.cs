@@ -53,15 +53,13 @@ namespace ConceptorUi.ViewModels
         {
             return false;
         }
-        
+
         protected override void WhenFileLoaded(string value)
         {
-            
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
-            
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
@@ -70,17 +68,18 @@ namespace ConceptorUi.ViewModels
 
         public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
         {
-            
+        }
+
+        protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
+        {
         }
 
         protected override void InitChildContent()
         {
-            
         }
-        
+
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
-            
         }
 
         protected override bool AllowExpanded(bool isWidth = true)
@@ -95,37 +94,30 @@ namespace ConceptorUi.ViewModels
 
         protected override void Delete(int k = -1)
         {
-            
         }
-        
+
         protected override void WhenWidthChanged(string value)
         {
-            
         }
-        
+
         protected override void WhenHeightChanged(string value)
         {
-            
         }
-        
+
         protected override void OnMoveLeft()
         {
-            
         }
-        
+
         protected override void OnMoveRight()
         {
-            
         }
-        
+
         protected override void OnMoveTop()
         {
-            
         }
-        
+
         protected override void OnMoveBottom()
         {
-
         }
 
         protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)

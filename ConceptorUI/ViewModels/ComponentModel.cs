@@ -172,6 +172,10 @@ namespace ConceptorUi.ViewModels
         {
         }
 
+        protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
         protected override void InitChildContent()
         {
         }

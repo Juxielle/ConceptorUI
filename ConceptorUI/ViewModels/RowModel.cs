@@ -377,12 +377,15 @@ namespace ConceptorUi.ViewModels
                 {
                     var child = Children[k];
 
-                    var resizeType = IsVertical ? _grid.RowDefinitions[2 * (k - 1) + 1].Height.GridUnitType :
-                                                  _grid.ColumnDefinitions[2 * (k - 1) + 1].Width.GridUnitType;
-                    var resizeType2 = IsVertical ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType :
-                                                  _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+                    var resizeType = IsVertical
+                        ? _grid.RowDefinitions[2 * (k - 1) + 1].Height.GridUnitType
+                        : _grid.ColumnDefinitions[2 * (k - 1) + 1].Width.GridUnitType;
+                    var resizeType2 = IsVertical
+                        ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType
+                        : _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
 
-                    SetDimension(2 * (k - 1) + 1, new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
+                    SetDimension(2 * (k - 1) + 1,
+                        new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
                     SetDimension(2 * k + 1, new GridLength(resizeType == GridUnitType.Auto ? 0 : 1, resizeType));
                     SetPosition(2 * (k - 1) + 1, Children[k].ComponentView);
                     SetPosition(2 * k + 1, Children[k - 1].ComponentView);
@@ -416,10 +419,12 @@ namespace ConceptorUi.ViewModels
                 {
                     var child = Children[k];
 
-                    var resizeType = IsVertical ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType :
-                                                  _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
-                    var resizeType2 = IsVertical ? _grid.RowDefinitions[2 * (k + 1) + 1].Height.GridUnitType :
-                                                  _grid.ColumnDefinitions[2 * (k + 1) + 1].Width.GridUnitType;
+                    var resizeType = IsVertical
+                        ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType
+                        : _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+                    var resizeType2 = IsVertical
+                        ? _grid.RowDefinitions[2 * (k + 1) + 1].Height.GridUnitType
+                        : _grid.ColumnDefinitions[2 * (k + 1) + 1].Width.GridUnitType;
 
                     SetDimension(2 * k + 1, new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
                     SetDimension(2 * (k + 1) + 1, new GridLength(resizeType == GridUnitType.Auto ? 0 : 1, resizeType));
@@ -593,13 +598,13 @@ namespace ConceptorUi.ViewModels
                 {
                     SetDimension(GetSpaceCount() - 2, new GridLength(0, GridUnitType.Auto));
                 }
-                else if(!existExpand)
+                else if (!existExpand)
                 {
                     SetDimension(GetSpaceCount() - 1, new GridLength(1, GridUnitType.Star));
                     SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
                 }
             }
-            
+
             if (vt == "1" && (h == SizeValue.Auto.ToString() || h == SizeValue.Expand.ToString()))
                 Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Height : PropertyNames.Width,
                     SizeValue.Auto.ToString(), true);
@@ -729,6 +734,136 @@ namespace ConceptorUi.ViewModels
             }
 
             /*---------------------*/
+        }
+
+        protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+            #region SelfAlignment
+
+            if (groupName == GroupNames.SelfAlignment)
+            {
+                if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
+                {
+                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
+                    var horizontal = hl == "1" ? PropertyNames.Hl :
+                        hc == "1" ? PropertyNames.Hc :
+                        hr == "1" ? PropertyNames.Hr : PropertyNames.None;
+
+                    if (value == "1" && isHorizontal)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, horizontal, value);
+                    }
+                }
+                else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
+                {
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+                    var isVertical = vt == "1" || vc == "1" || vb == "1";
+                    var vertical = vt == "1" ? PropertyNames.Vt :
+                        vc == "1" ? PropertyNames.Vc :
+                        vb == "1" ? PropertyNames.Vb : PropertyNames.None;
+
+                    if (value == "1" && isVertical)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, vertical, value);
+                    }
+                }
+            }
+
+            #endregion
+
+            #region Transform
+
+            if (groupName == GroupNames.Transform)
+            {
+                if (propertyName == PropertyNames.Width)
+                {
+                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
+
+                    if (value == SizeValue.Expand.ToString() && isHorizontal)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                    }
+                    else if (value == SizeValue.Auto.ToString() ||
+                             value != SizeValue.Expand.ToString() && !isHorizontal)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                    }
+                }
+                else if (propertyName == PropertyNames.Height)
+                {
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+                    var isVertical = vt == "1" || vc == "1" || vb == "1";
+
+                    if (value == SizeValue.Expand.ToString() && isVertical)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                    }
+                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Expand.ToString() && !isVertical)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                    }
+                }
+                else if (propertyName == PropertyNames.He)
+                {
+                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
+
+                    if (value == "1" && isHorizontal)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                    }
+                    else if (value == "0" && !isHorizontal)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                    }
+                }
+                else if (propertyName == PropertyNames.Ve)
+                {
+                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+                    var isVertical = vt == "1" || vc == "1" || vb == "1";
+
+                    if (value == "1" && isVertical)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                    }
+                    else if (value == "0" && !isVertical)
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                    }
+                }
+            }
+
+            #endregion
         }
     }
 }

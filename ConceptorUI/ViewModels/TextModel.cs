@@ -282,6 +282,10 @@ namespace ConceptorUi.ViewModels
             OnSelected();
         }
 
+        protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
+        {
+        }
+
         protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
             return true;
