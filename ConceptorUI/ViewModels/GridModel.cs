@@ -82,7 +82,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override bool AllowExpanded(bool isWidth = true)
+        public override bool AllowExpanded(bool isWidth = true)
         {
             return false;
         }

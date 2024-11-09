@@ -150,7 +150,7 @@ internal class GridViewModel : Component
         else _stack.Children.Insert(k, child);
     }
 
-    protected override bool AllowExpanded(bool isWidth = true)
+    public override bool AllowExpanded(bool isWidth = true)
     {
         return true;
     }

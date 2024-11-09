@@ -140,7 +140,7 @@ namespace ConceptorUi.ViewModels
             Content.Child = child;
         }
 
-        protected override bool AllowExpanded(bool isWidth = true)
+        public override bool AllowExpanded(bool isWidth = true)
         {
             return false;
         }
