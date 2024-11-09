@@ -37,7 +37,7 @@ namespace ConceptorUi.ViewModels
             (Content.Child as Border)!.Child ??= child;
         }
 
-        protected override bool AllowExpanded(bool isWidth = true)
+        public override bool AllowExpanded(bool isWidth = true)
         {
             return true;
         }
@@ -146,10 +146,10 @@ namespace ConceptorUi.ViewModels
                         if (w == SizeValue.Expand.ToString())
                             child.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString(), true);
                     }
-                    else
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    }
+                    // else
+                    // {
+                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
+                    // }
                 }
             }
             else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
@@ -172,14 +172,14 @@ namespace ConceptorUi.ViewModels
                     if (value == "1")
                     {
                         child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                        if (h == SizeValue.Expand.ToString())
-                            child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
-                                true);
+                        // if (h == SizeValue.Expand.ToString())
+                        //     child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
+                        //         true);
                     }
-                    else
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    }
+                    // else
+                    // {
+                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
+                    // }
                 }
             }
         }
@@ -245,32 +245,30 @@ namespace ConceptorUi.ViewModels
             {
                 if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
                 {
-                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
-                    var horizontal = hl == "1" ? PropertyNames.Hl :
-                        hc == "1" ? PropertyNames.Hc :
-                        hr == "1" ? PropertyNames.Hr : PropertyNames.None;
-
-                    if (value == "1" && isHorizontal)
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                    if (value == "1")
                     {
-                        SetPropertyValue(GroupNames.Alignment, horizontal, value);
+                        SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    }
+                    else if (Children.Count > 0 && !Children[0].AllowExpanded())
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
                     }
                 }
                 else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
                 {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-                    var isVertical = vt == "1" || vc == "1" || vb == "1";
-                    var vertical = vt == "1" ? PropertyNames.Vt :
-                        vc == "1" ? PropertyNames.Vc :
-                        vb == "1" ? PropertyNames.Vb : PropertyNames.None;
-
-                    if (value == "1" && isVertical)
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                    if (value == "1")
                     {
-                        SetPropertyValue(GroupNames.Alignment, vertical, value);
+                        SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    }
+                    else if (Children.Count > 0 && !Children[0].AllowExpanded())
+                    {
+                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
                     }
                 }
             }

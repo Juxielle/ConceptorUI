@@ -242,7 +242,7 @@ namespace ConceptorUi.ViewModels
             else _grid.Children.Insert(k, child);
         }
 
-        protected override bool AllowExpanded(bool isWidth = true)
+        public override bool AllowExpanded(bool isWidth = true)
         {
             return true;
         }

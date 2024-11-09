@@ -60,7 +60,7 @@ namespace ConceptorUi.ViewModels
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();
         protected abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
-        protected abstract bool AllowExpanded(bool isWidth = true);
+        public abstract bool AllowExpanded(bool isWidth = true);
         protected abstract void Delete(int k = -1);
         protected abstract void WhenWidthChanged(string value);
         protected abstract void WhenHeightChanged(string value);
@@ -176,11 +176,9 @@ namespace ConceptorUi.ViewModels
                             _ => HorizontalAlignment.Left
                         };
 
-                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (value == "0" && AllowExpanded())
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "0", true);
                         }
                         else if (value == "0" && !AllowExpanded())
                             SetPropertyValue(groupName, PropertyNames.Hl, "1");
@@ -200,11 +198,9 @@ namespace ConceptorUi.ViewModels
                             _ => VerticalAlignment.Top
                         };
 
-                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         if (value == "0" && AllowExpanded(false))
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
-                            Parent.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "0", true);
                         }
                         else if (value == "0" && !AllowExpanded(false))
                             SetPropertyValue(groupName, PropertyNames.Vt, "1");
@@ -723,7 +719,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
-                //CallBack(groupName, propertyName, value);
+                CallBack(groupName, propertyName, value);
             }
             else
             {
@@ -789,7 +785,7 @@ namespace ConceptorUi.ViewModels
                 foreach (var prop in group.Properties)
                 {
                     var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), prop.Name);
-                    
+
                     #region Alignement
 
                     if (group.Name == GroupNames.SelfAlignment.ToString())
@@ -1093,7 +1089,7 @@ namespace ConceptorUi.ViewModels
                     #endregion
 
                     ContinueToInitialize(group.Name, prop.Name, prop.Value);
-                    //CallBack(groupName, propertyName, prop.Value);
+                    CallBack(groupName, propertyName, prop.Value);
                 }
             }
         }
