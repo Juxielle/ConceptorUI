@@ -117,6 +117,30 @@ namespace ConceptorUi.ViewModels
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
+            // var hl = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+            // var hc = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+            // var hr = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+            // var isHorizontal = hl == "1" || hc == "1" || hr == "1";
+            //
+            // var vt = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+            // var vc = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+            // var vb = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+            // var isVertical = vt == "1" || vc == "1" || vb == "1";
+            //
+            // if (isHorizontal)
+            // {
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            //     _body.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            // }
+            // else if (isVertical)
+            // {
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            //     _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            // }
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

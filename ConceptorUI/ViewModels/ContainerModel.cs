@@ -146,10 +146,10 @@ namespace ConceptorUi.ViewModels
                         if (w == SizeValue.Expand.ToString())
                             child.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString(), true);
                     }
-                    else
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    }
+                    // else
+                    // {
+                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
+                    // }
                 }
             }
             else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
@@ -172,14 +172,14 @@ namespace ConceptorUi.ViewModels
                     if (value == "1")
                     {
                         child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                        if (h == SizeValue.Expand.ToString())
-                            child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
-                                true);
+                        // if (h == SizeValue.Expand.ToString())
+                        //     child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
+                        //         true);
                     }
-                    else
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    }
+                    // else
+                    // {
+                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
+                    // }
                 }
             }
         }

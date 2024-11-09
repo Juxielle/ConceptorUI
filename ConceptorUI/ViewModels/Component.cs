@@ -176,7 +176,6 @@ namespace ConceptorUi.ViewModels
                             _ => HorizontalAlignment.Left
                         };
 
-                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (value == "0" && AllowExpanded())
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
@@ -199,7 +198,6 @@ namespace ConceptorUi.ViewModels
                             _ => VerticalAlignment.Top
                         };
 
-                        var d = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         if (value == "0" && AllowExpanded(false))
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
@@ -787,7 +785,7 @@ namespace ConceptorUi.ViewModels
                 foreach (var prop in group.Properties)
                 {
                     var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), prop.Name);
-                    
+
                     #region Alignement
 
                     if (group.Name == GroupNames.SelfAlignment.ToString())
