@@ -109,6 +109,16 @@ namespace ConceptorUi.ViewModels
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
         {
+            if (propertyName == PropertyNames.Width.ToString())
+            {
+                _body.SelectedContent.Width = double.NaN;
+                _body.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+            }
+            else if (propertyName == PropertyNames.Height.ToString())
+            {
+                _body.SelectedContent.Height = double.NaN;
+                _body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+            }
         }
 
         protected override void WhenFileLoaded(string value)
@@ -117,30 +127,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
-            // var hl = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-            // var hc = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-            // var hr = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-            // var isHorizontal = hl == "1" || hc == "1" || hr == "1";
-            //
-            // var vt = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-            // var vc = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-            // var vb = _body.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-            // var isVertical = vt == "1" || vc == "1" || vb == "1";
-            //
-            // if (isHorizontal)
-            // {
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-            //     _body.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            // }
-            // else if (isVertical)
-            // {
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-            //     SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-            //     _body.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
-            // }
+            
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
@@ -186,6 +173,57 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
+            // var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
+            // var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
+            // var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+            //
+            // var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+            // var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
+            // var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+            
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
+            
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
+            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
+            
+            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            
+            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
+            
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
+            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
+            
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            
+            _layout.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "0", true);
+            _layout.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "0", true);
+            
+            _body.SelectedContent.Height = double.NaN;
+            _body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
         protected override void Delete(int k = -1)

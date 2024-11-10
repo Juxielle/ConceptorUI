@@ -170,15 +170,21 @@ namespace ConceptorUi.ViewModels
 
                         SelectedContent.HorizontalAlignment = propertyName switch
                         {
-                            PropertyNames.Hl when value == "1" => HorizontalAlignment.Left,
+                            PropertyNames.Hl when value == "1" || (value == "0" && !AllowExpanded()) =>
+                                HorizontalAlignment.Left,
                             PropertyNames.Hc when value == "1" => HorizontalAlignment.Center,
                             _ when value == "1" => HorizontalAlignment.Right,
                             _ => HorizontalAlignment.Left
                         };
 
-                        if (value == "0" && AllowExpanded())
+                        var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                        if (value == "0" && w == SizeValue.Auto.ToString() && AllowExpanded())
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString(), true);
+                        }
+                        else if (value == "1" && w == SizeValue.Expand.ToString())
+                        {
+                            OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString(), true);
                         }
                         else if (value == "0" && !AllowExpanded())
                             SetPropertyValue(groupName, PropertyNames.Hl, "1");
@@ -192,15 +198,21 @@ namespace ConceptorUi.ViewModels
 
                         SelectedContent.VerticalAlignment = propertyName switch
                         {
-                            PropertyNames.Vt when value == "1" => VerticalAlignment.Top,
+                            PropertyNames.Vt when value == "1" || (value == "0" && !AllowExpanded(false)) =>
+                                VerticalAlignment.Top,
                             PropertyNames.Vc when value == "1" => VerticalAlignment.Center,
                             _ when value == "1" => VerticalAlignment.Bottom,
                             _ => VerticalAlignment.Top
                         };
 
-                        if (value == "0" && AllowExpanded(false))
+                        var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                        if (value == "0" && h == SizeValue.Auto.ToString() && AllowExpanded(false))
                         {
                             OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString(), true);
+                        }
+                        else if (value == "1" && h == SizeValue.Expand.ToString())
+                        {
+                            OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(), true);
                         }
                         else if (value == "0" && !AllowExpanded(false))
                             SetPropertyValue(groupName, PropertyNames.Vt, "1");
@@ -219,17 +231,21 @@ namespace ConceptorUi.ViewModels
                         SelectedContent.Width = double.NaN;
                         SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
 
-                        SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
+                        SetPropertyValue(groupName, propertyName, value);
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
+
+                        var h = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
                         SetPropertyValue(GroupNames.Transform, PropertyNames.He, "1");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.Hve,
+                            h == SizeValue.Expand.ToString() ? "1" : "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Expand.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
-                            //SelectedContent.Width = double.NaN;
+                            SelectedContent.Width = double.NaN;
                         }
                         else
                         {
@@ -265,13 +281,17 @@ namespace ConceptorUi.ViewModels
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
+
+                        var w = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         SetPropertyValue(GroupNames.Transform, PropertyNames.Ve, "1");
+                        SetPropertyValue(GroupNames.Transform, PropertyNames.Hve,
+                            w == SizeValue.Expand.ToString() ? "1" : "0");
                     }
-                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Old.ToString())
+                    else if (value == SizeValue.Auto.ToString() || value != SizeValue.Expand.ToString())
                     {
                         if (value == SizeValue.Auto.ToString())
                         {
-                            //SelectedContent.Height = double.NaN;
+                            SelectedContent.Height = double.NaN;
                         }
                         else
                         {
@@ -299,6 +319,14 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(groupName, propertyName, value);
                     OnUpdated(groupName,
                         propertyName is PropertyNames.He ? PropertyNames.Width : PropertyNames.Height,
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
+                }
+                else if (propertyName is PropertyNames.Hve)
+                {
+                    SetPropertyValue(groupName, propertyName, value);
+                    OnUpdated(groupName, PropertyNames.Width,
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
+                    OnUpdated(groupName, PropertyNames.Height,
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
                 }
                 else if (propertyName == PropertyNames.MoveParentToChild)
@@ -719,7 +747,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
-                CallBack(groupName, propertyName, value);
+                //CallBack(groupName, propertyName, value);
             }
             else
             {
@@ -842,14 +870,17 @@ namespace ConceptorUi.ViewModels
                             SelectedContent.Width = double.NaN;
                             SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
                         }
-                        else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Old.ToString())
+                        else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Expand.ToString())
                         {
-                            if (prop.Value != SizeValue.Old.ToString())
+                            if (prop.Value == SizeValue.Auto.ToString())
+                            {
+                                SelectedContent.Width = double.NaN;
+                            }
+                            else
                             {
                                 var vd = Helper.ConvertToDouble(prop.Value);
                                 SelectedContent.Width = vd;
                             }
-                            //else SelectedContent.Width = double.NaN;
 
                             if (selfAlignGroup.GetValue(PropertyNames.Hl) == "1")
                                 SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
@@ -868,14 +899,17 @@ namespace ConceptorUi.ViewModels
                             SelectedContent.Height = double.NaN;
                             SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
                         }
-                        else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Old.ToString())
+                        else if (prop.Value == SizeValue.Auto.ToString() || prop.Value != SizeValue.Expand.ToString())
                         {
-                            if (prop.Value != SizeValue.Old.ToString())
+                            if (prop.Value == SizeValue.Auto.ToString())
+                            {
+                                SelectedContent.Height = double.NaN;
+                            }
+                            else
                             {
                                 var vd = Helper.ConvertToDouble(prop.Value);
                                 SelectedContent.Height = vd;
                             }
-                            //else SelectedContent.Height = double.NaN;
 
                             if (selfAlignGroup.GetValue(PropertyNames.Vt) == "1")
                                 SelectedContent.VerticalAlignment = VerticalAlignment.Top;
@@ -1089,7 +1123,7 @@ namespace ConceptorUi.ViewModels
                     #endregion
 
                     ContinueToInitialize(group.Name, prop.Name, prop.Value);
-                    CallBack(groupName, propertyName, prop.Value);
+                    //CallBack(groupName, propertyName, prop.Value);
                 }
             }
         }
@@ -1321,6 +1355,8 @@ namespace ConceptorUi.ViewModels
                     AddIntoChildContent(component.ComponentView);
                     LayoutConstraints(Children.Count - 1, true, expanded);
                 }
+
+                RestoreProperties();
             }
 
             #endregion

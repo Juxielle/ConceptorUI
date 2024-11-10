@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows;
 using ConceptorUI.Models;
@@ -15,11 +16,14 @@ namespace ConceptorUi.ViewModels
         {
             OnInit();
 
-            _stack = new StackPanel { Orientation = Orientation.Vertical };
-            Children = [];
+            _stack = new StackPanel
+            {
+                Orientation = isVertical ? Orientation.Vertical : Orientation.Horizontal
+            };
+            
             IsVertical = isVertical;
-            Name = isVertical ? ComponentList.ListH : ComponentList.ListV;
-
+            Name = isVertical ? ComponentList.ListV : ComponentList.ListH;
+            
             var scrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
@@ -75,9 +79,8 @@ namespace ConceptorUi.ViewModels
         {
             if (k == -1)
             {
-                var grid = new Grid();
-                grid.Children.Add(child);
-                _stack.Children.Add(grid);
+                _stack.Children.Add(child);
+                Console.WriteLine($@"Orientation: {_stack.Orientation}");
             }
             else _stack.Children.Insert(k, child);
         }
@@ -230,7 +233,6 @@ namespace ConceptorUi.ViewModels
             /* Appearance */
             /* Shadow */
 
-            Children[id].OnInitialize();
             Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1",
                 true);
 
@@ -241,6 +243,9 @@ namespace ConceptorUi.ViewModels
                     .IsNullAlignment(GroupNames.SelfAlignment, IsVertical ? "Vertical" : "Horizontal"))
                 Children[id].OnUpdated(GroupNames.SelfAlignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "1",
                     true);
+            else if (d == SizeValue.Expand.ToString())
+                Children[id].OnUpdated(GroupNames.Transform, IsVertical ? PropertyNames.Width : PropertyNames.Height,
+                    SizeValue.Expand.ToString(), true);
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

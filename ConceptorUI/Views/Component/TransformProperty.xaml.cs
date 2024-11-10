@@ -42,14 +42,16 @@ namespace ConceptorUI.Views.Component
                 if (prop.Name == PropertyNames.Width.ToString())
                 {
                     W.Visibility = Visibility.Visible;
-                    if(prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
-                    
+
+                    if (prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
+
                     WTB.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.Height.ToString())
                 {
                     H.Visibility = Visibility.Visible;
-                    if(prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
+
+                    if (prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
 
                     HTB.Text = prop.Value.Replace(",", ".");
                 }
@@ -78,19 +80,33 @@ namespace ConceptorUI.Views.Component
                 else if (prop.Name == PropertyNames.He.ToString())
                 {
                     BHE.Visibility = Visibility.Visible;
+
+                    var w = _properties.GetValue(PropertyNames.Width);
                     HE.Foreground = BHE.BorderBrush =
-                        new BrushConverter().ConvertFrom(prop.Value == "1" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
+                        new BrushConverter().ConvertFrom(w == SizeValue.Expand.ToString()
+                            ? "#6739b7"
+                            : "#8c8c8a") as SolidColorBrush;
                 }
                 else if (prop.Name == PropertyNames.Ve.ToString())
                 {
                     BVE.Visibility = Visibility.Visible;
+
+                    var h = _properties.GetValue(PropertyNames.Height);
                     VE.Foreground = BVE.BorderBrush =
-                        new BrushConverter().ConvertFrom(prop.Value == "1" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
+                        new BrushConverter().ConvertFrom(h == SizeValue.Expand.ToString()
+                            ? "#6739b7"
+                            : "#8c8c8a") as SolidColorBrush;
                 }
                 else if (prop.Name == PropertyNames.Hve.ToString())
                 {
                     BHVE.Visibility = Visibility.Visible;
-                    LoadValue(7, prop.Value);
+
+                    var w = _properties.GetValue(PropertyNames.Width);
+                    var h = _properties.GetValue(PropertyNames.Height);
+                    HVE.Foreground = BHVE.BorderBrush =
+                        new BrushConverter().ConvertFrom(w == SizeValue.Expand.ToString() && h == SizeValue.Expand.ToString()
+                            ? "#6739b7"
+                            : "#8c8c8a") as SolidColorBrush;
                 }
             }
 
@@ -166,6 +182,13 @@ namespace ConceptorUI.Views.Component
                     value = value == "0" ? "1" : "0";
                     break;
                 case "HVE":
+                    HTB.Text = "";
+                    WTB.Text = "";
+                    propertyName = PropertyNames.Hve;
+                    value = _properties.GetValue(PropertyNames.Hve);
+                    HVE.Foreground = BHVE.BorderBrush =
+                        new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
+                    value = value == "0" ? "1" : "0";
                     break;
                 case "UpValueW":
                     WTB.Text = ManageEnums.SetNumber(WTB.Text).Replace(",", ".");
@@ -190,7 +213,7 @@ namespace ConceptorUI.Views.Component
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!_allowSetField) return;
-            
+
             var comboBox = (sender as ComboBox)!;
             var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
             var propertyName = PropertyNames.None;

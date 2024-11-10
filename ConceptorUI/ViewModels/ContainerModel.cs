@@ -84,12 +84,12 @@ namespace ConceptorUi.ViewModels
             /* Appearance */
             /* Shadow */
 
-            Children[id].OnInitialize();
-
             var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             if (w != SizeValue.Expand.ToString() &&
                 Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
-                OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "1", true);
+            {
+                WhenAlignmentChanged(PropertyNames.Hl, "1");
+            }
             else
             {
                 var hc = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hc);
@@ -99,25 +99,29 @@ namespace ConceptorUi.ViewModels
                 {
                     var horizontal = hr == "1" ? PropertyNames.Hr : hc == "1" ? PropertyNames.Hc : PropertyNames.Hl;
                     SetPropertyValue(GroupNames.Alignment, horizontal, "1");
-                    WhenAlignmentChanged(horizontal, "0");
                     WhenAlignmentChanged(horizontal, "1");
                 }
+                else if (w != SizeValue.Expand.ToString())
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
             }
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
-                OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "1", true);
+                WhenAlignmentChanged(PropertyNames.Vt, "1"); //Démander la permission du parent avant
             else
             {
                 var vc = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vc);
                 var vb = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vb);
                 var vt = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vt);
 
-                if (vt != "1" && vc != "1" && vb != "1") return;
-                var vertical = vb == "1" ? PropertyNames.Vb : vc == "1" ? PropertyNames.Vc : PropertyNames.Vt;
-                SetPropertyValue(GroupNames.Alignment, vertical, "1");
-                WhenAlignmentChanged(vertical, "0");
-                WhenAlignmentChanged(vertical, "1");
+                if (vt == "1" || vc == "1" || vb == "1")
+                {
+                    var vertical = vb == "1" ? PropertyNames.Vb : vc == "1" ? PropertyNames.Vc : PropertyNames.Vt;
+                    SetPropertyValue(GroupNames.Alignment, vertical, "1");
+                    WhenAlignmentChanged(vertical, "1");
+                }
+                else if (h != SizeValue.Expand.ToString())
+                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
             }
         }
 
@@ -130,26 +134,9 @@ namespace ConceptorUi.ViewModels
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
                 SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
-                var alignment = propertyName switch
-                {
-                    PropertyNames.Hl => PropertyNames.Hl,
-                    PropertyNames.Hc => PropertyNames.Hc,
-                    _ => PropertyNames.Hr
-                };
-
                 foreach (var child in Children)
                 {
-                    var w = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-                    if (value == "1")
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                        if (w == SizeValue.Expand.ToString())
-                            child.OnUpdated(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString(), true);
-                    }
-                    // else
-                    // {
-                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    // }
+                    child.OnUpdated(GroupNames.SelfAlignment, propertyName, value, true);
                 }
             }
             else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
@@ -159,27 +146,9 @@ namespace ConceptorUi.ViewModels
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
                 SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
-                var alignment = propertyName switch
-                {
-                    PropertyNames.Vt => PropertyNames.Vt,
-                    PropertyNames.Vc => PropertyNames.Vc,
-                    _ => PropertyNames.Vb
-                };
-
                 foreach (var child in Children)
                 {
-                    var h = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-                    if (value == "1")
-                    {
-                        child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                        // if (h == SizeValue.Expand.ToString())
-                        //     child.OnUpdated(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString(),
-                        //         true);
-                    }
-                    // else
-                    // {
-                    //     child.OnUpdated(GroupNames.SelfAlignment, alignment, value, true);
-                    // }
+                    child.OnUpdated(GroupNames.SelfAlignment, propertyName, value, true);
                 }
             }
         }
@@ -205,14 +174,24 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenWidthChanged(string value)
         {
-            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString())
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
+            if (Children.Count == 0 || !Children[0].Selected) return;
+            
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
 
         protected override void WhenHeightChanged(string value)
         {
-            if ((Children.Count > 0 && Children[0].Selected) || value != SizeValue.Expand.ToString())
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+            if (Children.Count == 0 || !Children[0].Selected) return;
+            
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
 
         protected override object GetPropertyGroups()
@@ -406,6 +385,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
+            return;
             var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
             var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
             var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);

@@ -11,6 +11,7 @@ namespace ConceptorUi.ViewModels
     internal class RowModel : Component
     {
         private readonly Grid _grid;
+        private bool _fromWidth;
 
         public RowModel(bool isVertical = true, bool allowConstraints = false)
         {
@@ -55,7 +56,7 @@ namespace ConceptorUi.ViewModels
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             if (Children.Count == 0) return;
-
+            
             #region When Alignment Changed
 
             if ((IsVertical && propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr) ||
@@ -306,19 +307,26 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenWidthChanged(string value)
         {
+            _fromWidth = true;
             WhenHeightChanged(value);
         }
 
         protected override void WhenHeightChanged(string value)
         {
+            if(!IsVertical && !_fromWidth) return;
+            _fromWidth = false;
+            
             var i = -1;
             var found = false;
+            var expandCount = 0;
 
             foreach (var child in Children)
             {
                 if (child.Selected) i = Children.IndexOf(child);
-                found = found || GetGroupProperties(GroupNames.Transform)
-                    .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width) == SizeValue.Expand.ToString();
+                var d = child.GetGroupProperties(GroupNames.Transform)
+                    .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                found = found || d == SizeValue.Expand.ToString();
+                expandCount = d == SizeValue.Expand.ToString() ? expandCount + 1 : expandCount;
             }
 
             if (i != -1 && value == SizeValue.Expand.ToString())
@@ -344,9 +352,12 @@ namespace ConceptorUi.ViewModels
                 SetDimension(2 * i + 1, new GridLength(0, GridUnitType.Auto));
             }
 
-            if (!found && i != -1 && value != SizeValue.Expand.ToString())
+            if (i != -1 && expandCount == 1)
             {
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
+                var d = Children[i].GetGroupProperties(GroupNames.Transform)
+                    .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
+                if(d == SizeValue.Expand.ToString())
+                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
         }
 
