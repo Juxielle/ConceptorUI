@@ -1141,11 +1141,11 @@ namespace ConceptorUi.ViewModels
                     child.OnUpdateComponent(sender);
                     continue;
                 }
-
+                Console.WriteLine(@"Adding child.");
                 found = true;
                 index.Add(Children.IndexOf(child));
             }
-
+            
             if (!found) return;
 
             foreach (var i in index)
@@ -1176,8 +1176,9 @@ namespace ConceptorUi.ViewModels
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
+                    if(property.ComponentVisibility != VisibilityValue.Visible.ToString()) return;
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
+                    
                     if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
                     {
                         Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
@@ -1253,7 +1254,10 @@ namespace ConceptorUi.ViewModels
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
 
                 if (!isComponent)
+                {
                     component.CreateId(false);
+                    valueD.Id = component.Id;
+                }
                 component.OnDeserializer(valueD);
 
                 var expanded = false;
@@ -1318,7 +1322,10 @@ namespace ConceptorUi.ViewModels
             _isOriginalComponent = compSerializer.IsOriginalComponent;
             IsForceAlignment = compSerializer.IsForceAlignment;
 
-            if (compSerializer.Id == null) CreateId();
+            if (compSerializer.Id == null)
+            {
+                CreateId();
+            }
             else
             {
                 Id = compSerializer.Id;

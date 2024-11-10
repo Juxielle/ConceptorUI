@@ -80,7 +80,6 @@ namespace ConceptorUi.ViewModels
             if (k == -1)
             {
                 _stack.Children.Add(child);
-                Console.WriteLine($@"Orientation: {_stack.Orientation}");
             }
             else _stack.Children.Insert(k, child);
         }

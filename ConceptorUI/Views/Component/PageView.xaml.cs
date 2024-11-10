@@ -332,6 +332,7 @@ namespace ConceptorUI.Views.Component
                     var serializer = _components[key].Children[0].Children[0].OnSerializer();
                     foreach (var key2 in _components.Keys.Where(key2 => key != key2))
                         _components[key2].OnUpdateComponent(serializer);
+                    break;
                 }
             }
             catch (Exception)
