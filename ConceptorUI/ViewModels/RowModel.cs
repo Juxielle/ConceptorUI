@@ -686,13 +686,7 @@ namespace ConceptorUi.ViewModels
                 for (var i = 0; i < Children.Count; i++)
                 {
                     if (i == Children.Count - 1) break;
-                    var marginBottom = Children[i].SelectedContent.Margin.Bottom - (IsVertical ? oldGap + vd : 0);
-                    var marginRight = Children[i].SelectedContent.Margin.Right - (!IsVertical ? oldGap + vd : 0);
-
-                    Children[i].SelectedContent.Margin = new Thickness(Children[i].SelectedContent.Margin.Left,
-                        Children[i].SelectedContent.Margin.Top, marginRight, marginBottom);
-
-                    Children[i].SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
+                    SetChildGap(i, oldGap, vd);
                 }
 
                 SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
