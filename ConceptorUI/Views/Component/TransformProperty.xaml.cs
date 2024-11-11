@@ -29,7 +29,7 @@ namespace ConceptorUI.Views.Component
 
         public void FeedProps(object properties)
         {
-            W.Visibility = H.Visibility = X.Visibility = SStretch.Visibility =
+            W.Visibility = H.Visibility = Gap.Visibility = SStretch.Visibility =
                 Y.Visibility = R.Visibility = BHE.Visibility = BVE.Visibility = BHVE.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
             _allowSetField = false;
@@ -62,10 +62,10 @@ namespace ConceptorUI.Views.Component
                         .FirstOrDefault(x => x.Content.ToString() == prop.Value);
                     CbStretch.SelectedIndex = CbStretch.Items.IndexOf(cbStretchItem!);
                 }
-                else if (prop.Name == PropertyNames.X.ToString())
+                else if (prop.Name == PropertyNames.Gap.ToString())
                 {
-                    X.Visibility = Visibility.Visible;
-                    XTB.Text = prop.Value.Replace(",", ".");
+                    Gap.Visibility = Visibility.Visible;
+                    TbGap.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.Y.ToString())
                 {
@@ -140,8 +140,8 @@ namespace ConceptorUI.Views.Component
                             new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
                     propertyName = PropertyNames.Height;
                     break;
-                case "X":
-                    propertyName = PropertyNames.X;
+                case "Gap":
+                    propertyName = PropertyNames.Gap;
                     break;
                 case "Y":
                     propertyName = PropertyNames.Y;

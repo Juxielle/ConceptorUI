@@ -1,9 +1,10 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
-using System;
+using ConceptorUI.Utils;
 
 
 namespace ConceptorUi.ViewModels
@@ -23,8 +24,8 @@ namespace ConceptorUi.ViewModels
             Content.Child = _grid;
             Name = isVertical ? ComponentList.Row : ComponentList.Column;
 
-            if (allowConstraints) return;
             SelfConstraints();
+            if (allowConstraints) return;
             OnInitialize();
         }
 
@@ -46,6 +47,7 @@ namespace ConceptorUi.ViewModels
             /* Self Alignment */
             /* Transform */
             SetGroupVisibility(GroupNames.Transform);
+            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Gap);
             /* Text */
             SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
@@ -56,7 +58,7 @@ namespace ConceptorUi.ViewModels
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             if (Children.Count == 0) return;
-            
+
             #region When Alignment Changed
 
             if ((IsVertical && propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr) ||
@@ -313,9 +315,9 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenHeightChanged(string value)
         {
-            if(!IsVertical && !_fromWidth) return;
+            if (!IsVertical && !_fromWidth) return;
             _fromWidth = false;
-            
+
             var i = -1;
             var found = false;
             var expandCount = 0;
@@ -356,7 +358,7 @@ namespace ConceptorUi.ViewModels
             {
                 var d = Children[i].GetGroupProperties(GroupNames.Transform)
                     .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
-                if(d == SizeValue.Expand.ToString())
+                if (d == SizeValue.Expand.ToString())
                     SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
         }
@@ -673,6 +675,28 @@ namespace ConceptorUi.ViewModels
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
+            if (groupName == GroupNames.Transform && propertyName == PropertyNames.Gap)
+            {
+                //Prendre en compte les deplacements et les suppression d'éléments
+                if (Children.Count <= 1) return;
+                var vd = Helper.ConvertToDouble(value);
+                var oldGap =
+                    Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+
+                for (var i = 0; i < Children.Count; i++)
+                {
+                    if (i == Children.Count - 1) break;
+                    var marginBottom = Children[i].SelectedContent.Margin.Bottom - (IsVertical ? oldGap + vd : 0);
+                    var marginRight = Children[i].SelectedContent.Margin.Right - (!IsVertical ? oldGap + vd : 0);
+
+                    Children[i].SelectedContent.Margin = new Thickness(Children[i].SelectedContent.Margin.Left,
+                        Children[i].SelectedContent.Margin.Top, marginRight, marginBottom);
+
+                    Children[i].SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
+                }
+
+                SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
+            }
         }
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)

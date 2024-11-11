@@ -30,8 +30,8 @@ namespace ConceptorUi.ViewModels
             CanAddIntoChildContent = false;
             ChildContentLimit = 0;
 
-            if (allowConstraints) return;
             SelfConstraints();
+            if (allowConstraints) return;
             OnInitialize();
         }
 

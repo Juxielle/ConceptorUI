@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
@@ -385,7 +384,6 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
-            return;
             var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
             var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
             var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);

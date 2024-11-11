@@ -477,8 +477,12 @@ namespace ConceptorUi.ViewModels
                     SetPropertyValue(groupName, PropertyNames.MarginBottom, vd.ToString(CultureInfo.InvariantCulture));
 
                     SetPropertyValue(groupName, PropertyNames.CMargin, "1");
+                    var gap =
+                        Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                    var marginBottom = IsVertical ? gap + vd : vd;
+                    var marginRight = !IsVertical ? gap + vd : vd;
 
-                    SelectedContent.Margin = new Thickness(vd);
+                    SelectedContent.Margin = new Thickness(vd, vd, marginRight, marginBottom);
                 }
                 else if (propertyName == PropertyNames.MarginLeft)
                 {
@@ -498,15 +502,23 @@ namespace ConceptorUi.ViewModels
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
+                    var gap =
+                        Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                    var marginRight = !IsVertical ? gap + vd : vd;
+
                     SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
-                        vd, SelectedContent.Margin.Bottom);
+                        marginRight, SelectedContent.Margin.Bottom);
                 }
                 else if (propertyName == PropertyNames.MarginBottom)
                 {
                     var vd = Helper.ConvertToDouble(value);
                     SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
+                    var gap =
+                        Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                    var marginBottom = IsVertical ? gap + vd : vd;
+
                     SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
-                        SelectedContent.Margin.Right, vd);
+                        SelectedContent.Margin.Right, marginBottom);
                 }
                 else if (propertyName == PropertyNames.CPadding)
                 {
@@ -948,7 +960,13 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.Margin.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
-                        SelectedContent.Margin = new Thickness(vd);
+                        var gap =
+                            Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform)
+                                .GetValue(PropertyNames.Gap));
+                        var marginBottom = IsVertical ? gap + vd : vd;
+                        var marginRight = !IsVertical ? gap + vd : vd;
+
+                        SelectedContent.Margin = new Thickness(vd, vd, marginRight, marginBottom);
                     }
                     else if (prop.Name == PropertyNames.MarginLeft.ToString())
                     {
@@ -965,15 +983,24 @@ namespace ConceptorUi.ViewModels
                     else if (prop.Name == PropertyNames.MarginRight.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
+                        var gap =
+                            Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform)
+                                .GetValue(PropertyNames.Gap));
+                        var marginRight = !IsVertical ? gap + vd : vd;
+                        
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left,
-                            SelectedContent.Margin.Top, vd, SelectedContent.Margin.Bottom);
+                            SelectedContent.Margin.Top, marginRight, SelectedContent.Margin.Bottom);
                     }
                     else if (prop.Name == PropertyNames.MarginBottom.ToString())
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
+                        var gap =
+                            Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform)
+                                .GetValue(PropertyNames.Gap));
+                        var marginBottom = IsVertical ? gap + vd : vd;
+
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
-                            SelectedContent.Margin.Right,
-                            vd);
+                            SelectedContent.Margin.Right, marginBottom);
                     }
                     else if (prop.Name == PropertyNames.Padding.ToString())
                     {
@@ -1141,11 +1168,12 @@ namespace ConceptorUi.ViewModels
                     child.OnUpdateComponent(sender);
                     continue;
                 }
+
                 Console.WriteLine(@"Adding child.");
                 found = true;
                 index.Add(Children.IndexOf(child));
             }
-            
+
             if (!found) return;
 
             foreach (var i in index)
@@ -1176,9 +1204,9 @@ namespace ConceptorUi.ViewModels
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
-                    if(property.ComponentVisibility != VisibilityValue.Visible.ToString()) return;
+                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) return;
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-                    
+
                     if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
                     {
                         Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
@@ -1258,6 +1286,7 @@ namespace ConceptorUi.ViewModels
                     component.CreateId(false);
                     valueD.Id = component.Id;
                 }
+
                 component.OnDeserializer(valueD);
 
                 var expanded = false;
@@ -1741,6 +1770,13 @@ namespace ConceptorUi.ViewModels
                             Name = PropertyNames.Stretch.ToString(),
                             Type = PropertyTypes.Action.ToString(),
                             Value = ImageStretch.Fill.ToString(),
+                            Visibility = VisibilityValue.Collapsed.ToString()
+                        },
+                        new()
+                        {
+                            Name = PropertyNames.Gap.ToString(),
+                            Type = PropertyTypes.String.ToString(),
+                            Value = "0",
                             Visibility = VisibilityValue.Collapsed.ToString()
                         },
                     }

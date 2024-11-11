@@ -58,27 +58,27 @@
                          Text="" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="W"/>
                 </DockPanel>
             </StackPanel>
-            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0" x:Name="X">
-                <TextBlock Text="X" Foreground="#666666" FontSize="10"
-                       FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom"/>
+            <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0" x:Name="Gap">
+                <TextBlock Text="Gap" Foreground="#666666" FontSize="10"
+                       FontWeight="Bold" VerticalAlignment="Bottom"/>
                 <DockPanel>
-                    <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueX">
+                    <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueGap">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="*"/>
                         </Grid.RowDefinitions>
                         <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
-                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueX">
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueGap">
                             <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a"/>
                         </Button>
                         <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
-                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueX" Grid.Row="1">
+                                Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueGap" Grid.Row="1">
                             <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a"/>
                         </Button>
                     </Grid>
-                    <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" x:Name="XTB"
+                    <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" x:Name="TbGap"
                          Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom"
-                         Text="0" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="X"/>
+                         Text="0" FontSize="14" FontWeight="Bold" TextChanged="OnChanged" Tag="Gap"/>
                 </DockPanel>
             </StackPanel>
             <StackPanel Grid.Row="1" Grid.Column="1" Margin="10 0" x:Name="R">

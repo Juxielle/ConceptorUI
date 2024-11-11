@@ -109,7 +109,7 @@ namespace ConceptorUI.Models
         BorderRadius, BorderRadiusTopLeft, BorderRadiusTopRight, BorderRadiusBottomLeft, BorderRadiusBottomRight,
         Color, FontSize, FontWeight, FontFamily, FontStyle, TextUnderline, TextOverline, TextThrough,
         AlignLeft, AlignCenter, AlignRight, AlignJustify, ListOrd, ListNOrd, TabLeft, TabRight, TextError, TextIndex, TextExpo,
-        SelectedMode, SelectedElement, Add,
+        SelectedMode, SelectedElement, Add, Gap,
         Row, Column, RowSpan, ColumnSpan, MoveLeft, MoveRight, MoveTop, MoveBottom,
         Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, CBorder, CBorderRadius,
         MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
