@@ -1453,8 +1453,8 @@ namespace ConceptorUi.ViewModels
 
         public void SetChildGap(int i, double oldGap, double newGap)
         {
-            var marginBottom = Children[i].SelectedContent.Margin.Bottom - (IsVertical ? oldGap + newGap : 0);
-            var marginRight = Children[i].SelectedContent.Margin.Right - (!IsVertical ? oldGap + newGap : 0);
+            var marginBottom = Children[i].SelectedContent.Margin.Bottom - (IsVertical ? oldGap - newGap : 0);
+            var marginRight = Children[i].SelectedContent.Margin.Right - (!IsVertical ? oldGap - newGap : 0);
 
             Children[i].SelectedContent.Margin = new Thickness(Children[i].SelectedContent.Margin.Left,
                 Children[i].SelectedContent.Margin.Top, marginRight, marginBottom);
