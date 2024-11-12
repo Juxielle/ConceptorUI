@@ -250,6 +250,11 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return true;
+        }
+
         protected override void Delete(int j = -1)
         {
             var i = j;
