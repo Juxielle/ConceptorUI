@@ -765,7 +765,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
-                Parent.CallBack(groupName, propertyName, value);
+                Parent?.CallBack(groupName, propertyName, value);
             }
             else
             {

@@ -84,7 +84,12 @@ namespace ConceptorUi.ViewModels
 
         public override bool AllowExpanded(bool isWidth = true)
         {
-            return false;
+            return true;
+        }
+
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return true;
         }
 
         protected override object GetPropertyGroups()

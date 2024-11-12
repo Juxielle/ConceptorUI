@@ -155,6 +155,11 @@ internal class GridViewModel : Component
         return true;
     }
 
+    public override bool AllowAuto(bool isWidth = true)
+    {
+        return true;
+    }
+
     protected override void Delete(int k = -1)
     {
     }

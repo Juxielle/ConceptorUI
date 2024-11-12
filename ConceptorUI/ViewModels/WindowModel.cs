@@ -156,6 +156,11 @@ namespace ConceptorUi.ViewModels
             return false;
         }
 
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return false;
+        }
+
         protected override object GetPropertyGroups()
         {
             return PropertyGroups!;

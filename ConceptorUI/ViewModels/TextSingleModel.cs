@@ -153,7 +153,12 @@ namespace ConceptorUi.ViewModels
 
         public override bool AllowExpanded(bool isWidth = true)
         {
-            return isWidth;
+            return false;
+        }
+
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return false;
         }
 
         protected override void Delete(int k = -1)

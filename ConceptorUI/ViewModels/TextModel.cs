@@ -175,6 +175,11 @@ namespace ConceptorUi.ViewModels
             return isWidth;
         }
 
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return isWidth;
+        }
+
         protected override object GetPropertyGroups()
         {
             var groups = new List<List<GroupProperties>>

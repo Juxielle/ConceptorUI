@@ -41,6 +41,11 @@ namespace ConceptorUi.ViewModels
             return true;
         }
 
+        public override bool AllowAuto(bool isWidth = true)
+        {
+            return true;
+        }
+
         public sealed override void SelfConstraints()
         {
             /* Global */
