@@ -61,6 +61,7 @@ namespace ConceptorUi.ViewModels
         protected abstract void InitChildContent();
         protected abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
         public abstract bool AllowExpanded(bool isWidth = true);
+        public abstract bool AllowAuto(bool isWidth = true);
         protected abstract void Delete(int k = -1);
         protected abstract void WhenWidthChanged(string value);
         protected abstract void WhenHeightChanged(string value);
@@ -316,6 +317,9 @@ namespace ConceptorUi.ViewModels
                 }
                 else if (propertyName is PropertyNames.He or PropertyNames.Ve)
                 {
+                    if (value == "1" && ((propertyName == PropertyNames.He && !AllowExpanded()) ||
+                                         (propertyName == PropertyNames.Ve && !AllowExpanded(false)))) return;
+
                     SetPropertyValue(groupName, propertyName, value);
                     OnUpdated(groupName,
                         propertyName is PropertyNames.He ? PropertyNames.Width : PropertyNames.Height,
@@ -323,11 +327,13 @@ namespace ConceptorUi.ViewModels
                 }
                 else if (propertyName is PropertyNames.Hve)
                 {
-                    SetPropertyValue(groupName, propertyName, value);
+                    if (value == "1" && !AllowExpanded() && !AllowExpanded(false)) return;
+                    
                     OnUpdated(groupName, PropertyNames.Width,
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
                     OnUpdated(groupName, PropertyNames.Height,
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
+                    SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.MoveParentToChild)
                 {
@@ -759,7 +765,7 @@ namespace ConceptorUi.ViewModels
                 #endregion
 
                 ContinueToUpdate(groupName, propertyName, value);
-                //CallBack(groupName, propertyName, value);
+                Parent.CallBack(groupName, propertyName, value);
             }
             else
             {
@@ -987,7 +993,7 @@ namespace ConceptorUi.ViewModels
                             Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform)
                                 .GetValue(PropertyNames.Gap));
                         var marginRight = !IsVertical ? gap + vd : vd;
-                        
+
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left,
                             SelectedContent.Margin.Top, marginRight, SelectedContent.Margin.Bottom);
                     }
