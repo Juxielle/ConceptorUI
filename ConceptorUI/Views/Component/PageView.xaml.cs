@@ -97,6 +97,7 @@ namespace ConceptorUI.Views.Component
 
             var reports = _project.Space.Reports;
             var counter = 0;
+            DisplayLoadingCommand?.Execute(true);
             for (var i = 0; i < reports.Count; i++)
             {
                 var filePath = $"{_project.FolderPath}/pages/{reports[i].Code}.json";
@@ -129,6 +130,8 @@ namespace ConceptorUI.Views.Component
 
                         counter++;
                         if (counter != reports.Count) return;
+                        
+                        DisplayLoadingCommand?.Execute(false);
 
                         foreach (var report in reports)
                         {
