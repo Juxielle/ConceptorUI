@@ -302,7 +302,7 @@ namespace ConceptorUi.ViewModels
             Children.RemoveAt(i);
 
             for (var k = i; k < Children.Count; k++)
-                SetPosition(2 * k - 1, Children[k].ComponentView);
+                SetPosition(2 * k + 1, Children[k].ComponentView);
             
             if (j == -1) OnSelected();
         }
