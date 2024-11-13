@@ -278,7 +278,6 @@ namespace ConceptorUi.ViewModels
                         SelectedContent.Height = double.NaN;
                         SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
 
-                        SetPropertyValue(groupName, propertyName, SizeValue.Expand.ToString());
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
                         SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");

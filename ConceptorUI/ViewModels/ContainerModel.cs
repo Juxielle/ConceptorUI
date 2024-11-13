@@ -191,9 +191,9 @@ namespace ConceptorUi.ViewModels
         {
             if (Children.Count == 0 || !Children[0].Selected) return;
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
 
             SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
@@ -205,19 +205,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
-            if (groupName == GroupNames.Transform && propertyName is PropertyNames.He or PropertyNames.Hve)
-            {
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, value == "1" ? "0" : "1");
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-            }
-
-            if (groupName == GroupNames.Transform && propertyName is PropertyNames.Ve or PropertyNames.Hve)
-            {
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value == "1" ? "0" : "1");
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                Parent.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-            }
+            
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
@@ -264,7 +252,10 @@ namespace ConceptorUi.ViewModels
             /*
                 -- Vérifier aussi que le fils soit expandable avant de confirmer l'action;
                 -- Ecrire aussi une autre fonction qui permet de restaurer la nature propre d'un composant;
-             */
+                -------------------------------
+                -- Créer une autre fonction comparable à initializer capable de restaurer sans agir, les valeurs des
+                    propriétés: Avant d'initialiser un composant et Après une action. => Elle spécifique à un composant.
+            */
             if (groupName == GroupNames.Transform)
             {
                 if (propertyName == PropertyNames.Width)
@@ -330,8 +321,8 @@ namespace ConceptorUi.ViewModels
                             return;
                         }
 
-                        var childVertical = vtc == "1" ? PropertyNames.Hl :
-                            vcc == "1" ? PropertyNames.Hc : PropertyNames.Hr;
+                        var childVertical = vtc == "1" ? PropertyNames.Vt :
+                            vcc == "1" ? PropertyNames.Vc : PropertyNames.Vb;
 
                         SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
                         SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");

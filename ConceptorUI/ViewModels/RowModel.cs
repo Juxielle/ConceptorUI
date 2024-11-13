@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
@@ -271,14 +270,6 @@ namespace ConceptorUi.ViewModels
 
             var nc = Children.Count;
 
-            var vc = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-            var vb = GetGroupProperties(GroupNames.Alignment)
-                .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
-            var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
-            var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
-            var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
-
             if (nc == 1)
             {
                 if (IsVertical) _grid.RowDefinitions.Clear();
@@ -296,19 +287,23 @@ namespace ConceptorUi.ViewModels
             }
             else if (IsVertical)
             {
-                _grid.RowDefinitions.RemoveAt(i - 1);
-                _grid.RowDefinitions.RemoveAt(i - 1);
+                _grid.RowDefinitions.RemoveAt(2 * i);
+                _grid.RowDefinitions.RemoveAt(2 * i);
             }
             else
             {
-                _grid.ColumnDefinitions.RemoveAt(i - 1);
-                _grid.ColumnDefinitions.RemoveAt(i - 1);
+                _grid.ColumnDefinitions.RemoveAt(2 * i);
+                _grid.ColumnDefinitions.RemoveAt(2 * i);
             }
 
             //Ecrire la methode permettant de restorer l'alignment
+            //Effectuer le deplacement vertical des composants
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
+            for (var k = i; k < Children.Count; k++)
+                SetPosition(2 * k - 1, Children[k].ComponentView);
+            
             if (j == -1) OnSelected();
         }
 
