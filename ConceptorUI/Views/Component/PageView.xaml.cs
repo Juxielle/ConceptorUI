@@ -12,6 +12,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
+using ConceptorUI.Utils;
 
 
 namespace ConceptorUI.Views.Component
@@ -24,6 +25,7 @@ namespace ConceptorUI.Views.Component
         private Project _project;
         private Dictionary<string, ConceptorUi.ViewModels.Component> _components;
         public int SelectedReport;
+        private string _selectedKey;
 
         private string _copiedComponent;
         private int _clickCount;
@@ -130,7 +132,7 @@ namespace ConceptorUI.Views.Component
 
                         counter++;
                         if (counter != reports.Count) return;
-                        
+
                         DisplayLoadingCommand?.Execute(false);
 
                         foreach (var report in reports)
@@ -151,6 +153,10 @@ namespace ConceptorUI.Views.Component
                                 Tag = report.Code
                             };
                             title.MouseDown += OnSelectedHandle;
+                            title.MouseEnter += OnMouseEnterHandle;
+                            title.PreviewMouseUp += OnPreviewMouseUp;
+                            title.MouseLeave += OnPreviewMouseLeave;
+                            title.PreviewMouseMove += OnPreviewMouseMove;
 
                             content.Children.Add(title);
                             content.Children.Add(_components[report.Code].ComponentView);
@@ -159,6 +165,7 @@ namespace ConceptorUI.Views.Component
                     }, null);
                 });
             }
+
             #endregion
         }
 
@@ -432,6 +439,7 @@ namespace ConceptorUI.Views.Component
             ThreadPool.QueueUserWorkItem(delegate
             {
                 #region
+
                 switch (isPage)
                 {
                     case 0:
@@ -460,11 +468,9 @@ namespace ConceptorUI.Views.Component
                         break;
                     }
                 }
-                
-                sc!.Post(delegate
-                {
-                    DisplayLoadingCommand?.Execute(false);
-                }, null);
+
+                sc!.Post(delegate { DisplayLoadingCommand?.Execute(false); }, null);
+
                 #endregion
             });
         }
@@ -543,9 +549,64 @@ namespace ConceptorUI.Views.Component
                 {
                     _components[component.Key].OnUnselected();
                     _components[component.Key].OnSelected();
+
+                    var point = e.GetPosition(Page);
+                    _selectedKey = tag;
+                    _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
+                    _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
                 }
                 else _components[component.Key].OnUnselected();
             }
+        }
+
+        private void OnMouseEnterHandle(object sender, MouseEventArgs e)
+        {
+            var textBlock = (TextBlock)sender;
+            textBlock.Cursor = Cursors.Hand;
+        }
+
+        private void OnPreviewMouseUp(object sender, MouseEventArgs e)
+        {
+            _selectedKey = string.Empty;
+        }
+
+        private void OnPreviewMouseLeave(object sender, MouseEventArgs e)
+        {
+            _selectedKey = string.Empty;
+        }
+
+        private void OnPreviewMouseMove(object sender, MouseEventArgs e)
+        {
+            var textBlock = (TextBlock)sender;
+            if (_selectedKey != textBlock.Tag.ToString()) return;
+
+            var componentSx = _components[_selectedKey]
+                .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
+            var componentX = Helper.ConvertToDouble(componentSx);
+
+            var componentSy = _components[_selectedKey]
+                .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
+            var componentY = Helper.ConvertToDouble(componentSy);
+
+            var child = Page.Children[SelectedReport] as StackPanel;
+            var point = e.GetPosition(Page);
+
+            var toRight = componentX < point.X;
+            var toBottom = componentY < point.Y;
+
+            var dx = Math.Abs(point.X - componentX);
+            var dy = Math.Abs(point.Y - componentY);
+
+            var x = toRight ? componentX + dx : componentX - dx;
+            var y = toBottom ? componentY + dy : componentY - dy;
+
+            var xn = toRight ? child!.Margin.Left + dx : child!.Margin.Left - dx;
+            var yn = toBottom ? child.Margin.Top + dy : child.Margin.Top - dy;
+
+            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
+            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
+
+            child.Margin = new Thickness(xn, yn, 0, 0);
         }
     }
 }
