@@ -297,7 +297,6 @@ namespace ConceptorUi.ViewModels
             }
 
             //Ecrire la methode permettant de restorer l'alignment
-            //Effectuer le deplacement vertical des composants
             _grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
