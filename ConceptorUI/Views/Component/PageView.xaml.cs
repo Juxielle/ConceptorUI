@@ -142,6 +142,9 @@ namespace ConceptorUI.Views.Component
 
                             var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
                             var componentY = Helper.ConvertToDouble(componentSy);
+                            Console.WriteLine($@"-------------------------------------");
+                            Console.WriteLine($@"componentX: {componentX}");
+                            Console.WriteLine($@"componentY: {componentY}");
 
                             var content = new StackPanel
                             {
@@ -155,7 +158,8 @@ namespace ConceptorUI.Views.Component
                                 FontSize = 14,
                                 Margin = new Thickness(0, 0, 0, 6),
                                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                                HorizontalAlignment = HorizontalAlignment.Center,
+                                HorizontalAlignment = HorizontalAlignment.Stretch,
+                                TextAlignment = TextAlignment.Center,
                                 Tag = reports[p].Code
                             };
                             title.MouseDown += OnSelectedHandle;
@@ -616,6 +620,12 @@ namespace ConceptorUI.Views.Component
             Console.WriteLine($@"xn = {xn}");
             Console.WriteLine($@"yn = {yn}");
             child.Margin = new Thickness(xn, yn, 0, 0);
+        }
+
+        private void OnPageClickHandle(object sender, MouseButtonEventArgs e)
+        {
+            if(!e.OriginalSource.Equals(Page)) return;
+            _components[_project.Space.Reports[SelectedReport].Code].OnUnselected();
         }
     }
 }

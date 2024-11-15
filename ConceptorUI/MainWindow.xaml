@@ -124,7 +124,8 @@
                               x:Name="Pages"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component:PageView Margin="60"
+                        <component:PageView MinWidth="2000"
+                                            MinHeight="2000"
                                             Visibility="Visible"
                                             x:Name="PageView"/>
 
@@ -274,7 +275,7 @@
                      IsIndeterminate="True"
                      Background="#5dacff"
                      Foreground="#1960ea"
-                     Margin="50 0 0 20"
+                     Margin="50 0 0 40"
                      BorderThickness="0"
                      Minimum="0"
                      Maximum="100"
