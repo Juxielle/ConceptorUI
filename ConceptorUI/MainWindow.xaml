@@ -119,19 +119,16 @@
             <Grid Margin="0 0 0 2"
                   x:Name="ContentPages"
                   PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
-                <ScrollViewer HorizontalScrollBarVisibility="Disabled"
+                <ScrollViewer HorizontalScrollBarVisibility="Auto"
                               VerticalScrollBarVisibility="Auto"
                               x:Name="Pages"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
                         <component:PageView Margin="60"
                                             Visibility="Visible"
-                                            x:Name="PageView"
-                                            HorizontalAlignment="Center"/>
+                                            x:Name="PageView"/>
 
-                        <component:ComponentPage HorizontalAlignment="Center"
-                                                 VerticalAlignment="Center"
-                                                 Margin="60"
+                        <component:ComponentPage Margin="60"
                                                  Visibility="Collapsed"
                                                  x:Name="PageComponent" />
                     </Grid>

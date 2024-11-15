@@ -129,28 +129,34 @@ namespace ConceptorUI.Views.Component
                         _components.Add(reports[k].Code, windowModel);
 
                         windowModel.OnDeserializer(component);
-
+                        
                         counter++;
                         if (counter != reports.Count) return;
 
                         DisplayLoadingCommand?.Execute(false);
 
-                        foreach (var report in reports)
+                        for (var p = 0; p < reports.Count; p++)
                         {
+                            var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
+                            var componentX = Helper.ConvertToDouble(componentSx) - 200;
+
+                            var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
+                            var componentY = Helper.ConvertToDouble(componentSy);
+
                             var content = new StackPanel
                             {
                                 Width = 400,
-                                Margin = new Thickness(0, 0, 0, 30)
+                                Margin = new Thickness(componentX, componentY, 0, 30)
                             };
 
                             var title = new TextBlock
                             {
-                                Text = report.Name,
+                                Text = reports[p].Name,
                                 FontSize = 14,
                                 Margin = new Thickness(0, 0, 0, 6),
                                 Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
                                 HorizontalAlignment = HorizontalAlignment.Center,
-                                Tag = report.Code
+                                Tag = reports[p].Code
                             };
                             title.MouseDown += OnSelectedHandle;
                             title.MouseEnter += OnMouseEnterHandle;
@@ -159,7 +165,7 @@ namespace ConceptorUI.Views.Component
                             title.PreviewMouseMove += OnPreviewMouseMove;
 
                             content.Children.Add(title);
-                            content.Children.Add(_components[report.Code].ComponentView);
+                            content.Children.Add(_components[reports[p].Code].ComponentView);
                             Page.Children.Add(content);
                         }
                     }, null);
@@ -606,6 +612,9 @@ namespace ConceptorUI.Views.Component
             _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
             _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
 
+            Console.WriteLine($@"----------------------------------");
+            Console.WriteLine($@"xn = {xn}");
+            Console.WriteLine($@"yn = {yn}");
             child.Margin = new Thickness(xn, yn, 0, 0);
         }
     }
