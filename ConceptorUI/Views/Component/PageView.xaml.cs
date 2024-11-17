@@ -142,13 +142,12 @@ namespace ConceptorUI.Views.Component
 
                             var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
                             var componentY = Helper.ConvertToDouble(componentSy);
-                            Console.WriteLine($@"-------------------------------------");
-                            Console.WriteLine($@"componentX: {componentX}");
-                            Console.WriteLine($@"componentY: {componentY}");
 
                             var content = new StackPanel
                             {
                                 Width = 400,
+                                VerticalAlignment = VerticalAlignment.Top,
+                                HorizontalAlignment = HorizontalAlignment.Left,
                                 Margin = new Thickness(componentX, componentY, 0, 30)
                             };
 
@@ -271,6 +270,8 @@ namespace ConceptorUI.Views.Component
             var content = new StackPanel
             {
                 Width = 400,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
                 Margin = new Thickness(0, 0, 0, 30)
             };
 
@@ -500,7 +501,6 @@ namespace ConceptorUI.Views.Component
                         var compSerializer = JsonSerializer.Deserialize<CompSerializer>(
                             File.ReadAllText(filePath)
                         );
-
 
                         ConceptorUi.ViewModels.Component windowModel;
 

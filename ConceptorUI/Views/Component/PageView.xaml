@@ -8,7 +8,6 @@
              d:DesignWidth="900">
     <Border Padding="60">
         <Grid x:Name="Page"
-              Background="Yellow"
               PreviewMouseDown="OnPageClickHandle" />
     </Border>
 </UserControl>
