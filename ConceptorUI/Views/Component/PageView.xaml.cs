@@ -129,7 +129,7 @@ namespace ConceptorUI.Views.Component
                         _components.Add(reports[k].Code, windowModel);
 
                         windowModel.OnDeserializer(component);
-                        
+
                         counter++;
                         if (counter != reports.Count) return;
 
@@ -137,11 +137,21 @@ namespace ConceptorUI.Views.Component
 
                         for (var p = 0; p < reports.Count; p++)
                         {
-                            var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
-                            var componentX = Helper.ConvertToDouble(componentSx) - 200;
+                            var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                .GetValue(PropertyNames.X);
+                            var componentX = 0.0;
+                            if (Helper.IsDeserializable<WindowPosition>(componentSx))
+                                componentX = Helper.Deserialize<WindowPosition>(componentSx).ForWindow;
+                            else if (Helper.IsNumber(componentSx))
+                                componentX = Helper.ConvertToDouble(componentSx) - 200;
 
-                            var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
-                            var componentY = Helper.ConvertToDouble(componentSy);
+                            var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                .GetValue(PropertyNames.Y);
+                            var componentY = 0.0;
+                            if (Helper.IsDeserializable<WindowPosition>(componentSy))
+                                componentY = Helper.Deserialize<WindowPosition>(componentSy).ForWindow;
+                            else if (Helper.IsNumber(componentSy))
+                                componentY = Helper.ConvertToDouble(componentSy);
 
                             var content = new StackPanel
                             {
@@ -592,11 +602,19 @@ namespace ConceptorUI.Views.Component
 
             var componentSx = _components[_selectedKey]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
-            var componentX = Helper.ConvertToDouble(componentSx);
+            var componentX = 0.0;
+            if (Helper.IsDeserializable<WindowPosition>(componentSx))
+                componentX = Helper.Deserialize<WindowPosition>(componentSx).ForMouse;
+            else if (Helper.IsNumber(componentSx))
+                componentX = Helper.ConvertToDouble(componentSx);
 
             var componentSy = _components[_selectedKey]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
-            var componentY = Helper.ConvertToDouble(componentSy);
+            var componentY = 0.0;
+            if (Helper.IsDeserializable<WindowPosition>(componentSy))
+                componentY = Helper.Deserialize<WindowPosition>(componentSy).ForMouse;
+            else if (Helper.IsNumber(componentSy))
+                componentY = Helper.ConvertToDouble(componentSy);
 
             var child = Page.Children[SelectedReport] as StackPanel;
             var point = e.GetPosition(Page);
@@ -613,18 +631,17 @@ namespace ConceptorUI.Views.Component
             var xn = toRight ? child!.Margin.Left + dx : child!.Margin.Left - dx;
             var yn = toBottom ? child.Margin.Top + dy : child.Margin.Top - dy;
 
-            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
-            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
+            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X,
+                JsonSerializer.Serialize(new WindowPosition { ForMouse = x, ForWindow = xn }));
+            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
+                JsonSerializer.Serialize(new WindowPosition { ForMouse = y, ForWindow = yn }));
 
-            Console.WriteLine($@"----------------------------------");
-            Console.WriteLine($@"xn = {xn}");
-            Console.WriteLine($@"yn = {yn}");
             child.Margin = new Thickness(xn, yn, 0, 0);
         }
 
         private void OnPageClickHandle(object sender, MouseButtonEventArgs e)
         {
-            if(!e.OriginalSource.Equals(Page)) return;
+            if (!e.OriginalSource.Equals(Page)) return;
             _components[_project.Space.Reports[SelectedReport].Code].OnUnselected();
         }
     }

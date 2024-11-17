@@ -68,5 +68,28 @@ public class Helper
             png.Save(stream);
         }
     }
-    
+
+    public static bool IsNumber(string value)
+    {
+        double.TryParse(value.Replace(',', '.'), NumberStyles.Any, new CultureInfo("en-US"), out var newValue);
+        return (value != "0" || value != "0.0" || value != "0,0") && newValue != 0;
+    }
+
+    public static bool IsDeserializable<T>(string value)
+    {
+        try
+        {
+            var model = System.Text.Json.JsonSerializer.Deserialize<T>(value);
+            return model != null;
+        }
+        catch (Exception e)
+        {
+            return false;
+        }
+    }
+
+    public static T Deserialize<T>(string value)
+    {
+        return System.Text.Json.JsonSerializer.Deserialize<T>(value)!;
+    }
 }
