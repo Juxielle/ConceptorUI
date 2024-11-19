@@ -15,9 +15,10 @@ namespace ConceptorUI
     {
         public App()
         {
-            SyncfusionLicenseProvider.RegisterLicense("Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXpec3VXRmJdUEN1XEo=");
+            SyncfusionLicenseProvider.RegisterLicense(
+                "Ngo9BigBOggjHTQxAR8/V1NBaF5cXmZCf1FpRmJGdld5fUVHYVZUTXxaS00DNHVRdkdnWXpec3VXRmJdUEN1XEo=");
             System.Threading.Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("fr-FR");
-            
+
             CreateFileType();
             RefreshIconCache();
         }
@@ -31,44 +32,45 @@ namespace ConceptorUI
                 var filePath = e.Args[0];
 
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
-                var extractPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\UIConceptor\Projects";
+                var extractPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Roaming\UIConceptor\Projects");
                 var newPath = $@"{extractPath}\{filename}";
-                var movePath = Path.GetTempPath() + @"\ConceptorUix";
 
-                if(Directory.Exists(newPath))
+                if (Directory.Exists(newPath))
                 {
-                    Directory.Move(newPath, movePath);
+                    Directory.Delete(newPath, true);
                 }
-                
-                // ZipFile.ExtractToDirectory(filePath, extractPath);
-                //
-                // var project = new Project
-                // {
-                //     ID = "ID",
-                //     Name = "App",
-                //     Password = "",
-                //     Color = "transparent",
-                //     Created = DateTime.Now,
-                //     Updated = DateTime.Now,
-                //     FolderPath = newPath,
-                //     Image = ""
-                // };
-                // new MainWindow().Show(project);
+
+                ZipFile.ExtractToDirectory(filePath, extractPath);
+
+                var project = new Project
+                {
+                    ID = "ID",
+                    Name = "App",
+                    Password = "",
+                    Color = "transparent",
+                    Created = DateTime.Now,
+                    Updated = DateTime.Now,
+                    FolderPath = newPath,
+                    Image = ""
+                };
+                new MainWindow().Show(project);
                 return;
             }
-            
+
             // Lancer la fenêtre principale de l'application
             //MainWindow mainWindow = new MainWindow();
             //mainWindow.Show();
             //File.Move(myffile, Path.ChangeExtension(myffile, ".jpg"));
-            
+
             var splashView = new SplashView();
             splashView.Show();
         }
 
         private void RefreshIconCache()
         {
-            Shell32Interop.SHChangeNotify(Shell32Interop.SHCNE_ASSOCCHANGED, Shell32Interop.SHCNF_FLUSH, IntPtr.Zero, IntPtr.Zero);
+            Shell32Interop.SHChangeNotify(Shell32Interop.SHCNE_ASSOCCHANGED, Shell32Interop.SHCNF_FLUSH, IntPtr.Zero,
+                IntPtr.Zero);
         }
 
         public class Shell32Interop
@@ -88,7 +90,8 @@ namespace ConceptorUI
                 const string extension = ".uix";
                 var appPath = Assembly.GetExecutingAssembly().Location;
                 appPath = appPath.Replace("dll", "exe");
-                var iconPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @$"\UIConceptor\icon.png";
+                var iconPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @$"Roaming\UIConceptor\icon.png");
                 Console.WriteLine($@"iconPath: {iconPath}");
 
                 // Clé pour l'extension
@@ -109,7 +112,7 @@ namespace ConceptorUI
                         using var subKey = key.CreateSubKey("shell\\open\\command");
                         if (subKey != null!)
                             subKey.SetValue("", "\"" + appPath + "\" \"%1\"");
-                        
+
                         using var iconKey = key.CreateSubKey("DefaultIcon");
                         if (iconKey != null!)
                             iconKey.SetValue("", iconPath);

@@ -31,7 +31,7 @@ namespace ConceptorUI
         private string _image;
         private string _projectPath;
         
-        private static readonly string DirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+        private static readonly string DirBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData), @"Roaming\");
 
         public PreviewPage()
         {

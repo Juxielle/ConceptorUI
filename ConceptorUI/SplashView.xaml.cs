@@ -24,10 +24,11 @@ namespace ConceptorUI
         {
             var projects = new List<Project>();
             var sc = SynchronizationContext.Current;
-            
+
             ThreadPool.QueueUserWorkItem(delegate
             {
-                var dirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+                var dirBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    @"Roaming\");
                 if (!new DirectoryInfo(dirBase + @"\UIConceptor").Exists)
                 {
                     Directory.CreateDirectory(dirBase + @"\UIConceptor");
@@ -37,7 +38,7 @@ namespace ConceptorUI
                     Directory.CreateDirectory(dirBase + @"\UIConceptor\Icons");
                     Directory.CreateDirectory(dirBase + @"\UIConceptor\Fonts");
                     File.Create(dirBase + @"\UIConceptor\Configs\config.json").Dispose();
-                    
+
                     sc!.Post(delegate
                     {
                         _createImage();
@@ -52,21 +53,23 @@ namespace ConceptorUI
                     var dircf = new DirectoryInfo(dirBase + @"\UIConceptor\Configs");
                     var dirpj = new DirectoryInfo(dirBase + @"\UIConceptor\Projects");
                     var dirmd = new DirectoryInfo(dirBase + @"\UIConceptor\Medias");
-                    
-                    if(!dircf.Exists)
+
+                    if (!dircf.Exists)
                     {
                         Directory.CreateDirectory(dirBase + @"\UIConceptor\Configs");
                     }
+
                     if (!dirpj.Exists)
                     {
                         Directory.CreateDirectory(dirBase + @"\UIConceptor\Projects");
                     }
+
                     if (!dirmd.Exists)
                     {
                         Directory.CreateDirectory(dirBase + @"\UIConceptor\Medias");
                     }
                 }
-                
+
                 sc!.Post(delegate
                 {
                     _createImage();
@@ -79,7 +82,7 @@ namespace ConceptorUI
                             projects[i].Image = $@"{Env.dirMedia}\{projects[i].Image}";
                         }
                     }
-                    
+
                     PreviewPage.Instance.Show(projects);
                     Close();
                 }, null);
@@ -88,22 +91,23 @@ namespace ConceptorUI
 
         private void _createImage()
         {
-            var dirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
+            var dirBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                @"Roaming\");
             var filePath = $"{dirBase}/UIConceptor/Medias/mobile.png";
-            
-            if(File.Exists(filePath)) return;
-            
+
+            if (File.Exists(filePath)) return;
+
             AppImage.SizeChanged += (_, _) =>
             {
                 Console.WriteLine(@"Création de l'Image  par défaut.");
                 Helper.SaveBitmapImage(AppImage, filePath);
             };
-            
+
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri("/Assets/mobile.png", UriKind.RelativeOrAbsolute);
             bitmap.EndInit();
-            
+
             AppImage.Source = bitmap;
         }
 
