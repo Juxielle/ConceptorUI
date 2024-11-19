@@ -29,16 +29,18 @@ namespace ConceptorUI
             //    MessageBox.Show($"Fichier ouvert : {filePath}");
             //    // Vous pouvez ajouter ici le code pour ouvrir et traiter le fichier
             //}
-
+            
             // Lancer la fenêtre principale de l'application
             //MainWindow mainWindow = new MainWindow();
             //mainWindow.Show();
+            //File.Move(myffile, Path.ChangeExtension(myffile, ".jpg"));
+            
             if (e.Args.Length > 0)
             {
                 var filePath = e.Args[0];
                 //MessageBox.Show($"Fichier ouvert : {filePath}");
             }
-
+            
             var splashView = new SplashView();
             splashView.Show();
         }

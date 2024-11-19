@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Globalization;
 using System.IO;
+using System.IO.Compression;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -67,6 +68,29 @@ public class Helper
         {
             png.Save(stream);
         }
+    }
+    
+    private static void CompressFolder(string folderName)
+    {
+        var path = Path.GetTempPath() + folderName;
+        ZipFile.CreateFromDirectory(path, $"{path}.zip");
+    }
+
+    public static void SaveCompressedFolder(string folderName)
+    {
+        var dlg = new Microsoft.Win32.SaveFileDialog();
+        dlg.FileName = folderName;
+        dlg.DefaultExt = ".zip";
+        dlg.Filter = "Zip documents (.zip)|*.zip";
+
+        var result = dlg.ShowDialog();
+
+        if (result != true) return;
+        var destinationPath = dlg.FileName;
+        var sourcePath = Path.GetTempPath() + folderName + ".zip";
+        
+        if(File.Exists(sourcePath))
+            File.Move(sourcePath, destinationPath);
     }
 
     public static bool IsNumber(string value)
