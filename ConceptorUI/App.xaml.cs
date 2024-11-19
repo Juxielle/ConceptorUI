@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
+using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using ConceptorUI.Classes;
 using Microsoft.Win32;
 using Syncfusion.Licensing;
 
@@ -23,23 +26,41 @@ namespace ConceptorUI
         {
             base.OnStartup(e);
 
-            //if (e.Args.Length > 0)
-            //{
-            //    string filePath = e.Args[0];
-            //    MessageBox.Show($"Fichier ouvert : {filePath}");
-            //    // Vous pouvez ajouter ici le code pour ouvrir et traiter le fichier
-            //}
+            if (e.Args.Length > 0)
+            {
+                var filePath = e.Args[0];
+
+                var filename = Path.GetFileName(filePath).Replace(".uix", "");
+                var extractPath = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments) + @"\UIConceptor\Projects";
+                var newPath = $@"{extractPath}\{filename}";
+                var movePath = Path.GetTempPath() + @"\ConceptorUix";
+
+                if(Directory.Exists(newPath))
+                {
+                    Directory.Move(newPath, movePath);
+                }
+                
+                // ZipFile.ExtractToDirectory(filePath, extractPath);
+                //
+                // var project = new Project
+                // {
+                //     ID = "ID",
+                //     Name = "App",
+                //     Password = "",
+                //     Color = "transparent",
+                //     Created = DateTime.Now,
+                //     Updated = DateTime.Now,
+                //     FolderPath = newPath,
+                //     Image = ""
+                // };
+                // new MainWindow().Show(project);
+                return;
+            }
             
             // Lancer la fenêtre principale de l'application
             //MainWindow mainWindow = new MainWindow();
             //mainWindow.Show();
             //File.Move(myffile, Path.ChangeExtension(myffile, ".jpg"));
-            
-            if (e.Args.Length > 0)
-            {
-                var filePath = e.Args[0];
-                //MessageBox.Show($"Fichier ouvert : {filePath}");
-            }
             
             var splashView = new SplashView();
             splashView.Show();
