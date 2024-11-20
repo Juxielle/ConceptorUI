@@ -9,7 +9,6 @@ using System.Windows.Media;
 using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
 using ConceptorUI.Classes;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 
 
@@ -161,8 +160,10 @@ namespace ConceptorUI.Views.Component
                         var filePath = PickFile();
                         if (filePath == string.Empty) return;
 
-                        var fileName = Path.GetFileName(filePath);
-                        var path = ComponentHelper.ProjectPath + "/Medias/" + fileName;
+                        var extension = Path.GetExtension(filePath);
+                        var fileName = $"img_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}{extension}";
+                        var path = Path.Combine(ComponentHelper.ProjectPath!,
+                            $"Medias/{fileName}");
 
                         if (!File.Exists(path))
                             File.Copy(filePath, path);
@@ -218,17 +219,20 @@ namespace ConceptorUI.Views.Component
         {
             var componentSetting = new ObservableCollection<PropertyConfig>
             {
-                new(){
+                new()
+                {
                     Name = "DELETE COMPONENT",
                     IsVisible = true,
                     PropertyName = PropertyNames.Trash
                 },
-                new(){
+                new()
+                {
                     Name = "COPY COMPONENT",
                     IsVisible = true,
                     PropertyName = PropertyNames.Copy
                 },
-                new(){
+                new()
+                {
                     Name = "PASTE COMPONENT",
                     IsVisible = true,
                     PropertyName = PropertyNames.Paste

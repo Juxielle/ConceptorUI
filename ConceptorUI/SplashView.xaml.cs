@@ -76,7 +76,6 @@ namespace ConceptorUI
                     
                     for (var i = 0; i < dirs.Length; i++)
                     {
-                        Console.WriteLine(dirs[i]);
                         projects.Add(new Project
                         {
                             ID = $"ID{i}",

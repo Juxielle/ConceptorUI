@@ -8,13 +8,13 @@
         xmlns:propertyPanel="clr-namespace:ConceptorUI.Views.PropertyPanel"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
-        StateChanged="OnStateChanged"
         Title="Conceptor UI"
         MinHeight="700"
         MinWidth="1035"
         Height="700"
         Width="1035"
-        Background="#d2d2d2">
+        Background="#d2d2d2"
+        StateChanged="OnStateChanged">
 
     <Window.Resources>
         <Style x:Key="LeftScrollViewer"

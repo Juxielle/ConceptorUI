@@ -70,10 +70,14 @@ public class Helper
         }
     }
     
-    private static void CompressFolder(string folderName)
+    public static void CompressFolder(string folderPath, string filePath)
     {
-        var path = Path.GetTempPath() + folderName;
-        ZipFile.CreateFromDirectory(path, $"{path}.zip");
+        var folderName = Path.GetDirectoryName(folderPath);
+        var targetPath = folderPath.Replace(".uix", "") + @$"\{folderName}.uix";
+        
+        if(File.Exists(filePath))
+            File.Delete(filePath);
+        ZipFile.CreateFromDirectory(folderPath, targetPath);
     }
 
     public static void SaveCompressedFolder(string folderName)

@@ -7,6 +7,7 @@ namespace ConceptorUi.ViewModels;
 internal class ComponentHelper
 {
     public static string? ProjectPath;
+    public static string? FilePath;
     private static List<string>? _ids;
 
     public static Component GetComponent(string name)

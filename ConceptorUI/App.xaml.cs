@@ -52,16 +52,12 @@ namespace ConceptorUI
                     Created = DateTime.Now,
                     Updated = DateTime.Now,
                     FolderPath = newPath,
+                    FilePath = filePath,
                     Image = ""
                 };
                 new MainWindow().Show(project);
                 return;
             }
-
-            // Lancer la fenêtre principale de l'application
-            //MainWindow mainWindow = new MainWindow();
-            //mainWindow.Show();
-            //File.Move(myffile, Path.ChangeExtension(myffile, ".jpg"));
 
             var splashView = new SplashView();
             splashView.Show();

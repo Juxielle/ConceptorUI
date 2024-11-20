@@ -14,6 +14,7 @@ public class Project
     public string LastOpen { get; set; }
     public string Image { get; set; }
     public string FolderPath { get; set; }
+    public string FilePath { get; set; }
     public Space Space { get; set; }
     public DateTime Created { get; set; }
     public DateTime Updated { get; set; }

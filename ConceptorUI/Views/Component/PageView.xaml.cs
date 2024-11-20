@@ -59,6 +59,7 @@ namespace ConceptorUI.Views.Component
 
             var configFile = $"{_project.FolderPath}/config.json";
             ComponentHelper.ProjectPath = _project.FolderPath;
+            ComponentHelper.FilePath = _project.FilePath;
 
             try
             {
@@ -102,7 +103,7 @@ namespace ConceptorUI.Views.Component
             DisplayLoadingCommand?.Execute(true);
             for (var i = 0; i < reports.Count; i++)
             {
-                var filePath = $"{_project.FolderPath}/pages/{reports[i].Code}.json";
+                var filePath = $"{ComponentHelper.ProjectPath}/pages/{reports[i].Code}.json";
 
                 if (!File.Exists(filePath)) continue;
 
@@ -468,20 +469,21 @@ namespace ConceptorUI.Views.Component
                         foreach (var key in _components.Keys)
                         {
                             var componentSerializer = _components[key].OnSerializer();
-                            var filePath = @$"{_project.FolderPath}\pages\{key}.json";
+                            var filePath = @$"{ComponentHelper.ProjectPath}\pages\{key}.json";
 
                             File.Create(filePath).Dispose();
 
                             var jsonString = JsonSerializer.Serialize(componentSerializer);
                             File.WriteAllText(filePath, jsonString);
                         }
+                        Helper.CompressFolder(ComponentHelper.ProjectPath!, ComponentHelper.FilePath!);
 
                         sc!.Post(delegate { RefreshReusableComponent(); }, null);
                         break;
                     }
                     case 2:
                     {
-                        var filePath = $"{_project.FolderPath}/config.json";
+                        var filePath = $"{ComponentHelper.ProjectPath}/config.json";
                         File.Create(filePath).Dispose();
                         var jsonString = JsonSerializer.Serialize(_project);
 
@@ -507,7 +509,7 @@ namespace ConceptorUI.Views.Component
                 {
                     case 0:
                     {
-                        var filePath = $"{_project.FolderPath}/pages/{fileName}.json";
+                        var filePath = $"{ComponentHelper.ProjectPath}/pages/{fileName}.json";
                         var compSerializer = JsonSerializer.Deserialize<CompSerializer>(
                             File.ReadAllText(filePath)
                         );
@@ -528,7 +530,7 @@ namespace ConceptorUI.Views.Component
                     }
                     case 2:
                         _project = JsonSerializer.Deserialize<Project>(File.ReadAllText(
-                            $"{_project.FolderPath}/config.json"
+                            $"{ComponentHelper.ProjectPath}/config.json"
                         ))!;
                         break;
                 }
