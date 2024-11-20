@@ -1,5 +1,4 @@
-﻿using ConceptorUI.Constants;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text.Json;
@@ -27,8 +26,7 @@ namespace ConceptorUI
 
             ThreadPool.QueueUserWorkItem(delegate
             {
-                var dirBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Roaming\");
+                var dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 if (!new DirectoryInfo(dirBase + @"\UIConceptor").Exists)
                 {
                     Directory.CreateDirectory(dirBase + @"\UIConceptor");
@@ -73,14 +71,23 @@ namespace ConceptorUI
                 sc!.Post(delegate
                 {
                     _createImage();
-                    var fileName = dirBase + @"\UIConceptor\Configs\config.json";
-                    if (File.Exists(fileName))
+                    var dirs = Directory.GetDirectories(Path.Combine(dirBase, @"UIConceptor\Projects"), "*",
+                        SearchOption.TopDirectoryOnly);
+                    
+                    for (var i = 0; i < dirs.Length; i++)
                     {
-                        projects = JsonSerializer.Deserialize<List<Project>>(File.ReadAllText(fileName))!;
-                        for (var i = 0; i < projects.Count; i++)
+                        Console.WriteLine(dirs[i]);
+                        projects.Add(new Project
                         {
-                            projects[i].Image = $@"{Env.dirMedia}\{projects[i].Image}";
-                        }
+                            ID = $"ID{i}",
+                            Name = $"Application {i}",
+                            Password = "",
+                            Color = "transparent",
+                            Created = DateTime.Now,
+                            Updated = DateTime.Now,
+                            FolderPath = Path.Combine(dirBase, dirs[i]),
+                            Image = ""
+                        });
                     }
 
                     PreviewPage.Instance.Show(projects);
@@ -91,9 +98,8 @@ namespace ConceptorUI
 
         private void _createImage()
         {
-            var dirBase = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                @"Roaming\");
-            var filePath = $"{dirBase}/UIConceptor/Medias/mobile.png";
+            var dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+            var filePath = Path.Combine(dirBase, $"UIConceptor/Medias/mobile.png");
 
             if (File.Exists(filePath)) return;
 
@@ -116,12 +122,5 @@ namespace ConceptorUI
             base.OnMouseLeftButtonDown(e);
             DragMove();
         }
-    }
-
-    public class WeatherForecast
-    {
-        public DateTimeOffset Date { get; set; }
-        public int TemperatureCelsius { get; set; }
-        public string? Summary { get; set; }
     }
 }

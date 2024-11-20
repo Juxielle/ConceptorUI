@@ -33,7 +33,7 @@ namespace ConceptorUI
 
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
                 var extractPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"Roaming\UIConceptor\Projects");
+                    @"UIConceptor\Projects");
                 var newPath = $@"{extractPath}\{filename}";
 
                 if (Directory.Exists(newPath))
@@ -91,7 +91,7 @@ namespace ConceptorUI
                 var appPath = Assembly.GetExecutingAssembly().Location;
                 appPath = appPath.Replace("dll", "exe");
                 var iconPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @$"Roaming\UIConceptor\icon.png");
+                    @$"UIConceptor\icon.png");
                 Console.WriteLine($@"iconPath: {iconPath}");
 
                 // Clé pour l'extension
