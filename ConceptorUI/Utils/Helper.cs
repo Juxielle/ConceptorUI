@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.IO.Compression;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Classes;
+using ConceptorUI.Constants;
 
 namespace ConceptorUI.Utils;
 
@@ -72,12 +76,35 @@ public class Helper
     
     public static void CompressFolder(string folderPath, string filePath)
     {
-        var folderName = Path.GetDirectoryName(folderPath);
-        var targetPath = folderPath.Replace(".uix", "") + @$"\{folderName}.uix";
+        var folderName = folderPath.Replace(Path.GetDirectoryName(folderPath)+@"\", "");
+        var newPath = folderPath + "_copy";
+        var targetFolderPath = Path.Combine(newPath, folderName);
+        CopyDirectory(folderPath, targetFolderPath, true);
         
         if(File.Exists(filePath))
             File.Delete(filePath);
-        ZipFile.CreateFromDirectory(folderPath, targetPath);
+        ZipFile.CreateFromDirectory(newPath, filePath);
+        Directory.Delete(newPath, true);
+    }
+
+    public static List<Project> GetProjects()
+    {
+        var projects = JsonSerializer.Deserialize<List<Project>>(
+            File.ReadAllText(Env.FileConfig)
+        );
+        return projects!;
+    }
+
+    public static bool SaveProjects(Project project)
+    {
+        var projects = JsonSerializer.Deserialize<List<Project>>(
+            File.ReadAllText(Env.FileConfig)
+        );
+        // var find = projects.Find();
+        //
+        // var jsonString = JsonSerializer.Serialize(componentSerializer);
+        // File.WriteAllText(filePath, jsonString);
+        return false;
     }
 
     public static void SaveCompressedFolder(string folderName)
@@ -119,5 +146,30 @@ public class Helper
     public static T Deserialize<T>(string value)
     {
         return System.Text.Json.JsonSerializer.Deserialize<T>(value)!;
+    }
+    
+    private static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
+    {
+        var dir = new DirectoryInfo(sourceDir);
+
+        if (!dir.Exists)
+            throw new DirectoryNotFoundException($"Source directory not found: {dir.FullName}");
+
+        var dirs = dir.GetDirectories();
+
+        Directory.CreateDirectory(destinationDir);
+
+        foreach (var file in dir.GetFiles())
+        {
+            var targetFilePath = Path.Combine(destinationDir, file.Name);
+            file.CopyTo(targetFilePath);
+        }
+
+        if (!recursive) return;
+        foreach (var subDir in dirs)
+        {
+            var newDestinationDir = Path.Combine(destinationDir, subDir.Name);
+            CopyDirectory(subDir.FullName, newDestinationDir, true);
+        }
     }
 }

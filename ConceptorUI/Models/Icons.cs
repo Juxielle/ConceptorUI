@@ -8,7 +8,7 @@ namespace ConceptorUI.Models
     {
         public string Name { get; set; }
         public string Code { get; set; }
-        public string FontPath { get; set; } = $"{Env.dirEnv}/Icons/MaterialIcons-Regular.ttf#Material Icons";
+        public string FontPath { get; set; } = $"{Env.DirEnv}/Icons/MaterialIcons-Regular.ttf#Material Icons";
     }
 
     public class IconPack

@@ -1,39 +1,17 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.IO;
+
 
 namespace ConceptorUI.Constants
 {
     class Env
     {
-        public static string dirBase = Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments);
-        public static string dirEnv = $@"{dirBase}\UIConceptor";
-        public static string dirConfig = $@"{dirEnv}\Configs";
-        public static string dirProject = $@"{dirEnv}\Projects";
-        public static string dirMedia = $@"{dirEnv}\Medias";
+        public static readonly string DirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
+        public static readonly string DirEnv = Path.Combine(DirBase, "UIConceptor");
+        public static readonly string DirConfig = Path.Combine(DirEnv, "Configs");
+        public static string DirProject = Path.Combine(DirEnv, "Projects");
+        public static string DirMedia = Path.Combine(DirEnv, "Medias");
 
-        public static string fileConfig = $@"{dirConfig}\config.json";
-
-        public static string mediaFile(string fileName) {
-            return $@"{dirMedia}\{fileName}";
-        }
-        public static string projectFolder(string folderName)
-        {
-            return $@"{dirProject}\{folderName}";
-        }
-        public static string configPFile(string pfolder, string fileName)
-        {
-            return $@"{dirProject}\{pfolder}\{fileName}";
-        }
-        public static string pemcFolder(string pfolder, string folderName)
-        {
-            return $@"{dirProject}\{pfolder}\{folderName}";
-        }
-        public static string pemcFile(string pfolder, string folderName, string fileName)
-        {
-            return $@"{dirProject}\{pfolder}\{folderName}\{fileName}";
-        }
+        public static readonly string FileConfig = Path.Combine(DirConfig, "config.json");
     }
 }

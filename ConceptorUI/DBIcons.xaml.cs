@@ -67,7 +67,7 @@ namespace ConceptorUI
 
             var jsonString = System.Text.Json.JsonSerializer.Serialize(packIcons);
             File.WriteAllText(
-                $"{Env.dirEnv}/Icons/fontawesome.json",
+                $"{Env.DirEnv}/Icons/fontawesome.json",
                 jsonString
             );
 
@@ -145,7 +145,7 @@ namespace ConceptorUI
                 if (_selectedTab != 2)
                 {
                     var iconPack = System.Text.Json.JsonSerializer.Deserialize<IconPack>(
-                        File.ReadAllText($"{Env.dirEnv}/Icons/{fileName}")
+                        File.ReadAllText($"{Env.DirEnv}/Icons/{fileName}")
                     );
                     _iconPacks[_selectedTab] = iconPack!;
                 }

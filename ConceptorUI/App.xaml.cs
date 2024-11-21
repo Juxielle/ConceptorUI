@@ -88,7 +88,7 @@ namespace ConceptorUI
                 appPath = appPath.Replace("dll", "exe");
                 var iconPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     @$"UIConceptor\icon.png");
-                Console.WriteLine($@"iconPath: {iconPath}");
+                //Console.WriteLine($@"iconPath: {iconPath}");
 
                 // Clé pour l'extension
                 using (var key = Registry.ClassesRoot.CreateSubKey(extension))

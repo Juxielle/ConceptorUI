@@ -220,7 +220,7 @@ namespace ConceptorUI
                                 
                                 _projects.Add(project);
                                 var jsonString = JsonSerializer.Serialize(_projects);
-                                File.WriteAllText(Env.fileConfig, jsonString);
+                                File.WriteAllText(Env.FileConfig, jsonString);
                             }, null);
                             
                             sc!.Post(delegate
