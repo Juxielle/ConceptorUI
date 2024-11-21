@@ -57,10 +57,11 @@ namespace ConceptorUI.Views.Component
 
             #region Init Space
 
-            var projectPath = $"{_project.FolderPath}/{_project.Name}";
-            var configFile = $"{projectPath}/config.json";
+            var projectPath = $@"{_project.FolderPath}\{_project.Name}";
+            var configFile = $@"{projectPath}\config.json";
             ComponentHelper.ProjectPath = projectPath;
             ComponentHelper.FilePath = _project.FilePath;
+            ComponentHelper.ProjectName = _project.Name;
 
             try
             {
@@ -477,7 +478,9 @@ namespace ConceptorUI.Views.Component
                             var jsonString = JsonSerializer.Serialize(componentSerializer);
                             File.WriteAllText(filePath, jsonString);
                         }
-                        Helper.CompressFolder(_project.FolderPath, ComponentHelper.FilePath!);
+
+                        var folderPath = ComponentHelper.ProjectPath!.Replace($@"\{ComponentHelper.ProjectName}", "");
+                        Helper.CompressFolder(folderPath, ComponentHelper.FilePath!);
 
                         sc!.Post(delegate { RefreshReusableComponent(); }, null);
                         break;
