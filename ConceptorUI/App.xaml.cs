@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using ConceptorUI.Classes;
+using ConceptorUI.Utils;
 using Microsoft.Win32;
 using Syncfusion.Licensing;
 
@@ -34,19 +35,20 @@ namespace ConceptorUI
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
                 var extractPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
                     @"UIConceptor\Projects");
-                var newPath = $@"{extractPath}\{filename}";
+                var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
+                var newPath = $@"{extractPath}\{projectId}";
 
                 if (Directory.Exists(newPath))
                 {
                     Directory.Delete(newPath, true);
                 }
 
-                ZipFile.ExtractToDirectory(filePath, extractPath);
+                ZipFile.ExtractToDirectory(filePath, newPath);
 
                 var project = new Project
                 {
-                    ID = "ID",
-                    Name = "App",
+                    ID = projectId,
+                    Name = filename,
                     Password = "",
                     Color = "transparent",
                     Created = DateTime.Now,
@@ -55,6 +57,8 @@ namespace ConceptorUI
                     FilePath = filePath,
                     Image = ""
                 };
+                Helper.SaveProject(project);
+                
                 new MainWindow().Show(project);
                 return;
             }

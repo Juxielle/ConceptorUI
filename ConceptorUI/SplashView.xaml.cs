@@ -6,6 +6,7 @@ using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Classes;
+using ConceptorUI.Constants;
 using ConceptorUI.Utils;
 
 
@@ -67,27 +68,24 @@ namespace ConceptorUI
                         Directory.CreateDirectory(dirBase + @"\UIConceptor\Medias");
                     }
                 }
+                    
+                if (File.Exists(Env.FileConfig))
+                {
+                    var allProjects = Helper.GetProjects();
+                    foreach (var project in allProjects)
+                    {
+                        if (File.Exists(project.FilePath))
+                        {
+                            projects.Add(project);
+                        }
+                    }
+                }
 
                 sc!.Post(delegate
                 {
                     _createImage();
-                    var dirs = Directory.GetDirectories(Path.Combine(dirBase, @"UIConceptor\Projects"), "*",
-                        SearchOption.TopDirectoryOnly);
-                    
-                    for (var i = 0; i < dirs.Length; i++)
-                    {
-                        projects.Add(new Project
-                        {
-                            ID = $"ID{i}",
-                            Name = $"Application {i}",
-                            Password = "",
-                            Color = "transparent",
-                            Created = DateTime.Now,
-                            Updated = DateTime.Now,
-                            FolderPath = Path.Combine(dirBase, dirs[i]),
-                            Image = ""
-                        });
-                    }
+                    // var dirs = Directory.GetDirectories(Path.Combine(dirBase, @"UIConceptor\Projects"), "*",
+                    //     SearchOption.TopDirectoryOnly);
 
                     PreviewPage.Instance.Show(projects);
                     Close();

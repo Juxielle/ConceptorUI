@@ -76,15 +76,15 @@ public class Helper
     
     public static void CompressFolder(string folderPath, string filePath)
     {
-        var folderName = folderPath.Replace(Path.GetDirectoryName(folderPath)+@"\", "");
-        var newPath = folderPath + "_copy";
-        var targetFolderPath = Path.Combine(newPath, folderName);
-        CopyDirectory(folderPath, targetFolderPath, true);
+        // var folderName = folderPath.Replace(Path.GetDirectoryName(folderPath)+@"\", "");
+        // var newPath = folderPath + "_copy";
+        // var targetFolderPath = Path.Combine(newPath, folderName);
+        // CopyDirectory(folderPath, targetFolderPath, true);
         
         if(File.Exists(filePath))
             File.Delete(filePath);
-        ZipFile.CreateFromDirectory(newPath, filePath);
-        Directory.Delete(newPath, true);
+        ZipFile.CreateFromDirectory(folderPath, filePath);
+        //Directory.Delete(folderPath, true);
     }
 
     public static List<Project> GetProjects()
@@ -95,16 +95,22 @@ public class Helper
         return projects!;
     }
 
-    public static bool SaveProjects(Project project)
+    public static void SaveProject(Project project)
     {
         var projects = JsonSerializer.Deserialize<List<Project>>(
             File.ReadAllText(Env.FileConfig)
         );
-        // var find = projects.Find();
-        //
-        // var jsonString = JsonSerializer.Serialize(componentSerializer);
-        // File.WriteAllText(filePath, jsonString);
-        return false;
+        var oldProject = projects?.Find(p => p.Name == project.Name && p.FilePath == project.FilePath);
+        
+        if (projects == null)
+            projects = [];
+        if(oldProject != null)
+            projects.Remove(oldProject);
+        
+        projects.Add(project);
+        
+        var jsonString = JsonSerializer.Serialize(projects);
+        File.WriteAllText(Env.FileConfig, jsonString);
     }
 
     public static void SaveCompressedFolder(string folderName)
