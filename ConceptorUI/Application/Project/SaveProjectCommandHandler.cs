@@ -1,12 +1,13 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Threading.Tasks;
 
 namespace ConceptorUI.Application.Project;
 
 public class SaveProjectCommandHandler
 {
-    public void Handle(SaveProjectCommand command)
+    public async Task Handle(SaveProjectCommand command)
     {
         try
         {
@@ -16,13 +17,13 @@ public class SaveProjectCommandHandler
                 var entry = archive.GetEntry($@"{command.ProjectName}/Pages/{report.Name}.json");
                 if (entry != null)
                 {
-                    using var writer = new StreamWriter(entry.Open());
-                    writer.WriteLine(report.Json);
+                    await using var writer = new StreamWriter(entry.Open());
+                    await writer.WriteLineAsync(report.Json);
                     Console.WriteLine($"Modification du fichier: {report.Name}");
                 }
                 else
                 {
-                    Console.WriteLine($"Le fichier {report.Name} n'a pas été trouvé dans l'archive.");
+                    Console.WriteLine($"Le fichier {report.Name} - {command.ProjectName} n'a pas été trouvé dans l'archive.");
                 }
             }
         }

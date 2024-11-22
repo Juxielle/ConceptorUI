@@ -38,14 +38,15 @@ namespace ConceptorUI
                 var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
                 var newPath = $@"{extractPath}\{projectId}";
 
-                Helper.DeleteProject(filePath, filename);
-
                 ZipFile.ExtractToDirectory(filePath, newPath);
+                
+                var projectName = Helper.GetProjectName(newPath);
+                Helper.DeleteProject(filePath, projectName);
 
                 var project = new Project
                 {
                     ID = projectId,
-                    Name = filename,
+                    Name = projectName,
                     Password = "",
                     Color = "transparent",
                     Created = DateTime.Now,

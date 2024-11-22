@@ -97,6 +97,15 @@ public class Helper
         return projects!;
     }
 
+    public static string GetProjectName(string projectPath)
+    {
+        if (!Directory.Exists(projectPath)) return string.Empty;
+        
+        var dirs = Directory.GetDirectories(projectPath, "*", SearchOption.TopDirectoryOnly);
+        
+        return dirs.Length == 1 ? dirs[0].Replace($@"{projectPath}\", string.Empty) : string.Empty;
+    }
+
     public static void SaveProject(Project project)
     {
         var projects = JsonSerializer.Deserialize<List<Project>>(

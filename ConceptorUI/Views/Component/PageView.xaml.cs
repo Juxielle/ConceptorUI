@@ -6,6 +6,7 @@ using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -461,7 +462,7 @@ namespace ConceptorUI.Views.Component
         {
             DisplayLoadingCommand?.Execute(true);
             var sc = SynchronizationContext.Current;
-            ThreadPool.QueueUserWorkItem(delegate
+            ThreadPool.QueueUserWorkItem(async delegate
             {
                 #region
 
@@ -483,12 +484,13 @@ namespace ConceptorUI.Views.Component
                             // File.WriteAllText(filePath, jsonString);
                         }
                         
-                        new SaveProjectCommandHandler().Handle(new SaveProjectCommand
+                        await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
                         {
                             ZipPath = ComponentHelper.FilePath!,
                             ProjectName = ComponentHelper.ProjectName!,
                             Reports = reports
                         });
+                        Console.WriteLine($@"end of saving");
                         // var folderPath = ComponentHelper.ProjectPath!.Replace($@"\{ComponentHelper.ProjectName}", "");
                         // Helper.CompressFolder(folderPath, ComponentHelper.FilePath!);
 
@@ -506,7 +508,11 @@ namespace ConceptorUI.Views.Component
                     }
                 }
 
-                sc!.Post(delegate { DisplayLoadingCommand?.Execute(false); }, null);
+                sc!.Post(delegate
+                {
+                    DisplayLoadingCommand?.Execute(false);
+                    Console.WriteLine($@"out after saving");
+                }, null);
 
                 #endregion
             });
