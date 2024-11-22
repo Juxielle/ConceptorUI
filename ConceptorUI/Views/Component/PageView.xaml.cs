@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Application.Project;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
@@ -468,21 +469,30 @@ namespace ConceptorUI.Views.Component
                 {
                     case 0:
                     {
+                        var reports = new List<Domain.Entities.Report>();
                         foreach (var key in _components.Keys)
                         {
+                            
                             var componentSerializer = _components[key].OnSerializer();
                             var filePath = @$"{ComponentHelper.ProjectPath}\pages\{key}.json";
-
-                            File.Create(filePath).Dispose();
-
+                            
+                            //File.Create(filePath).Dispose();
+                            
                             var jsonString = JsonSerializer.Serialize(componentSerializer);
-                            File.WriteAllText(filePath, jsonString);
+                            reports.Add(new Domain.Entities.Report{ Name = key, Json = jsonString });
+                            // File.WriteAllText(filePath, jsonString);
                         }
+                        
+                        new SaveProjectCommandHandler().Handle(new SaveProjectCommand
+                        {
+                            ZipPath = ComponentHelper.FilePath!,
+                            ProjectName = ComponentHelper.ProjectName!,
+                            Reports = reports
+                        });
+                        // var folderPath = ComponentHelper.ProjectPath!.Replace($@"\{ComponentHelper.ProjectName}", "");
+                        // Helper.CompressFolder(folderPath, ComponentHelper.FilePath!);
 
-                        var folderPath = ComponentHelper.ProjectPath!.Replace($@"\{ComponentHelper.ProjectName}", "");
-                        Helper.CompressFolder(folderPath, ComponentHelper.FilePath!);
-
-                        sc!.Post(delegate { RefreshReusableComponent(); }, null);
+                        //sc!.Post(delegate { RefreshReusableComponent(); }, null);
                         break;
                     }
                     case 2:
