@@ -38,10 +38,7 @@ namespace ConceptorUI
                 var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
                 var newPath = $@"{extractPath}\{projectId}";
 
-                if (Directory.Exists(newPath))
-                {
-                    Directory.Delete(newPath, true);
-                }
+                Helper.DeleteProject(filePath, filename);
 
                 ZipFile.ExtractToDirectory(filePath, newPath);
 

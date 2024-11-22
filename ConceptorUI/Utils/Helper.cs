@@ -14,7 +14,6 @@ namespace ConceptorUI.Utils;
 
 public class Helper
 {
-
     public static double ConvertToDouble(string value)
     {
         double.TryParse(value.Replace(',', '.'), NumberStyles.Any, new CultureInfo("en-US"), out var newValue);
@@ -26,7 +25,9 @@ public class Helper
         var dialog = new Microsoft.Win32.OpenFileDialog();
         dialog.FileName = "Download";
         dialog.DefaultExt = ".png";
-        dialog.Filter = openProject ? "Zip files (*.zip;*.rar)|*.zip;*.rar" : "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
+        dialog.Filter = openProject
+            ? "Zip files (*.zip;*.rar)|*.zip;*.rar"
+            : "Image files (*.png;*.jpeg;*.jpg)|*.png;*.jpeg;*.jpg";
 
         var result = dialog.ShowDialog();
 
@@ -41,30 +42,31 @@ public class Helper
         dlg.Filter = "Xui Applications (*.xui)|*.xui";
 
         var result = dlg.ShowDialog();
-        
+
         return result == true ? dlg.FileName : null!;
     }
 
     public static void SaveBitmapImage(FrameworkElement control, string path)
     {
         var png = new PngBitmapEncoder();
-            
+
         if (File.Exists(path)) return;
-            
+
         var element = control as UIElement;
         double renderWidth, renderHeight;
-        
+
         var width = renderWidth = element.RenderSize.Width;
         var height = renderHeight = element.RenderSize.Height;
-                
+
         var rtb = new RenderTargetBitmap((int)renderWidth, (int)renderHeight, 96, 96, PixelFormats.Pbgra32);
         var visualBrush = new VisualBrush(element);
         var drawingVisual = new DrawingVisual();
-            
+
         using (var drawingContext = drawingVisual.RenderOpen())
         {
             drawingContext.DrawRectangle(visualBrush, null, new Rect(new Point(0, 0), new Point(width, height)));
         }
+
         rtb.Render(drawingVisual);
 
         png.Frames.Add(BitmapFrame.Create(rtb));
@@ -73,15 +75,15 @@ public class Helper
             png.Save(stream);
         }
     }
-    
+
     public static void CompressFolder(string folderPath, string filePath)
     {
         // var folderName = folderPath.Replace(Path.GetDirectoryName(folderPath)+@"\", "");
         // var newPath = folderPath + "_copy";
         // var targetFolderPath = Path.Combine(newPath, folderName);
         // CopyDirectory(folderPath, targetFolderPath, true);
-        
-        if(File.Exists(filePath))
+
+        if (File.Exists(filePath))
             File.Delete(filePath);
         ZipFile.CreateFromDirectory(folderPath, filePath);
         //Directory.Delete(folderPath, true);
@@ -101,16 +103,27 @@ public class Helper
             File.ReadAllText(Env.FileConfig)
         );
         var oldProject = projects?.Find(p => p.Name == project.Name && p.FilePath == project.FilePath);
-        
+
         if (projects == null)
             projects = [];
-        if(oldProject != null)
+        if (oldProject != null)
             projects.Remove(oldProject);
-        
+
         projects.Add(project);
-        
+
         var jsonString = JsonSerializer.Serialize(projects);
         File.WriteAllText(Env.FileConfig, jsonString);
+    }
+
+    public static void DeleteProject(string filePath, string projectName)
+    {
+        var projects = JsonSerializer.Deserialize<List<Project>>(
+            File.ReadAllText(Env.FileConfig)
+        );
+        var oldProject = projects?.Find(p => p.Name == projectName && p.FilePath == filePath);
+
+        if (oldProject == null || !Directory.Exists(oldProject.FolderPath)) return;
+        Directory.Delete(oldProject.FolderPath, true);
     }
 
     public static void SaveCompressedFolder(string folderName)
@@ -125,8 +138,8 @@ public class Helper
         if (result != true) return;
         var destinationPath = dlg.FileName;
         var sourcePath = Path.GetTempPath() + folderName + ".zip";
-        
-        if(File.Exists(sourcePath))
+
+        if (File.Exists(sourcePath))
             File.Move(sourcePath, destinationPath);
     }
 
@@ -153,7 +166,7 @@ public class Helper
     {
         return System.Text.Json.JsonSerializer.Deserialize<T>(value)!;
     }
-    
+
     private static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
     {
         var dir = new DirectoryInfo(sourceDir);
