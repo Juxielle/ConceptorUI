@@ -96,9 +96,16 @@ namespace ConceptorUI.Views.Component
             PanelStructuralView.Instance.Refresh();
         }
 
-        private void LoadSpace()
+        private async void LoadSpace()
         {
             #region Load spage
+
+            var reportsUiDto = await new GetReportsQueryHandler().Handle(new GetReportsQuery
+            {
+                ZipPath = ComponentHelper.FilePath!,
+                ProjectName = ComponentHelper.ProjectName!
+            });
+            Console.WriteLine($@"reportsUiDto count: {reportsUiDto.Count()}");
 
             Page.Children.Clear();
 
