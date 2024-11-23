@@ -65,7 +65,14 @@ public class GetReportsQueryHandler
                         int bytesRead;
                         while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
                         {
-                            Console.Write(new string(buffer, 0, bytesRead));
+                            try
+                            {
+                                Console.Write(new string(buffer, 0, bytesRead));
+                            }
+                            catch (Exception e)
+                            {
+                                Console.WriteLine($@"Error Message: {e.Message}");
+                            }
                         }
                         
                         // reports.Add(new ReportUiDto

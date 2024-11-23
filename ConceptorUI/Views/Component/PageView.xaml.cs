@@ -107,7 +107,7 @@ namespace ConceptorUI.Views.Component
             });
             var reportUiDtos = reportsUiDto.ToList();
             Console.WriteLine($@"reportsUiDto count: {reportUiDtos.Count}");
-            Console.WriteLine("Json: "+reportUiDtos.ToList()[0].Json);
+            //Console.WriteLine("Json: "+reportUiDtos.ToList()[0].Json);
 
             Page.Children.Clear();
 
