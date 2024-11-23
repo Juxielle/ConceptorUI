@@ -105,7 +105,9 @@ namespace ConceptorUI.Views.Component
                 ZipPath = ComponentHelper.FilePath!,
                 ProjectName = ComponentHelper.ProjectName!
             });
-            Console.WriteLine($@"reportsUiDto count: {reportsUiDto.Count()}");
+            var reportUiDtos = reportsUiDto.ToList();
+            Console.WriteLine($@"reportsUiDto count: {reportUiDtos.Count}");
+            Console.WriteLine("Json: "+reportUiDtos.ToList()[0].Json);
 
             Page.Children.Clear();
 

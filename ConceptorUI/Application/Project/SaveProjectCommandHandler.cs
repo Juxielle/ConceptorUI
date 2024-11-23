@@ -19,7 +19,7 @@ public class SaveProjectCommandHandler
                 {
                     await using var writer = new StreamWriter(entry.Open());
                     await writer.WriteLineAsync(report.Json);
-                    Console.WriteLine($"Modification du fichier: {report.Name}");
+                    Console.WriteLine($"Modification du fichier: {command.ProjectName}/Pages/{report.Name}.json");
                 }
                 else
                 {
