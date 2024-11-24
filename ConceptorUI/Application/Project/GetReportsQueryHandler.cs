@@ -82,6 +82,7 @@ public class GetReportsQueryHandler
                         //     Date = DateTime.Now,
                         //     Json = json
                         // });
+                        break;
                     }
                     else
                     {

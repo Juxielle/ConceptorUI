@@ -76,12 +76,9 @@ namespace ConceptorUI.Views.Component
                 Console.WriteLine(@"Le fichier n'existe pas ou n'est pas de bon format.");
             }
 
-            if (_project.Space != null!)
-            {
-                if (_project.Space.Reports.Count > 0)
-                    LoadSpace();
-            }
-            else NewSpace();
+            if (_project.Space != null! && _project.Space.Reports.Count > 0)
+                LoadSpace();
+            else NewReport();
 
             #endregion
         }
@@ -261,7 +258,7 @@ namespace ConceptorUI.Views.Component
             #endregion
         }
 
-        public void NewReport(bool isComponent = false)
+        public async void NewReport(bool isComponent = false)
         {
             #region Adding new Report
 
@@ -278,8 +275,17 @@ namespace ConceptorUI.Views.Component
             var name = $"Report {indexReport}";
             var code = $"report{indexReport}";
             var date = DateTime.Now;
-            var index = _project.Space.Reports.Count;
 
+            if (_project.Space == null!)
+            {
+                _project.Space = new Space
+                {
+                    Name = "Space 1",
+                    Code = "space1",
+                    Reports = []
+                };
+            }
+            
             _project.Space.Reports.Add(
                 new Report
                 {
@@ -314,8 +320,26 @@ namespace ConceptorUI.Views.Component
             content.Children.Add(windowModel.ComponentView);
             Page.Children.Add(content);
 
-            OnSaved(0, index);
-            OnSaved(2);
+            var componentSerializer = windowModel.OnSerializer();
+            var jsonString = JsonSerializer.Serialize(componentSerializer);
+            
+            await new CreateReportCommandHandler().Handle(new CreateReportCommand
+            {
+                ZipPath = ComponentHelper.FilePath!,
+                ProjectName = ComponentHelper.ProjectName!,
+                Report = new Domain.Entities.Report
+                {
+                    Name = code,
+                    Json = jsonString
+                }
+            });
+
+            await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
+            {
+                ZipPath = ComponentHelper.FilePath!,
+                ProjectName = ComponentHelper.ProjectName!,
+                Json = JsonSerializer.Serialize(_project)
+            });
 
             #endregion
         }
@@ -570,7 +594,7 @@ namespace ConceptorUI.Views.Component
 
         private int NextReportIndex()
         {
-            var n = _project.Space.Reports.Count;
+            var n = _project.Space != null! ? _project.Space.Reports.Count : 0;
             var index = -1;
             for (var i = 1; i <= n; i++)
             {

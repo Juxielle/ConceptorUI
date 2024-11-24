@@ -826,10 +826,10 @@ namespace ConceptorUi.ViewModels
         {
             foreach (var group in PropertyGroups!)
             {
-                var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
+                //var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var prop in group.Properties)
                 {
-                    var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), prop.Name);
+                    //var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), prop.Name);
 
                     #region Alignement
 
