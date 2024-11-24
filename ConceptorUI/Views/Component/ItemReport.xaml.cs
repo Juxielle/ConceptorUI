@@ -119,7 +119,6 @@ namespace ConceptorUI.Views.Component
                     var components = new List<string>(); //Properties.Instance.Components.Where(e => e.Code == code).ToList();
                     if (components.Count == 0)
                     {
-                        PageView.Instance.OnLoaded(code, 1);
                         //Properties.Instance.SelectedComponent = Properties.Instance.Components.Count - 1;
                         ComponentPage.Instance.Refresh();
                         if (withBascule) LeftCompPanel.Instance.ActiveItem(_index, 2);

@@ -21,11 +21,11 @@ public class GetConfigsQueryHandler
             if (entry == null) throw new Exception();
             
             using var reader = new StreamReader(entry.Open());
-
+            
             var buffer = new char[1024];
             int bytesRead;
             var json = string.Empty;
-
+            
             while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
             {
                 try
