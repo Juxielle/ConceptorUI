@@ -25,26 +25,9 @@ public class GetReportsQueryHandler
                     if (folderEntry.FullName.StartsWith($"{request.ProjectName.Replace(@"\", "")}/Pages/"))
                     {
                         var fileName = Path.GetFileName(folderEntry.FullName);
-                        files.Add(fileName);
+                        if(fileName is null or "") continue;
                         
-                        // var entry = archive.GetEntry($@"{request.ProjectName.Replace(@"\", "")}/Pages/{fileName}");
-                        // if (entry != null)
-                        // {
-                        //     using var reader = new StreamReader(entry.Open());
-                        //     var json = await reader.ReadAsync();
-                        //
-                        //     reports.Add(new ReportUiDto
-                        //     {
-                        //         Name = fileName,
-                        //         Code = fileName,
-                        //         Date = DateTime.Now,
-                        //         Json = json!
-                        //     });
-                        // }
-                        // else
-                        // {
-                        //     Console.WriteLine($"Le fichier n'a pas été trouvé dans l'archive.");
-                        // }
+                        files.Add(fileName);
                     }
                 }
             }
@@ -54,20 +37,20 @@ public class GetReportsQueryHandler
             {
                 foreach (var file in files)
                 {
-                    //Console.WriteLine($@"{request.ProjectName.Replace(@"\", "")}/Pages/{file}");
                     var entry = fileArchive.GetEntry($@"{request.ProjectName.Replace(@"\", "")}/Pages/{file}");
                     if (entry != null)
                     {
                         using var reader = new StreamReader(entry.Open());
-                        //var json = await reader.ReadToEndAsync();
                         
                         var buffer = new char[1024];
                         int bytesRead;
+                        var json = string.Empty;
+                        
                         while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
                         {
                             try
                             {
-                                Console.Write(new string(buffer, 0, bytesRead));
+                                json += new string(buffer, 0, bytesRead);
                             }
                             catch (Exception e)
                             {
@@ -75,14 +58,13 @@ public class GetReportsQueryHandler
                             }
                         }
                         
-                        // reports.Add(new ReportUiDto
-                        // {
-                        //     Name = file,
-                        //     Code = file,
-                        //     Date = DateTime.Now,
-                        //     Json = json
-                        // });
-                        break;
+                        reports.Add(new ReportUiDto
+                        {
+                            Name = file,
+                            Code = file,
+                            Date = DateTime.Now,
+                            Json = json
+                        });
                     }
                     else
                     {

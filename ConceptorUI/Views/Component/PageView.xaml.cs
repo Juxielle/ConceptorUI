@@ -103,25 +103,18 @@ namespace ConceptorUI.Views.Component
                 ProjectName = ComponentHelper.ProjectName!
             });
             var reportUiDtos = reportsUiDto.ToList();
-            Console.WriteLine($@"reportsUiDto count: {reportUiDtos.Count}");
-            //Console.WriteLine("Json: "+reportUiDtos.ToList()[0].Json);
 
             Page.Children.Clear();
 
-            var reports = _project.Space.Reports;
+            //var reports = _project.Space.Reports; => Récupérer d'abord les configurations du Projets
             var counter = 0;
             DisplayLoadingCommand?.Execute(true);
             for (var i = 0; i < reports.Count; i++)
             {
-                var filePath = $"{ComponentHelper.ProjectPath}/pages/{reports[i].Code}.json";
-
-                if (!File.Exists(filePath)) continue;
-
                 var sc = SynchronizationContext.Current;
                 var i1 = i;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    var jsonString = File.ReadAllText(filePath);
                     var component = JsonSerializer.Deserialize<CompSerializer>(jsonString)!;
 
                     var k = i1;
