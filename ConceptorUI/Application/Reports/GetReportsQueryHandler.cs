@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
 using System.Threading.Tasks;
-using ConceptorUI.Application.Dto;
+using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Reports;
 
 public class GetReportsQueryHandler
 {
-    public async Task<IEnumerable<ReportUiDto>> Handle(GetReportsQuery request)
+    public async Task<Result<IEnumerable<ReportUiDto>>> Handle(GetReportsQuery request)
     {
         try
         {
@@ -32,7 +32,7 @@ public class GetReportsQueryHandler
                 }
             }
 
-            await using (var fs = File.OpenRead(request.ZipPath))
+            await using (var unused = File.OpenRead(request.ZipPath))
             using (var fileArchive = ZipFile.Open(request.ZipPath, ZipArchiveMode.Read))
             {
                 foreach (var file in files)
@@ -73,12 +73,11 @@ public class GetReportsQueryHandler
                 }
             }
 
-            return reports.AsEnumerable();
+            return Result<IEnumerable<ReportUiDto>>.Success(reports);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine($@"Error: {e.Message}");
-            return new List<ReportUiDto>().AsEnumerable();
+            return Result<IEnumerable<ReportUiDto>>.Failure(Error.NotFound);
         }
     }
 }

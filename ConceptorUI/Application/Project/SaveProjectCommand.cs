@@ -7,5 +7,5 @@ public class SaveProjectCommand
 {
     public string ZipPath { get; init; }
     public string ProjectName { get; init; }
-    public List<Report> Reports { get; init; }
+    public List<Domain.Entities.Report> Reports { get; init; }
 }

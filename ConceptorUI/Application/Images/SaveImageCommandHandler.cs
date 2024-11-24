@@ -1,20 +1,24 @@
 ﻿using System;
 using System.IO.Compression;
+using System.Threading.Tasks;
+using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Images;
 
 public class SaveImageCommandHandler
 {
-    public void Handle(SaveImageCommand command)
+    public Task<Result<bool>> Handle(SaveImageCommand command)
     {
         try
         {
             using var archive = ZipFile.Open(command.ZipPath, ZipArchiveMode.Update);
             archive.CreateEntryFromFile(command.FilePath, command.FileName);
+            
+            return Task.FromResult(Result<bool>.Success(true));
         }
         catch (Exception e)
         {
-            Console.WriteLine($@"Error: {e.Message}");
+            return Task.FromResult(Result<bool>.Failure(Error.NotFound));
         }
     }
 }

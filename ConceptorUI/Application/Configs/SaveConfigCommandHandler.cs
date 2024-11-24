@@ -2,12 +2,13 @@ using System;
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Configs;
 
 public class SaveConfigCommandHandler
 {
-    public async Task Handle(SaveConfigCommand command)
+    public async Task<Result<bool>> Handle(SaveConfigCommand command)
     {
         try
         {
@@ -18,12 +19,14 @@ public class SaveConfigCommandHandler
             {
                 await using var writer = new StreamWriter(entry.Open());
                 await writer.WriteLineAsync(command.Json);
+                
+                return Result<bool>.Success(true);
             }
             else throw new Exception();
         }
         catch (Exception e)
         {
-            Console.WriteLine($@"Error saving config: {e.Message}");
+            return Result<bool>.Failure(Error.NotFound);
         }
     }
 }

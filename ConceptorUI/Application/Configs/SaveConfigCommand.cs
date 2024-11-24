@@ -1,4 +1,4 @@
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Configs;
 
 public class SaveConfigCommand
 {

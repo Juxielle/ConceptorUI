@@ -2,12 +2,13 @@
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Report;
 
 public class CreateReportCommandHandler
 {
-    public async Task Handle(CreateReportCommand command)
+    public async Task<Result<bool>> Handle(CreateReportCommand command)
     {
         try
         {
@@ -17,10 +18,12 @@ public class CreateReportCommandHandler
 
             await using var writer = new StreamWriter(entry.Open());
             await writer.WriteLineAsync(command.Report.Json);
+            
+            return Result<bool>.Success(true);
         }
         catch (Exception e)
         {
-            Console.WriteLine($@"Error creating report: {e.Message}");
+            return Result<bool>.Failure(Error.NotFound);
         }
     }
 }

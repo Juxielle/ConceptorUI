@@ -1,21 +1,25 @@
 ﻿using System;
 using System.IO.Compression;
+using System.Threading.Tasks;
+using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.Images;
 
 public class DeleteImageCommandHandler
 {
-    public void Handle(DeleteImageCommand command)
+    public Task<Result<bool>> Handle(DeleteImageCommand command)
     {
         try
         {
             using var archive = ZipFile.Open(command.ZipPath, ZipArchiveMode.Update);
             var entry = archive.GetEntry($@"{command.ProjectName}/Medias/{command.FileName}");
             entry?.Delete();
+            
+            return Task.FromResult(Result<bool>.Success(true));
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine($@"Error: {e.Message}");
+            return Task.FromResult(Result<bool>.Failure(Error.NotFound));
         }
     }
 }

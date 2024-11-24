@@ -2,12 +2,13 @@
 using System.IO;
 using System.IO.Compression;
 using System.Threading.Tasks;
+using ConceptorUI.Domain.ValueObjects;
 
 namespace ConceptorUI.Application.Project;
 
 public class SaveProjectCommandHandler
 {
-    public async Task Handle(SaveProjectCommand command)
+    public async Task<Result<bool>> Handle(SaveProjectCommand command)
     {
         try
         {
@@ -26,10 +27,12 @@ public class SaveProjectCommandHandler
                     Console.WriteLine($"Le fichier {report.Name} - {command.ProjectName} n'a pas été trouvé dans l'archive.");
                 }
             }
+            
+            return Result<bool>.Success(true);
         }
-        catch (Exception e)
+        catch (Exception)
         {
-            Console.WriteLine($@"Error: {e.Message}");
+            return Result<bool>.Failure(Error.NotFound);
         }
     }
 }

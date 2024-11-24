@@ -1,9 +1,9 @@
-﻿namespace ConceptorUI.Application.Project;
+﻿namespace ConceptorUI.Application.Images;
 
-public class DeleteImageCommand
+public class SaveImageCommand
 {
-    
     public string ZipPath { get; init; }
     public string ProjectName { get; init; }
+    public string FilePath { get; init; }
     public string FileName { get; init; }
 }

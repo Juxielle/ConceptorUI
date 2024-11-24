@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ConceptorUI.Application.Dto;
+namespace ConceptorUI.Application.Dto.UiDto;
 
 public class ReportUiDto
 {
