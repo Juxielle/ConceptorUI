@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using ConceptorUI.Classes;
+using ConceptorUI.Constants;
 using ConceptorUI.Utils;
 using Microsoft.Win32;
 using Syncfusion.Licensing;
@@ -33,12 +34,14 @@ namespace ConceptorUI
                 var filePath = e.Args[0];
 
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
-                var extractPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    @"UIConceptor\Projects");
-                var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
-                var newPath = $@"{extractPath}\{projectId}";
-
-                ZipFile.ExtractToDirectory(filePath, newPath);
+                var configFile = Env.FileConfig;
+                // var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
+                // var newPath = $@"{extractPath}\{projectId}";
+                //
+                // ZipFile.ExtractToDirectory(filePath, newPath);
+                
+                // Récupérer les meta-données du projet
+                // Enregistrer le projet dans les config du system
                 
                 var projectName = Helper.GetProjectName(newPath);
                 Helper.DeleteProject(filePath, projectName);
@@ -65,7 +68,7 @@ namespace ConceptorUI
             splashView.Show();
         }
 
-        private void RefreshIconCache()
+        private static void RefreshIconCache()
         {
             Shell32Interop.SHChangeNotify(Shell32Interop.SHCNE_ASSOCCHANGED, Shell32Interop.SHCNF_FLUSH, IntPtr.Zero,
                 IntPtr.Zero);
@@ -104,17 +107,16 @@ namespace ConceptorUI
                 // Clé pour le type de fichier
                 using (var key = Registry.ClassesRoot.CreateSubKey("ConceptorUix"))
                 {
-                    if (key != null!)
-                    {
-                        key.SetValue("", "Fichier de mon application WPF");
-                        using var subKey = key.CreateSubKey("shell\\open\\command");
-                        if (subKey != null!)
-                            subKey.SetValue("", "\"" + appPath + "\" \"%1\"");
+                    if (key == null!) return;
+                    
+                    key.SetValue("", "Fichier de mon application WPF");
+                    using var subKey = key.CreateSubKey("shell\\open\\command");
+                    if (subKey != null!)
+                        subKey.SetValue("", "\"" + appPath + "\" \"%1\"");
 
-                        using var iconKey = key.CreateSubKey("DefaultIcon");
-                        if (iconKey != null!)
-                            iconKey.SetValue("", iconPath);
-                    }
+                    using var iconKey = key.CreateSubKey("DefaultIcon");
+                    if (iconKey != null!)
+                        iconKey.SetValue("", iconPath);
                 }
             }
             catch (Exception e)
