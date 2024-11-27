@@ -6,10 +6,9 @@ using System.Text.Json;
 using System.Threading.Tasks;
 using ConceptorUI.Application.Dto.JsonDto;
 using ConceptorUI.Application.Dto.UiDto;
-using ConceptorUI.Constants;
 using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Project;
+namespace ConceptorUI.Application.PlatformSystem;
 
 public class GetProjectInfoQueryHandler
 {
@@ -18,7 +17,7 @@ public class GetProjectInfoQueryHandler
         try
         {
             var jsonsDto = JsonSerializer.Deserialize<List<ProjectInfoJsonDto>>(
-                await File.ReadAllTextAsync(Env.FileConfig)
+                await File.ReadAllTextAsync(request.SystemPath)
             );
             
             if (jsonsDto == null)

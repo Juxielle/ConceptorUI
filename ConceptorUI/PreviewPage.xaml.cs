@@ -5,13 +5,16 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Application.Configs;
 using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Application.PlatformSystem;
 using ConceptorUI.Application.Project;
 using ConceptorUI.Utils;
 
@@ -87,21 +90,21 @@ namespace ConceptorUI
                     //PbrPassword.Password = TbrPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "UploadImage":
-                    var fileName = Helper.PickFile();
-                    if (fileName != string.Empty)
+                    var filePath = Helper.PickFile();
+                    if (filePath != string.Empty)
                     {
                         var bitmap = new BitmapImage();
                         bitmap.BeginInit();
-                        bitmap.UriSource = new Uri(fileName, UriKind.Absolute);
+                        bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
                         bitmap.EndInit();
                         AppImage.Source = bitmap;
-                        _projects[_selectedProject].Image = fileName;
+                        _image = filePath;
                     }
 
                     break;
                 case "FolderOpen":
-                    var fileName2 = Helper.PickFile(true);
-                    if (fileName2 != string.Empty)
+                    var filePath2 = Helper.PickFile(true);
+                    if (filePath2 != string.Empty)
                     {
                     }
 
@@ -121,10 +124,10 @@ namespace ConceptorUI
                         //Begin image
                         try
                         {
-                            var path = @$"{DirBase}\UIConceptor\Medias\mobile.png";
+                            const string path = "/Assets/mobile.png";
                             var bitmap = new BitmapImage();
                             bitmap.BeginInit();
-                            bitmap.UriSource = new Uri(path, UriKind.Absolute);
+                            bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
                             bitmap.EndInit();
                             AppImage.Source = bitmap;
                         }
@@ -147,19 +150,16 @@ namespace ConceptorUI
 
             if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
 
-            _selectedProject = _projects.FindIndex(d => d.Id == id);
+            _selectedProject = _projects.ToList().FindIndex(d => d.Id == id);
             var project = _projects[_selectedProject];
             TNameApp.Text = project.Name;
             IdApp.Text = project.Id;
-            //TVersion.Text = project.Version;
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
 
             BCreate.Content = "EXECUTER";
             _formState = FormStates.Opened;
             Form.Visibility = Visibility.Visible;
-
-            //new ProductDetail().ShowDialog();
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
@@ -219,12 +219,12 @@ namespace ConceptorUI
                 case "Create":
                     if (_formState == FormStates.Created)
                     {
-                        _projectPath = Helper.SelectFolder();
+                        _projectPath = Helper.SelectFolder(_name);
                         if (_projectPath == null!) return;
 
                         var fileName = Path.GetFileName(_projectPath);
                         var projectName = fileName.Replace(".xui", "");
-                        var path = _projectPath.Replace(".xui", "");
+                        var path = _projectPath.Replace($@"\{fileName}", "");
 
                         var sc = SynchronizationContext.Current;
                         DoWork(async delegate
@@ -232,27 +232,25 @@ namespace ConceptorUI
                             var createProjectResult = await new CreateProjectCommandHandler().Handle(
                                 new CreateProjectCommand
                                 {
-                                    ProjectId = "",
+                                    ProjectId = projectName,
                                     ProjectName = projectName,
-                                    ProjectImage = "",
-                                    FolderPath = _projectPath
+                                    ProjectImage = _image,
+                                    FolderPath = path
                                 });
 
                             if (createProjectResult.IsFailure) return;
                             var project = createProjectResult.Value;
+                            var projects = _projects.ToList();
 
-                            //Sauvegarde dans les configurations
-
-                            sc!.Post(delegate
+                            projects.Add(project);
+                            var json = JsonSerializer.Serialize(projects);
+                            await new SaveSystemConfigCommandHandler().Handle(new SaveSystemConfigCommand
                             {
-                                TMessage.Text = "Enregistrement du projet dans les configurations.";
+                                Path = Env.DirEnv,
+                                Content = json
+                            });
 
-                                _projects.Add(project);
-                                var jsonString = JsonSerializer.Serialize(_projects);
-                                File.WriteAllText(Env.FileConfig, jsonString);
-                            }, null);
-
-                            sc!.Post(delegate
+                            sc?.Post(delegate
                             {
                                 _projects.Add(project);
                                 BCreate.Content = "EXECUTER";
@@ -273,11 +271,6 @@ namespace ConceptorUI
         private static void DoWork(Action callback)
         {
             ThreadPool.QueueUserWorkItem(delegate { callback(); });
-        }
-
-        public void HidePopup(bool hide)
-        {
-            Popup.Visibility = hide ? Visibility.Collapsed : Visibility.Visible;
         }
     }
 

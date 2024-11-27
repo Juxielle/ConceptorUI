@@ -12,7 +12,7 @@ public class SaveImageCommandHandler
         try
         {
             using var archive = ZipFile.Open(command.ZipPath, ZipArchiveMode.Update);
-            archive.CreateEntryFromFile(command.FilePath, command.FileName);
+            archive.CreateEntryFromFile(command.FilePath, $"{command.ProjectName}/{command.FileName}");
             
             return Task.FromResult(Result<bool>.Success(true));
         }

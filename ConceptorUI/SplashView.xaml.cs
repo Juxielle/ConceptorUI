@@ -7,6 +7,7 @@ using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Application.PlatformSystem;
 using ConceptorUI.Application.Project;
 using ConceptorUI.Constants;
 using ConceptorUI.Utils;
@@ -73,9 +74,13 @@ namespace ConceptorUI
                     }
                 }
 
-                var result = await new GetProjectInfoQueryHandler().Handle(new GetProjectInfoQuery());
+                var result = await new GetProjectInfoQueryHandler().Handle(new GetProjectInfoQuery
+                {
+                    SystemPath = Env.FileConfig
+                });
                 
-                if (result.IsFailure) projects = [];
+                if (result.IsFailure)
+                    projects = [];
                 else projects = result.Value.ToList();
 
                 sc!.Post(delegate

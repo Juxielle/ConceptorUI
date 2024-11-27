@@ -15,7 +15,7 @@ public class CreateProjectCommandHandler
         {
             var projectPath = Path.Combine(command.FolderPath, $"{command.ProjectName}_extern");
             var projectPathIntern = Path.Combine(projectPath, command.ProjectName);
-            var filePath = Path.Combine(projectPathIntern, $"{command.ProjectName}.uix");
+            var filePath = Path.Combine(command.FolderPath, $"{command.ProjectName}.uix");
             
             Directory.CreateDirectory(projectPath);
             Directory.CreateDirectory(projectPathIntern);
@@ -25,7 +25,7 @@ public class CreateProjectCommandHandler
             Directory.CreateDirectory($@"{projectPathIntern}\Caches");
             Directory.CreateDirectory($@"{projectPathIntern}\Datas");
             
-            await File.Create($@"{projectPath}\config.json").DisposeAsync();
+            await File.Create($@"{projectPathIntern}\config.json").DisposeAsync();
             
             ZipFile.CreateFromDirectory(projectPath, filePath);
             Directory.Delete(projectPath, true);
