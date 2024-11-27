@@ -3,6 +3,7 @@
 public class Result<TValue>
 {
     public bool IsSuccess { get; set; }
+    public bool IsFailure { get; set; }
     public TValue Value { get; set; }
     public Error Error { get; set; }
 
@@ -11,6 +12,7 @@ public class Result<TValue>
         return new Result<TValue>
         {
             IsSuccess = true,
+            IsFailure = false,
             Value = value,
             Error = Error.None
         };
@@ -21,6 +23,7 @@ public class Result<TValue>
         return new Result<TValue>
         {
             IsSuccess = false,
+            IsFailure = true,
             Value = default!,
             Error = error
         };

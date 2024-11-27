@@ -10,6 +10,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
+using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Classes;
 using ConceptorUI.Utils;
 
@@ -19,7 +20,7 @@ namespace ConceptorUI
     public partial class PreviewPage
     {
         private static PreviewPage? _obj;
-        private List<Project> _projects;
+        private List<ProjectInfoUiDto> _projects;
         private int _selectedProject;
         private FormStates _formState;
 
@@ -37,7 +38,7 @@ namespace ConceptorUI
         {
             InitializeComponent();
             _obj = this;
-            _projects = new List<Project>();
+            _projects = [];
             _selectedProject = -1;
             _formState = FormStates.Closed;
 
@@ -47,7 +48,7 @@ namespace ConceptorUI
 
         public static PreviewPage Instance => _obj == null! ? new PreviewPage() : _obj;
 
-        public void Show(List<Project> projects)
+        public void Show(List<ProjectInfoUiDto> projects)
         {
             _projects = projects;
             LocalApps.ItemsSource = _projects;
@@ -64,13 +65,13 @@ namespace ConceptorUI
                     PbPassword.Visibility = PbPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     TbPassword.Visibility = TbPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     PVisible.Kind = TbPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PbPassword.Password = TbPassword.Text = _projects[_selectedProject].Password;
+                    //PbPassword.Password = TbPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "RPASSWORD_EYE":
                     PbrPassword.Visibility = PbrPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     TbrPassword.Visibility = TbrPassword.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
                     RpVisible.Kind = TbrPassword.Visibility != Visibility.Visible ? PackIconKind.EyeOffOutline : PackIconKind.EyeOutline;
-                    PbrPassword.Password = TbrPassword.Text = _projects[_selectedProject].Password;
+                    //PbrPassword.Password = TbrPassword.Text = _projects[_selectedProject].Password;
                     break;
                 case "UploadImage":
                     var fileName = Helper.PickFile();
@@ -130,11 +131,11 @@ namespace ConceptorUI
             
             if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
 
-            _selectedProject = _projects.FindIndex(d => d.ID == id);
+            _selectedProject = _projects.FindIndex(d => d.Id == id);
             var project = _projects[_selectedProject];
             TNameApp.Text = project.Name;
-            IdApp.Text = project.ID;
-            TVersion.Text = project.Version;
+            IdApp.Text = project.Id;
+            //TVersion.Text = project.Version;
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
             
@@ -206,15 +207,13 @@ namespace ConceptorUI
                             {
                                 TMessage.Text = "Enregistrement du projet dans les configurations.";
                                 
-                                var project = new Project
+                                var project = new ProjectInfoUiDto
                                 {
-                                    ID = projectName,
+                                    Id= projectName,
                                     Name = _name,
-                                    Password = _password,
-                                    Color = "transparent",
                                     Created = DateTime.Now,
                                     Updated = DateTime.Now,
-                                    FolderPath = path,
+                                    ZipPath = path,
                                     Image = "",
                                 };
                                 
