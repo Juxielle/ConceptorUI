@@ -68,7 +68,7 @@ namespace ConceptorUI.Views.Component
                 ZipPath = projectInfoUiDto.ZipPath,
                 ProjectName = projectInfoUiDto.Name
             });
-            
+
             if (configResult.IsSuccess)
             {
                 _project = configResult.Value;
@@ -98,8 +98,8 @@ namespace ConceptorUI.Views.Component
                 ZipPath = _project.ZipPath,
                 ProjectName = _project.Name
             });
-            
-            if(!reportsResult.IsSuccess) return;
+
+            if (!reportsResult.IsSuccess) return;
             var reports = reportsResult.Value.ToList();
 
             Page.Children.Clear();
@@ -112,7 +112,7 @@ namespace ConceptorUI.Views.Component
                 ThreadPool.QueueUserWorkItem(delegate
                 {
                     var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
-                    
+
                     var k = j;
                     sc!.Post(delegate
                     {
@@ -204,7 +204,7 @@ namespace ConceptorUI.Views.Component
 
             var name = $"Report {indexReport}";
             var code = $"report{indexReport}";
-            
+
             _project.ReportInfos.Add(
                 new ReportInfoUiDto
                 {
@@ -233,6 +233,10 @@ namespace ConceptorUI.Views.Component
                 Tag = code
             };
             title.MouseDown += OnSelectedHandle;
+            title.MouseEnter += OnMouseEnterHandle;
+            title.PreviewMouseUp += OnPreviewMouseUp;
+            title.MouseLeave += OnPreviewMouseLeave;
+            title.PreviewMouseMove += OnPreviewMouseMove;
 
             content.Children.Add(title);
             content.Children.Add(windowModel.ComponentView);
@@ -240,7 +244,7 @@ namespace ConceptorUI.Views.Component
 
             var componentSerializer = windowModel.OnSerializer();
             var jsonString = JsonSerializer.Serialize(componentSerializer);
-            
+
             await new CreateReportCommandHandler().Handle(new CreateReportCommand
             {
                 ZipPath = _project.ZipPath,
@@ -262,35 +266,42 @@ namespace ConceptorUI.Views.Component
             #endregion
         }
 
-        public void DeleteReport()
+        public async void DeleteReport()
         {
+            var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
+            {
+                ZipPath = _project.ZipPath,
+                ProjectName = _project.Name,
+                FileName = _project.ReportInfos[_selectedReport].Name,
+                FileCode = _project.ReportInfos[_selectedReport].Code
+            });
+            if (!result.IsSuccess) return;
+
+            var title = ((StackPanel)Page.Children[_selectedReport]).Children[0];
+            title.MouseDown -= OnSelectedHandle;
+            title.MouseEnter -= OnMouseEnterHandle;
+            title.PreviewMouseUp -= OnPreviewMouseUp;
+            title.MouseLeave -= OnPreviewMouseLeave;
+            title.PreviewMouseMove -= OnPreviewMouseMove;
+
             _project.ReportInfos.RemoveAt(_selectedReport);
-
-            File.Delete($"{_project.ReportInfos[_selectedReport].Code}.json");
-
-            _components[_project.ReportInfos[_selectedReport].Code].SelectedCommand =
-                new RelayCommand(OnSelectedHandle);
-            _components[_project.ReportInfos[_selectedReport].Code].RefreshPropertyPanelCommand =
-                new RelayCommand(OnRefreshPropertyPanelHandle);
-            _components[_project.ReportInfos[_selectedReport].Code].RefreshStructuralViewCommand =
-                new RelayCommand(OnRefreshStructuralViewHandle);
-
             _components.Remove(_project.ReportInfos[_selectedReport].Code);
-
-            var n = Page.Children.Count;
             Page.Children.RemoveAt(_selectedReport);
 
-            if (n > 1)
-            {
-                _selectedReport = 0;
-            }
+            if (Page.Children.Count > 0) _selectedReport = 0;
 
-            //OnSaved(2);
+            await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
+            {
+                ZipPath = _project.ZipPath,
+                ProjectName = _project.Name,
+                Json = JsonSerializer.Serialize(_project)
+            });
         }
 
         public void AddComponent(string componentName)
         {
             if (!ComponentHelper.IsComponent(componentName)) return;
+
             var component = ComponentHelper.GetComponent(componentName);
             var compText = JsonSerializer.Serialize(component.OnSerializer());
             _components[_project.ReportInfos[_selectedReport].Code].OnCopyOrPaste(compText, true);
@@ -418,13 +429,12 @@ namespace ConceptorUI.Views.Component
                 var reports = new List<Domain.Entities.Report>();
                 foreach (var key in _components.Keys)
                 {
-                            
                     var componentSerializer = _components[key].OnSerializer();
-                            
+
                     var jsonString = JsonSerializer.Serialize(componentSerializer);
-                    reports.Add(new Domain.Entities.Report{ Name = key, Json = jsonString });
+                    reports.Add(new Domain.Entities.Report { Name = key, Json = jsonString });
                 }
-                        
+
                 await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
                 {
                     ZipPath = _project.ZipPath,
@@ -432,10 +442,7 @@ namespace ConceptorUI.Views.Component
                     Reports = reports
                 });
 
-                sc!.Post(delegate
-                {
-                    DisplayLoadingCommand?.Execute(false);
-                }, null);
+                sc!.Post(delegate { DisplayLoadingCommand?.Execute(false); }, null);
 
                 #endregion
             });
