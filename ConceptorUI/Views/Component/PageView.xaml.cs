@@ -46,6 +46,7 @@ namespace ConceptorUI.Views.Component
 
             _obj = this;
             var manageEnums = new ManageEnums();
+            
             _project = new ProjectUiDto();
             _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
             _selectedReport = 0;
