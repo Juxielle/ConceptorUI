@@ -19,6 +19,9 @@ public class ReadImageFromZipService
 
             if (mediaEntry == null)
                 throw new Exception();
+            //Chaque application possède son cache dans le Temp folder.
+            //Pour cela, une application doit avoir un identifiant unique
+            //Cet id lui est attribué lors du lancement
 
             if(!File.Exists(filePath))
                 mediaEntry.ExtractToFile(Env.DirEnv, overwrite: true);
