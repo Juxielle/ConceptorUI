@@ -12,7 +12,6 @@ using System.Windows.Media;
 using ConceptorUI.Application.Configs;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.Project;
-using ConceptorUI.Application.Report;
 using ConceptorUI.Application.Reports;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
@@ -49,7 +48,7 @@ namespace ConceptorUI.Views.Component
             {
                 ReportInfos = []
             };
-            
+
             _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
             _selectedReport = 0;
             _clickCount = 0;
@@ -62,6 +61,18 @@ namespace ConceptorUI.Views.Component
         public async void Refresh(object projectObject)
         {
             var projectInfoUiDto = (projectObject as ProjectInfoUiDto)!;
+            _project = new ProjectUiDto
+            {
+                ZipPath = projectInfoUiDto.ZipPath,
+                Id = projectInfoUiDto.Id,
+                Name = projectInfoUiDto.Name,
+                Image = projectInfoUiDto.Image,
+                Created = projectInfoUiDto.Created,
+                Updated = projectInfoUiDto.Updated,
+                ReportInfos = []
+            };
+            ComponentHelper.ProjectPath = projectInfoUiDto.ZipPath;
+            ComponentHelper.ProjectName = projectInfoUiDto.Name;
 
             #region Init Space
 
@@ -98,7 +109,8 @@ namespace ConceptorUI.Views.Component
             var reportsResult = await new GetReportsQueryHandler().Handle(new GetReportsQuery
             {
                 ZipPath = _project.ZipPath,
-                ProjectName = _project.Name
+                ProjectName = _project.Name,
+                ReportInfos = _project.ReportInfos
             });
 
             if (!reportsResult.IsSuccess) return;

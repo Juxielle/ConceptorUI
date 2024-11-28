@@ -57,11 +57,13 @@ public class GetReportsQueryHandler
                                 Console.WriteLine($@"Error Message: {e.Message}");
                             }
                         }
-                        
+
+                        var code = file.Replace(".json", "");
+                        var name = request.ReportInfos.Find(r => r.Code == code)?.Name;
                         reports.Add(new ReportUiDto
                         {
-                            Name = file,
-                            Code = file,
+                            Name = name ?? code,
+                            Code = code,
                             Date = DateTime.Now,
                             Json = json
                         });

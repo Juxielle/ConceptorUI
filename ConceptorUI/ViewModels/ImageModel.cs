@@ -1,11 +1,10 @@
 ﻿using ConceptorUI.Models;
-using System;
 using System.Windows.Controls;
 using System.Windows.Media;
 using System.Windows;
 using System.Windows.Input;
-using System.Windows.Media.Imaging;
 using ConceptorUI.Enums;
+using ConceptorUI.Services;
 using ConceptorUI.Utils;
 
 
@@ -41,23 +40,8 @@ namespace ConceptorUi.ViewModels
 
         protected override void WhenFileLoaded(string value)
         {
-            try
-            {
-                var path = ComponentHelper.ProjectPath + "/Medias/" + value;
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri(path, UriKind.RelativeOrAbsolute);
-                bitmap.EndInit();
-                _child.ImageSource = bitmap;
-            }
-            catch (Exception)
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.UriSource = new Uri("pack://application:,,,/Assets/image.png", UriKind.Absolute);
-                bitmap.EndInit();
-                _child.ImageSource = bitmap;
-            }
+            _child.ImageSource =
+                ReadImageFromZipService.GetImage(ComponentHelper.ProjectPath!, ComponentHelper.ProjectName!, value);
         }
 
         public sealed override void SelfConstraints()

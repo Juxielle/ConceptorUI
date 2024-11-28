@@ -1,4 +1,4 @@
-﻿namespace ConceptorUI.Application.Report;
+﻿namespace ConceptorUI.Application.Reports;
 
 public class CreateReportCommand
 {

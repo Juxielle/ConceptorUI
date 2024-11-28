@@ -82,11 +82,6 @@ namespace ConceptorUI
                 if (result.IsFailure)
                     projects = [];
                 else projects = result.Value.ToList();
-                if (projects.Count > 0)
-                    await new GetProjectMetaDataQueryHandler().Handle(new GetProjectMetaDataQuery
-                    {
-                        ZipPath = projects[0].ZipPath
-                    });
 
                 sc!.Post(delegate
                 {
