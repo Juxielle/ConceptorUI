@@ -240,6 +240,17 @@ namespace ConceptorUI
 
                             if (createProjectResult.IsFailure) return;
                             var project = createProjectResult.Value;
+                            
+                            await new SaveProjectMetaDataCommandHandler().Handle(new SaveProjectMetaDataCommand
+                            {
+                                Id = project.Id,
+                                Name = project.Name,
+                                Created = DateTime.Now,
+                                Updated = DateTime.Now,
+                                ZipPath = project.ZipPath,
+                                Image = project.Image
+                            });
+                            
                             var projects = _projects.ToList();
 
                             projects.Add(project);

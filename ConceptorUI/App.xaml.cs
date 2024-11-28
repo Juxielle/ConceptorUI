@@ -43,7 +43,10 @@ namespace ConceptorUI
                 });
 
                 if (metaDataResult.IsSuccess)
+                {
                     projectInfoUiDto = metaDataResult.Value;
+                    Console.WriteLine($@"Entre ici. {filePath}");
+                }
                 else
                 {
                     var projectNaturalInfosResult = await new GetProjectNaturalInfosQueryHandler()
@@ -61,7 +64,7 @@ namespace ConceptorUI
                         ZipPath = filePath,
                         Image = projectNaturalInfos.Image
                     };
-
+                    
                     await new SaveProjectMetaDataCommandHandler().Handle(new SaveProjectMetaDataCommand
                     {
                         Id = projectNaturalInfos.OriginalName,

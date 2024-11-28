@@ -2,7 +2,6 @@
 using ConceptorUi.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text.Json;
 using System.Threading;
@@ -46,7 +45,11 @@ namespace ConceptorUI.Views.Component
 
             _obj = this;
             var manageEnums = new ManageEnums();
-            _project = new ProjectUiDto();
+            _project = new ProjectUiDto
+            {
+                ReportInfos = []
+            };
+            
             _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
             _selectedReport = 0;
             _clickCount = 0;
