@@ -4,6 +4,8 @@ using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
+using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Application.Project;
 using ConceptorUI.Classes;
 using ConceptorUI.Constants;
 using ConceptorUI.Utils;
@@ -25,42 +27,56 @@ namespace ConceptorUI
             RefreshIconCache();
         }
 
-        protected override void OnStartup(StartupEventArgs e)
+        protected override async void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
 
             if (e.Args.Length > 0)
             {
                 var filePath = e.Args[0];
-
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
-                var configFile = Env.FileConfig;
-                // var projectId = $"project_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
-                // var newPath = $@"{extractPath}\{projectId}";
-                //
-                // ZipFile.ExtractToDirectory(filePath, newPath);
+                ProjectInfoUiDto projectInfoUiDto;
                 
-                // Récupérer les meta-données du projet
-                // Enregistrer le projet dans les config du system
-                
-                var projectName = Helper.GetProjectName(newPath);
-                Helper.DeleteProject(filePath, projectName);
-
-                var project = new Project
+                var metaDataResult = await new GetProjectMetaDataQueryHandler().Handle(new GetProjectMetaDataQuery
                 {
-                    ID = projectId,
-                    Name = projectName,
-                    Password = "",
-                    Color = "transparent",
-                    Created = DateTime.Now,
-                    Updated = DateTime.Now,
-                    FolderPath = newPath,
-                    FilePath = filePath,
-                    Image = ""
-                };
-                Helper.SaveProject(project);
-                
-                new MainWindow().Show(project);
+                    ZipPath = filePath
+                });
+
+                if (metaDataResult.IsSuccess)
+                {
+                    projectInfoUiDto = metaDataResult.Value;
+                    Console.WriteLine($@"Entre ici. {filePath}");
+                }
+                else
+                {
+                    var projectNaturalInfosResult = await new GetProjectNaturalInfosQueryHandler()
+                        .Handle(new GetProjectNaturalInfosQuery { ZipPath = filePath });
+                    
+                    if(projectNaturalInfosResult.IsFailure) return;
+                    var projectNaturalInfos = projectNaturalInfosResult.Value;
+                    
+                    projectInfoUiDto = new ProjectInfoUiDto
+                    {
+                        Id = projectNaturalInfos.OriginalName,
+                        Name = filename,
+                        Created = DateTime.Now,
+                        Updated = DateTime.Now,
+                        ZipPath = filePath,
+                        Image = projectNaturalInfos.Image
+                    };
+                    
+                    await new SaveProjectMetaDataCommandHandler().Handle(new SaveProjectMetaDataCommand
+                    {
+                        Id = projectNaturalInfos.OriginalName,
+                        Name = filename,
+                        Created = DateTime.Now,
+                        Updated = DateTime.Now,
+                        ZipPath = filePath,
+                        Image = projectNaturalInfos.Image
+                    });
+                }
+
+                new MainWindow().Show(projectInfoUiDto);
                 return;
             }
 
@@ -108,7 +124,7 @@ namespace ConceptorUI
                 using (var key = Registry.ClassesRoot.CreateSubKey("ConceptorUix"))
                 {
                     if (key == null!) return;
-                    
+
                     key.SetValue("", "Fichier de mon application WPF");
                     using var subKey = key.CreateSubKey("shell\\open\\command");
                     if (subKey != null!)

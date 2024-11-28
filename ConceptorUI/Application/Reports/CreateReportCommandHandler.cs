@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Threading.Tasks;
 using ConceptorUI.Domain.ValueObjects;
 
-namespace ConceptorUI.Application.Report;
+namespace ConceptorUI.Application.Reports;
 
 public class CreateReportCommandHandler
 {

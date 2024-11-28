@@ -10,6 +10,7 @@ using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
 using ConceptorUI.Classes;
 using System.Collections.ObjectModel;
+using ConceptorUI.Application.Images;
 
 
 namespace ConceptorUI.Views.Component
@@ -93,7 +94,7 @@ namespace ConceptorUI.Views.Component
             _allowSetField = true;
         }
 
-        private void BtnClick(object sender, RoutedEventArgs e)
+        private async void BtnClick(object sender, RoutedEventArgs e)
         {
             var tag = (sender as Button)!.Tag.ToString()!;
             var propertyName = PropertyNames.None;
@@ -162,11 +163,16 @@ namespace ConceptorUI.Views.Component
 
                         var extension = Path.GetExtension(filePath);
                         var fileName = $"img_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}{extension}";
-                        var path = Path.Combine(ComponentHelper.ProjectPath!,
-                            $"Medias/{fileName}");
 
-                        if (!File.Exists(path))
-                            File.Copy(filePath, path);
+                        var saveImageResult = await new SaveImageCommandHandler().Handle(new SaveImageCommand
+                        {
+                            ZipPath = ComponentHelper.ProjectPath!,
+                            ProjectName = ComponentHelper.ProjectName!,
+                            FilePath = filePath,
+                            FileName = fileName,
+                        });
+                        
+                        if(saveImageResult.IsFailure) return;
 
                         sendValue = fileName;
                         propertyName = PropertyNames.FilePicker;

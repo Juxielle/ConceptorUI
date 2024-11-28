@@ -34,10 +34,10 @@ public class Helper
         return result == true ? dialog.FileName : string.Empty;
     }
 
-    public static string SelectFolder()
+    public static string SelectFolder(string name)
     {
         var dlg = new Microsoft.Win32.SaveFileDialog();
-        dlg.FileName = "application_ui";
+        dlg.FileName = name;
         dlg.DefaultExt = ".xui";
         dlg.Filter = "Xui Applications (*.xui)|*.xui";
 

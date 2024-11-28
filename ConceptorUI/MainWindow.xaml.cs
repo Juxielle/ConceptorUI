@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Classes;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
@@ -15,14 +16,14 @@ namespace ConceptorUI
     public partial class MainWindow
     {
         private static MainWindow? _obj;
-        private readonly List<Project> _projects;
+        private readonly List<ProjectInfoUiDto> _projects;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _obj = this;
-            _projects = new List<Project>();
+            _projects = new List<ProjectInfoUiDto>();
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
@@ -83,7 +84,7 @@ namespace ConceptorUI
         {
             Show();
 
-            _projects.Add((Project)project);
+            _projects.Add((ProjectInfoUiDto)project);
             PageView.Refresh(_projects[0]);
         }
 

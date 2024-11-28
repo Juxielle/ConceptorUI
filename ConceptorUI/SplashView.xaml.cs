@@ -1,13 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Text.Json;
 using System.Threading;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ConceptorUI.Classes;
+using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Application.PlatformSystem;
+using ConceptorUI.Application.Project;
 using ConceptorUI.Constants;
 using ConceptorUI.Utils;
+using Syncfusion.Data.Extensions;
 
 
 namespace ConceptorUI
@@ -22,10 +26,10 @@ namespace ConceptorUI
 
         private void DoWork()
         {
-            var projects = new List<Project>();
+            var projects = new List<ProjectInfoUiDto>();
             var sc = SynchronizationContext.Current;
 
-            ThreadPool.QueueUserWorkItem(delegate
+            ThreadPool.QueueUserWorkItem(async delegate
             {
                 var dirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
                 if (!new DirectoryInfo(dirBase + @"\UIConceptor").Exists)
@@ -38,12 +42,13 @@ namespace ConceptorUI
                     Directory.CreateDirectory(dirBase + @"\UIConceptor\Fonts");
                     File.Create(dirBase + @"\UIConceptor\Configs\config.json").Dispose();
 
+                    var projects1 = projects;
                     sc!.Post(delegate
                     {
                         _createImage();
                         File.WriteAllText(
                             dirBase + @"\UIConceptor\Configs\config.json",
-                            JsonSerializer.Serialize(projects)
+                            JsonSerializer.Serialize(projects1)
                         );
                     }, null);
                 }
@@ -68,25 +73,19 @@ namespace ConceptorUI
                         Directory.CreateDirectory(dirBase + @"\UIConceptor\Medias");
                     }
                 }
-                    
-                if (File.Exists(Env.FileConfig))
+
+                var result = await new GetProjectInfoQueryHandler().Handle(new GetProjectInfoQuery
                 {
-                    var allProjects = Helper.GetProjects();
-                    foreach (var project in allProjects)
-                    {
-                        if (File.Exists(project.FilePath))
-                        {
-                            projects.Add(project);
-                        }
-                    }
-                }
+                    SystemPath = Env.FileConfig
+                });
+                
+                if (result.IsFailure)
+                    projects = [];
+                else projects = result.Value.ToList();
 
                 sc!.Post(delegate
                 {
                     _createImage();
-                    // var dirs = Directory.GetDirectories(Path.Combine(dirBase, @"UIConceptor\Projects"), "*",
-                    //     SearchOption.TopDirectoryOnly);
-
                     PreviewPage.Instance.Show(projects);
                     Close();
                 }, null);

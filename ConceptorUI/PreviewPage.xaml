@@ -284,7 +284,7 @@
                                 <DataTemplate>
                                     <widget:AppBox Width="280"
                                                    Height="200"
-                                                   Tag="{Binding ID}"
+                                                   Tag="{Binding Id}"
                                                    Label="{Binding Name}"
                                                    HorizontalAlignment="Left"
                                                    MouseDown="OnMouseDownApp"
@@ -608,15 +608,5 @@
                 </StackPanel>
             </Border>
         </ScrollViewer>
-
-        <component:PopupView Height="60"
-                             Width="500"
-                             HorizontalAlignment="Right"
-                             VerticalAlignment="Bottom"
-                             Grid.ColumnSpan="3"
-                             Grid.Column="0"
-                             Margin="10"
-                             x:Name="Popup"
-                             Visibility="Collapsed" />
     </Grid>
 </Window>

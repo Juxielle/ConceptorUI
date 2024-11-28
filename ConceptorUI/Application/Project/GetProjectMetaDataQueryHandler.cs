@@ -19,9 +19,24 @@ public class GetProjectMetaDataQueryHandler
             await using var fs = new FileStream(request.ZipPath + ":" + streamName, FileMode.Open);
             using var reader = new StreamReader(fs);
 
-            var metadata = await reader.ReadToEndAsync();
+            var buffer = new char[1024];
+            int bytesRead;
+            var json = string.Empty;
+            
+            while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
+            {
+                try
+                {
+                    json += new string(buffer, 0, bytesRead);
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine($@"Error Message: {e.Message}");
+                }
+            }
 
-            var jsonDto = JsonSerializer.Deserialize<ProjectInfoJsonDto>(metadata);
+            json = json.Replace(@"\", @"\\");
+            var jsonDto = JsonSerializer.Deserialize<ProjectInfoJsonDto>(json);
             if (jsonDto == null) throw new Exception();
 
             return Result<ProjectInfoUiDto>.Success(new ProjectInfoUiDto
@@ -34,8 +49,9 @@ public class GetProjectMetaDataQueryHandler
                 Updated = jsonDto.Updated
             });
         }
-        catch (Exception)
+        catch (Exception e)
         {
+            Console.WriteLine($@"Error: {e.Message}");
             return Result<ProjectInfoUiDto>.Failure(Error.NotFound);
         }
     }

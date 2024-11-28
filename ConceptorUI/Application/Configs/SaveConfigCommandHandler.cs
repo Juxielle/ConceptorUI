@@ -13,18 +13,19 @@ public class SaveConfigCommandHandler
         try
         {
             using var archive = ZipFile.Open(command.ZipPath, ZipArchiveMode.Update);
-            
+
             var entry = archive.GetEntry($@"{command.ProjectName}/config.json");
             if (entry != null)
             {
                 await using var writer = new StreamWriter(entry.Open());
                 await writer.WriteLineAsync(command.Json);
-                
+
                 return Result<bool>.Success(true);
             }
-            else throw new Exception();
+
+            throw new Exception();
         }
-        catch (Exception e)
+        catch (Exception)
         {
             return Result<bool>.Failure(Error.NotFound);
         }
