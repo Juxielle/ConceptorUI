@@ -14,23 +14,19 @@ public class ReadImageFromZipService
         {
             Console.WriteLine($"Image path: {projectName}/Medias/{imageName}");
             using var archive = ZipFile.OpenRead(zipPath);
-            var entry = archive.GetEntry($"{projectName}/Medias/{imageName}");
-            var mediaEntry = archive.GetEntry($"{projectName}/Medias");
-            var temp = Path.GetTempPath();
+            var mediaEntry = archive.GetEntry($"{projectName}/Medias/");
+            var filePath = Path.Combine(Env.DirEnv, $"Medias/{imageName}");
 
-            if (entry == null)
+            if (mediaEntry == null)
                 throw new Exception();
 
-            using var stream = entry.Open();
-            //stream.Position = 0;
-            mediaEntry?.ExtractToFile(Env.DirEnv, overwrite: true);
+            if(!File.Exists(filePath))
+                mediaEntry.ExtractToFile(Env.DirEnv, overwrite: true);
             
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.StreamSource = stream;
-            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+            bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
             bitmap.EndInit();
-            //bitmap.Freeze();
 
             return bitmap;
         }
