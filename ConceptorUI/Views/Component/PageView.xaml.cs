@@ -118,6 +118,8 @@ namespace ConceptorUI.Views.Component
 
             Page.Children.Clear();
             var counter = 0;
+            var failCounter = 0;
+            
             DisplayLoadingCommand?.Execute(true);
             for (var i = 0; i < reports.Count; i++)
             {
@@ -125,77 +127,89 @@ namespace ConceptorUI.Views.Component
                 var j = i;
                 ThreadPool.QueueUserWorkItem(delegate
                 {
-                    var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
-
-                    var k = j;
-                    sc!.Post(delegate
+                    try
                     {
-                        ConceptorUi.ViewModels.Component windowModel;
-
-                        if (component.Name == ComponentList.Window.ToString())
-                            windowModel = new WindowModel(true);
-                        else windowModel = new ComponentModel(true);
-
-                        windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                        windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
-                        windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
-
-                        _components.Add(reports[k].Code, windowModel);
-
-                        windowModel.OnDeserializer(component);
-
-                        counter++;
-                        if (counter != reports.Count) return;
-
-                        DisplayLoadingCommand?.Execute(false);
-
-                        for (var p = 0; p < reports.Count; p++)
+                        var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
+                        Console.WriteLine(@"Deserialisation Effectuée avec Succès.");
+                        var k = j;
+                        var counter1 = failCounter;
+                        sc!.Post(delegate
                         {
-                            var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
-                                .GetValue(PropertyNames.X);
-                            var componentX = 0.0;
-                            if (Helper.IsDeserializable<WindowPosition>(componentSx))
-                                componentX = Helper.Deserialize<WindowPosition>(componentSx).ForWindow;
-                            else if (Helper.IsNumber(componentSx))
-                                componentX = Helper.ConvertToDouble(componentSx) - 200;
+                            ConceptorUi.ViewModels.Component windowModel;
 
-                            var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
-                                .GetValue(PropertyNames.Y);
-                            var componentY = 0.0;
-                            if (Helper.IsDeserializable<WindowPosition>(componentSy))
-                                componentY = Helper.Deserialize<WindowPosition>(componentSy).ForWindow;
-                            else if (Helper.IsNumber(componentSy))
-                                componentY = Helper.ConvertToDouble(componentSy);
+                            if (component.Name == ComponentList.Window.ToString())
+                                windowModel = new WindowModel(true);
+                            else windowModel = new ComponentModel(true);
 
-                            var content = new StackPanel
+                            windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                            windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
+                            windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
+
+                            _components.Add(reports[k].Code, windowModel);
+
+                            windowModel.OnDeserializer(component);
+
+                            counter++;
+                            //Récupérer uniquement les éléments bien serialisés
+                            if (counter != reports.Count - counter1) return;
+
+                            DisplayLoadingCommand?.Execute(false);
+
+                            for (var p = 0; p < reports.Count - counter1; p++)
                             {
-                                Width = 400,
-                                VerticalAlignment = VerticalAlignment.Top,
-                                HorizontalAlignment = HorizontalAlignment.Left,
-                                Margin = new Thickness(componentX, componentY, 0, 30)
-                            };
+                                if(!_components.ContainsKey(reports[p].Code)) continue;
+                                
+                                var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                    .GetValue(PropertyNames.X);
+                                var componentX = 0.0;
+                                if (Helper.IsDeserializable<WindowPosition>(componentSx))
+                                    componentX = Helper.Deserialize<WindowPosition>(componentSx).ForWindow;
+                                else if (Helper.IsNumber(componentSx))
+                                    componentX = Helper.ConvertToDouble(componentSx) - 200;
 
-                            var title = new TextBlock
-                            {
-                                Text = reports[p].Name,
-                                FontSize = 14,
-                                Margin = new Thickness(0, 0, 0, 6),
-                                Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                                HorizontalAlignment = HorizontalAlignment.Stretch,
-                                TextAlignment = TextAlignment.Center,
-                                Tag = reports[p].Code
-                            };
-                            title.MouseDown += OnSelectedHandle;
-                            title.MouseEnter += OnMouseEnterHandle;
-                            title.PreviewMouseUp += OnPreviewMouseUp;
-                            title.MouseLeave += OnPreviewMouseLeave;
-                            title.PreviewMouseMove += OnPreviewMouseMove;
+                                var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                    .GetValue(PropertyNames.Y);
+                                var componentY = 0.0;
+                                if (Helper.IsDeserializable<WindowPosition>(componentSy))
+                                    componentY = Helper.Deserialize<WindowPosition>(componentSy).ForWindow;
+                                else if (Helper.IsNumber(componentSy))
+                                    componentY = Helper.ConvertToDouble(componentSy);
 
-                            content.Children.Add(title);
-                            content.Children.Add(_components[reports[p].Code].ComponentView);
-                            Page.Children.Add(content);
-                        }
-                    }, null);
+                                var content = new StackPanel
+                                {
+                                    Width = 400,
+                                    VerticalAlignment = VerticalAlignment.Top,
+                                    HorizontalAlignment = HorizontalAlignment.Left,
+                                    Margin = new Thickness(componentX, componentY, 0, 30)
+                                };
+
+                                var title = new TextBlock
+                                {
+                                    Text = reports[p].Name,
+                                    FontSize = 14,
+                                    Margin = new Thickness(0, 0, 0, 6),
+                                    Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
+                                    HorizontalAlignment = HorizontalAlignment.Stretch,
+                                    TextAlignment = TextAlignment.Center,
+                                    Tag = reports[p].Code
+                                };
+                                title.MouseDown += OnSelectedHandle;
+                                title.MouseEnter += OnMouseEnterHandle;
+                                title.PreviewMouseUp += OnPreviewMouseUp;
+                                title.MouseLeave += OnPreviewMouseLeave;
+                                title.PreviewMouseMove += OnPreviewMouseMove;
+
+                                content.Children.Add(title);
+                                content.Children.Add(_components[reports[p].Code].ComponentView);
+                                Page.Children.Add(content);
+                            }
+                        }, null);
+                    }
+                    catch (Exception e)
+                    {
+                        failCounter++;
+                        Console.WriteLine($"Error: {e.Message}");
+                    }
                 });
             }
 

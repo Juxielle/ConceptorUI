@@ -1,14 +1,10 @@
 ﻿using System;
 using System.IO;
-using System.IO.Compression;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.Project;
-using ConceptorUI.Classes;
-using ConceptorUI.Constants;
-using ConceptorUI.Utils;
 using Microsoft.Win32;
 using Syncfusion.Licensing;
 
@@ -45,7 +41,7 @@ namespace ConceptorUI
                 if (metaDataResult.IsSuccess)
                 {
                     projectInfoUiDto = metaDataResult.Value;
-                    Console.WriteLine($@"Entre ici. {filePath}");
+                    Console.WriteLine($@"Meta données trouvées");
                 }
                 else
                 {
@@ -74,6 +70,7 @@ namespace ConceptorUI
                         ZipPath = filePath,
                         Image = projectNaturalInfos.Image
                     });
+                    Console.WriteLine($@"Enregistrement des Meta données");
                 }
 
                 new MainWindow().Show(projectInfoUiDto);
