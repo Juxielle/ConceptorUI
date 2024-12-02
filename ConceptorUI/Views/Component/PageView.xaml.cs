@@ -130,7 +130,7 @@ namespace ConceptorUI.Views.Component
                     try
                     {
                         var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
-                        Console.WriteLine(@"Deserialisation Effectuée avec Succès.");
+                        
                         var k = j;
                         var counter1 = failCounter;
                         sc!.Post(delegate
