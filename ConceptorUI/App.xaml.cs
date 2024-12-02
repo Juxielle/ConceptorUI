@@ -4,7 +4,9 @@ using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows;
 using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Application.PlatformSystem;
 using ConceptorUI.Application.Project;
+using ConceptorUI.Constants;
 using Microsoft.Win32;
 using Syncfusion.Licensing;
 
@@ -27,6 +29,11 @@ namespace ConceptorUI
         {
             base.OnStartup(e);
 
+            await new CleanConfigsCommandHandler().Handle(new CleanConfigsCommand
+            {
+                SystemPath = Env.DirEnv
+            });
+
             if (e.Args.Length > 0)
             {
                 var filePath = e.Args[0];
@@ -37,6 +44,7 @@ namespace ConceptorUI
                 {
                     ZipPath = filePath
                 });
+                Console.WriteLine($@"filePath: {filePath}");
 
                 if (metaDataResult.IsSuccess)
                 {
