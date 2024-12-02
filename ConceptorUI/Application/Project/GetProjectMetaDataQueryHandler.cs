@@ -36,6 +36,7 @@ public class GetProjectMetaDataQueryHandler
             }
 
             json = json.Replace(@"\", @"\\");
+            
             var jsonDto = JsonSerializer.Deserialize<ProjectInfoJsonDto>(json);
             if (jsonDto == null) throw new Exception();
 

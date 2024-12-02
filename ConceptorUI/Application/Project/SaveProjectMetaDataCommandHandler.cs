@@ -16,9 +16,11 @@ public class SaveProjectMetaDataCommandHandler
             await using var fs = new FileStream(command.ZipPath + ":" + streamName, FileMode.Create);
             await using var writer = new StreamWriter(fs);
 
-            var createdDate = $"{command.Created.Year}-{command.Created.Month}-{command.Created.Day}";
-            var updatedDate = $"{command.Updated.Year}-{command.Updated.Month}-{command.Updated.Day}";
-            
+            var createdDate =
+                $"{command.Created.Year}-{FormatNumber(command.Created.Month)}-{FormatNumber(command.Created.Day)}";
+            var updatedDate =
+                $"{command.Updated.Year}-{FormatNumber(command.Created.Month)}-{FormatNumber(command.Created.Day)}";
+
             await writer.WriteLineAsync("{");
             await writer.WriteLineAsync($"\"{nameof(command.ZipPath)}\": \"{command.ZipPath}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Name)}\": \"{command.Name}\",");
@@ -27,7 +29,7 @@ public class SaveProjectMetaDataCommandHandler
             await writer.WriteLineAsync($"\"{nameof(command.Created)}\": \"{createdDate}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Updated)}\": \"{updatedDate}\"");
             await writer.WriteLineAsync("}");
-            
+
             return Result<bool>.Success(true);
         }
         catch (Exception)
@@ -35,4 +37,6 @@ public class SaveProjectMetaDataCommandHandler
             return Result<bool>.Failure(Error.NotFound);
         }
     }
+
+    private static string FormatNumber(int value) => value <= 9 ? $"0{value}" : value.ToString();
 }

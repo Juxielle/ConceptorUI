@@ -10,12 +10,13 @@
         AllowsTransparency="True"
         Background="Transparent"
         Title="ConfirmDialogBox"
-        Height="250"
-        Width="300">
-    <Border CornerRadius="10"
+        Height="220"
+        Width="280">
+    
+    <Border CornerRadius="4"
             Background="#ffffff"
-            BorderBrush="#8c8c8a"
-            BorderThickness="2">
+            BorderBrush="#5335e9"
+            BorderThickness="0.5">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="*" />

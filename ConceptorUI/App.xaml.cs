@@ -44,12 +44,10 @@ namespace ConceptorUI
                 {
                     ZipPath = filePath
                 });
-                Console.WriteLine($@"filePath: {filePath}");
 
                 if (metaDataResult.IsSuccess)
                 {
                     projectInfoUiDto = metaDataResult.Value;
-                    Console.WriteLine($@"Meta données trouvées");
                 }
                 else
                 {
