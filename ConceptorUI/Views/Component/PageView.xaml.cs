@@ -450,7 +450,7 @@ namespace ConceptorUI.Views.Component
         {
             DisplayLoadingCommand?.Execute(true);
             var sc = SynchronizationContext.Current;
-            ThreadPool.QueueUserWorkItem(async delegate
+            ThreadPool.QueueUserWorkItem(delegate
             {
                 #region
 
@@ -463,14 +463,17 @@ namespace ConceptorUI.Views.Component
                     reports.Add(new Domain.Entities.Report { Name = key, Json = jsonString });
                 }
 
-                await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
+                sc!.Post(async delegate
                 {
-                    ZipPath = _project.ZipPath,
-                    ProjectName = _project.Name,
-                    Reports = reports
-                });
+                    await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
+                    {
+                        ZipPath = _project.ZipPath,
+                        ProjectName = _project.Name,
+                        Reports = reports
+                    });
 
-                sc!.Post(delegate { DisplayLoadingCommand?.Execute(false); }, null);
+                    DisplayLoadingCommand?.Execute(false);
+                }, null);
 
                 #endregion
             });
