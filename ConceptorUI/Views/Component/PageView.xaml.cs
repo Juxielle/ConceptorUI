@@ -107,7 +107,7 @@ namespace ConceptorUI.Views.Component
 
             var reportsResult = await new GetReportsQueryHandler().Handle(new GetReportsQuery
             {
-                ZipPath = _project.ZipPath,
+                ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Name,
                 ReportInfos = _project.ReportInfos
             });
