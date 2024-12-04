@@ -47,7 +47,6 @@ namespace ConceptorUI
 
                 if (metaDataResult.IsSuccess)
                 {
-                    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(metaDataResult.Value));
                     projectInfoUiDto = metaDataResult.Value;
                 }
                 else
@@ -77,7 +76,6 @@ namespace ConceptorUI
                         ZipPath = filePath,
                         Image = projectNaturalInfos.Image
                     });
-                    Console.WriteLine($@"Enregistrement des Meta données");
                 }
 
                 new MainWindow().Show(projectInfoUiDto);
