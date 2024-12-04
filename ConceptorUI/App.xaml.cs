@@ -47,6 +47,7 @@ namespace ConceptorUI
 
                 if (metaDataResult.IsSuccess)
                 {
+                    Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(metaDataResult.Value));
                     projectInfoUiDto = metaDataResult.Value;
                 }
                 else

@@ -236,37 +236,5 @@ namespace ConceptorUI.Views.Component
                 );
             if (_firstCount < 2) _firstCount++;
         }
-
-        private void LoadValue(int idP, string value)
-        {
-            switch (_index)
-            {
-                case 5:
-                    HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-                    break;
-                case 6:
-                    VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-                    break;
-                case 7:
-                    HVE.Foreground = BHVE.BorderBrush = new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-                    break;
-            }
-
-            var color = value == "0" ? "#8c8c8a" : "#6739b7";
-            switch (idP)
-            {
-                case 5:
-                    HE.Foreground = BHE.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
-                    break;
-                case 6:
-                    VE.Foreground = BVE.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
-                    break;
-                case 7:
-                    HVE.Foreground = BHVE.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
-                    break;
-            }
-
-            _index = value == "0" ? -1 : idP;
-        }
     }
 }

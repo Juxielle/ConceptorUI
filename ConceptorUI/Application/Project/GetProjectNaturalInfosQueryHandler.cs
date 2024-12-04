@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.IO.Compression;
+using System.Linq;
 using System.Threading.Tasks;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Domain.ValueObjects;
@@ -13,25 +14,27 @@ public class GetProjectNaturalInfosQueryHandler
     {
         try
         {
-            if (!Directory.Exists(request.ZipPath))
+            if (!File.Exists(request.ZipPath))
                 throw new Exception();
             
-            string fileName;
+            var fileName = string.Empty;
             var image = string.Empty;
 
             using (var archive = ZipFile.OpenRead(request.ZipPath))
             {
-                if (archive.Entries.Count != 1)
+                if (archive.Entries.Count == 0)
                     throw new Exception();
                 
-                fileName = archive.Entries[0].FullName.Replace($"{request.ZipPath}/", "");
+                var path = archive.Entries[0].FullName.Replace($"{request.ZipPath}/", "");
+                fileName = path.TakeWhile(c => c != '/').Aggregate(fileName, (current, c) => current + c);
+
                 foreach (var entry in archive.Entries)
                 {
                     if (!entry.FullName.StartsWith($"{fileName}/app")) continue;
                     image = entry.FullName.Replace($"{request.ZipPath}/{fileName}/", "");
                 }
             }
-
+            
             return Task.FromResult(Result<ProjectNaturalInfosUiDto>.Success(new ProjectNaturalInfosUiDto
             {
                 OriginalName = fileName,

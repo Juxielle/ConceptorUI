@@ -23,12 +23,11 @@ namespace ConceptorUI.Views.Component
     public partial class PageView
     {
         private static PageView? _obj;
-        public readonly object Component = null!;
 
         private ProjectUiDto _project;
-        private Dictionary<string, ConceptorUi.ViewModels.Component> _components;
+        private readonly Dictionary<string, ConceptorUi.ViewModels.Component> _components;
         private int _selectedReport;
-        private string _selectedKey;
+        private string? _selectedKey;
 
         private string _copiedComponent;
         private int _clickCount;
@@ -94,7 +93,7 @@ namespace ConceptorUI.Views.Component
 
         private void InitStructuralView()
         {
-            var structuralElement = _components[_project.ReportInfos[_selectedReport].Code].AddToStructuralView();
+            var structuralElement = _components[_project.ReportInfos[_selectedReport].Code!].AddToStructuralView();
 
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -145,7 +144,7 @@ namespace ConceptorUI.Views.Component
                             windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
                             windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
 
-                            _components.Add(reports[k].Code, windowModel);
+                            _components.Add(reports[k].Code!, windowModel);
 
                             windowModel.OnDeserializer(component);
 
@@ -157,9 +156,9 @@ namespace ConceptorUI.Views.Component
 
                             for (var p = 0; p < reports.Count - counter1; p++)
                             {
-                                if(!_components.ContainsKey(reports[p].Code)) continue;
+                                if(!_components.ContainsKey(reports[p].Code!)) continue;
                                 
-                                var componentSx = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                var componentSx = _components[reports[p].Code!].GetGroupProperties(GroupNames.Transform)
                                     .GetValue(PropertyNames.X);
                                 var componentX = 0.0;
                                 if (Helper.IsDeserializable<WindowPosition>(componentSx))
@@ -167,7 +166,7 @@ namespace ConceptorUI.Views.Component
                                 else if (Helper.IsNumber(componentSx))
                                     componentX = Helper.ConvertToDouble(componentSx) - 200;
 
-                                var componentSy = _components[reports[p].Code].GetGroupProperties(GroupNames.Transform)
+                                var componentSy = _components[reports[p].Code!].GetGroupProperties(GroupNames.Transform)
                                     .GetValue(PropertyNames.Y);
                                 var componentY = 0.0;
                                 if (Helper.IsDeserializable<WindowPosition>(componentSy))
@@ -200,7 +199,7 @@ namespace ConceptorUI.Views.Component
                                 title.PreviewMouseMove += OnPreviewMouseMove;
 
                                 content.Children.Add(title);
-                                content.Children.Add(_components[reports[p].Code].ComponentView);
+                                content.Children.Add(_components[reports[p].Code!].ComponentView);
                                 Page.Children.Add(content);
                             }
                         }, null);
@@ -313,7 +312,7 @@ namespace ConceptorUI.Views.Component
             title.PreviewMouseMove -= OnPreviewMouseMove;
 
             _project.ReportInfos.RemoveAt(_selectedReport);
-            _components.Remove(_project.ReportInfos[_selectedReport].Code);
+            _components.Remove(_project.ReportInfos[_selectedReport].Code!);
             Page.Children.RemoveAt(_selectedReport);
 
             if (Page.Children.Count > 0) _selectedReport = 0;
@@ -332,7 +331,7 @@ namespace ConceptorUI.Views.Component
 
             var component = ComponentHelper.GetComponent(componentName);
             var compText = JsonSerializer.Serialize(component.OnSerializer());
-            _components[_project.ReportInfos[_selectedReport].Code].OnCopyOrPaste(compText, true);
+            _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true);
         }
 
         public void AddReusableComponent(string id)
@@ -343,7 +342,7 @@ namespace ConceptorUI.Views.Component
 
             component.CheckIsExistId();
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
-            _components[_project.ReportInfos[_selectedReport].Code].OnCopyOrPaste(compText, true, true);
+            _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true, true);
         }
 
         public void RefreshReusableComponent()
@@ -367,12 +366,12 @@ namespace ConceptorUI.Views.Component
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
-            _components[_project.ReportInfos[_selectedReport].Code].OnUpdated(groupName, propertyName, value);
+            _components[_project.ReportInfos[_selectedReport].Code!].OnUpdated(groupName, propertyName, value);
         }
 
         private void RefreshStructuralView()
         {
-            var structuralElement = _components[_project.ReportInfos[_selectedReport].Code].AddToStructuralView();
+            var structuralElement = _components[_project.ReportInfos[_selectedReport].Code!].AddToStructuralView();
 
             StructuralView.Instance.Panel.Children.Clear();
             StructuralView.Instance.StructuralElement = structuralElement;
@@ -382,16 +381,16 @@ namespace ConceptorUI.Views.Component
 
         public void SelectFromStructuralView()
         {
-            _components[_project.ReportInfos[_selectedReport].Code]
+            _components[_project.ReportInfos[_selectedReport].Code!]
                 .SelectFromStructuralView(StructuralView.Instance.StructuralElement);
         }
 
         public void OnCopyOrPaste(bool isPaste = false)
         {
             if (isPaste)
-                _components[_project.ReportInfos[_selectedReport].Code].OnCopyOrPaste(_copiedComponent, isPaste);
+                _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(_copiedComponent, isPaste);
             else
-                _copiedComponent = _components[_project.ReportInfos[_selectedReport].Code]
+                _copiedComponent = _components[_project.ReportInfos[_selectedReport].Code!]
                     .OnCopyOrPaste(isPaste: isPaste);
         }
 
@@ -433,7 +432,7 @@ namespace ConceptorUI.Views.Component
 
         public void OnUnSelect()
         {
-            _components[_project.ReportInfos[_selectedReport].Code].OnUnselected();
+            _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
         }
 
         public object SendComponent()
@@ -542,7 +541,7 @@ namespace ConceptorUI.Views.Component
             var textBlock = (TextBlock)sender;
             if (_selectedKey != textBlock.Tag.ToString()) return;
 
-            var componentSx = _components[_selectedKey]
+            var componentSx = _components[_selectedKey!]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
             var componentX = 0.0;
             if (Helper.IsDeserializable<WindowPosition>(componentSx))
@@ -550,7 +549,7 @@ namespace ConceptorUI.Views.Component
             else if (Helper.IsNumber(componentSx))
                 componentX = Helper.ConvertToDouble(componentSx);
 
-            var componentSy = _components[_selectedKey]
+            var componentSy = _components[_selectedKey!]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
             var componentY = 0.0;
             if (Helper.IsDeserializable<WindowPosition>(componentSy))
@@ -573,9 +572,9 @@ namespace ConceptorUI.Views.Component
             var xn = toRight ? child!.Margin.Left + dx : child!.Margin.Left - dx;
             var yn = toBottom ? child.Margin.Top + dy : child.Margin.Top - dy;
 
-            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X,
+            _components[_selectedKey!].SetPropertyValue(GroupNames.Transform, PropertyNames.X,
                 JsonSerializer.Serialize(new WindowPosition { ForMouse = x, ForWindow = xn }));
-            _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
+            _components[_selectedKey!].SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
                 JsonSerializer.Serialize(new WindowPosition { ForMouse = y, ForWindow = yn }));
 
             child.Margin = new Thickness(xn, yn, 0, 0);
@@ -584,7 +583,7 @@ namespace ConceptorUI.Views.Component
         private void OnPageClickHandle(object sender, MouseButtonEventArgs e)
         {
             if (!e.OriginalSource.Equals(Page)) return;
-            _components[_project.ReportInfos[_selectedReport].Code].OnUnselected();
+            _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
         }
     }
 }
