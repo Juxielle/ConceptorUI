@@ -38,7 +38,9 @@ namespace ConceptorUI
             {
                 var filePath = e.Args[0];
                 var filename = Path.GetFileName(filePath).Replace(".uix", "");
-                ProjectInfoUiDto projectInfoUiDto;
+                var trueMetaDataFound = false;
+                
+                ProjectInfoUiDto projectInfoUiDto = default!;
                 
                 var metaDataResult = await new GetProjectMetaDataQueryHandler().Handle(new GetProjectMetaDataQuery
                 {
@@ -48,8 +50,10 @@ namespace ConceptorUI
                 if (metaDataResult.IsSuccess)
                 {
                     projectInfoUiDto = metaDataResult.Value;
+                    trueMetaDataFound = projectInfoUiDto.Name == filename && projectInfoUiDto.ZipPath == filePath;
                 }
-                else
+                
+                if(!trueMetaDataFound)
                 {
                     var projectNaturalInfosResult = await new GetProjectNaturalInfosQueryHandler()
                         .Handle(new GetProjectNaturalInfosQuery { ZipPath = filePath });
@@ -66,8 +70,8 @@ namespace ConceptorUI
                         ZipPath = filePath,
                         Image = projectNaturalInfos.Image
                     };
-                    
-                    await new SaveProjectMetaDataCommandHandler().Handle(new SaveProjectMetaDataCommand
+
+                    var projectCommand = new SaveProjectMetaDataCommand
                     {
                         Id = projectNaturalInfos.OriginalName,
                         Name = filename,
@@ -75,6 +79,13 @@ namespace ConceptorUI
                         Updated = DateTime.Now,
                         ZipPath = filePath,
                         Image = projectNaturalInfos.Image
+                    };
+                    
+                    await new SaveProjectMetaDataCommandHandler().Handle(projectCommand);
+                    await new AddProjectToConfigCommandHandler().Handle(new AddProjectToConfigCommand
+                    {
+                        SystemPath = Env.DirEnv,
+                        ProjectCommand = projectCommand
                     });
                 }
 
