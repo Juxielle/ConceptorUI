@@ -466,7 +466,7 @@ namespace ConceptorUI.Views.Component
                 {
                     await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
                     {
-                        ZipPath = _project.ZipPath,
+                        ZipPath = ComponentHelper.ProjectPath!,
                         ProjectName = _project.Name,
                         Reports = reports
                     });

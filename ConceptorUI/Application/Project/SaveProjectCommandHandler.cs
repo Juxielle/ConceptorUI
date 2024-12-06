@@ -8,7 +8,7 @@ namespace ConceptorUI.Application.Project;
 
 public class SaveProjectCommandHandler
 {
-    public async Task<Result<bool>> Handle(SaveProjectCommand command)
+    public Task<Result<bool>> Handle(SaveProjectCommand command)
     {
         try
         {
@@ -18,8 +18,8 @@ public class SaveProjectCommandHandler
                 var entry = archive.GetEntry($@"{command.ProjectName}/Pages/{report.Name}.json");
                 if (entry != null)
                 {
-                    await using var writer = new StreamWriter(entry.Open());
-                    await writer.WriteLineAsync(report.Json);
+                    using var writer = new StreamWriter(entry.Open());
+                    writer.WriteLine(report.Json);
                     Console.WriteLine($"Modification du fichier: {command.ProjectName}/Pages/{report.Name}.json");
                 }
                 else
@@ -28,11 +28,11 @@ public class SaveProjectCommandHandler
                 }
             }
             
-            return Result<bool>.Success(true);
+            return Task.FromResult(Result<bool>.Success(true));
         }
         catch (Exception)
         {
-            return Result<bool>.Failure(Error.NotFound);
+            return Task.FromResult(Result<bool>.Failure(Error.NotFound));
         }
     }
 }
