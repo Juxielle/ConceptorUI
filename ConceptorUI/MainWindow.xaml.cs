@@ -5,7 +5,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
-using ConceptorUI.Classes;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
 using ConceptorUI.Views.Modals;
@@ -27,6 +26,7 @@ namespace ConceptorUI
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
+            ContentPages.PreviewKeyUp += OnKeyUp;
             ContentPages.PreviewMouseDown += OnMouseDown;
 
             ComponentButtons.OnPreMouseDownEvent += OnAddComponentHandle!;
@@ -62,7 +62,19 @@ namespace ConceptorUI
                     PageView.OnSaved();
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
+                case Key.LeftCtrl:
+                    Console.WriteLine("LeftCtrl is pressed.");
+                    break;
+                case Key.RightCtrl:
+                    Console.WriteLine("RightCtrl is pressed.");
+                    break;
             }
+        }
+
+        private void OnKeyUp(object sender, KeyEventArgs e)
+        {
+            if(e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl) return;
+            Console.WriteLine("Ctrl is relached.");
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
