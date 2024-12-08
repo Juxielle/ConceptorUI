@@ -71,14 +71,14 @@ namespace ConceptorUI.Views.Component
                 ReportInfos = []
             };
             ComponentHelper.ProjectPath = projectInfoUiDto.ZipPath;
-            ComponentHelper.ProjectName = projectInfoUiDto.Name;
+            ComponentHelper.ProjectName = projectInfoUiDto.Id;
 
             #region Init Space
 
             var configResult = await new GetConfigsQueryHandler().Handle(new GetConfigsQuery
             {
                 ZipPath = projectInfoUiDto.ZipPath,
-                ProjectName = projectInfoUiDto.Name
+                ProjectName = projectInfoUiDto.Id
             });
 
             if (configResult.IsSuccess)
@@ -108,7 +108,7 @@ namespace ConceptorUI.Views.Component
             var reportsResult = await new GetReportsQueryHandler().Handle(new GetReportsQuery
             {
                 ZipPath = ComponentHelper.ProjectPath!,
-                ProjectName = _project.Name,
+                ProjectName = _project.Id,
                 ReportInfos = _project.ReportInfos
             });
 
@@ -275,7 +275,7 @@ namespace ConceptorUI.Views.Component
             await new CreateReportCommandHandler().Handle(new CreateReportCommand
             {
                 ZipPath = _project.ZipPath,
-                ProjectName = _project.Name,
+                ProjectName = _project.Id,
                 Report = new Domain.Entities.Report
                 {
                     Name = code,
@@ -286,7 +286,7 @@ namespace ConceptorUI.Views.Component
             await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
             {
                 ZipPath = _project.ZipPath,
-                ProjectName = _project.Name,
+                ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });
 
@@ -298,7 +298,7 @@ namespace ConceptorUI.Views.Component
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
             {
                 ZipPath = _project.ZipPath,
-                ProjectName = _project.Name,
+                ProjectName = _project.Id,
                 FileName = _project.ReportInfos[_selectedReport].Name,
                 FileCode = _project.ReportInfos[_selectedReport].Code
             });
@@ -320,7 +320,7 @@ namespace ConceptorUI.Views.Component
             await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
             {
                 ZipPath = _project.ZipPath,
-                ProjectName = _project.Name,
+                ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });
         }
@@ -467,7 +467,7 @@ namespace ConceptorUI.Views.Component
                     await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
                     {
                         ZipPath = ComponentHelper.ProjectPath!,
-                        ProjectName = _project.Name,
+                        ProjectName = _project.Id,
                         Reports = reports
                     });
 
