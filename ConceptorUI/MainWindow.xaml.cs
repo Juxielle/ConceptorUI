@@ -62,19 +62,19 @@ namespace ConceptorUI
                     PageView.OnSaved();
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
-                case Key.LeftCtrl:
-                    Console.WriteLine("LeftCtrl is pressed.");
+                case Key.LeftShift:
+                    Console.WriteLine("LeftShift is pressed.");
                     break;
-                case Key.RightCtrl:
-                    Console.WriteLine("RightCtrl is pressed.");
+                case Key.RightShift:
+                    Console.WriteLine("RightShift is pressed.");
                     break;
             }
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            if(e.Key != Key.LeftCtrl && e.Key != Key.RightCtrl) return;
-            Console.WriteLine("Ctrl is relached.");
+            if(e.Key != Key.LeftShift && e.Key != Key.RightShift) return;
+            Console.WriteLine("Shift is relached.");
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
