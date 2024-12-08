@@ -18,7 +18,10 @@ public class SaveProjectCommandHandler
                 var entry = archive.GetEntry($@"{command.ProjectName}/Pages/{report.Name}.json");
                 if (entry != null)
                 {
-                    using var writer = new StreamWriter(entry.Open());
+                    entry.Delete();
+                    var updatedEntry = archive.CreateEntry($@"{command.ProjectName}/Pages/{report.Name}.json");
+                    using var writer = new StreamWriter(updatedEntry.Open());
+                    
                     writer.WriteLine(report.Json);
                     Console.WriteLine($"Modification du fichier: {command.ProjectName}/Pages/{report.Name}.json");
                 }
