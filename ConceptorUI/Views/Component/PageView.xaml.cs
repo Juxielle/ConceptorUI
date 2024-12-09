@@ -503,6 +503,7 @@ namespace ConceptorUI.Views.Component
         private void OnSelectedHandle(object sender, MouseButtonEventArgs e)
         {
             var tag = (sender as FrameworkElement)!.Tag as string;
+            Console.WriteLine($@"Selected Tag: {tag}");
 
             foreach (var component in _components)
             {
@@ -513,6 +514,7 @@ namespace ConceptorUI.Views.Component
 
                     var point = e.GetPosition(Page);
                     _selectedKey = tag;
+                    Console.WriteLine($@"Selected key 0: {_selectedKey}");
                     _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
                     _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
                 }
@@ -540,6 +542,7 @@ namespace ConceptorUI.Views.Component
         {
             var textBlock = (TextBlock)sender;
             if (_selectedKey != textBlock.Tag.ToString()) return;
+            Console.WriteLine($@"Selected key 1: {_selectedKey}");
 
             var componentSx = _components[_selectedKey!]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
@@ -557,7 +560,7 @@ namespace ConceptorUI.Views.Component
             else if (Helper.IsNumber(componentSy))
                 componentY = Helper.ConvertToDouble(componentSy);
 
-            var child = Page.Children[_selectedReport] as StackPanel;
+            var child = Page.Children[_selectedReport] as StackPanel; //Source potentielle du problème
             var point = e.GetPosition(Page);
 
             var toRight = componentX < point.X;
