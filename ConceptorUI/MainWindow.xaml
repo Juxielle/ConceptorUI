@@ -122,6 +122,7 @@
                 <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Hidden"
                               x:Name="Pages"
+                              MouseWheel="OnMouseWheel"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
                         <component:PageView MinWidth="2000"

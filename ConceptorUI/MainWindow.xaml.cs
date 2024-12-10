@@ -16,6 +16,7 @@ namespace ConceptorUI
     {
         private static MainWindow? _obj;
         private readonly List<ProjectInfoUiDto> _projects;
+        private bool _isHorizontalScroll;
 
         public MainWindow()
         {
@@ -23,6 +24,7 @@ namespace ConceptorUI
 
             _obj = this;
             _projects = new List<ProjectInfoUiDto>();
+            _isHorizontalScroll = false;
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
@@ -63,17 +65,30 @@ namespace ConceptorUI
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
                 case Key.LeftShift:
+                    _isHorizontalScroll = true;
+                    Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("LeftShift is pressed.");
                     break;
                 case Key.RightShift:
+                    _isHorizontalScroll = true;
+                    Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("RightShift is pressed.");
                     break;
             }
         }
 
+        private void OnMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            if(_isHorizontalScroll)
+                Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset + e.Delta);
+            else Pages.ScrollToVerticalOffset(Pages.VerticalOffset + e.Delta);
+        }
+
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
             if(e.Key != Key.LeftShift && e.Key != Key.RightShift) return;
+            _isHorizontalScroll = false;
+            Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             Console.WriteLine("Shift is relached.");
         }
 
