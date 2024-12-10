@@ -16,6 +16,7 @@ using ConceptorUI.Application.Reports;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
+using Syncfusion.Data.Extensions;
 
 
 namespace ConceptorUI.Views.Component
@@ -90,7 +91,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         private void InitStructuralView()
         {
             var structuralElement = _components[_project.ReportInfos[_selectedReport].Code!].AddToStructuralView();
@@ -100,7 +101,7 @@ namespace ConceptorUI.Views.Component
             StructuralView.Instance.BuildView(structuralElement, 0, structuralElement.IsSimpleElement);
             PanelStructuralView.Instance.Refresh();
         }
-
+        
         private async void LoadSpace()
         {
             #region Load spage
@@ -198,6 +199,7 @@ namespace ConceptorUI.Views.Component
                                 title.MouseLeave += OnPreviewMouseLeave;
                                 title.PreviewMouseMove += OnPreviewMouseMove;
 
+                                content.Tag = reports[p].Code;
                                 content.Children.Add(title);
                                 content.Children.Add(_components[reports[p].Code!].ComponentView);
                                 Page.Children.Add(content);
@@ -214,7 +216,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         public async void NewReport(bool isComponent = false)
         {
             #region Adding new Report
@@ -292,7 +294,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         public async void DeleteReport()
         {
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
@@ -503,7 +505,6 @@ namespace ConceptorUI.Views.Component
         private void OnSelectedHandle(object sender, MouseButtonEventArgs e)
         {
             var tag = (sender as FrameworkElement)!.Tag as string;
-            Console.WriteLine($@"Selected Tag: {tag}");
 
             foreach (var component in _components)
             {
@@ -514,7 +515,6 @@ namespace ConceptorUI.Views.Component
 
                     var point = e.GetPosition(Page);
                     _selectedKey = tag;
-                    Console.WriteLine($@"Selected key 0: {_selectedKey}");
                     _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
                     _components[_selectedKey].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
                 }
@@ -542,7 +542,6 @@ namespace ConceptorUI.Views.Component
         {
             var textBlock = (TextBlock)sender;
             if (_selectedKey != textBlock.Tag.ToString()) return;
-            Console.WriteLine($@"Selected key 1: {_selectedKey}");
 
             var componentSx = _components[_selectedKey!]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
@@ -559,8 +558,18 @@ namespace ConceptorUI.Views.Component
                 componentY = Helper.Deserialize<WindowPosition>(componentSy).ForMouse;
             else if (Helper.IsNumber(componentSy))
                 componentY = Helper.ConvertToDouble(componentSy);
-
-            var child = Page.Children[_selectedReport] as StackPanel; //Source potentielle du problème
+            
+            var index = -1;
+            for (var i = 0; i < Page.Children.Count; i++)
+                if (_selectedKey == ((StackPanel)Page.Children[i]).Tag.ToString())
+                    index = i;
+            
+            if(index == -1) return;
+            
+            Console.WriteLine($@"Selected key 1: {_selectedKey}");
+            Console.WriteLine($@"index: {index}");
+            Console.WriteLine($@"_selectedReport: {_selectedReport}");
+            var child = Page.Children[index] as StackPanel; //Source potentielle du problème
             var point = e.GetPosition(Page);
 
             var toRight = componentX < point.X;
