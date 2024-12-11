@@ -25,6 +25,7 @@ namespace ConceptorUI
             _obj = this;
             _projects = new List<ProjectInfoUiDto>();
             _isHorizontalScroll = false;
+            Pages.Focus();
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
             ContentPages.PreviewKeyDown += OnKeyDown;
@@ -74,30 +75,14 @@ namespace ConceptorUI
                     Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("RightShift is pressed.");
                     break;
-                case Key.Up:
-                    Console.WriteLine("Btn Up is pressed.");
-                    break;
-                case Key.Down:
-                    Console.WriteLine("Btn Down is pressed.");
-                    break;
-                case Key.Left:
-                    Console.WriteLine("Btn Left is pressed.");
-                    if(_isHorizontalScroll)
-                        Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - 10);
-                    break;
-                case Key.Right:
-                    Console.WriteLine("Btn Right is pressed.");
-                    if(_isHorizontalScroll)
-                        Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset + 10);
-                    break;
             }
         }
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if(_isHorizontalScroll)
-                Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset + e.Delta);
-            else Pages.ScrollToVerticalOffset(Pages.VerticalOffset + e.Delta);
+                Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - e.Delta);
+            else Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
             Console.WriteLine(@$"OnMouseWheel: {e.Delta}");
         }
 

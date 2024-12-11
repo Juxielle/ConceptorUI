@@ -39,7 +39,20 @@ public class CleanConfigsCommandHandler
                 Updated = p.Updated
             }).Where(p => File.Exists(p.ZipPath)).ToList();
 
-            var json = JsonSerializer.Serialize(uisDto);
+            var uisDtoWithoutDuplicates = new List<ProjectInfoUiDto>();
+            foreach (var item in uisDto)
+            {
+                var found = false;
+                foreach (var item2 in uisDtoWithoutDuplicates)
+                {
+                    if(item.ZipPath != item2.ZipPath || item.Id != item2.Id) continue;
+                    found = true;
+                }
+                if(found) continue;
+                uisDtoWithoutDuplicates.Add(item);
+            }
+
+            var json = JsonSerializer.Serialize(uisDtoWithoutDuplicates);
             var saveResult = await new SaveSystemConfigCommandHandler().Handle(new SaveSystemConfigCommand
             {
                 Path = command.SystemPath,
