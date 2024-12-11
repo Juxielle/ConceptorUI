@@ -27,6 +27,7 @@ public class SaveSystemConfigCommandHandler
         }
         catch (Exception)
         {
+            Console.WriteLine($@"Echec d'Enregistrement des configs.");
             return Result<bool>.Failure(Error.NotFound);
         }
     }

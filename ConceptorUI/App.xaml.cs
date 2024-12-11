@@ -26,7 +26,7 @@ namespace ConceptorUI
         }
 
         protected override async void OnStartup(StartupEventArgs e)
-        {
+        { 
             base.OnStartup(e);
 
             await new CleanConfigsCommandHandler().Handle(new CleanConfigsCommand
