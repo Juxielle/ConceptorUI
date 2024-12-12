@@ -34,7 +34,7 @@ public class ReadImageFromZipService
             
             return bitmap;
         }
-        catch (Exception e)
+        catch (Exception)
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();

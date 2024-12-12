@@ -16,7 +16,6 @@ using ConceptorUI.Application.Reports;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
-using Syncfusion.Data.Extensions;
 
 
 namespace ConceptorUI.Views.Component
@@ -206,10 +205,9 @@ namespace ConceptorUI.Views.Component
                             }
                         }, null);
                     }
-                    catch (Exception e)
+                    catch (Exception)
                     {
                         failCounter++;
-                        Console.WriteLine($"Error: {e.Message}");
                     }
                 });
             }
@@ -566,9 +564,6 @@ namespace ConceptorUI.Views.Component
             
             if(index == -1) return;
             
-            Console.WriteLine($@"Selected key 1: {_selectedKey}");
-            Console.WriteLine($@"index: {index}");
-            Console.WriteLine($@"_selectedReport: {_selectedReport}");
             var child = Page.Children[index] as StackPanel; //Source potentielle du problème
             var point = e.GetPosition(Page);
 
