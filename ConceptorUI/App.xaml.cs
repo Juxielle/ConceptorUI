@@ -41,6 +41,7 @@ namespace ConceptorUI
                 var trueMetaDataFound = false;
                 
                 ProjectInfoUiDto projectInfoUiDto = default!;
+                SaveProjectMetaDataCommand projectCommand = default!;
                 
                 var metaDataResult = await new GetProjectMetaDataQueryHandler().Handle(new GetProjectMetaDataQuery
                 {
@@ -51,6 +52,16 @@ namespace ConceptorUI
                 {
                     projectInfoUiDto = metaDataResult.Value;
                     trueMetaDataFound = projectInfoUiDto.Name == filename && projectInfoUiDto.ZipPath == filePath;
+
+                    projectCommand = new SaveProjectMetaDataCommand
+                    {
+                        Id = projectInfoUiDto.Id,
+                        Name = filename,
+                        Created = projectInfoUiDto.Created,
+                        Updated = projectInfoUiDto.Updated,
+                        ZipPath = filePath,
+                        Image = projectInfoUiDto.Image
+                    };
                 }
                 
                 if(!trueMetaDataFound)
@@ -71,7 +82,7 @@ namespace ConceptorUI
                         Image = projectNaturalInfos.Image
                     };
 
-                    var projectCommand = new SaveProjectMetaDataCommand
+                    projectCommand = new SaveProjectMetaDataCommand
                     {
                         Id = projectNaturalInfos.OriginalName,
                         Name = filename,
@@ -82,12 +93,13 @@ namespace ConceptorUI
                     };
                     
                     await new SaveProjectMetaDataCommandHandler().Handle(projectCommand);
-                    await new AddProjectToConfigCommandHandler().Handle(new AddProjectToConfigCommand
-                    {
-                        SystemPath = Env.DirEnv,
-                        ProjectCommand = projectCommand
-                    });
                 }
+                
+                await new AddProjectToConfigCommandHandler().Handle(new AddProjectToConfigCommand
+                {
+                    SystemPath = Env.DirEnv,
+                    ProjectCommand = projectCommand
+                });
 
                 new MainWindow().Show(projectInfoUiDto);
                 return;

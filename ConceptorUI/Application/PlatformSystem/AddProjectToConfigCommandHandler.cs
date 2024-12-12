@@ -16,6 +16,7 @@ public class AddProjectToConfigCommandHandler
         {
             if (!Directory.Exists(command.SystemPath))
                 throw new Exception();
+            
             var configFolderPath = Path.Combine(command.SystemPath, "Configs");
             var filePath = Path.Combine(configFolderPath, "config.json");
 
@@ -27,6 +28,11 @@ public class AddProjectToConfigCommandHandler
             var jsonsDto = JsonSerializer.Deserialize<List<ProjectInfoJsonDto>>(
                 await File.ReadAllTextAsync(filePath)
             ) ?? [];
+
+            var existProject = jsonsDto.Exists(p =>
+                p.ZipPath == command.ProjectCommand.ZipPath && p.Id == command.ProjectCommand.Id);
+            if(existProject)
+                throw new Exception();
 
             jsonsDto.Add(new ProjectInfoJsonDto
             {

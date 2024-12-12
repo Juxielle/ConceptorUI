@@ -12,30 +12,30 @@ public class ReadImageFromZipService
     {
         try
         {
-            Console.WriteLine($"Image path: {projectName}/Medias/{imageName}");
             using var archive = ZipFile.OpenRead(zipPath);
-            var mediaEntry = archive.GetEntry($"{projectName}/Medias/");
+            var mediaEntry = archive.GetEntry($"{projectName}/Medias/{imageName}");
             var filePath = Path.Combine(Env.DirEnv, $"Medias/{imageName}");
-
+            
+            var tempPath = Path.Combine(Path.GetTempPath(), imageName);
+            
             if (mediaEntry == null)
                 throw new Exception();
-            //Chaque application possède son cache dans le Temp folder.
-            //Pour cela, une application doit avoir un identifiant unique
-            //Cet id lui est attribué lors du lancement
-
+            
             if(!File.Exists(filePath))
-                mediaEntry.ExtractToFile(Env.DirEnv, overwrite: true);
+            {
+                mediaEntry.ExtractToFile(tempPath, overwrite: true);
+                File.Copy(tempPath, filePath, true);
+            }
             
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
             bitmap.EndInit();
-
+            
             return bitmap;
         }
         catch (Exception e)
         {
-            Console.WriteLine($@"Error: {e.Message}");
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
             bitmap.UriSource = new Uri("pack://application:,,,/Assets/image.png", UriKind.Absolute);
