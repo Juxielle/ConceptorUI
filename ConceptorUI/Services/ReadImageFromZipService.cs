@@ -14,7 +14,7 @@ public class ReadImageFromZipService
         {
             var projectMediaPath = Path.Combine(Env.DirEnv, $"Medias/{projectTempId}");
             var filePath = Path.Combine(projectMediaPath, imageName);
-
+                
             if (!Directory.Exists(projectMediaPath))
                 Directory.CreateDirectory(projectMediaPath);
             if (File.Exists(filePath))
