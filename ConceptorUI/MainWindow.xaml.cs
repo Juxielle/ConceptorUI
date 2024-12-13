@@ -1,12 +1,16 @@
 ﻿using ConceptorUI.Models;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Constants;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
+using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
 
 
@@ -25,6 +29,7 @@ namespace ConceptorUI
             _obj = this;
             _projects = new List<ProjectInfoUiDto>();
             _isHorizontalScroll = false;
+            ComponentHelper.ProjectTempId = $"project{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
             Pages.Focus();
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
@@ -80,7 +85,7 @@ namespace ConceptorUI
 
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
-            if(_isHorizontalScroll)
+            if (_isHorizontalScroll)
                 Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - e.Delta);
             else Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
             Console.WriteLine(@$"OnMouseWheel: {e.Delta}");
@@ -88,7 +93,7 @@ namespace ConceptorUI
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            if(e.Key != Key.LeftShift && e.Key != Key.RightShift) return;
+            if (e.Key != Key.LeftShift && e.Key != Key.RightShift) return;
             _isHorizontalScroll = false;
             Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
             Console.WriteLine("Shift is relached.");

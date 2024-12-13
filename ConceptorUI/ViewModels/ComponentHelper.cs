@@ -8,6 +8,7 @@ internal class ComponentHelper
 {
     public static string? ProjectPath;
     public static string? ProjectName;
+    public static string? ProjectTempId;
     public static string? FilePath;
     private static List<string>? _ids;
 

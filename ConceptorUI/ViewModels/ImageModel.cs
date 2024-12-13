@@ -41,7 +41,8 @@ namespace ConceptorUi.ViewModels
         protected override void WhenFileLoaded(string value)
         {
             _child.ImageSource =
-                ReadImageFromZipService.GetImage(ComponentHelper.ProjectPath!, ComponentHelper.ProjectName!, value);
+                ReadImageFromZipService.GetImage(ComponentHelper.ProjectPath!, ComponentHelper.ProjectName!,
+                    ComponentHelper.ProjectTempId!, value);
         }
 
         public sealed override void SelfConstraints()

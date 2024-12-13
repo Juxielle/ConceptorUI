@@ -8,13 +8,20 @@ namespace ConceptorUI.Services;
 
 public class ReadImageFromZipService
 {
-    public static BitmapImage GetImage(string zipPath, string projectName, string imageName)
+    public static BitmapImage GetImage(string zipPath, string projectId, string projectTempId, string imageName)
     {
         try
         {
+            var projectMediaPath = Path.Combine(Env.DirEnv, $"Medias/{projectTempId}");
+            var filePath = Path.Combine(projectMediaPath, imageName);
+
+            if (!Directory.Exists(projectMediaPath))
+                Directory.CreateDirectory(projectMediaPath);
+            if (File.Exists(filePath))
+                return GetBitmap(filePath);
+            
             using var archive = ZipFile.OpenRead(zipPath);
-            var mediaEntry = archive.GetEntry($"{projectName}/Medias/{imageName}");
-            var filePath = Path.Combine(Env.DirEnv, $"Medias/{imageName}");
+            var mediaEntry = archive.GetEntry($"{projectId}/Medias/{imageName}");
             
             var tempPath = Path.Combine(Path.GetTempPath(), imageName);
             
@@ -25,23 +32,27 @@ public class ReadImageFromZipService
             {
                 mediaEntry.ExtractToFile(tempPath, overwrite: true);
                 File.Copy(tempPath, filePath, true);
+                /*
+                 * Enregistrer l'image dans un dossier spécifique à l'application si elle n'n'existe pas
+                 * Inventer une procédure de suppression du dossier
+                 */
             }
             
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri(filePath, UriKind.Absolute);
-            bitmap.EndInit();
-            
-            return bitmap;
+            return GetBitmap(filePath);
         }
         catch (Exception)
         {
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("pack://application:,,,/Assets/image.png", UriKind.Absolute);
-            bitmap.EndInit();
-            
-            return bitmap;
+            return GetBitmap("pack://application:,,,/Assets/image.png");
         }
+    }
+
+    private static BitmapImage GetBitmap(string path)
+    {
+        var bitmap = new BitmapImage();
+        bitmap.BeginInit();
+        bitmap.UriSource = new Uri(path, UriKind.Absolute);
+        bitmap.EndInit();
+            
+        return bitmap;
     }
 }
