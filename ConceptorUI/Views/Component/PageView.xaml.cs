@@ -275,7 +275,7 @@ namespace ConceptorUI.Views.Component
 
             var result = await new CreateReportCommandHandler().Handle(new CreateReportCommand
             {
-                ZipPath = _project.ZipPath,
+                ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
                 Report = new Domain.Entities.Report
                 {
@@ -284,9 +284,12 @@ namespace ConceptorUI.Views.Component
                 }
             });
 
+            if(result.IsFailure)
+                return;
+            
             await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
             {
-                ZipPath = _project.ZipPath,
+                ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });

@@ -23,7 +23,6 @@ public class CreateReportCommandHandler
         }
         catch (Exception e)
         {
-            Console.WriteLine(@$"Echec d'enregistrement: {e.Message}");
             return Result<bool>.Failure(Error.NotFound);
         }
     }
