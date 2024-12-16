@@ -265,6 +265,7 @@ namespace ConceptorUI.Views.Component
             title.MouseLeave += OnPreviewMouseLeave;
             title.PreviewMouseMove += OnPreviewMouseMove;
 
+            content.Tag = code;
             content.Children.Add(title);
             content.Children.Add(windowModel.ComponentView);
             Page.Children.Add(content);
@@ -272,7 +273,7 @@ namespace ConceptorUI.Views.Component
             var componentSerializer = windowModel.OnSerializer();
             var jsonString = JsonSerializer.Serialize(componentSerializer);
 
-            await new CreateReportCommandHandler().Handle(new CreateReportCommand
+            var result = await new CreateReportCommandHandler().Handle(new CreateReportCommand
             {
                 ZipPath = _project.ZipPath,
                 ProjectName = _project.Id,
