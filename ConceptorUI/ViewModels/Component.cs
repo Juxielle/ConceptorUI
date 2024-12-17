@@ -1552,8 +1552,8 @@ namespace ConceptorUi.ViewModels
             foreach (var group in PropertyGroups!)
             {
                 i++;
-                var j = -1;
                 if (group.Name != groupName.ToString()) continue;
+                var j = -1;
                 foreach (var property in group.Properties)
                 {
                     j++;
