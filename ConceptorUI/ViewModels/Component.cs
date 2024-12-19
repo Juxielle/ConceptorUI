@@ -50,8 +50,6 @@ namespace ConceptorUi.ViewModels
         protected Rectangle BorderContent;
 
         public ICommand? SelectedCommand;
-        public ICommand RefreshPropertyPanelCommand;
-        public ICommand RefreshStructuralViewCommand;
 
         public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
@@ -2094,7 +2092,7 @@ namespace ConceptorUi.ViewModels
                         {
                             Name = PropertyNames.CBorder.ToString(),
                             Type = PropertyTypes.String.ToString(),
-                            Value = "0",
+                            Value = "1",
                             Visibility = VisibilityValue.Visible.ToString()
                         },
                         new()

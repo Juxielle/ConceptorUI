@@ -141,8 +141,8 @@ namespace ConceptorUI.Views.Component
                             else windowModel = new ComponentModel(true);
 
                             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                            windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
-                            windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
+                            new RelayCommand(OnRefreshPropertyPanelHandle);
+                            new RelayCommand(OnRefreshStructuralViewHandle);
 
                             _components.Add(reports[k].Code!, windowModel);
 
@@ -224,8 +224,8 @@ namespace ConceptorUI.Views.Component
             else windowModel = new WindowModel();
 
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
-            windowModel.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
-            windowModel.RefreshStructuralViewCommand = new RelayCommand(OnRefreshStructuralViewHandle);
+            new RelayCommand(OnRefreshPropertyPanelHandle);
+            new RelayCommand(OnRefreshStructuralViewHandle);
 
             var indexReport = NextReportIndex();
 

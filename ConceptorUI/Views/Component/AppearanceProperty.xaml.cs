@@ -431,7 +431,8 @@ namespace ConceptorUI.Views.Component
                         MouseDownCommand?.Execute(
                             new dynamic[]
                             {
-                                GroupNames.Appearance, PropertyNames.BorderRadius,
+                                GroupNames.Appearance,
+                                PropertyNames.BorderRadius,
                                 vd.ToString(CultureInfo.InvariantCulture)
                             }
                         );
