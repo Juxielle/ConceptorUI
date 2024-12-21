@@ -104,7 +104,6 @@ namespace ConceptorUI.Views.Component
         private async void LoadSpace()
         {
             #region Load spage
-
             var reportsResult = await new GetReportsQueryHandler().Handle(new GetReportsQuery
             {
                 ZipPath = ComponentHelper.ProjectPath!,

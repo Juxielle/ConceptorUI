@@ -150,7 +150,7 @@ namespace ConceptorUI
 
             if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
 
-            _selectedProject = _projects.ToList().FindIndex(d => d.Id == id);
+            _selectedProject = _projects.ToList().FindIndex(d => d.ZipPath == id);
             var project = _projects[_selectedProject];
             TNameApp.Text = project.Name;
             IdApp.Text = project.Id;

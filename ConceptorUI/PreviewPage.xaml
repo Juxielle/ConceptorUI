@@ -284,7 +284,7 @@
                                 <DataTemplate>
                                     <widget:AppBox Width="280"
                                                    Height="200"
-                                                   Tag="{Binding Id}"
+                                                   Tag="{Binding ZipPath}"
                                                    Label="{Binding Name}"
                                                    HorizontalAlignment="Left"
                                                    MouseDown="OnMouseDownApp"
