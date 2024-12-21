@@ -301,7 +301,7 @@ namespace ConceptorUI.Views.Component
         {
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
             {
-                ZipPath = _project.ZipPath,
+                ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
                 FileName = _project.ReportInfos[_selectedReport].Name,
                 FileCode = _project.ReportInfos[_selectedReport].Code
@@ -314,16 +314,24 @@ namespace ConceptorUI.Views.Component
             title.PreviewMouseUp -= OnPreviewMouseUp;
             title.MouseLeave -= OnPreviewMouseLeave;
             title.PreviewMouseMove -= OnPreviewMouseMove;
+            
+            var index = -1;
+            for (var i = 0; i < Page.Children.Count; i++)
+                if (_project.ReportInfos[_selectedReport].Code == ((StackPanel)Page.Children[i]).Tag.ToString())
+                    index = i;
+            
+            if(index == -1) return;
+            
+            Page.Children.RemoveAt(index);
 
-            _project.ReportInfos.RemoveAt(_selectedReport);
             _components.Remove(_project.ReportInfos[_selectedReport].Code!);
-            Page.Children.RemoveAt(_selectedReport);
+            _project.ReportInfos.RemoveAt(_selectedReport);
 
             if (Page.Children.Count > 0) _selectedReport = 0;
 
             await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
             {
-                ZipPath = _project.ZipPath,
+                ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });
@@ -410,6 +418,7 @@ namespace ConceptorUI.Views.Component
             foreach (var key in _components.Keys.Where(key => _components[key].OnChildSelected()))
                 _selectedReport = _project.ReportInfos.FindIndex(r => r.Code == key);
 
+            Console.WriteLine($@"_selectedReport: {_selectedReport}");
             RefreshPropertyPanelCommand?.Execute(values);
 
             RefreshStructuralView();

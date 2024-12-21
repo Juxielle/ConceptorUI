@@ -425,15 +425,14 @@ namespace ConceptorUi.ViewModels
             var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
 
             /*---------------------*/
+            //Faire la même chose pour le SelfAlignment
             var activationCount = 0;
             if (hl == "1") activationCount++;
             if (hc == "1") activationCount++;
             if (hr == "1") activationCount++;
             if (activationCount >= 2)
             {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, Children.Count > 0 ? "1" : "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                OnUpdated(GroupNames.Alignment, PropertyNames.Hl, Children.Count > 0 ? "1" : "0");
             }
 
             activationCount = 0;
@@ -442,11 +441,10 @@ namespace ConceptorUi.ViewModels
             if (vb == "1") activationCount++;
             if (activationCount >= 2)
             {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, Children.Count > 0 ? "1" : "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                OnUpdated(GroupNames.Alignment, PropertyNames.Vt, Children.Count > 0 ? "1" : "0");
             }
 
+            //Croiser les valeurs de Dimensions et d'Alignment
             /*---------------------*/
             foreach (var child in Children)
             {

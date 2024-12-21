@@ -14,10 +14,13 @@ public class SaveConfigCommandHandler
         {
             using var archive = ZipFile.Open(command.ZipPath, ZipArchiveMode.Update);
 
-            var entry = archive.GetEntry($@"{command.ProjectName}/config.json");
+            var entry = archive.GetEntry($"{command.ProjectName}/config.json");
             if (entry != null)
             {
-                await using var writer = new StreamWriter(entry.Open());
+                entry.Delete();
+                
+                var updatedEntry = archive.CreateEntry($"{command.ProjectName}/config.json");
+                await using var writer = new StreamWriter(updatedEntry.Open());
                 await writer.WriteLineAsync(command.Json);
 
                 return Result<bool>.Success(true);
