@@ -422,17 +422,17 @@ namespace ConceptorUi.ViewModels
             var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
             var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
             var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-
+            
             var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
             var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
             var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-
+            
             var ah = Alignment.Horizontal(this);
             var isHorizontal = Alignment.IsHorizontal(this);
-
+            
             var av = Alignment.Vertical(this);
             var isVertical = Alignment.IsVertical(this);
-
+            
             //Alignment
             var activationCount = 0;
             if (hl == "1") activationCount++;
@@ -529,51 +529,83 @@ namespace ConceptorUi.ViewModels
                     {
                         if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                         {
-                            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
-                            child.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "1");
+                            Alignment.SetHorizontalValue(this, PropertyNames.Hl, "1");
+                            SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
                             child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
                                 SizeValue.Auto.ToString());
                         }
                         else if (widthChild != SizeValue.Expand.ToString())
                         {
-                            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
-                            child.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "1");
+                            Alignment.SetHorizontalValue(this, PropertyNames.Hl, "1");
+                            SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
                         }
                     }
                 }
-                
+
                 if (isVertical)
                 {
                     if (isChildVertical)
                     {
                         if (heightChild == SizeValue.Expand.ToString())
                         {
-                            //Ecrire une fonction pour faire une activation horizontal
-                            child.SetPropertyValue(GroupNames.SelfAlignment, av, "1");
+                            SelfAlignment.SetVerticalValue(child, av, "1");
                             child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                                 SizeValue.Auto.ToString());
                         }
                         else if (av != avc)
-                            child.SetPropertyValue(GroupNames.SelfAlignment, av, "1");
+                            SelfAlignment.SetVerticalValue(child, av, "1");
                     }
                     else
                     {
                         if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
                         {
-                            SetPropertyValue(GroupNames.Alignment, av, "0");
+                            Alignment.SetVerticalOnNull(this);
                         }
                         else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                         {
-                            child.SetPropertyValue(GroupNames.SelfAlignment, av, "1");
+                            SelfAlignment.SetVerticalValue(child, av, "1");
                             child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                                 SizeValue.Auto.ToString());
                         }
-                        else child.SetPropertyValue(GroupNames.SelfAlignment, av, "1");
+                        else SelfAlignment.SetVerticalValue(child, av, "1");
+                    }
+                }
+                else
+                {
+                    if (isChildVertical)
+                    {
+                        if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
+                        {
+                            SelfAlignment.SetVerticalOnNull(child);
+                        }
+                        else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                        {
+                            Alignment.SetVerticalValue(this, avc, "1");
+                            child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
+                                SizeValue.Auto.ToString());
+                        }
+                        else SelfAlignment.SetVerticalValue(child, avc, "1");
+                    }
+                    else
+                    {
+                        if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                        {
+                            Alignment.SetVerticalValue(this, PropertyNames.Hl, "1");
+                            SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
+                            child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
+                                SizeValue.Auto.ToString());
+                        }
+                        else if (heightChild != SizeValue.Expand.ToString())
+                        {
+                            Alignment.SetVerticalValue(this, PropertyNames.Hl, "1");
+                            SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
+                        }
                     }
                 }
 
                 child.Synchronize();
             }
+
             this.Synchronize();
         }
     }
