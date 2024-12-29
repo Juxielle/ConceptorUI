@@ -16,10 +16,10 @@ static class Synchronization
         var vc = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
         var vb = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
 
-        var ah = SelfAlignment.Horizontal(component);
+        //var ah = SelfAlignment.Horizontal(component);
         var isHorizontal = SelfAlignment.IsHorizontal(component);
 
-        var av = SelfAlignment.Vertical(component);
+        //var av = SelfAlignment.Vertical(component);
         var isVertical = SelfAlignment.IsVertical(component);
 
         var height = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);

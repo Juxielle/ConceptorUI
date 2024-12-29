@@ -3,6 +3,7 @@ using System.Windows.Controls;
 using System.Windows;
 using System.Windows.Input;
 using ConceptorUi.ViewModels.Container;
+using ConceptorUi.ViewModels.Operations;
 
 
 namespace ConceptorUi.ViewModels
@@ -212,168 +213,47 @@ namespace ConceptorUi.ViewModels
         {
             if (Children.Count == 0) return;
 
-            #region SelfAlignment
-
             if (groupName == GroupNames.SelfAlignment)
             {
-                if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
-                {
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                    if (value == "1")
-                    {
-                        SetPropertyValue(GroupNames.Alignment, propertyName, value);
-                    }
-                    else if (Children.Count > 0 && !Children[0].AllowExpanded())
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                    }
-                }
-                else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
-                {
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                    if (value == "1")
-                    {
-                        SetPropertyValue(GroupNames.Alignment, propertyName, value);
-                    }
-                    else if (!Children[0].AllowExpanded())
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                    }
-                }
+                var isChildHorizontal = SelfAlignment.IsHorizontal(Children[0]);
+                var isHorizontal = Alignment.IsHorizontal(this);
+
+                var ah = Alignment.Horizontal(this);
+                var ahc = SelfAlignment.Horizontal(Children[0]);
+
+                var isChildVertical = SelfAlignment.IsVertical(Children[0]);
+                var isVertical = Alignment.IsVertical(this);
+
+                var av = Alignment.Vertical(this);
+                var avc = SelfAlignment.Vertical(Children[0]);
+
+                if (isChildHorizontal && !isHorizontal)
+                    Alignment.SetHorizontalValue(this, ahc, "1");
+                else if (!isChildHorizontal && isHorizontal)
+                    Alignment.SetHorizontalOnNull(this);
+
+                if (isChildVertical && !isVertical)
+                    Alignment.SetVerticalValue(this, avc, "1");
+                else if (!isChildVertical && isVertical)
+                    Alignment.SetVerticalOnNull(this);
             }
-
-            #endregion
-
-            #region Transform
-
-            /*
-                -- Vérifier aussi que le fils soit expandable avant de confirmer l'action;
-                -- Ecrire aussi une autre fonction qui permet de restaurer la nature propre d'un composant;
-                -------------------------------
-                -- Créer une autre fonction comparable à initializer capable de restaurer sans agir, les valeurs des
-                    propriétés: Avant d'initialiser un composant et Après une action. => Elle spécifique à un composant.
-            */
-            if (groupName == GroupNames.Transform)
+            else if (groupName == GroupNames.Transform)
             {
-                if (propertyName == PropertyNames.Width)
-                {
-                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
-
-                    if (value == SizeValue.Expand.ToString() && isHorizontal && Children[0].AllowExpanded())
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                    }
-                    else if ((value == SizeValue.Auto.ToString() || value != SizeValue.Expand.ToString()) &&
-                             !isHorizontal)
-                    {
-                        var hlc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-                        var hcc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-                        var hrc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-                        var isChildHorizontal = hlc == "1" || hcc == "1" || hrc == "1";
-
-                        if (!isChildHorizontal)
-                        {
-                            Children[0].OnUpdated(GroupNames.SelfAlignment, PropertyNames.Hl, "1", true);
-                            return;
-                        }
-
-                        var childHorizontal = hlc == "1" ? PropertyNames.Hl :
-                            hcc == "1" ? PropertyNames.Hc : PropertyNames.Hr;
-
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                        SetPropertyValue(GroupNames.Alignment, childHorizontal, "1");
-                    }
-                }
-                else if (propertyName == PropertyNames.Height)
-                {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-                    var isVertical = vt == "1" || vc == "1" || vb == "1";
-
-                    if (value == SizeValue.Expand.ToString() && isVertical && Children[0].AllowExpanded(false))
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                    }
-                    else if ((value == SizeValue.Auto.ToString() || value != SizeValue.Expand.ToString()) &&
-                             !isVertical)
-                    {
-                        var vtc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-                        var vcc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-                        var vbc = Children[0].GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-                        var isChildVertical = vtc == "1" || vcc == "1" || vbc == "1";
-
-                        if (!isChildVertical)
-                        {
-                            Children[0].OnUpdated(GroupNames.SelfAlignment, PropertyNames.Vt, "1", true);
-                            return;
-                        }
-
-                        var childVertical = vtc == "1" ? PropertyNames.Vt :
-                            vcc == "1" ? PropertyNames.Vc : PropertyNames.Vb;
-
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                        SetPropertyValue(GroupNames.Alignment, childVertical, "1");
-                    }
-                }
-                else if (propertyName == PropertyNames.He)
-                {
-                    var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-                    var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-                    var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-                    var isHorizontal = hl == "1" || hc == "1" || hr == "1";
-
-                    if (value == "1" && isHorizontal && Children[0].AllowExpanded())
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                    }
-                    else if (value == "0" && !isHorizontal)
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                    }
-                }
-                else if (propertyName == PropertyNames.Ve)
-                {
-                    var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-                    var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-                    var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-                    var isVertical = vt == "1" || vc == "1" || vb == "1";
-
-                    if (value == "1" && isVertical && Children[0].AllowExpanded(false))
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                    }
-                    else if (value == "0" && !isVertical)
-                    {
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                        SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                    }
-                }
+                var isHorizontal = Alignment.IsHorizontal(this);
+                var isVertical = Alignment.IsVertical(this);
+                var widthChild = Children[0].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                var heightChild = Children[0].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+                
+                if(widthChild == SizeValue.Expand.ToString() && isHorizontal)
+                    Alignment.SetHorizontalOnNull(this);
+                else if(widthChild != SizeValue.Expand.ToString() && !isHorizontal)
+                    Alignment.SetHorizontalValue(this, PropertyNames.Hl, "1");
+                
+                if(heightChild == SizeValue.Expand.ToString() && isVertical)
+                    Alignment.SetVerticalOnNull(this);
+                else if(heightChild != SizeValue.Expand.ToString() && !isVertical)
+                    Alignment.SetVerticalValue(this, PropertyNames.Vt, "1");
             }
-
-            #endregion
         }
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)

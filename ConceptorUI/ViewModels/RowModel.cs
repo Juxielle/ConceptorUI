@@ -10,17 +10,17 @@ namespace ConceptorUi.ViewModels
 {
     internal class RowModel : Component
     {
-        private readonly Grid _grid;
+        public readonly Grid Grid;
         private bool _fromWidth;
 
         public RowModel(bool isVertical = true, bool allowConstraints = false)
         {
             OnInit();
 
-            _grid = new Grid();
+            Grid = new Grid();
             IsVertical = isVertical;
 
-            Content.Child = _grid;
+            Content.Child = Grid;
             Name = isVertical ? ComponentList.Row : ComponentList.Column;
 
             SelfConstraints();
@@ -240,8 +240,8 @@ namespace ConceptorUi.ViewModels
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             if (k == -1)
-                _grid.Children.Add(child);
-            else _grid.Children.Insert(k, child);
+                Grid.Children.Add(child);
+            else Grid.Children.Insert(k, child);
         }
 
         public override bool AllowExpanded(bool isWidth = true)
@@ -272,8 +272,8 @@ namespace ConceptorUi.ViewModels
 
             if (nc == 1)
             {
-                if (IsVertical) _grid.RowDefinitions.Clear();
-                else _grid.ColumnDefinitions.Clear();
+                if (IsVertical) Grid.RowDefinitions.Clear();
+                else Grid.ColumnDefinitions.Clear();
 
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
                 SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
@@ -287,17 +287,17 @@ namespace ConceptorUi.ViewModels
             }
             else if (IsVertical)
             {
-                _grid.RowDefinitions.RemoveAt(2 * i);
-                _grid.RowDefinitions.RemoveAt(2 * i);
+                Grid.RowDefinitions.RemoveAt(2 * i);
+                Grid.RowDefinitions.RemoveAt(2 * i);
             }
             else
             {
-                _grid.ColumnDefinitions.RemoveAt(2 * i);
-                _grid.ColumnDefinitions.RemoveAt(2 * i);
+                Grid.ColumnDefinitions.RemoveAt(2 * i);
+                Grid.ColumnDefinitions.RemoveAt(2 * i);
             }
 
             //Ecrire la methode permettant de restorer l'alignment
-            _grid.Children.RemoveAt(i);
+            Grid.Children.RemoveAt(i);
             Children.RemoveAt(i);
 
             for (var k = i; k < Children.Count; k++)
@@ -390,11 +390,11 @@ namespace ConceptorUi.ViewModels
                     var child = Children[k];
 
                     var resizeType = IsVertical
-                        ? _grid.RowDefinitions[2 * (k - 1) + 1].Height.GridUnitType
-                        : _grid.ColumnDefinitions[2 * (k - 1) + 1].Width.GridUnitType;
+                        ? Grid.RowDefinitions[2 * (k - 1) + 1].Height.GridUnitType
+                        : Grid.ColumnDefinitions[2 * (k - 1) + 1].Width.GridUnitType;
                     var resizeType2 = IsVertical
-                        ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType
-                        : _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+                        ? Grid.RowDefinitions[2 * k + 1].Height.GridUnitType
+                        : Grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
 
                     SetDimension(2 * (k - 1) + 1,
                         new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
@@ -404,8 +404,8 @@ namespace ConceptorUi.ViewModels
 
                     Children.RemoveAt(k);
                     Children.Insert(k - 1, child);
-                    _grid.Children.RemoveAt(k);
-                    _grid.Children.Insert(k - 1, child.ComponentView);
+                    Grid.Children.RemoveAt(k);
+                    Grid.Children.Insert(k - 1, child.ComponentView);
                 }
                 else
                 {
@@ -432,11 +432,11 @@ namespace ConceptorUi.ViewModels
                     var child = Children[k];
 
                     var resizeType = IsVertical
-                        ? _grid.RowDefinitions[2 * k + 1].Height.GridUnitType
-                        : _grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
+                        ? Grid.RowDefinitions[2 * k + 1].Height.GridUnitType
+                        : Grid.ColumnDefinitions[2 * k + 1].Width.GridUnitType;
                     var resizeType2 = IsVertical
-                        ? _grid.RowDefinitions[2 * (k + 1) + 1].Height.GridUnitType
-                        : _grid.ColumnDefinitions[2 * (k + 1) + 1].Width.GridUnitType;
+                        ? Grid.RowDefinitions[2 * (k + 1) + 1].Height.GridUnitType
+                        : Grid.ColumnDefinitions[2 * (k + 1) + 1].Width.GridUnitType;
 
                     SetDimension(2 * k + 1, new GridLength(resizeType2 == GridUnitType.Auto ? 0 : 1, resizeType2));
                     SetDimension(2 * (k + 1) + 1, new GridLength(resizeType == GridUnitType.Auto ? 0 : 1, resizeType));
@@ -445,8 +445,8 @@ namespace ConceptorUi.ViewModels
 
                     Children.RemoveAt(k);
                     Children.Insert(k + 1, child);
-                    _grid.Children.RemoveAt(k);
-                    _grid.Children.Insert(k + 1, child.ComponentView);
+                    Grid.Children.RemoveAt(k);
+                    Grid.Children.Insert(k + 1, child.ComponentView);
                 }
                 else
                 {
@@ -628,25 +628,25 @@ namespace ConceptorUi.ViewModels
         {
             if (IsVertical)
             {
-                if (isAdding) _grid.RowDefinitions.Add(new RowDefinition { Height = dimension });
-                else _grid.RowDefinitions.Insert(i, new RowDefinition { Height = dimension });
+                if (isAdding) Grid.RowDefinitions.Add(new RowDefinition { Height = dimension });
+                else Grid.RowDefinitions.Insert(i, new RowDefinition { Height = dimension });
             }
             else
             {
-                if (isAdding) _grid.ColumnDefinitions.Add(new ColumnDefinition { Width = dimension });
-                else _grid.ColumnDefinitions.Insert(i, new ColumnDefinition { Width = dimension });
+                if (isAdding) Grid.ColumnDefinitions.Add(new ColumnDefinition { Width = dimension });
+                else Grid.ColumnDefinitions.Insert(i, new ColumnDefinition { Width = dimension });
             }
         }
 
         private void RemoveSpace(int i)
         {
-            if (IsVertical) _grid.RowDefinitions.RemoveAt(i);
-            else _grid.ColumnDefinitions.RemoveAt(i);
+            if (IsVertical) Grid.RowDefinitions.RemoveAt(i);
+            else Grid.ColumnDefinitions.RemoveAt(i);
         }
 
         private int GetSpaceCount()
         {
-            return IsVertical ? _grid.RowDefinitions.Count : _grid.ColumnDefinitions.Count;
+            return IsVertical ? Grid.RowDefinitions.Count : Grid.ColumnDefinitions.Count;
         }
 
         private void SetPosition(int i, UIElement view)
@@ -658,8 +658,8 @@ namespace ConceptorUi.ViewModels
         private void SetDimension(int i, GridLength dimension)
         {
             if (IsVertical)
-                _grid.RowDefinitions[i].Height = dimension;
-            else _grid.ColumnDefinitions[i].Width = dimension;
+                Grid.RowDefinitions[i].Height = dimension;
+            else Grid.ColumnDefinitions[i].Width = dimension;
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

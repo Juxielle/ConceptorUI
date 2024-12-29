@@ -1,32 +1,33 @@
-﻿using ConceptorUI.Models;
+﻿using System.Windows.Controls;
+using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
 
-namespace ConceptorUi.ViewModels.Container;
+namespace ConceptorUi.ViewModels.Row;
 
-static class ContainerRestoreProperties
+static class RowRestoreProperties
 {
-    public static void RestoreProperties(this ContainerModel container)
+    public static void RestoreProperties(this RowModel row)
     {
-        var ah = Alignment.Horizontal(container);
-        var isHorizontal = Alignment.IsHorizontal(container);
+        var ah = Alignment.Horizontal(row);
+        var isHorizontal = Alignment.IsHorizontal(row);
 
-        var av = Alignment.Vertical(container);
-        var isVertical = Alignment.IsVertical(container);
+        var av = Alignment.Vertical(row);
+        var isVertical = Alignment.IsVertical(row);
 
-        Alignment.SetSeveralActivations(container);
-        Alignment.SetInvalidValues(container);
+        Alignment.SetSeveralActivations(row);
+        Alignment.SetInvalidValues(row);
 
-        if (isHorizontal && container.Children.Count == 0)
+        if (isHorizontal && row.Children.Count == 0)
         {
-            Alignment.SetHorizontalOnNull(container);
+            Alignment.SetHorizontalOnNull(row);
         }
 
-        if (isVertical && container.Children.Count == 0)
+        if (isVertical && row.Children.Count == 0)
         {
-            Alignment.SetVerticalOnNull(container);
+            Alignment.SetVerticalOnNull(row);
         }
 
-        foreach (var child in container.Children)
+        foreach (var child in row.Children)
         {
             var ahc = SelfAlignment.Horizontal(child);
             var isChildHorizontal = SelfAlignment.IsHorizontal(child);
@@ -37,7 +38,7 @@ static class ContainerRestoreProperties
             var heightChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var widthChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
-            if (isHorizontal)
+            if (isHorizontal && row.IsVertical)
             {
                 if (isChildHorizontal)
                 {
@@ -54,7 +55,7 @@ static class ContainerRestoreProperties
                 {
                     if (widthChild == SizeValue.Expand.ToString() && child.AllowExpanded())
                     {
-                        Alignment.SetHorizontalOnNull(container);
+                        SelfAlignment.SetHorizontalValue(child, ah, "1");
                     }
                     else if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
@@ -65,7 +66,7 @@ static class ContainerRestoreProperties
                     else SelfAlignment.SetHorizontalValue(child, ah, "1");
                 }
             }
-            else
+            else if(row.IsVertical)
             {
                 if (isChildHorizontal)
                 {
@@ -75,7 +76,6 @@ static class ContainerRestoreProperties
                     }
                     else if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        Alignment.SetHorizontalValue(container, ahc, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
                             SizeValue.Auto.ToString());
                     }
@@ -85,21 +85,25 @@ static class ContainerRestoreProperties
                 {
                     if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        Alignment.SetHorizontalValue(container, PropertyNames.Hl, "1");
                         SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
                             SizeValue.Auto.ToString());
                     }
                     else if (widthChild != SizeValue.Expand.ToString())
                     {
-                        Alignment.SetHorizontalValue(container, PropertyNames.Hl, "1");
                         SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
                     }
                 }
             }
 
-            if (isVertical)
+            if (isVertical && row.IsVertical)
             {
+                var childRowIndex = Grid.GetRow(child.ComponentView);
+                if (childRowIndex % 2 == 1)
+                {
+                    
+                }
+                
                 if (isChildVertical)
                 {
                     if (heightChild == SizeValue.Expand.ToString())
@@ -115,7 +119,7 @@ static class ContainerRestoreProperties
                 {
                     if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
                     {
-                        Alignment.SetVerticalOnNull(container);
+                        Alignment.SetVerticalOnNull(row);
                     }
                     else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
@@ -126,7 +130,7 @@ static class ContainerRestoreProperties
                     else SelfAlignment.SetVerticalValue(child, av, "1");
                 }
             }
-            else
+            else if(row.IsVertical)
             {
                 if (isChildVertical)
                 {
@@ -136,7 +140,7 @@ static class ContainerRestoreProperties
                     }
                     else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        Alignment.SetVerticalValue(container, avc, "1");
+                        Alignment.SetVerticalValue(row, avc, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
                             SizeValue.Auto.ToString());
                     }
@@ -146,14 +150,14 @@ static class ContainerRestoreProperties
                 {
                     if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        Alignment.SetVerticalValue(container, PropertyNames.Hl, "1");
+                        Alignment.SetVerticalValue(row, PropertyNames.Hl, "1");
                         SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
                             SizeValue.Auto.ToString());
                     }
                     else if (heightChild != SizeValue.Expand.ToString())
                     {
-                        Alignment.SetVerticalValue(container, PropertyNames.Hl, "1");
+                        Alignment.SetVerticalValue(row, PropertyNames.Hl, "1");
                         SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
                     }
                 }
@@ -162,27 +166,38 @@ static class ContainerRestoreProperties
             child.Synchronize();
         }
 
+        if (isVertical && row.IsVertical)
+        {
+            var nr = row.Grid.RowDefinitions.Count;
+            var nc = row.Children.Count;
+
+            if (nr != 2 * nc + 1)
+            {
+                
+            }
+        }
+
         /* SelfAlignment */
-        SelfAlignment.SetSeveralActivations(container);
-        SelfAlignment.SetInvalidValues(container);
-        var height = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-        var width = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+        SelfAlignment.SetSeveralActivations(row);
+        SelfAlignment.SetInvalidValues(row);
+        var height = row.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+        var width = row.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
         if (isHorizontal)
         {
             if (width == SizeValue.Expand.ToString())
             {
-                container.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
+                row.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
             }
         }
         else if (isVertical)
         {
             if (height == SizeValue.Expand.ToString())
             {
-                container.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
+                row.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             }
         }
 
-        container.Synchronize();
+        row.Synchronize();
     }
 }

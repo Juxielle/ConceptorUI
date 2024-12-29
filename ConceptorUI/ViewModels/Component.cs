@@ -30,7 +30,7 @@ namespace ConceptorUi.ViewModels
 
         private bool _canSelect = true;
         protected bool HasChildren = true;
-        protected bool IsVertical = true;
+        public bool IsVertical = true;
         private int _addedChildrenCount;
         protected bool CanAddIntoChildContent = true;
         protected int ChildContentLimit = 100;
