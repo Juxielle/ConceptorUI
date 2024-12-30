@@ -5,6 +5,7 @@ using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUi.ViewModels.Operations;
 using ConceptorUi.ViewModels.Row;
 
 namespace ConceptorUI.ViewModels.Row
@@ -303,7 +304,7 @@ namespace ConceptorUI.ViewModels.Row
 
             for (var k = i; k < Children.Count; k++)
                 SetPosition(2 * k + 1, Children[k].ComponentView);
-            
+
             if (j == -1) OnSelected();
         }
 
@@ -719,6 +720,49 @@ namespace ConceptorUI.ViewModels.Row
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
         {
+            if (Children.Count == 0) return;
+
+            if (groupName == GroupNames.SelfAlignment)
+            {
+                var isChildHorizontal = SelfAlignment.IsHorizontal(Children[0]);
+                var isHorizontal = Alignment.IsHorizontal(this);
+
+                var ah = Alignment.Horizontal(this);
+                var ahc = SelfAlignment.Horizontal(Children[0]);
+
+                var isChildVertical = SelfAlignment.IsVertical(Children[0]);
+                var isVertical = Alignment.IsVertical(this);
+
+                var av = Alignment.Vertical(this);
+                var avc = SelfAlignment.Vertical(Children[0]);
+
+                if (isChildHorizontal && !isHorizontal)
+                    Alignment.SetHorizontalValue(this, ahc, "1");
+                else if (!isChildHorizontal && isHorizontal)
+                    Alignment.SetHorizontalOnNull(this);
+
+                if (isChildVertical && !isVertical)
+                    Alignment.SetVerticalValue(this, avc, "1");
+                else if (!isChildVertical && isVertical)
+                    Alignment.SetVerticalOnNull(this);
+            }
+            else if (groupName == GroupNames.Transform)
+            {
+                var isHorizontal = Alignment.IsHorizontal(this);
+                var isVertical = Alignment.IsVertical(this);
+                var widthChild = Children[0].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+                var heightChild = Children[0].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+
+                if (widthChild == SizeValue.Expand.ToString() && isHorizontal)
+                    Alignment.SetHorizontalOnNull(this);
+                else if (widthChild != SizeValue.Expand.ToString() && !isHorizontal)
+                    Alignment.SetHorizontalValue(this, PropertyNames.Hl, "1");
+
+                if (heightChild == SizeValue.Expand.ToString() && isVertical)
+                    Alignment.SetVerticalOnNull(this);
+                else if (heightChild != SizeValue.Expand.ToString() && !isVertical)
+                    Alignment.SetVerticalValue(this, PropertyNames.Vt, "1");
+            }
         }
     }
 }

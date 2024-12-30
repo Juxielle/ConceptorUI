@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.ListView
 {
@@ -19,10 +20,10 @@ namespace ConceptorUI.ViewModels.ListView
             {
                 Orientation = isVertical ? Orientation.Vertical : Orientation.Horizontal
             };
-            
+
             IsVertical = isVertical;
             Name = isVertical ? ComponentList.ListV : ComponentList.ListH;
-            
+
             var scrollViewer = new ScrollViewer
             {
                 HorizontalScrollBarVisibility = ScrollBarVisibility.Disabled,
