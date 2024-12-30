@@ -1,17 +1,17 @@
-﻿using System.Windows.Controls;
-using System.Windows.Input;
+﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using ConceptorUI.Models;
-using System.Linq;
+using ConceptorUi.ViewModels;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.ListView
 {
-    class ListVModel : Component
+    class ListViewModel : Component
     {
         private readonly StackPanel _stack;
 
-        public ListVModel(bool isVertical = true, bool allowConstraints = false)
+        public ListViewModel(bool isVertical = true, bool allowConstraints = false)
         {
             OnInit();
 
@@ -267,6 +267,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
+            ListViewRestoreProperties.RestoreProperties(this);
         }
     }
 }

@@ -1,12 +1,12 @@
-﻿using ConceptorUI.Models;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows;
 using System.Windows.Input;
+using ConceptorUI.Models;
+using ConceptorUi.ViewModels;
 using ConceptorUi.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Container
 {
     internal class ContainerModel : Component
     {

@@ -1,6 +1,7 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using ConceptorUI.Models;
+using ConceptorUI.ViewModels.Container;
 
 
 namespace ConceptorUi.ViewModels

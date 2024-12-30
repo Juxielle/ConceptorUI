@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ConceptorUI.Models;
+using ConceptorUI.ViewModels.Container;
 
 namespace ConceptorUi.ViewModels.Container;
 
@@ -12,7 +13,7 @@ static class ContainerVisibility
         foreach (var group in container.PropertyGroups!)
         {
             var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
-
+            
             if (group.Name == GroupNames.Alignment.ToString() && group.Visibility != Visibility.Visible.ToString())
                 container.SetGroupVisibility(groupName);
             else if (group.Name == GroupNames.Appearance.ToString() && group.Visibility != Visibility.Visible.ToString())

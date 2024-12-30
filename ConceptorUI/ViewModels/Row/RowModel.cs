@@ -1,12 +1,13 @@
-﻿using ConceptorUI.Models;
-using System.Linq;
-using System.Windows.Controls;
+﻿using System.Linq;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Models;
 using ConceptorUI.Utils;
+using ConceptorUi.ViewModels;
+using ConceptorUi.ViewModels.Row;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Row
 {
     internal class RowModel : Component
     {
@@ -708,60 +709,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
-            var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-            var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-            var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-
-            var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-            var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-            var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-
-            var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
-            var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
-            var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
-
-            /*---------------------*/
-            var activationCount = 0;
-            if (hl == "1") activationCount++;
-            if (hc == "1") activationCount++;
-            if (hr == "1") activationCount++;
-            if (sb == "1" && !IsVertical) activationCount++;
-            if (sa == "1" && !IsVertical) activationCount++;
-            if (se == "1" && !IsVertical) activationCount++;
-            if (activationCount >= 2)
-            {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, Children.Count > 0 ? "1" : "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                if (!IsVertical)
-                {
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                }
-            }
-
-            activationCount = 0;
-            if (vt == "1") activationCount++;
-            if (vc == "1") activationCount++;
-            if (vb == "1") activationCount++;
-            if (sb == "1" && IsVertical) activationCount++;
-            if (sa == "1" && IsVertical) activationCount++;
-            if (se == "1" && IsVertical) activationCount++;
-            if (activationCount >= 2)
-            {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, Children.Count > 0 ? "1" : "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                if (IsVertical)
-                {
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                }
-            }
-
-            /*---------------------*/
+            RowRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

@@ -1,6 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConceptorUI.Models;
+using ConceptorUI.ViewModels.Container;
+using ConceptorUI.ViewModels.ListView;
+using ConceptorUI.ViewModels.Row;
+using ConceptorUI.ViewModels.Stack;
 
 namespace ConceptorUi.ViewModels;
 
@@ -35,8 +39,8 @@ internal class ComponentHelper
         if (name == ComponentList.Stack.ToString())
             return new StackModel();
         if (name == ComponentList.ListV.ToString())
-            return new ListVModel();
-        return name == ComponentList.ListH.ToString() ? new ListVModel(isVertical: false) : null!;
+            return new ListViewModel();
+        return name == ComponentList.ListH.ToString() ? new ListViewModel(isVertical: false) : null!;
     }
 
     public static bool IsComponent(string name)

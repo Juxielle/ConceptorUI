@@ -1,4 +1,5 @@
 ﻿using ConceptorUI.Models;
+using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUi.ViewModels.Container;
@@ -175,7 +176,7 @@ static class ContainerRestoreProperties
                 container.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
             }
         }
-        else if (isVertical)
+        if (isVertical)
         {
             if (height == SizeValue.Expand.ToString())
             {
