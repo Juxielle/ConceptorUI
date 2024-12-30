@@ -269,4 +269,8 @@ internal class GridViewModel : Component
     {
         return PropertyGroups!;
     }
+
+    protected override void CheckVisibilities()
+    {
+    }
 }

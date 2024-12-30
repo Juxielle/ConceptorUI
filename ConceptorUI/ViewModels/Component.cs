@@ -71,6 +71,7 @@ namespace ConceptorUi.ViewModels
         protected abstract bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value);
         protected abstract void RestoreProperties();
+        protected abstract void CheckVisibilities();
         protected abstract void CallBack(GroupNames groupName, PropertyNames propertyName, string value);
 
         protected abstract void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value);

@@ -254,5 +254,9 @@ namespace ConceptorUi.ViewModels
         protected override void OnMoveBottom()
         {
         }
+
+        protected override void CheckVisibilities()
+        {
+        }
     }
 }

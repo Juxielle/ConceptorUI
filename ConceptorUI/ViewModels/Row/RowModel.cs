@@ -712,6 +712,11 @@ namespace ConceptorUI.ViewModels.Row
             RowRestoreProperties.RestoreProperties(this);
         }
 
+        protected override void CheckVisibilities()
+        {
+            this.SetVisibilities();
+        }
+
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
         {
         }

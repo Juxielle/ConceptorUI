@@ -138,5 +138,9 @@ namespace ConceptorUi.ViewModels
         protected override void RestoreProperties()
         {
         }
+
+        protected override void CheckVisibilities()
+        {
+        }
     }
 }

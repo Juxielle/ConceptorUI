@@ -113,6 +113,10 @@ namespace ConceptorUi.ViewModels
         {
         }
 
+        protected override void CheckVisibilities()
+        {
+        }
+
         protected override object GetPropertyGroups()
         {
             return null!;

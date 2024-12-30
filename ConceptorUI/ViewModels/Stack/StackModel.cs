@@ -220,6 +220,11 @@ namespace ConceptorUI.ViewModels.Stack
             }
         }
 
+        protected override void CheckVisibilities()
+        {
+            this.SetVisibilities();
+        }
+
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
         {
         }

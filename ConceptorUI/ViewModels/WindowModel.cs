@@ -233,6 +233,10 @@ namespace ConceptorUi.ViewModels
             _body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
         }
 
+        protected override void CheckVisibilities()
+        {
+        }
+
         protected override void Delete(int k = -1)
         {
         }

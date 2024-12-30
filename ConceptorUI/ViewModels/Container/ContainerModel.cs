@@ -299,5 +299,10 @@ namespace ConceptorUI.ViewModels.Container
         {
             ContainerRestoreProperties.RestoreProperties(this);
         }
+
+        protected override void CheckVisibilities()
+        {
+            ContainerVisibility.SetVisibilities(this);
+        }
     }
 }
