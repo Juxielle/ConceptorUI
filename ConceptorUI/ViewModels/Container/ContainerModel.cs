@@ -284,25 +284,25 @@ namespace ConceptorUI.ViewModels.Container
         protected override void OnMoveBottom()
         {
         }
-
+        
         protected override bool CanSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
             return true;
         }
-
+        
         protected override bool CanChildSetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
             return true;
         }
-
+        
         protected override void RestoreProperties()
         {
             ContainerRestoreProperties.RestoreProperties(this);
         }
-
+        
         protected override void CheckVisibilities()
         {
-            ContainerVisibility.SetVisibilities(this);
+            this.SetVisibilities();
         }
     }
 }
