@@ -8,7 +8,7 @@ namespace ConceptorUi.ViewModels.Container;
 static class ContainerVisibility
 {
     //Ajout des groupes et des propriétés manquants
-    public static void SetVisibilities(ContainerModel container)
+    public static void SetVisibilities(this ContainerModel container)
     {
         foreach (var group in container.PropertyGroups!)
         {

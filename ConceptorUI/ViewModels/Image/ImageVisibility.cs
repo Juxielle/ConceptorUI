@@ -33,21 +33,41 @@ static class ImageVisibility
 
                 if (group.Name == GroupNames.Transform.ToString())
                 {
-                    if (property.Name == PropertyNames.Gap.ToString() &&
-                        property.Visibility != Visibility.Collapsed.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Name == PropertyNames.Stretch.ToString() &&
-                             property.Visibility != Visibility.Collapsed.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Visibility != Visibility.Visible.ToString())
+                    if (property.Name == PropertyNames.Width.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
                         image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Height.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Stretch.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.He.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Ve.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Hve.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Visibility != Visibility.Collapsed.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName, false);
+                }
+                else if (group.Name == GroupNames.Appearance.ToString())
+                {
+                    if (property.Name == PropertyNames.Margin.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.BorderRadius.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Visibility != Visibility.Collapsed.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    if (property.Name == PropertyNames.FilePicker.ToString() &&
-                        property.Visibility != Visibility.Collapsed.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                    if (property.Name == PropertyNames.MoveLeft.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         image.SetPropertyVisibility(groupName, propertyName, false);
                     else if (property.Name == PropertyNames.MoveRight.ToString() &&
