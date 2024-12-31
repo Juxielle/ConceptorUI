@@ -109,12 +109,12 @@ static class SelfAlignment
         var vc = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vc);
         var vb = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vb);
 
-        if (hl != "0" || hl != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
-        if (hc != "0" || hc != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
-        if (hr != "0" || hr != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
+        if (hl != "0" && hl != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
+        if (hc != "0" && hc != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
+        if (hr != "0" && hr != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
 
-        if (vt != "0" || vt != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
-        if (vc != "0" || vc != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
-        if (vb != "0" || vb != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
+        if (vt != "0" && vt != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
+        if (vc != "0" && vc != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
+        if (vb != "0" && vb != "1") component.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
     }
 }

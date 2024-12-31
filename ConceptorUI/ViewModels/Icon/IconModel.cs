@@ -1,17 +1,17 @@
 ﻿using System;
-using ConceptorUI.Models;
-using System.Windows.Controls;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Assets.GoogleFontIcons;
+using ConceptorUI.Models;
 using ConceptorUI.Utils;
-using MaterialDesignThemes.Wpf;
+using ConceptorUi.ViewModels;
 using FontAwesome.WPF;
+using MaterialDesignThemes.Wpf;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Icon
 {
     internal class IconModel : Component
     {
@@ -92,8 +92,8 @@ namespace ConceptorUi.ViewModels
                 found = true;
             }
 
-            var myDataObject = new Icon { Code = found ? iValue![0] : value };
-            var myBinding = new Binding("Code")
+            var myDataObject = new Models.Icon { Code = found ? iValue![0] : value };
+            var myBinding = new System.Windows.Data.Binding("Code")
             {
                 Source = myDataObject
             };
@@ -304,10 +304,12 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
+            IconRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()
         {
+            IconVisibility.SetVisibilities(this);
         }
     }
 }

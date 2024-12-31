@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.ReusableComponent;
 
 namespace ConceptorUI.Views.PropertyPanel;
 

@@ -710,7 +710,7 @@ namespace ConceptorUI.ViewModels.Row
 
         protected override void RestoreProperties()
         {
-            //RowRestoreProperties.RestoreProperties(this);
+            RowRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()

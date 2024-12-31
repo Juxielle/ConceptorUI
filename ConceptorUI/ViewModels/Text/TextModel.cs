@@ -7,9 +7,9 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
+using ConceptorUi.ViewModels;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Text
 {
     internal class TextModel : Component
     {

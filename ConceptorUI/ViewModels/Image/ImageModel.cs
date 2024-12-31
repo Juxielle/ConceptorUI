@@ -1,14 +1,14 @@
-﻿using ConceptorUI.Models;
+﻿using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Media;
-using System.Windows;
 using System.Windows.Input;
+using System.Windows.Media;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.Utils;
+using ConceptorUi.ViewModels;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Image
 {
     class ImageModel : Component
     {
@@ -93,6 +93,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void RestoreProperties()
         {
+            ImageRestoreProperties.RestoreProperties(this);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
@@ -257,6 +258,7 @@ namespace ConceptorUi.ViewModels
 
         protected override void CheckVisibilities()
         {
+            ImageVisibility.SetVisibilities(this);
         }
     }
 }

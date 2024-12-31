@@ -1,11 +1,11 @@
-﻿using ConceptorUI.Models;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Input;
+using ConceptorUI.Models;
+using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Row;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.Window
 {
     internal class WindowModel : Component
     {

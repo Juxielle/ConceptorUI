@@ -2,9 +2,13 @@
 using System.Collections.Generic;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Container;
+using ConceptorUI.ViewModels.Icon;
+using ConceptorUI.ViewModels.Image;
 using ConceptorUI.ViewModels.ListView;
 using ConceptorUI.ViewModels.Row;
 using ConceptorUI.ViewModels.Stack;
+using ConceptorUI.ViewModels.Text;
+using ConceptorUI.ViewModels.Window;
 
 namespace ConceptorUi.ViewModels;
 

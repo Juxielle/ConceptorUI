@@ -109,12 +109,12 @@ static class Alignment
         var vc = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
         var vb = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
         
-        if (hl != "0" || hl != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-        if (hc != "0" || hc != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-        if (hr != "0" || hr != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+        if (hl != "0" && hl != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+        if (hc != "0" && hc != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+        if (hr != "0" && hr != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
         
-        if (vt != "0" || vt != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-        if (vc != "0" || vc != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-        if (vb != "0" || vb != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+        if (vt != "0" && vt != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+        if (vc != "0" && vc != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+        if (vb != "0" && vb != "1") component.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
     }
 }

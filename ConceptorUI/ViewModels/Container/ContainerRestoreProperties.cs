@@ -14,8 +14,8 @@ static class ContainerRestoreProperties
         var av = Alignment.Vertical(container);
         var isVertical = Alignment.IsVertical(container);
 
-        // Alignment.SetSeveralActivations(container);
-        // Alignment.SetInvalidValues(container);
+        Alignment.SetSeveralActivations(container);
+        Alignment.SetInvalidValues(container);
 
         if (isHorizontal && container.Children.Count == 0)
         {
@@ -31,13 +31,13 @@ static class ContainerRestoreProperties
         {
             var ahc = SelfAlignment.Horizontal(child);
             var isChildHorizontal = SelfAlignment.IsHorizontal(child);
-        
+
             var avc = SelfAlignment.Vertical(child);
             var isChildVertical = SelfAlignment.IsVertical(child);
-        
+
             var heightChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var widthChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-        
+
             if (isHorizontal)
             {
                 if (isChildHorizontal)
@@ -98,7 +98,7 @@ static class ContainerRestoreProperties
                     }
                 }
             }
-            
+
             if (isVertical)
             {
                 if (isChildVertical)
@@ -159,31 +159,36 @@ static class ContainerRestoreProperties
                     }
                 }
             }
-        
-            //child.Synchronize();
+
+            child.Synchronize();
         }
-        
+
         /* SelfAlignment */
-        // SelfAlignment.SetSeveralActivations(container);
-        // SelfAlignment.SetInvalidValues(container);
-        // var height = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-        // var width = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-        //
-        // if (isHorizontal)
-        // {
-        //     if (width == SizeValue.Expand.ToString())
-        //     {
-        //         container.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-        //     }
-        // }
-        // if (isVertical)
-        // {
-        //     if (height == SizeValue.Expand.ToString())
-        //     {
-        //         container.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-        //     }
-        // }
-        
+        SelfAlignment.SetSeveralActivations(container);
+        SelfAlignment.SetInvalidValues(container);
+
+        var isSelfHorizontal = SelfAlignment.IsHorizontal(container);
+        var isSelfVertical = SelfAlignment.IsVertical(container);
+
+        var height = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+        var width = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+
+        if (isSelfHorizontal)
+        {
+            if (width == SizeValue.Expand.ToString())
+            {
+                container.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
+            }
+        }
+
+        if (isSelfVertical)
+        {
+            if (height == SizeValue.Expand.ToString())
+            {
+                container.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
+            }
+        }
+
         container.Synchronize();
     }
 }

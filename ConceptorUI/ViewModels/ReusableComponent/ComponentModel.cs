@@ -1,10 +1,10 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using ConceptorUI.Models;
+using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 
-
-namespace ConceptorUi.ViewModels
+namespace ConceptorUI.ViewModels.ReusableComponent
 {
     internal class ComponentModel : Component
     {

@@ -8,13 +8,13 @@ static class Synchronization
 {
     public static void Synchronize(this Component component)
     {
-        var hl = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-        var hc = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-        var hr = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
+        var hl = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hl);
+        var hc = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hc);
+        var hr = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hr);
 
-        var vt = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-        var vc = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-        var vb = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
+        var vt = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vt);
+        var vc = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vc);
+        var vb = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vb);
 
         //var ah = SelfAlignment.Horizontal(component);
         var isHorizontal = SelfAlignment.IsHorizontal(component);
@@ -50,7 +50,8 @@ static class Synchronization
         }
         else if (width == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Width))
             component.SelectedContent.Width = double.NaN;
-        else if (double.IsNaN(component.SelectedContent.Width))
+        else if (width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString() &&
+                 double.IsNaN(component.SelectedContent.Width))
         {
             var vd = Helper.ConvertToDouble(width);
             component.SelectedContent.Width = vd;
@@ -62,8 +63,9 @@ static class Synchronization
             component.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
         }
         else if (height == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Height))
-            component.SelectedContent.Width = double.NaN;
-        else if (double.IsNaN(component.SelectedContent.Height))
+            component.SelectedContent.Height = double.NaN;
+        else if (height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() &&
+                 double.IsNaN(component.SelectedContent.Height))
         {
             var vd = Helper.ConvertToDouble(height);
             component.SelectedContent.Height = vd;

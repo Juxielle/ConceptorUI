@@ -127,7 +127,7 @@ static class ListViewRestoreProperties
                     }
                     else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,  SizeValue.Auto.ToString());
+                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
                     }
                     else SelfAlignment.SetVerticalValue(child, avc, "1");
                 }
@@ -151,17 +151,22 @@ static class ListViewRestoreProperties
         /* SelfAlignment */
         SelfAlignment.SetSeveralActivations(listView);
         SelfAlignment.SetInvalidValues(listView);
+
+        var isSelfHorizontal = SelfAlignment.IsHorizontal(listView);
+        var isSelfVertical = SelfAlignment.IsVertical(listView);
+
         var height = listView.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var width = listView.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
-        
-        if (isHorizontal)
+
+        if (isSelfHorizontal)
         {
             if (width == SizeValue.Expand.ToString())
             {
                 listView.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
             }
         }
-        if (isVertical)
+        
+        if (isSelfVertical)
         {
             if (height == SizeValue.Expand.ToString())
             {

@@ -151,25 +151,29 @@ static class StackRestoreProperties
         /* SelfAlignment */
         SelfAlignment.SetSeveralActivations(stack);
         SelfAlignment.SetInvalidValues(stack);
+
+        var isSelfHorizontal = SelfAlignment.IsHorizontal(stack);
+        var isSelfVertical = SelfAlignment.IsVertical(stack);
+
         var height = stack.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var width = stack.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
-        if (isHorizontal)
+        if (isSelfHorizontal)
         {
             if (width == SizeValue.Expand.ToString())
             {
                 stack.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
             }
         }
-
-        if (isVertical)
+        
+        if (isSelfVertical)
         {
             if (height == SizeValue.Expand.ToString())
             {
                 stack.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             }
         }
-
+        
         stack.Synchronize();
     }
 }

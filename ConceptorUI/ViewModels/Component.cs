@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
+using ConceptorUI.ViewModels.Text;
 
 
 namespace ConceptorUi.ViewModels
