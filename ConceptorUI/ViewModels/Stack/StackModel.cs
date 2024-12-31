@@ -241,7 +241,7 @@ namespace ConceptorUI.ViewModels.Stack
 
         protected override void RestoreProperties()
         {
-            StackRestoreProperties.RestoreProperties(this);
+            //StackRestoreProperties.RestoreProperties(this);
         }
     }
 }

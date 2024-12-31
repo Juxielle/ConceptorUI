@@ -268,7 +268,7 @@ namespace ConceptorUI.ViewModels.ListView
 
         protected override void RestoreProperties()
         {
-            ListViewRestoreProperties.RestoreProperties(this);
+            //ListViewRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()
