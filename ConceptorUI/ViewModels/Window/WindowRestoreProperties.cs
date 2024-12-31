@@ -52,12 +52,12 @@ static class WindowRestoreProperties
             SelfAlignment.SetVerticalOnNull(window);
         }
 
-        if (width != "300")
+        if (width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString())
         {
             window.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
         }
 
-        if (height != "620")
+        if (height == SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString())
         {
             window.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "620");
         }
