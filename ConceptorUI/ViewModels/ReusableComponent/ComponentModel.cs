@@ -236,10 +236,12 @@ namespace ConceptorUI.ViewModels.ReusableComponent
 
         protected override void RestoreProperties()
         {
+            ComponentRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()
         {
+            this.SetVisibilities();
         }
     }
 }

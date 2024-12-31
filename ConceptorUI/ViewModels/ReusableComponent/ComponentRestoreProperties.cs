@@ -8,7 +8,6 @@ static class ComponentRestoreProperties
     public static void RestoreProperties(this ComponentModel component)
     {
         var isHorizontal = Alignment.IsHorizontal(component);
-
         var isVertical = Alignment.IsVertical(component);
 
         Alignment.SetSeveralActivations(component);
@@ -27,6 +26,24 @@ static class ComponentRestoreProperties
         /* Body */
         var bodyW = component.Body.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
         var bodyH = component.Body.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+        var isBodyHorizontal = Alignment.IsHorizontal(component.Body);
+        var isBodyVertical = Alignment.IsVertical(component.Body);
+
+        Alignment.SetSeveralActivations(component.Body);
+        Alignment.SetInvalidValues(component.Body);
+
+        if (isBodyHorizontal)
+        {
+            Alignment.SetHorizontalOnNull(component.Body);
+        }
+
+        if (isBodyVertical)
+        {
+            Alignment.SetVerticalOnNull(component.Body);
+        }
+
+        SelfAlignment.SetSeveralActivations(component.Body);
+        SelfAlignment.SetInvalidValues(component.Body);
 
         if (bodyW != SizeValue.Expand.ToString() && bodyW != SizeValue.Auto.ToString())
         {
@@ -37,6 +54,8 @@ static class ComponentRestoreProperties
         {
             component.Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "100");
         }
+
+        component.Body.Synchronize();
 
         /* SelfAlignment */
         SelfAlignment.SetSeveralActivations(component);
@@ -58,12 +77,12 @@ static class ComponentRestoreProperties
             SelfAlignment.SetVerticalOnNull(component);
         }
 
-        if (width == SizeValue.Expand.ToString())
+        if (width != SizeValue.Expand.ToString())
         {
             component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
         }
 
-        if (height == SizeValue.Expand.ToString())
+        if (height != SizeValue.Expand.ToString())
         {
             component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
         }

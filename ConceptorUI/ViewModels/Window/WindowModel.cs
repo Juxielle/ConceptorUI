@@ -9,9 +9,9 @@ namespace ConceptorUI.ViewModels.Window
 {
     internal class WindowModel : Component
     {
-        private readonly ContainerModel _statusbar;
-        private readonly ContainerModel _body;
-        private readonly RowModel _layout;
+        public readonly ContainerModel Statusbar;
+        public readonly ContainerModel Body;
+        public readonly RowModel Layout;
 
         public WindowModel(bool allowConstraints = false)
         {
@@ -22,10 +22,10 @@ namespace ConceptorUI.ViewModels.Window
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
 
-            _statusbar = new ContainerModel();
-            _body = new ContainerModel();
-            _layout = new RowModel();
-            Content.Child = _layout.ComponentView;
+            Statusbar = new ContainerModel();
+            Body = new ContainerModel();
+            Layout = new RowModel();
+            Content.Child = Layout.ComponentView;
 
             if (!allowConstraints) _init();
 
@@ -36,44 +36,44 @@ namespace ConceptorUI.ViewModels.Window
 
         private void _init()
         {
-            _statusbar.SelfConstraints();
-            _statusbar.SetGroupVisibility(GroupNames.Global, false);
-            _statusbar.SetGroupVisibility(GroupNames.Alignment, false);
-            _statusbar.SetGroupVisibility(GroupNames.SelfAlignment, false);
-            _statusbar.SetGroupVisibility(GroupNames.Transform, false);
-            _statusbar.SetGroupVisibility(GroupNames.Text, false);
-            _statusbar.SetGroupVisibility(GroupNames.Shadow, false);
-            _statusbar.SetGroupVisibility(GroupNames.Appearance, false);
-            _statusbar.SetGroupOnlyVisibility(GroupNames.Appearance);
-            _statusbar.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
-            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "25");
-            _statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
-            _statusbar.OnInitialize();
+            Statusbar.SelfConstraints();
+            Statusbar.SetGroupVisibility(GroupNames.Global, false);
+            Statusbar.SetGroupVisibility(GroupNames.Alignment, false);
+            Statusbar.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            Statusbar.SetGroupVisibility(GroupNames.Transform, false);
+            Statusbar.SetGroupVisibility(GroupNames.Text, false);
+            Statusbar.SetGroupVisibility(GroupNames.Shadow, false);
+            Statusbar.SetGroupVisibility(GroupNames.Appearance, false);
+            Statusbar.SetGroupOnlyVisibility(GroupNames.Appearance);
+            Statusbar.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
+            Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "25");
+            Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            Statusbar.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FF008975");
+            Statusbar.OnInitialize();
 
-            _body.SelfConstraints();
-            _body.SetGroupVisibility(GroupNames.Alignment, false);
-            _body.SetGroupVisibility(GroupNames.SelfAlignment, false);
-            _body.SetGroupVisibility(GroupNames.Transform, false);
-            _body.SetGroupVisibility(GroupNames.Text, false);
-            _body.SetGroupVisibility(GroupNames.Appearance, false);
-            _body.SetGroupVisibility(GroupNames.Shadow, false);
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
-            _body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
-            _body.OnInitialize();
+            Body.SelfConstraints();
+            Body.SetGroupVisibility(GroupNames.Alignment, false);
+            Body.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            Body.SetGroupVisibility(GroupNames.Transform, false);
+            Body.SetGroupVisibility(GroupNames.Text, false);
+            Body.SetGroupVisibility(GroupNames.Appearance, false);
+            Body.SetGroupVisibility(GroupNames.Shadow, false);
+            Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            Body.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
+            Body.OnInitialize();
 
-            _layout.SelfConstraints();
-            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
-            _layout.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
-            _layout.SetPropertyValue(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd");
-            _layout.OnInitialize();
+            Layout.SelfConstraints();
+            Layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            Layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            Layout.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFFFF");
+            Layout.SetPropertyValue(GroupNames.Shadow, PropertyNames.ShadowColor, "#dddddd");
+            Layout.OnInitialize();
 
-            _layout.OnAdd(_statusbar, true);
-            _layout.OnAdd(_body, true);
+            Layout.OnAdd(Statusbar, true);
+            Layout.OnAdd(Body, true);
 
-            Children.Add(_layout);
+            Children.Add(Layout);
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)
@@ -113,13 +113,13 @@ namespace ConceptorUI.ViewModels.Window
         {
             if (propertyName == PropertyNames.Width.ToString())
             {
-                _body.SelectedContent.Width = double.NaN;
-                _body.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
+                Body.SelectedContent.Width = double.NaN;
+                Body.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
             }
             else if (propertyName == PropertyNames.Height.ToString())
             {
-                _body.SelectedContent.Height = double.NaN;
-                _body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+                Body.SelectedContent.Height = double.NaN;
+                Body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
             }
         }
 
@@ -180,61 +180,12 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override void RestoreProperties()
         {
-            // var hl = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hl);
-            // var hc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hc);
-            // var hr = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Hr);
-            //
-            // var vt = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
-            // var vc = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vc);
-            // var vb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
-            
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-            
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-            
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
-            
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
-            _layout.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
-            
-            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
-            
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            _layout.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-            
-            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-            _body.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-            
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hr, "0");
-            
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "0");
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vc, "0");
-            _body.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vb, "0");
-            
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
-            _body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
-            
-            _layout.OnUpdated(GroupNames.Alignment, PropertyNames.Vt, "0", true);
-            _layout.OnUpdated(GroupNames.Alignment, PropertyNames.Hl, "0", true);
-            
-            _body.SelectedContent.Height = double.NaN;
-            _body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
+            WindowRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()
         {
+            this.SetVisibilities();
         }
 
         protected override void Delete(int k = -1)

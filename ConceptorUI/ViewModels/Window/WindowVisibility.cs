@@ -1,9 +1,116 @@
-﻿namespace ConceptorUI.ViewModels.Window;
+﻿using System;
+using System.Windows;
+using ConceptorUI.Models;
+
+namespace ConceptorUI.ViewModels.Window;
 
 static class WindowVisibility
 {
     public static void SetVisibilities(this WindowModel window)
     {
+        foreach (var group in window.PropertyGroups!)
+        {
+            var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
+
+            if (group.Name == GroupNames.Alignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.SelfAlignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Appearance.ToString() &&
+                     group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Transform.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupVisibility(groupName, false);
+        }
         
+        /* Status */
+        
+        /* Body */
+        
+        /* Layout */
+        foreach (var group in window.Body.PropertyGroups!)
+        {
+            var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
+
+            if (group.Name == GroupNames.Alignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.SelfAlignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Appearance.ToString() &&
+                     group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Transform.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupVisibility(groupName, false);
+
+            foreach (var property in group.Properties)
+            {
+                var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
+
+                if (group.Name == GroupNames.Alignment.ToString())
+                {
+                    if (property.Name == PropertyNames.SpaceBetween.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.SpaceAround.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.SpaceEvery.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                }
+                else if (group.Name == GroupNames.Transform.ToString())
+                {
+                    if (property.Name == PropertyNames.Width.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Height.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                }
+                else if (group.Name == GroupNames.Appearance.ToString())
+                {
+                    if (property.Name == PropertyNames.FillColor.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Padding.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                }
+                else if (group.Name == GroupNames.Global.ToString())
+                {
+                    if (property.Name == PropertyNames.FilePicker.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveRight.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveTop.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveBottom.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Visibility != Visibility.Visible.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName);
+                }
+            }
+        }
     }
 }
