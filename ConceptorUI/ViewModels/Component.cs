@@ -1395,8 +1395,6 @@ namespace ConceptorUi.ViewModels
                     AddIntoChildContent(component.ComponentView);
                     LayoutConstraints(Children.Count - 1, true, expanded);
                 }
-
-                RestoreProperties();
             }
 
             #endregion
@@ -1405,6 +1403,9 @@ namespace ConceptorUi.ViewModels
                 (this as TextModel)?.AddFirstChild();
 
             OnInitialize();
+
+            CheckVisibilities();
+            RestoreProperties();
         }
 
         public StructuralElement AddToStructuralView()

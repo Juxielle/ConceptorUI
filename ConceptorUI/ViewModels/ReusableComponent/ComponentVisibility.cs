@@ -82,7 +82,7 @@ static class ComponentVisibility
                     else if (property.Name == PropertyNames.Padding.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         component.Body.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Visible.ToString())
+                    else if (property.Visibility != Visibility.Collapsed.ToString())
                         component.Body.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())

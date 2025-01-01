@@ -67,9 +67,9 @@ static class ComponentRestoreProperties
         var height = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var width = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
-        if (isSelfHorizontal)
+        if (!isSelfHorizontal)
         {
-            SelfAlignment.SetHorizontalOnNull(component);
+            SelfAlignment.SetHorizontalValue(component, PropertyNames.Hc, "1");
         }
 
         if (isSelfVertical)
@@ -77,14 +77,14 @@ static class ComponentRestoreProperties
             SelfAlignment.SetVerticalOnNull(component);
         }
 
-        if (width != SizeValue.Expand.ToString())
+        if (width != SizeValue.Auto.ToString())
         {
-            component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
+            component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
         }
 
-        if (height != SizeValue.Expand.ToString())
+        if (height != SizeValue.Auto.ToString())
         {
-            component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
         }
 
         component.Synchronize();
