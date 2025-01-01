@@ -31,17 +31,16 @@ static class ComponentVisibility
         {
             var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
 
-            if (group.Name == GroupNames.Alignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
-                component.Body.SetGroupOnlyVisibility(groupName, false);
+            if (group.Name == GroupNames.Alignment.ToString() && group.Visibility != Visibility.Visible.ToString())
+                component.Body.SetGroupOnlyVisibility(groupName);
             else if (group.Name == GroupNames.SelfAlignment.ToString() && group.Visibility != Visibility.Collapsed.ToString())
                 component.Body.SetGroupVisibility(groupName, false);
-            else if (group.Name == GroupNames.Appearance.ToString() &&
-                     group.Visibility != Visibility.Collapsed.ToString())
-                component.Body.SetGroupOnlyVisibility(groupName, false);
-            else if (group.Name == GroupNames.Transform.ToString() && group.Visibility != Visibility.Collapsed.ToString())
-                component.Body.SetGroupOnlyVisibility(groupName, false);
-            else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Collapsed.ToString())
-                component.Body.SetGroupOnlyVisibility(groupName, false);
+            else if (group.Name == GroupNames.Appearance.ToString() && group.Visibility != Visibility.Visible.ToString())
+                component.Body.SetGroupOnlyVisibility(groupName);
+            else if (group.Name == GroupNames.Transform.ToString() && group.Visibility != Visibility.Visible.ToString())
+                component.Body.SetGroupOnlyVisibility(groupName);
+            else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Visible.ToString())
+                component.Body.SetGroupOnlyVisibility(groupName);
             else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
                 component.Body.SetGroupVisibility(groupName, false);
 
@@ -60,8 +59,6 @@ static class ComponentVisibility
                     else if (property.Name == PropertyNames.SpaceEvery.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         component.Body.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Visibility != Visibility.Visible.ToString())
-                        component.Body.SetPropertyVisibility(groupName, propertyName);
                 }
                 else if (group.Name == GroupNames.Transform.ToString())
                 {
@@ -71,7 +68,14 @@ static class ComponentVisibility
                     else if (property.Name == PropertyNames.Height.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         component.Body.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Visible.ToString())
+                    else if (property.Name == PropertyNames.He.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        component.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.Ve.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        component.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.Hve.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
                         component.Body.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())

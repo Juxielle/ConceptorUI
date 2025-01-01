@@ -49,6 +49,12 @@ static class ContainerVisibility
                     else if (property.Name == PropertyNames.Stretch.ToString() &&
                         property.Visibility != Visibility.Collapsed.ToString())
                         container.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.Rot.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.Y.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName, false);
                     else if (property.Visibility != Visibility.Visible.ToString())
                         container.SetPropertyVisibility(groupName, propertyName);
                 }
@@ -85,7 +91,10 @@ static class ContainerVisibility
 
             if (group.Name == GroupNames.SelfAlignment.ToString() &&
                 group.Visibility != Visibility.Collapsed.ToString())
+            {
                 component.SetGroupVisibility(groupName, false);
+                break;
+            }
         }
     }
 }

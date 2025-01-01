@@ -103,13 +103,13 @@ static class RowVisibility
                     {
                         if (property.Name == PropertyNames.Hl.ToString() &&
                             property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
                         else if (property.Name == PropertyNames.Hr.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
                         else if (property.Name == PropertyNames.Hc.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
                         else if (property.Name == PropertyNames.Vt.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
