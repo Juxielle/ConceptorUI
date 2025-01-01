@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Window;
@@ -113,8 +114,6 @@ static class WindowRestoreProperties
 
         SelfAlignment.SetSeveralActivations(window.Layout);
         SelfAlignment.SetInvalidValues(window.Layout);
-        
-        SelfAlignment.SetHorizontalOnNull(window.Layout);
 
         if (layoutW != SizeValue.Expand.ToString())
         {

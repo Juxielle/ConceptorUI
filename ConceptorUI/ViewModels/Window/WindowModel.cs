@@ -111,16 +111,6 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
         {
-            if (propertyName == PropertyNames.Width.ToString())
-            {
-                Body.SelectedContent.Width = double.NaN;
-                Body.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
-            }
-            else if (propertyName == PropertyNames.Height.ToString())
-            {
-                Body.SelectedContent.Height = double.NaN;
-                Body.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
-            }
         }
 
         protected override void WhenFileLoaded(string value)

@@ -29,7 +29,19 @@ static class ContainerVisibility
             {
                 var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
 
-                if (group.Name == GroupNames.Transform.ToString())
+                if (group.Name == GroupNames.Alignment.ToString())
+                {
+                    if (property.Name == PropertyNames.SpaceBetween.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.SpaceAround.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.SpaceEvery.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName, false);
+                }
+                else if (group.Name == GroupNames.Transform.ToString())
                 {
                     if (property.Name == PropertyNames.Gap.ToString() &&
                         property.Visibility != Visibility.Collapsed.ToString())
