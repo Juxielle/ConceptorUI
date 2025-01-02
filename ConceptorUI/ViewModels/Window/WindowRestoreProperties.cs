@@ -1,5 +1,4 @@
-﻿using System;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Window;

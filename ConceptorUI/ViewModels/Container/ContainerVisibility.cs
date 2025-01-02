@@ -28,7 +28,7 @@ static class ContainerVisibility
             foreach (var property in group.Properties)
             {
                 var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
+                
                 if (group.Name == GroupNames.Alignment.ToString())
                 {
                     if (property.Name == PropertyNames.SpaceBetween.ToString() &&
@@ -55,7 +55,20 @@ static class ContainerVisibility
                     else if (property.Name == PropertyNames.Y.ToString() &&
                         property.Visibility != Visibility.Collapsed.ToString())
                         container.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Visibility != Visibility.Visible.ToString())
+                    else if (property.Name == PropertyNames.Width.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Height.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.He.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Ve.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        container.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Hve.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
                         container.SetPropertyVisibility(groupName, propertyName);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
@@ -80,8 +93,8 @@ static class ContainerVisibility
                 }
             }
         }
-
-
+        
+        
         if (container.Children.Count == 0) return;
         var component = container.Children[0];
 

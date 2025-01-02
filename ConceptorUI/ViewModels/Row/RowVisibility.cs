@@ -82,6 +82,7 @@ static class RowVisibility
             }
         }
         
+        /* Sur les enfants, il faut simplement agir sur les props qu'on connaît. */
         foreach (var child in row.Children)
         {
             foreach (var group in child.PropertyGroups!)
@@ -103,13 +104,13 @@ static class RowVisibility
                     {
                         if (property.Name == PropertyNames.Hl.ToString() &&
                             property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
                         else if (property.Name == PropertyNames.Hr.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
                         else if (property.Name == PropertyNames.Hc.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
+                            child.SetPropertyVisibility(groupName, propertyName, row.IsVertical);
                         else if (property.Name == PropertyNames.Vt.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
@@ -119,8 +120,6 @@ static class RowVisibility
                         else if (property.Name == PropertyNames.Vc.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             child.SetPropertyVisibility(groupName, propertyName, !row.IsVertical);
-                        else if (property.Visibility != Visibility.Collapsed.ToString())
-                            child.SetPropertyVisibility(groupName, propertyName, false);
                     }
                     else if (group.Name == GroupNames.Global.ToString())
                     {
