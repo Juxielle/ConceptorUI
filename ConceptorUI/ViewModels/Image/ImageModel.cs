@@ -258,7 +258,7 @@ namespace ConceptorUI.ViewModels.Image
 
         protected override void CheckVisibilities()
         {
-            ImageVisibility.SetVisibilities(this);
+            this.SetVisibilities();
         }
     }
 }

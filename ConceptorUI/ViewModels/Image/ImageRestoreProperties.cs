@@ -11,26 +11,17 @@ static class ImageRestoreProperties
         SelfAlignment.SetSeveralActivations(image);
         SelfAlignment.SetInvalidValues(image);
 
-        var isSelfHorizontal = SelfAlignment.IsHorizontal(image);
-        var isSelfVertical = SelfAlignment.IsVertical(image);
-
         var height = image.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var width = image.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
-        if (isSelfHorizontal)
+        if (width == SizeValue.Auto.ToString())
         {
-            if (width == SizeValue.Expand.ToString())
-            {
-                image.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-            }
+            image.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
         }
 
-        if (isSelfVertical)
+        if (height == SizeValue.Auto.ToString())
         {
-            if (height == SizeValue.Expand.ToString())
-            {
-                image.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-            }
+            image.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "40");
         }
 
         image.Synchronize();
