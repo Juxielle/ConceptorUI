@@ -38,6 +38,7 @@ public class AddProjectToConfigCommandHandler
             {
                 ZipPath = command.ProjectCommand.ZipPath,
                 Id = command.ProjectCommand.Id,
+                UniqueId = command.ProjectCommand.UniqueId,
                 Name = command.ProjectCommand.Name,
                 Image = command.ProjectCommand.Image,
                 Created = command.ProjectCommand.Created,

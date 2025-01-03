@@ -25,6 +25,7 @@ public class SaveProjectMetaDataCommandHandler
             await writer.WriteLineAsync($"\"{nameof(command.ZipPath)}\": \"{command.ZipPath}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Name)}\": \"{command.Name}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Id)}\": \"{command.Id}\",");
+            await writer.WriteLineAsync($"\"{nameof(command.UniqueId)}\": \"{command.UniqueId}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Image)}\": \"{command.Image}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Created)}\": \"{createdDate}\",");
             await writer.WriteLineAsync($"\"{nameof(command.Updated)}\": \"{updatedDate}\"");

@@ -44,6 +44,7 @@ public class GetProjectMetaDataQueryHandler
             {
                 ZipPath = jsonDto.ZipPath,
                 Id = jsonDto.Id,
+                UniqueId = jsonDto.UniqueId,
                 Name = jsonDto.Name,
                 Image = jsonDto.Image,
                 Created = jsonDto.Created,
