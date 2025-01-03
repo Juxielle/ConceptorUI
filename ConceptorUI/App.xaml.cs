@@ -51,11 +51,13 @@ namespace ConceptorUI
                 if (metaDataResult.IsSuccess)
                 {
                     projectInfoUiDto = metaDataResult.Value;
-                    trueMetaDataFound = projectInfoUiDto.Name == filename && projectInfoUiDto.ZipPath == filePath;
-
+                    trueMetaDataFound = projectInfoUiDto.Name == filename && projectInfoUiDto.ZipPath == filePath && 
+                                        (projectInfoUiDto.UniqueId != null! && projectInfoUiDto.UniqueId != string.Empty);
+                    
                     projectCommand = new SaveProjectMetaDataCommand
                     {
                         Id = projectInfoUiDto.Id,
+                        UniqueId = projectInfoUiDto.UniqueId!,
                         Name = filename,
                         Created = projectInfoUiDto.Created,
                         Updated = projectInfoUiDto.Updated,

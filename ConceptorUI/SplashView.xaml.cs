@@ -74,7 +74,6 @@ namespace ConceptorUI
                     }
                 }
 
-                //Enregistrer e projectUniqueId dans les configs
                 var result = await new GetProjectInfoQueryHandler().Handle(new GetProjectInfoQuery
                 {
                     SystemPath = Env.FileConfig
