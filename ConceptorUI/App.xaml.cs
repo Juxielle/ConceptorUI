@@ -71,10 +71,12 @@ namespace ConceptorUI
                     
                     if(projectNaturalInfosResult.IsFailure) return;
                     var projectNaturalInfos = projectNaturalInfosResult.Value;
+                    var projectUniqueId = $"project{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
                     
                     projectInfoUiDto = new ProjectInfoUiDto
                     {
                         Id = projectNaturalInfos.OriginalName,
+                        UniqueId = projectUniqueId,
                         Name = filename,
                         Created = DateTime.Now,
                         Updated = DateTime.Now,
@@ -85,6 +87,7 @@ namespace ConceptorUI
                     projectCommand = new SaveProjectMetaDataCommand
                     {
                         Id = projectNaturalInfos.OriginalName,
+                        UniqueId = projectUniqueId,
                         Name = filename,
                         Created = DateTime.Now,
                         Updated = DateTime.Now,

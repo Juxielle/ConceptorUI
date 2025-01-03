@@ -66,6 +66,7 @@ namespace ConceptorUI.Views.Component
             {
                 ZipPath = projectInfoUiDto.ZipPath,
                 Id = projectInfoUiDto.Id,
+                UniqueId = projectInfoUiDto.UniqueId,
                 Name = projectInfoUiDto.Name,
                 Image = projectInfoUiDto.Image,
                 Created = projectInfoUiDto.Created,
@@ -74,6 +75,7 @@ namespace ConceptorUI.Views.Component
             };
             ComponentHelper.ProjectPath = projectInfoUiDto.ZipPath;
             ComponentHelper.ProjectName = projectInfoUiDto.Id;
+            ComponentHelper.ProjectTempId = projectInfoUiDto.UniqueId;
 
             #region Init Space
 

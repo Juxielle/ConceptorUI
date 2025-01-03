@@ -7,7 +7,6 @@ using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Enums;
 using ConceptorUI.Inputs;
-using ConceptorUi.ViewModels;
 using ConceptorUI.Views.Modals;
 
 
@@ -26,7 +25,6 @@ namespace ConceptorUI
             _obj = this;
             _projects = new List<ProjectInfoUiDto>();
             _isHorizontalScroll = false;
-            ComponentHelper.ProjectTempId = $"project{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
             Pages.Focus();
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;

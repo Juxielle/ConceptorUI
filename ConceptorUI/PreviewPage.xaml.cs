@@ -240,10 +240,12 @@ namespace ConceptorUI
 
                             if (createProjectResult.IsFailure) return;
                             var project = createProjectResult.Value;
+                            var projectUniqueId = $"project{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
                             
                             await new SaveProjectMetaDataCommandHandler().Handle(new SaveProjectMetaDataCommand
                             {
                                 Id = project.Id,
+                                UniqueId = projectUniqueId,
                                 Name = project.Name,
                                 Created = DateTime.Now,
                                 Updated = DateTime.Now,

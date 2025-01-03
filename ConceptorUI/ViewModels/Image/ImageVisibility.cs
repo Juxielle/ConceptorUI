@@ -51,8 +51,6 @@ static class ImageVisibility
                     else if (property.Name == PropertyNames.Hve.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         image.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
@@ -62,12 +60,13 @@ static class ImageVisibility
                     else if (property.Name == PropertyNames.BorderRadius.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         image.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                    if (property.Name == PropertyNames.FilePicker.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        image.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         image.SetPropertyVisibility(groupName, propertyName, false);
                     else if (property.Name == PropertyNames.MoveRight.ToString() &&
@@ -79,8 +78,6 @@ static class ImageVisibility
                     else if (property.Name == PropertyNames.MoveBottom.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         image.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Visibility != Visibility.Visible.ToString())
-                        image.SetPropertyVisibility(groupName, propertyName);
                 }
             }
         }

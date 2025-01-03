@@ -39,20 +39,22 @@ static class IconVisibility
                     else if (property.Name == PropertyNames.Height.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         icon.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        icon.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Appearance.ToString())
                 {
+                    if (property.Name == PropertyNames.FillColor.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        icon.SetPropertyVisibility(groupName, propertyName);
                     if (property.Name == PropertyNames.Margin.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         icon.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        icon.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                    if (property.Name == PropertyNames.FilePicker.ToString() &&
+                        property.Visibility != Visibility.Visible.ToString())
+                        icon.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         icon.SetPropertyVisibility(groupName, propertyName, false);
                     else if (property.Name == PropertyNames.MoveRight.ToString() &&
@@ -64,8 +66,6 @@ static class IconVisibility
                     else if (property.Name == PropertyNames.MoveBottom.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
                         icon.SetPropertyVisibility(groupName, propertyName, false);
-                    else if (property.Visibility != Visibility.Visible.ToString())
-                        icon.SetPropertyVisibility(groupName, propertyName);
                 }
             }
         }
