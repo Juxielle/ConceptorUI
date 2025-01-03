@@ -29,12 +29,15 @@ public class AddProjectToConfigCommandHandler
                 await File.ReadAllTextAsync(filePath)
             ) ?? [];
 
-            var existProject = jsonsDto.Exists(p =>
+            var validJsonsDto = jsonsDto.FindAll(x => x.UniqueId != null);
+
+            var existProject = validJsonsDto.Exists(p =>
                 p.ZipPath == command.ProjectCommand.ZipPath && p.Id == command.ProjectCommand.Id);
+            
             if(existProject)
                 throw new Exception();
 
-            jsonsDto.Add(new ProjectInfoJsonDto
+            validJsonsDto.Add(new ProjectInfoJsonDto
             {
                 ZipPath = command.ProjectCommand.ZipPath,
                 Id = command.ProjectCommand.Id,
@@ -45,7 +48,7 @@ public class AddProjectToConfigCommandHandler
                 Updated = command.ProjectCommand.Updated
             });
 
-            await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(jsonsDto));
+            await File.WriteAllTextAsync(filePath, JsonSerializer.Serialize(validJsonsDto));
 
             return Result<bool>.Success(true);
         }
