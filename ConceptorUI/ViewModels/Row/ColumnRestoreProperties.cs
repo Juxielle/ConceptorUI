@@ -1,4 +1,5 @@
-﻿using System.Windows.Controls;
+﻿using System.Windows;
+using System.Windows.Controls;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
 using ConceptorUi.ViewModels.Operations;
@@ -134,6 +135,53 @@ static class ColumnRestoreProperties
                     Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
                     SelfAlignment.SetHorizontalValue(component, PropertyNames.Hl, "1");
                 }
+            }
+        }
+        
+        var row = (RowModel)component.Parent;
+        var nr = row.Grid.ColumnDefinitions.Count;
+        
+        for (var i = 0; i < nr; i++)
+        {
+            if (ah == PropertyNames.Hl)
+            {
+                if (i == nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
+            }
+            else if (ah == PropertyNames.Hr)
+            {
+                if (i == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
+            }
+            else if (ah == PropertyNames.Hc)
+            {
+                if (i == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                else if (i == nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
+            }
+            else if (ah == PropertyNames.SpaceBetween)
+            {
+                if ((i == 0 || i == nr - 1) && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
+                else if (i % 2 == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else if (ah == PropertyNames.SpaceAround)
+            {
+                if (i % 2 == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
+            }
+            else if (ah == PropertyNames.SpaceEvery)
+            {
+                if (i % 2 == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
+                    row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
             }
         }
     }

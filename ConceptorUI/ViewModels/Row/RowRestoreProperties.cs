@@ -8,11 +8,11 @@ static class RowRestoreProperties
 {
     public static void RestoreProperties(this RowModel row)
     {
-        var ah = Alignment.Horizontal(row);
-        var isHorizontal = Alignment.IsHorizontal(row);
+        var ah = row.Horizontal2();
+        var isHorizontal = row.IsHorizontal2();
 
-        var av = Alignment.Vertical(row);
-        var isVertical = Alignment.IsVertical(row);
+        var av = row.Vertical2();
+        var isVertical = row.IsVertical2();
 
         Alignment.SetSeveralActivations(row);
         Alignment.SetInvalidValues(row);

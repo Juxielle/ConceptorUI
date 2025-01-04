@@ -151,14 +151,14 @@ static class LineRestoreProperties
         {
             if (av == PropertyNames.Vt)
             {
-                if (i == 0 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)
+                if (i == nr - 1 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)
                     row.Grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
                 else if (row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Auto)
                     row.Grid.RowDefinitions[i].Height = new GridLength(0, GridUnitType.Auto);
             }
             else if (av == PropertyNames.Vb)
             {
-                if (i == nr - 1 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)
+                if (i == 0 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)
                     row.Grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
                 else if (row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Auto)
                     row.Grid.RowDefinitions[i].Height = new GridLength(0, GridUnitType.Auto);

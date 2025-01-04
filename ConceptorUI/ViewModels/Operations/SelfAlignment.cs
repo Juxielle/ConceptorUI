@@ -12,9 +12,9 @@ static class SelfAlignment
 
         return hl == "1" ? PropertyNames.Hl :
             hc == "1" ? PropertyNames.Hc :
-            hr == "1" ? PropertyNames.Hr : PropertyNames.Hl;
+            hr == "1" ? PropertyNames.Hr : PropertyNames.None;
     }
-
+    
     public static bool IsHorizontal(this Component component)
     {
         var hl = component.GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Hl);
@@ -32,7 +32,7 @@ static class SelfAlignment
 
         return vt == "1" ? PropertyNames.Vt :
             vc == "1" ? PropertyNames.Vc :
-            vb == "1" ? PropertyNames.Vb : PropertyNames.Vt;
+            vb == "1" ? PropertyNames.Vb : PropertyNames.None;
     }
 
     public static bool IsVertical(this Component component)
