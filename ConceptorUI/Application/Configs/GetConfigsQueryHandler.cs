@@ -44,6 +44,7 @@ public class GetConfigsQueryHandler
             return Result<ProjectUiDto>.Success(new ProjectUiDto
             {
                 Id = jsonDto.Id,
+                UniqueId = jsonDto.UniqueId,
                 Name = jsonDto.Name,
                 Image = jsonDto.Image,
                 ZipPath = jsonDto.ZipPath,
