@@ -27,6 +27,7 @@ public class GetProjectInfoQueryHandler
             {
                 ZipPath = p.ZipPath,
                 Id = p.Id,
+                UniqueId = p.UniqueId,
                 Name = p.Name,
                 Image = p.Image,
                 Created = p.Created,

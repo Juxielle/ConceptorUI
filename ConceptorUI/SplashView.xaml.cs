@@ -8,10 +8,8 @@ using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.PlatformSystem;
-using ConceptorUI.Application.Project;
 using ConceptorUI.Constants;
 using ConceptorUI.Utils;
-using Syncfusion.Data.Extensions;
 
 
 namespace ConceptorUI
