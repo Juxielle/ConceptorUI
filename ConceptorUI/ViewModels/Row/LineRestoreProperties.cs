@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
@@ -147,6 +148,7 @@ static class LineRestoreProperties
         var row = (RowModel)component.Parent;
         var nr = row.Grid.RowDefinitions.Count;
 
+        //Console.WriteLine($@"RowDefinitions.Count: {nr}");
         for (var i = 0; i < nr; i++)
         {
             if (av == PropertyNames.Vt)
@@ -165,6 +167,7 @@ static class LineRestoreProperties
             }
             else if (av == PropertyNames.Vc)
             {
+                //Console.WriteLine($@"Entre Bien ici.");
                 if (i == 0 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)
                     row.Grid.RowDefinitions[i].Height = new GridLength(1, GridUnitType.Star);
                 else if (i == nr - 1 && row.Grid.RowDefinitions[i].Height.GridUnitType != GridUnitType.Star)

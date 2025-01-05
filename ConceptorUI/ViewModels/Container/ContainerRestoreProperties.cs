@@ -138,7 +138,7 @@ static class ContainerRestoreProperties
                     else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
                         Alignment.SetVerticalValue(container, avc, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
+                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                             SizeValue.Auto.ToString());
                     }
                     else SelfAlignment.SetVerticalValue(child, avc, "1");
@@ -147,15 +147,15 @@ static class ContainerRestoreProperties
                 {
                     if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                     {
-                        Alignment.SetVerticalValue(container, PropertyNames.Hl, "1");
-                        SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width,
+                        Alignment.SetVerticalValue(container, PropertyNames.Vt, "1");
+                        SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");
+                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                             SizeValue.Auto.ToString());
                     }
                     else if (heightChild != SizeValue.Expand.ToString())
                     {
-                        Alignment.SetVerticalValue(container, PropertyNames.Hl, "1");
-                        SelfAlignment.SetVerticalValue(child, PropertyNames.Hl, "1");
+                        Alignment.SetVerticalValue(container, PropertyNames.Vt, "1");
+                        SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");
                     }
                 }
             }

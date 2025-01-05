@@ -8,7 +8,7 @@ public abstract class PlatformComponent
     public string Package { get; init; }
     public string MatchComponentName { get; init; }
     public List<PlatformProperty> Properties { get; init; }
-    public List<string> Children { get; init; }
+    public List<PlatformComponent> Children { get; init; }
 
-    public new abstract string ToString();
+    public new abstract string ToString(string space);
 }

@@ -17,5 +17,16 @@ namespace ConceptorUI.Models
         public bool IsForceAlignment { get; set; }
         public List<GroupProperties>? Properties { get; set; }
         public List<CompSerializer>? Children { get; set; }
+
+        public GroupProperties GetGroup(GroupNames groupName)
+        {
+            foreach (var group in Properties!)
+            {
+                if (group.Name != groupName.ToString()) continue;
+                return group;
+            }
+            
+            return null!;
+        }
     }
 }
