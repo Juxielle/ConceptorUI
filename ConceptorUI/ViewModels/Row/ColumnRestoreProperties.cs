@@ -137,24 +137,24 @@ static class ColumnRestoreProperties
                 }
             }
         }
-        
+
         var row = (RowModel)component.Parent;
         var nr = row.Grid.ColumnDefinitions.Count;
-        
+
         for (var i = 0; i < nr; i++)
         {
             if (ah == PropertyNames.Hl)
             {
                 if (i == nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
-                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                else if (i != nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
             }
             else if (ah == PropertyNames.Hr)
             {
                 if (i == 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
-                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                else if (i != 0 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
             }
             else if (ah == PropertyNames.Hc)
@@ -163,7 +163,7 @@ static class ColumnRestoreProperties
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
                 else if (i == nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Star)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(1, GridUnitType.Star);
-                else if (row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
+                else if (i != 0 && i != nr - 1 && row.Grid.ColumnDefinitions[i].Width.GridUnitType != GridUnitType.Auto)
                     row.Grid.ColumnDefinitions[i].Width = new GridLength(0, GridUnitType.Auto);
             }
             else if (ah == PropertyNames.SpaceBetween)
