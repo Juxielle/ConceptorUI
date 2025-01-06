@@ -4,6 +4,6 @@ namespace ConceptorUI.Platforms.ReactNativePlatform;
 
 public class RnStyle
 {
-    public string Name { get; init; }
-    public List<PlatformProperty> KeyValues { get; init; }
+    public string Name { get; set; }
+    public List<PlatformProperty> KeyValues { get; set; } = [];
 }

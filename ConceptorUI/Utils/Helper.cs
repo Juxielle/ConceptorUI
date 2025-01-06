@@ -20,6 +20,11 @@ public class Helper
         return newValue;
     }
 
+    public static string FormatString(string value)
+    {
+        return value.Replace(",", ".");
+    }
+
     public static string PickFile(bool openProject = false)
     {
         var dialog = new Microsoft.Win32.OpenFileDialog();
