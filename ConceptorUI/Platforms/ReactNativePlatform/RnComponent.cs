@@ -13,24 +13,16 @@ public abstract class RnComponent : PlatformComponent
     public string BorderRight { get; set; }
     public string BorderTop { get; set; }
     public string BorderBottom { get; set; }
-    public bool IsBorderCorner { get; set; }
-    public bool IsBorderNull { get; set; }
 
     public string Margin { get; set; }
-    public bool IsMarginCorner { get; set; }
-    public bool IsMarginNull { get; set; }
 
     public string Padding { get; set; }
-    public bool IsPaddingCorner { get; set; }
-    public bool IsPaddingNull { get; set; }
 
     public string BorderRadius { get; set; }
     public string BorderBottomLeftRadius { get; set; }
     public string BorderBottomRightRadius { get; set; }
     public string BorderTopLeftRadius { get; set; }
     public string BorderTopRightRadius { get; set; }
-    public bool IsBorderRadiusCorner { get; set; }
-    public bool IsBorderRadiusNull { get; set; }
 
     public List<string> Styles { get; init; }
     public RnStyle RnStyle = new();
