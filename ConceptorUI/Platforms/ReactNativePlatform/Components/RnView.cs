@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ConceptorUI.Models;
+using ConceptorUI.Platforms.ReactNativePlatform.Operations;
 
 namespace ConceptorUI.Platforms.ReactNativePlatform.Components;
 
@@ -68,6 +69,11 @@ public class RnView : RnComponent
                 hc == "1" ? "center" :
                 hr == "1" ? "end" : "stretch";
         }
+
+        this.SetMargin(compSerializer);
+        this.SetPadding(compSerializer);
+        this.SetBorder(compSerializer);
+        this.SetBorderRadius(compSerializer);
     }
 
     public override string ToString(string space)
