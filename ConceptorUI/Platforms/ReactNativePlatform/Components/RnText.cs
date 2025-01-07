@@ -24,7 +24,8 @@ public class RnText : RnComponent
     {
         IsTextSingle = isTextSingle;
         RnStyle.Name = $"text-style{index}";
-
+        Package = "react-native";
+        
         if (isTextSingle)
         {
             Text = compSerializer.GetGroup(GroupNames.Text).GetValue(PropertyNames.Text);
@@ -90,7 +91,7 @@ public class RnText : RnComponent
         }
     }
 
-    public override string ConvertToString(string space)
+    protected override string ConvertToString(string space)
     {
         var styles = string.Join(",", Styles);
         var content = IsTextSingle

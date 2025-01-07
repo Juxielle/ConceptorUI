@@ -32,5 +32,5 @@ public abstract class RnComponent : PlatformComponent
         return ConvertToString(space);
     }
 
-    public abstract string ConvertToString(string space);
+    protected abstract string ConvertToString(string space);
 }

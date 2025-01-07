@@ -13,6 +13,7 @@ public class RnView : RnComponent
     public RnView(CompSerializer compSerializer, int index)
     {
         RnStyle.Name = $"view-style{index}";
+        Package = "react-native";
 
         var hl = compSerializer.GetGroup(GroupNames.Alignment).GetValue(PropertyNames.Hl);
         var hc = compSerializer.GetGroup(GroupNames.Alignment).GetValue(PropertyNames.Hc);
@@ -85,7 +86,7 @@ public class RnView : RnComponent
         this.SetBorderRadius(compSerializer);
     }
 
-    public override string ConvertToString(string space)
+    protected override string ConvertToString(string space)
     {
         var styles = string.Join(",", Styles);
 
