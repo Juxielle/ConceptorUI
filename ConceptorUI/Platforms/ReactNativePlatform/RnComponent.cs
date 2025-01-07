@@ -29,8 +29,8 @@ public abstract class RnComponent : PlatformComponent
 
     public override string ToString(string space)
     {
-        return string.Empty;
+        return ConvertToString(space);
     }
 
-    public abstract RnStyle BuildStyle(int index);
+    public abstract string ConvertToString(string space);
 }

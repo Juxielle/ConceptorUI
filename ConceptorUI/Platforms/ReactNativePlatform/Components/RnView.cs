@@ -10,8 +10,10 @@ public class RnView : RnComponent
     private string JustifyContent { get; set; }
     private string FlexDirection { get; set; }
 
-    public RnView(CompSerializer compSerializer)
+    public RnView(CompSerializer compSerializer, int index)
     {
+        RnStyle.Name = $"view-style{index}";
+
         var hl = compSerializer.GetGroup(GroupNames.Alignment).GetValue(PropertyNames.Hl);
         var hc = compSerializer.GetGroup(GroupNames.Alignment).GetValue(PropertyNames.Hc);
         var hr = compSerializer.GetGroup(GroupNames.Alignment).GetValue(PropertyNames.Hr);
@@ -38,7 +40,7 @@ public class RnView : RnComponent
             AlignItems = hl == "1" ? "start" :
                 hc == "1" ? "center" :
                 hr == "1" ? "end" : "stretch";
-            
+
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "flexDirection", Value = FlexDirection });
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "justifyContent", Value = JustifyContent });
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "alignItems", Value = AlignItems });
@@ -57,7 +59,7 @@ public class RnView : RnComponent
             AlignItems = vt == "1" ? "start" :
                 vc == "1" ? "center" :
                 vb == "1" ? "end" : "stretch";
-            
+
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "flexDirection", Value = FlexDirection });
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "justifyContent", Value = JustifyContent });
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "alignItems", Value = AlignItems });
@@ -71,7 +73,7 @@ public class RnView : RnComponent
             AlignItems = hl == "1" ? "start" :
                 hc == "1" ? "center" :
                 hr == "1" ? "end" : "stretch";
-            
+
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "justifyContent", Value = JustifyContent });
             RnStyle.KeyValues.Add(new PlatformProperty { Key = "alignItems", Value = AlignItems });
         }
@@ -83,33 +85,12 @@ public class RnView : RnComponent
         this.SetBorderRadius(compSerializer);
     }
 
-    public override string ToString(string space)
+    public override string ConvertToString(string space)
     {
         var styles = string.Join(",", Styles);
 
         return space + @$"<View style=""[{styles}]"">" + "\n" +
-               $"{Children.Select(c => c.ToString($"{space}{Platform.WhiteSpace}"))}\n" +
+               $"{string.Join("\n", Children.Select(c => c.ToString($"{space}{Platform.WhiteSpace}")))}\n" +
                space + "</View>";
-    }
-
-    public override RnStyle BuildStyle(int index)
-    {
-        RnStyle.Name = $"view-style{index}";
-        return new RnStyle
-        {
-            Name = $"view-style{index}",
-            KeyValues =
-            [
-                new PlatformProperty { Key = "background", Value = Background },
-                new PlatformProperty { Key = "flex", Value = Flex },
-                new PlatformProperty { Key = "flexDirection", Value = FlexDirection },
-                new PlatformProperty { Key = "alignSelf", Value = AlignSelf },
-                new PlatformProperty { Key = "alignItems", Value = AlignItems },
-                new PlatformProperty { Key = "justifyContent", Value = JustifyContent },
-                new PlatformProperty { Key = "margin", Value = Margin },
-                new PlatformProperty { Key = "padding", Value = Padding },
-                new PlatformProperty { Key = "border", Value = Border },
-            ]
-        };
     }
 }
