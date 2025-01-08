@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using System.Linq;
+using ConceptorUI.Models;
 
 namespace ConceptorUI.Platforms.FlutterPlatform.Components;
 
@@ -19,11 +20,8 @@ public class FtContainer : FtComponent
     public string BorderBottomRightRadius { get; set; }
     public string BorderTopLeftRadius { get; set; }
     public string BorderTopRightRadius { get; set; }
-    
-    protected override string ConvertToString(string space)
-    {
-        throw new System.NotImplementedException();
-    }
+
+    public FtComponent Child { get; set; }
 
     protected override void Build(CompSerializer compSerializer)
     {
@@ -33,5 +31,15 @@ public class FtContainer : FtComponent
     protected override void BuildSingle(FtComponent child)
     {
         throw new System.NotImplementedException();
+    }
+
+    protected override string ConvertToString(string space)
+    {
+        var newSpace = space + Platform.WhiteSpace;
+        var properties = string.Join("\n", Properties.Select(p => p));
+        
+        return space + "Container(\n" +
+               $"{properties}\n" +
+               space + ")";
     }
 }
