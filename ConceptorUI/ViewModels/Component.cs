@@ -1619,7 +1619,7 @@ namespace ConceptorUi.ViewModels
         protected void OnInit()
         {
             InitChildContent();
-
+            
             Content = new Border();
             ShadowContent = new Border();
             BorderContent = new Rectangle

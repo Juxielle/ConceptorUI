@@ -1,5 +1,9 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
@@ -12,11 +16,19 @@ namespace ConceptorUI.ViewModels.Window
         public readonly ContainerModel Statusbar;
         public readonly ContainerModel Body;
         public readonly RowModel Layout;
+        
+        private readonly Grid _grid;
+        private readonly Border _border;
+        private readonly System.Windows.Controls.Image _image;
 
         public WindowModel(bool allowConstraints = false)
         {
             OnInit();
-
+            
+            _grid = new Grid();
+            _image = new System.Windows.Controls.Image{ Stretch = Stretch.Fill };
+            LoadImage();
+            
             Name = ComponentList.Window;
             HasChildren = false;
             CanAddIntoChildContent = false;
@@ -25,7 +37,16 @@ namespace ConceptorUI.ViewModels.Window
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
             Layout = new RowModel();
-            Content.Child = Layout.ComponentView;
+            
+            _border = new Border
+            {
+                Padding = new Thickness(10, 30, 10, 20),
+                Child = Layout.ComponentView
+            };
+
+            _grid.Children.Add(_image);
+            _grid.Children.Add(_border);
+            Content.Child = _grid;
 
             if (!allowConstraints) _init();
 
@@ -103,6 +124,15 @@ namespace ConceptorUI.ViewModels.Window
             SetGroupVisibility(GroupNames.Appearance, false);
             /* Shadow */
             SetGroupVisibility(GroupNames.Shadow, false);
+        }
+
+        private void LoadImage()
+        {
+            var bitmap = new BitmapImage();
+            bitmap.BeginInit();
+            bitmap.UriSource = new Uri("pack://application:,,,/Assets/mobile_calque_default.png", UriKind.Absolute);
+            bitmap.EndInit();
+            _image.Source = bitmap;
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
