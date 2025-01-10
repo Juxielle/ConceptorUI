@@ -103,6 +103,8 @@
     <Resource Include="Assets\Icons\MaterialIcons-Regular.ttf" />
     <None Remove="Assets\mobile_calque_default.png" />
     <Resource Include="Assets\mobile_calque_default.png" />
+    <None Remove="Assets\default_mobile_traite.png" />
+    <Resource Include="Assets\default_mobile_traite.png" />
   </ItemGroup>
 
 </Project>

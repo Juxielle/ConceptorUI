@@ -40,7 +40,7 @@ namespace ConceptorUI.ViewModels.Window
             
             _border = new Border
             {
-                Padding = new Thickness(10, 30, 10, 20),
+                Padding = new Thickness(10, 60, 12, 60),
                 Child = Layout.ComponentView
             };
 
@@ -130,7 +130,7 @@ namespace ConceptorUI.ViewModels.Window
         {
             var bitmap = new BitmapImage();
             bitmap.BeginInit();
-            bitmap.UriSource = new Uri("pack://application:,,,/Assets/mobile_calque_default.png", UriKind.Absolute);
+            bitmap.UriSource = new Uri("pack://application:,,,/Assets/default_mobile_traite.png", UriKind.Absolute);
             bitmap.EndInit();
             _image.Source = bitmap;
         }
@@ -170,7 +170,7 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
-            Content.Child = child;
+            _border.Child = child;
         }
 
         public override bool AllowExpanded(bool isWidth = true)
