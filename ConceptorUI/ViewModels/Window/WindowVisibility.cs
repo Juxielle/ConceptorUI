@@ -86,9 +86,12 @@ static class WindowVisibility
                 {
                     if (property.Name == PropertyNames.FillColor.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
+                    {
                         window.Statusbar.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                        continue;
+                    }
+                    // if (property.Visibility != Visibility.Collapsed.ToString())
+                    //     window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {

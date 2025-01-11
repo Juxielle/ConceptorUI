@@ -13,10 +13,10 @@ namespace ConceptorUI.ViewModels.Window
 {
     internal class WindowModel : Component
     {
-        public readonly ContainerModel Statusbar;
-        public readonly ContainerModel Body;
-        public readonly RowModel Layout;
-        
+        public ContainerModel Statusbar;
+        public ContainerModel Body;
+        public RowModel Layout;
+
         private readonly Grid _grid;
         private readonly Border _border;
         private readonly System.Windows.Controls.Image _image;
@@ -24,11 +24,11 @@ namespace ConceptorUI.ViewModels.Window
         public WindowModel(bool allowConstraints = false)
         {
             OnInit();
-            
+
             _grid = new Grid();
-            _image = new System.Windows.Controls.Image{ Stretch = Stretch.Fill };
+            _image = new System.Windows.Controls.Image { Stretch = Stretch.Fill };
             LoadImage();
-            
+
             Name = ComponentList.Window;
             HasChildren = false;
             CanAddIntoChildContent = false;
@@ -37,7 +37,7 @@ namespace ConceptorUI.ViewModels.Window
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
             Layout = new RowModel();
-            
+
             _border = new Border
             {
                 Padding = new Thickness(10, 60, 12, 60),
@@ -99,7 +99,8 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override bool IsSelected(MouseButtonEventArgs e)
         {
-            return false;
+            return e.OriginalSource.Equals(_grid) || e.OriginalSource.Equals(_border) ||
+                   e.OriginalSource.Equals(_image);
         }
 
         public sealed override void SelfConstraints()
@@ -149,7 +150,6 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
-            
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
@@ -171,6 +171,10 @@ namespace ConceptorUI.ViewModels.Window
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             _border.Child = child;
+            
+            Layout = (RowModel)Children[0];
+            Statusbar = (ContainerModel)Layout.Children[0];
+            Body = (ContainerModel)Layout.Children[1];
         }
 
         public override bool AllowExpanded(bool isWidth = true)
