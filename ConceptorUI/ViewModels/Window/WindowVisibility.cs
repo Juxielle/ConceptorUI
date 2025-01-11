@@ -17,6 +17,8 @@ static class WindowVisibility
             else if (group.Name == GroupNames.SelfAlignment.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
                 window.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Shadow.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
                 window.SetGroupVisibility(groupName, false);
@@ -38,7 +40,7 @@ static class WindowVisibility
                         property.Visibility != Visibility.Visible.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName);
                     else if (property.Name == PropertyNames.Height.ToString() &&
-                        property.Visibility != Visibility.Visible.ToString())
+                             property.Visibility != Visibility.Visible.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName);
                     else if (property.Visibility != Visibility.Collapsed.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName, false);
@@ -51,8 +53,18 @@ static class WindowVisibility
                     else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveRight.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveTop.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveBottom.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.SetPropertyVisibility(groupName, propertyName, false);
                 }
             }
         }
@@ -66,6 +78,8 @@ static class WindowVisibility
                 window.Statusbar.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.SelfAlignment.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
+                window.Statusbar.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Shadow.ToString() && group.Visibility != Visibility.Collapsed.ToString())
                 window.Statusbar.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
@@ -88,10 +102,7 @@ static class WindowVisibility
                         property.Visibility != Visibility.Visible.ToString())
                     {
                         window.Statusbar.SetPropertyVisibility(groupName, propertyName);
-                        continue;
                     }
-                    // if (property.Visibility != Visibility.Collapsed.ToString())
-                    //     window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
@@ -101,7 +112,17 @@ static class WindowVisibility
                     else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         window.Statusbar.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveRight.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveTop.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveBottom.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
                         window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
                 }
             }
@@ -117,6 +138,8 @@ static class WindowVisibility
             else if (group.Name == GroupNames.SelfAlignment.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
                 window.Body.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Shadow.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Body.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
                 window.Body.SetGroupOnlyVisibility(groupName);
@@ -137,8 +160,6 @@ static class WindowVisibility
                     if (property.Name == PropertyNames.FillColor.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         window.Body.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
@@ -148,7 +169,17 @@ static class WindowVisibility
                     else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         window.Body.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveRight.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveTop.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveBottom.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
                         window.Body.SetPropertyVisibility(groupName, propertyName, false);
                 }
             }
@@ -164,6 +195,8 @@ static class WindowVisibility
             else if (group.Name == GroupNames.SelfAlignment.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
                 window.Layout.SetGroupVisibility(groupName, false);
+            else if (group.Name == GroupNames.Shadow.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+                window.Layout.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
                 window.Layout.SetGroupOnlyVisibility(groupName);
@@ -184,8 +217,6 @@ static class WindowVisibility
                     if (property.Name == PropertyNames.FillColor.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
@@ -195,7 +226,17 @@ static class WindowVisibility
                     else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
+                    else if (property.Name == PropertyNames.MoveLeft.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveRight.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveTop.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.MoveBottom.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
                         window.Layout.SetPropertyVisibility(groupName, propertyName, false);
                 }
             }

@@ -36,7 +36,7 @@ public class FtContainer : FtComponent
     protected override string ConvertToString(string space)
     {
         var newSpace = space + Platform.WhiteSpace;
-        var properties = string.Join("\n", Properties.Select(p => p));
+        var properties = string.Join("\n", Styles.Select(p => p));
         
         return space + "Container(\n" +
                $"{properties}\n" +

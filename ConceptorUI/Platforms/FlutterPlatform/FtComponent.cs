@@ -5,7 +5,8 @@ namespace ConceptorUI.Platforms.FlutterPlatform;
 
 public abstract class FtComponent : PlatformComponent
 {
-    protected List<string> Properties = [];
+    protected List<string> Styles = [];
+    public readonly List<PlatformProperty> FtStyles = [];
     
     public override string ToString(string space)
     {
