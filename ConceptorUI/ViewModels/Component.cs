@@ -1542,7 +1542,6 @@ namespace ConceptorUi.ViewModels
                         ? VisibilityValue.Visible.ToString()
                         : VisibilityValue.Collapsed.ToString();
                 }
-
                 return;
             }
         }
