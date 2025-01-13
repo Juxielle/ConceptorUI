@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using ConceptorUI.Models;
+using ConceptorUI.Platforms.FlutterPlatform.Properties;
 
 namespace ConceptorUI.Platforms.FlutterPlatform.Components;
 
@@ -23,21 +24,25 @@ public class FtContainer : FtComponent
 
     public FtComponent Child { get; set; }
 
+    public FtContainer(CompSerializer compSerializer)
+    {
+        FtMargin.SetMargin(this, compSerializer);
+        FtPaddingSetting.SetPadding(this, compSerializer);
+    }
+
     protected override void Build(CompSerializer compSerializer)
     {
-        throw new System.NotImplementedException();
     }
 
     protected override void BuildSingle(FtComponent child)
     {
-        throw new System.NotImplementedException();
     }
 
     protected override string ConvertToString(string space)
     {
         var newSpace = space + Platform.WhiteSpace;
         var properties = string.Join("\n", Styles.Select(p => p));
-        
+
         return space + "Container(\n" +
                $"{properties}\n" +
                space + ")";

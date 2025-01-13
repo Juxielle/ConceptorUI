@@ -27,7 +27,7 @@ static class FtMargin
             var marginValue = Helper.ConvertToDouble(margin);
 
             if (marginValue == 0) return;
-            component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringAll("") });
+            component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringAll(component.Space) });
         }
         else
         {
@@ -58,7 +58,7 @@ static class FtMargin
                      Math.Abs(marginLeftValue - marginBottomValue) == 0)
             {
                 _all = Helper.FormatString(marginLeft);
-                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringAll("") });
+                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringAll(component.Space) });
             }
             else
             {
@@ -66,17 +66,32 @@ static class FtMargin
                 _right = Helper.FormatString(marginRight);
                 _top = Helper.FormatString(marginTop);
                 _bottom = Helper.FormatString(marginBottom);
-                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringCorner("") });
+                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringCorner(component.Space) });
             }
             
             if(_isHorizontal || _isVertical)
-                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringLateral("") });
+                component.FtStyles.Add(new PlatformProperty { Key = "margin", Value = ToStringLateral(component.Space) });
         }
+    }
+
+    public static bool HaveMargin(FtComponent component, CompSerializer compSerializer)
+    {
+        var marginLeft = compSerializer.GetGroup(GroupNames.Appearance).GetValue(PropertyNames.MarginLeft);
+        var marginRight = compSerializer.GetGroup(GroupNames.Appearance).GetValue(PropertyNames.MarginRight);
+        var marginTop = compSerializer.GetGroup(GroupNames.Appearance).GetValue(PropertyNames.MarginTop);
+        var marginBottom = compSerializer.GetGroup(GroupNames.Appearance).GetValue(PropertyNames.MarginBottom);
+
+        var marginLeftValue = Helper.ConvertToDouble(marginLeft);
+        var marginRightValue = Helper.ConvertToDouble(marginRight);
+        var marginTopValue = Helper.ConvertToDouble(marginTop);
+        var marginBottomValue = Helper.ConvertToDouble(marginBottom);
+
+        return marginLeftValue == 0 || marginRightValue == 0 || marginTopValue == 0 || marginBottomValue == 0;
     }
 
     private static string ToStringCorner(string space)
     {
-        return $"{space}new EdgeInsets.only(" +
+        return $"{space}EdgeInsets.only(" +
                $"left: {_left}, " +
                $"right: {_right}, " +
                $"top: {_top}, " +
@@ -86,7 +101,7 @@ static class FtMargin
 
     private static string ToStringLateral(string space)
     {
-        return $"{space}new EdgeInsets.symmetric(" +
+        return $"{space}EdgeInsets.symmetric(" +
                (_isHorizontal ? $"horizontal: {_horizontal}" : "") +
                (_isHorizontal && _isVertical ? ", " : "") +
                (_isVertical ? $"vertical: {_vertical}" : "") +
@@ -95,6 +110,6 @@ static class FtMargin
 
     private static string ToStringAll(string space)
     {
-        return $"{space}new EdgeInsets.all({_all})";
+        return $"{space}EdgeInsets.all({_all})";
     }
 }
