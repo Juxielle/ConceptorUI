@@ -146,14 +146,14 @@ static class WindowRestoreProperties
             SelfAlignment.SetVerticalOnNull(window);
         }
 
-        if (width != "310")
+        if (width != "280")
         {
-            window.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "310");
+            window.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "280");
         }
 
-        if (height != "660")
+        if (height != "600")
         {
-            window.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "660");
+            window.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "600");
         }
 
         window.Synchronize();
