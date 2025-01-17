@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 
@@ -51,7 +52,8 @@ static class Synchronization
         else if (width == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Width))
             component.SelectedContent.Width = double.NaN;
         else if (width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString() &&
-                 double.IsNaN(component.SelectedContent.Width))
+                 (double.IsNaN(component.SelectedContent.Width) ||
+                  Math.Abs(Convert.ToDouble(width) - component.SelectedContent.Width) != 0))
         {
             var vd = Helper.ConvertToDouble(width);
             component.SelectedContent.Width = vd;
@@ -65,7 +67,8 @@ static class Synchronization
         else if (height == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Height))
             component.SelectedContent.Height = double.NaN;
         else if (height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() &&
-                 double.IsNaN(component.SelectedContent.Height))
+                 (double.IsNaN(component.SelectedContent.Height) ||
+                  Math.Abs(Convert.ToDouble(height) - component.SelectedContent.Height) != 0))
         {
             var vd = Helper.ConvertToDouble(height);
             component.SelectedContent.Height = vd;
