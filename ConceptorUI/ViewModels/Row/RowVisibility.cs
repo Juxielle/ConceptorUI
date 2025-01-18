@@ -37,8 +37,6 @@ static class RowVisibility
 
             foreach (var property in group.Properties)
             {
-                var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
                 if (group.Name == GroupNames.Alignment.ToString())
                 {
                     if (property.Name == PropertyNames.Hl.ToString() && row.IsVertical &&
@@ -112,12 +110,12 @@ static class RowVisibility
                         property.Visibility = Visibility.Visible.ToString();
 
                     else if (property.Name == PropertyNames.Stretch.ToString() &&
-                             property.Visibility != Visibility.Visible.ToString())
+                             property.Visibility != Visibility.Collapsed.ToString())
                         property.Visibility = Visibility.Collapsed.ToString();
 
                     else if (property.Name == PropertyNames.Gap.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
-                        property.Visibility = Visibility.Collapsed.ToString();
+                        property.Visibility = Visibility.Visible.ToString();
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
