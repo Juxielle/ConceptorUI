@@ -82,8 +82,8 @@ namespace ConceptorUi.ViewModels
         public void OnSelected()
         {
             BorderContent.Stroke = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
-            BorderContent.StrokeThickness = 0.6;
-            ShadowContent.Margin = Content.Margin = new Thickness(1);
+            BorderContent.StrokeThickness = 0.4;
+            ShadowContent.Margin = Content.Margin = new Thickness(0.8);
             Selected = true;
 
             SelectedCommand?.Execute(
@@ -1623,7 +1623,7 @@ namespace ConceptorUi.ViewModels
             ShadowContent = new Border();
             BorderContent = new Rectangle
             {
-                StrokeDashArray = new DoubleCollection([6.0, 3.0])
+                StrokeDashArray = new DoubleCollection([10.0, 3.0])
             };
 
             ParentContent = new Grid();

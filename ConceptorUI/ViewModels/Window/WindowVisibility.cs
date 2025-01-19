@@ -24,47 +24,115 @@ static class WindowVisibility
                 window.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Transform.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
+            {
                 window.SetGroupOnlyVisibility(groupName);
+                window.SetPropertiesOnlyVisibility(groupName, false);
+            }
             else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Visible.ToString())
+            {
                 window.SetGroupOnlyVisibility(groupName);
+                window.SetPropertiesOnlyVisibility(groupName, false);
+            }
             else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
                 window.SetGroupVisibility(groupName, false);
 
             foreach (var property in group.Properties)
             {
-                var propertyName = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
                 if (group.Name == GroupNames.Transform.ToString())
                 {
                     if (property.Name == PropertyNames.Width.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName);
+                        property.Visibility = Visibility.Visible.ToString();
+
                     else if (property.Name == PropertyNames.Height.ToString() &&
                              property.Visibility != Visibility.Visible.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Visibility != Visibility.Collapsed.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Visible.ToString();
+
+                    else if (property.Name == PropertyNames.X.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Y.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Rot.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.He.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Ve.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Hve.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Stretch.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Gap.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    if (property.Name == PropertyNames.MoveChildToParent.ToString() &&
-                        property.Visibility != Visibility.Visible.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
-                             property.Visibility != Visibility.Visible.ToString())
-                        window.Layout.SetPropertyVisibility(groupName, propertyName);
+                    if (property.Name == PropertyNames.SelectedMode.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.FilePicker.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveLeft.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveRight.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveTop.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveBottom.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Focus.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.MoveChildToParent.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Visible.ToString();
+
+                    else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Visible.ToString();
+
+                    else if (property.Name == PropertyNames.Copy.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Paste.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Trash.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.CanSelect.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
                 }
             }
         }
@@ -83,12 +151,18 @@ static class WindowVisibility
                 window.Statusbar.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
+            {
                 window.Statusbar.SetGroupOnlyVisibility(groupName);
+                window.Statusbar.SetPropertiesOnlyVisibility(groupName, false);
+            }
             else if (group.Name == GroupNames.Transform.ToString() &&
                      group.Visibility != Visibility.Collapsed.ToString())
                 window.Statusbar.SetGroupVisibility(groupName, false);
             else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Visible.ToString())
+            {
                 window.Statusbar.SetGroupOnlyVisibility(groupName);
+                window.Statusbar.SetPropertiesOnlyVisibility(groupName, false);
+            }
             else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
                 window.Statusbar.SetGroupVisibility(groupName, false);
 
@@ -106,24 +180,57 @@ static class WindowVisibility
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {
-                    if (property.Name == PropertyNames.MoveChildToParent.ToString() &&
-                        property.Visibility != Visibility.Visible.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName);
-                    else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
-                             property.Visibility != Visibility.Visible.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName);
+                    if (property.Name == PropertyNames.SelectedMode.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.FilePicker.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveLeft.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveRight.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveTop.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
                     else if (property.Name == PropertyNames.MoveBottom.ToString() &&
                              property.Visibility != Visibility.Collapsed.ToString())
-                        window.Statusbar.SetPropertyVisibility(groupName, propertyName, false);
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Focus.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.MoveChildToParent.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Visible.ToString();
+
+                    else if (property.Name == PropertyNames.MoveParentToChild.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Visible.ToString();
+
+                    else if (property.Name == PropertyNames.Copy.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Paste.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.Trash.ToString() &&
+                             property.Visibility != Visibility.Visible.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
+
+                    else if (property.Name == PropertyNames.CanSelect.ToString() &&
+                             property.Visibility != Visibility.Collapsed.ToString())
+                        property.Visibility = Visibility.Collapsed.ToString();
                 }
             }
         }
