@@ -7,15 +7,15 @@ namespace ConceptorUI.Services;
 
 public class ReadScreenImageService
 {
-    public static BitmapImage GetImage(string zipPath, string projectTempId, string imageName)
+    public static BitmapImage GetImage(string imageName)
     {
         try
         {
-            var projectMediaPath = Path.Combine(Env.DirEnv, $"Medias/{projectTempId}/Screens");
+            var projectMediaPath = Path.Combine(Env.DirEnv, $"Medias/Screens");
             var filePath = Path.Combine(projectMediaPath, imageName);
             var tempPath = Path.Combine(Path.GetTempPath(), imageName);
             
-            if (!File.Exists(tempPath))
+            if (File.Exists(tempPath))
                 return GetBitmap(tempPath);
             
             File.Copy(filePath, tempPath, true);

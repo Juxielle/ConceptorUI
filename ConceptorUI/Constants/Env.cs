@@ -13,5 +13,6 @@ namespace ConceptorUI.Constants
         public static string DirMedia = Path.Combine(DirEnv, "Medias");
 
         public static readonly string FileConfig = Path.Combine(DirConfig, "config.json");
+        public static readonly string FileScreen = Path.Combine(DirConfig, "screens_list.json");
     }
 }

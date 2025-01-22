@@ -105,6 +105,8 @@
     <Resource Include="Assets\mobile_calque_default.png" />
     <None Remove="Assets\default_mobile_traite.png" />
     <Resource Include="Assets\default_mobile_traite.png" />
+    <None Remove="Assets\default_mobile.png" />
+    <Resource Include="Assets\default_mobile.png" />
   </ItemGroup>
 
 </Project>

@@ -190,6 +190,9 @@ namespace ConceptorUI
                         () => PageView.NewReport(true)
                     ).ShowDialog();
                     break;
+                case "OpenScreenModal":
+                    new ScreenModal().ShowDialog();
+                    break;
                 case "RefreshComponent":
                     PageView.RefreshReusableComponent();
                     break;

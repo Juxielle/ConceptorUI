@@ -237,6 +237,32 @@
                                    Foreground="#000000" />
                     </StackPanel>
 
+                    <StackPanel Margin="10"
+                                Width="50"
+                                HorizontalAlignment="Left">
+                        <Button Background="#e1e1e1"
+                                BorderBrush="#8c8c8a"
+                                BorderThickness="0.4"
+                                Cursor="Hand"
+                                Width="40"
+                                Height="40"
+                                Tag="OpenScreenModal"
+                                Click="BtnClick"
+                                HorizontalAlignment="Center"
+                                VerticalAlignment="Top">
+                            <materialDesign:PackIcon Kind="FitToScreen"
+                                                     Width="30"
+                                                     Height="30"
+                                                     Foreground="#666666" />
+                        </Button>
+                        <TextBlock Text="ECRANS"
+                                   FontSize="7"
+                                   TextAlignment="Center"
+                                   TextWrapping="Wrap"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#000000" />
+                    </StackPanel>
+
 
                     <StackPanel Margin="10"
                                 Width="50"
