@@ -2,5 +2,5 @@
 
 public class GetScreensQuery
 {
-    
+    public string Path { get; init; }
 }

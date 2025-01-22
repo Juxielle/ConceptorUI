@@ -1,8 +1,9 @@
-﻿namespace ConceptorUI.Models;
+﻿namespace ConceptorUI.Application.Dto.JsonDto;
 
-public class Screen
+public class ScreenJsonDto
 {
     public string Label { get; init; }
+    public string ScreenName { get; init; }
     public string PlatformName { get; init; }
     public double Width { get; init; }
     public double Height { get; init; }
