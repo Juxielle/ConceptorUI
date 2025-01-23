@@ -1,9 +1,8 @@
-﻿using System;
-using System.Windows;
+﻿using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Imaging;
+using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUi.ViewModels;
@@ -137,9 +136,19 @@ namespace ConceptorUI.ViewModels.Window
             _image.Source = ReadScreenImageService.GetImage("default");
         }
 
-        public void ChangeScreen(string screenName)
+        public void ChangeScreen(object screen)
         {
-            _image.Source = ReadScreenImageService.GetImage(screenName);
+            var screenUi = (ScreenUiDto)screen;
+            
+            _border.Padding = new Thickness(screenUi.MarginLeft,
+                screenUi.MarginTop,
+                screenUi.MarginRight,
+                screenUi.MarginBottom);
+            
+            _image.Source = ReadScreenImageService.GetImage(screenUi.Label);
+            
+            OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{screenUi.Width}", true);
+            OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{screenUi.Height}", true);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
@@ -177,7 +186,7 @@ namespace ConceptorUI.ViewModels.Window
         protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             _border.Child = child;
-            
+
             Layout = (RowModel)Children[0];
             Statusbar = (ContainerModel)Layout.Children[0];
             Body = (ContainerModel)Layout.Children[1];

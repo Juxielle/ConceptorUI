@@ -1,4 +1,5 @@
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
@@ -11,6 +12,7 @@ public partial class ScreenModal
 {
     public ICommand? ScreenChangedCommand;
     private int _clickCount;
+    private ObservableCollection<ScreenUiDto> _screens;
     
     public ScreenModal()
     {
@@ -28,7 +30,8 @@ public partial class ScreenModal
         });
         
         if(resultScreen.IsFailure) return;
-        Items.ItemsSource = new ObservableCollection<ScreenUiDto>(resultScreen.Value);
+        _screens = new ObservableCollection<ScreenUiDto>(resultScreen.Value);
+        Items.ItemsSource = _screens;
     }
 
     private void OnScreenClick(object sender, MouseButtonEventArgs e)
@@ -37,7 +40,8 @@ public partial class ScreenModal
         if(_clickCount < 2) return;
         
         var tag = ((FrameworkElement)sender).Tag.ToString();
-        ScreenChangedCommand?.Execute(tag);
+        var screen = _screens.ToList().Find(s => s.Label == tag);
+        ScreenChangedCommand?.Execute(screen);
         _clickCount = 0;
         Close();
     }

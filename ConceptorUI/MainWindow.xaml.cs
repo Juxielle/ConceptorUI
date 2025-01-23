@@ -233,7 +233,7 @@ namespace ConceptorUI
 
         private void OnScreenChanged(object sender)
         {
-            PageView.ChangeScreen(sender.ToString()!);
+            PageView.ChangeScreen(sender);
         }
 
         private void OnAddComponentHandle(object sender, EventArgs e)
