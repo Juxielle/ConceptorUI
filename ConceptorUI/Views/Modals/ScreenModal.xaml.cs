@@ -1,4 +1,6 @@
 using System.Collections.ObjectModel;
+using System.Windows;
+using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.Screens;
 using ConceptorUI.Constants;
@@ -23,5 +25,10 @@ public partial class ScreenModal
         
         if(resultScreen.IsFailure) return;
         Items.ItemsSource = new ObservableCollection<ScreenUiDto>(resultScreen.Value);
+    }
+
+    private void OnScreenClick(object sender, MouseButtonEventArgs e)
+    {
+        var tag = ((FrameworkElement)sender).Tag.ToString();
     }
 }
