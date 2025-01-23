@@ -9,9 +9,13 @@ namespace ConceptorUI.Views.Modals;
 
 public partial class ScreenModal
 {
+    public ICommand? ScreenChangedCommand;
+    private int _clickCount;
+    
     public ScreenModal()
     {
         InitializeComponent();
+        _clickCount = 0;
         
         LoadScreens();
     }
@@ -29,6 +33,12 @@ public partial class ScreenModal
 
     private void OnScreenClick(object sender, MouseButtonEventArgs e)
     {
+        _clickCount++;
+        if(_clickCount < 2) return;
+        
         var tag = ((FrameworkElement)sender).Tag.ToString();
+        ScreenChangedCommand?.Execute(tag);
+        _clickCount = 0;
+        Close();
     }
 }

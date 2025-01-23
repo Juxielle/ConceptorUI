@@ -23,7 +23,7 @@ namespace ConceptorUi.ViewModels
          * Mettre en place un système de remplacement de composants
          * Donner une mise en page à un composant
          */
-        protected ComponentList Name { get; set; }
+        public ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
 
         public bool Selected;

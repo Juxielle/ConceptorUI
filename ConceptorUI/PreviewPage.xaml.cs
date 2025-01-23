@@ -12,7 +12,6 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
-using ConceptorUI.Application.Configs;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.PlatformSystem;
 using ConceptorUI.Application.Project;

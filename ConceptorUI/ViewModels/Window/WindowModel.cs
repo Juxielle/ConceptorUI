@@ -5,6 +5,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using ConceptorUI.Models;
+using ConceptorUI.Services;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Row;
@@ -129,11 +130,16 @@ namespace ConceptorUI.ViewModels.Window
 
         private void LoadImage()
         {
-            var bitmap = new BitmapImage();
-            bitmap.BeginInit();
-            bitmap.UriSource = new Uri("pack://application:,,,/Assets/default_mobile_traite.png", UriKind.Absolute);
-            bitmap.EndInit();
-            _image.Source = bitmap;
+            // var bitmap = new BitmapImage();
+            // bitmap.BeginInit();
+            // bitmap.UriSource = new Uri("pack://application:,,,/Assets/default_mobile_traite.png", UriKind.Absolute);
+            // bitmap.EndInit();
+            _image.Source = ReadScreenImageService.GetImage("default");
+        }
+
+        public void ChangeScreen(string screenName)
+        {
+            _image.Source = ReadScreenImageService.GetImage(screenName);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)

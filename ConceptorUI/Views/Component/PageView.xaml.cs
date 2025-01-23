@@ -340,6 +340,15 @@ namespace ConceptorUI.Views.Component
             });
         }
 
+        public void ChangeScreen(string screenName)
+        {
+            foreach (var key in _components.Keys)
+            {
+                if(_components[key].Name != ComponentList.Window) continue;
+                ((WindowModel)_components[key]).ChangeScreen(screenName);
+            }
+        }
+
         public void AddComponent(string componentName)
         {
             if (!ComponentHelper.IsComponent(componentName)) return;
