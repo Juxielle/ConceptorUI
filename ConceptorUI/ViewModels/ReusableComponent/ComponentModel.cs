@@ -2,6 +2,7 @@
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 
 namespace ConceptorUI.ViewModels.ReusableComponent

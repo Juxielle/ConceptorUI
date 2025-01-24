@@ -1,4 +1,6 @@
-﻿using ConceptorUI.Models;
+﻿using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Models;
+using ConceptorUI.Utils;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Window;

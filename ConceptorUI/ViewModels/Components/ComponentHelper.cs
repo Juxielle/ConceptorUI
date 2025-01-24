@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConceptorUI.Models;
+using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Icon;
 using ConceptorUI.ViewModels.Image;
@@ -10,7 +11,7 @@ using ConceptorUI.ViewModels.Stack;
 using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 
-namespace ConceptorUi.ViewModels;
+namespace ConceptorUI.ViewModels.Components;
 
 internal class ComponentHelper
 {

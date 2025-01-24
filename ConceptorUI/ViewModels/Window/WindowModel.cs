@@ -1,11 +1,15 @@
-﻿using System.Windows;
+﻿using System;
+using System.Text.Json;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Models;
 using ConceptorUI.Services;
+using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Row;
 
@@ -129,26 +133,26 @@ namespace ConceptorUI.ViewModels.Window
 
         private void LoadImage()
         {
-            // var bitmap = new BitmapImage();
-            // bitmap.BeginInit();
-            // bitmap.UriSource = new Uri("pack://application:,,,/Assets/default_mobile_traite.png", UriKind.Absolute);
-            // bitmap.EndInit();
             _image.Source = ReadScreenImageService.GetImage("default");
         }
 
-        public void ChangeScreen(object screen)
+        public void ChangeScreen(object screen, bool isSaving = true)
         {
             var screenUi = (ScreenUiDto)screen;
-            
+            var screenJson = JsonSerializer.Serialize(screenUi);
+
             _border.Padding = new Thickness(screenUi.MarginLeft,
                 screenUi.MarginTop,
                 screenUi.MarginRight,
                 screenUi.MarginBottom);
-            
+
             _image.Source = ReadScreenImageService.GetImage(screenUi.Label);
-            
+
+            if (!isSaving) return;
+
             OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{screenUi.Width}", true);
             OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{screenUi.Height}", true);
+            SetPropertyValue(GroupNames.Global, PropertyNames.Screen, screenJson);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
@@ -157,6 +161,12 @@ namespace ConceptorUI.ViewModels.Window
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
         {
+            if (groupName == GroupNames.Global.ToString() && propertyName == PropertyNames.Screen.ToString())
+            {
+                if (!Helper.IsDeserializable<ScreenUiDto>(value)) return;
+                var screenUi = Helper.Deserialize<ScreenUiDto>(value);
+                ChangeScreen(screenUi, false);
+            }
         }
 
         protected override void WhenFileLoaded(string value)

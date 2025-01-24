@@ -8,6 +8,7 @@ using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 
 namespace ConceptorUI.ViewModels.Text
 {

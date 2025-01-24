@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.ListView

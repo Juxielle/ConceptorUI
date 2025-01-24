@@ -16,6 +16,7 @@ using ConceptorUI.Application.Reports;
 using ConceptorUI.Classes;
 using ConceptorUI.Inputs;
 using ConceptorUI.Utils;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
 
@@ -27,7 +28,7 @@ namespace ConceptorUI.Views.Component
         private static PageView? _obj;
 
         private ProjectUiDto _project;
-        private readonly Dictionary<string, ConceptorUi.ViewModels.Component> _components;
+        private readonly Dictionary<string, ViewModels.Components.Component> _components;
         private int _selectedReport;
         private string? _selectedKey;
 
@@ -50,7 +51,7 @@ namespace ConceptorUI.Views.Component
                 ReportInfos = []
             };
 
-            _components = new Dictionary<string, ConceptorUi.ViewModels.Component>();
+            _components = new Dictionary<string, ViewModels.Components.Component>();
             _selectedReport = 0;
             _clickCount = 0;
 
@@ -137,7 +138,7 @@ namespace ConceptorUI.Views.Component
                         var counter1 = failCounter;
                         sc!.Post(delegate
                         {
-                            ConceptorUi.ViewModels.Component windowModel;
+                            ViewModels.Components.Component windowModel;
 
                             if (component.Name == ComponentList.Window.ToString())
                                 windowModel = new WindowModel(true);
@@ -222,7 +223,7 @@ namespace ConceptorUI.Views.Component
         {
             #region Adding new Report
 
-            ConceptorUi.ViewModels.Component windowModel;
+            ViewModels.Components.Component windowModel;
             if (isComponent) windowModel = new ComponentModel();
             else windowModel = new WindowModel();
 
@@ -462,7 +463,7 @@ namespace ConceptorUI.Views.Component
 
         public object SendComponent()
         {
-            List<ConceptorUi.ViewModels.Component> components = [];
+            List<ViewModels.Components.Component> components = [];
             components.AddRange(from key in _components.Keys
                 where _components[key].GetType().Name == nameof(ComponentModel)
                 select _components[key]);

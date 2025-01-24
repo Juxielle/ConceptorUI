@@ -11,6 +11,7 @@ using ConceptorUI.Views.Modals;
 using ConceptorUI.Classes;
 using System.Collections.ObjectModel;
 using ConceptorUI.Application.Images;
+using ConceptorUI.ViewModels.Components;
 
 
 namespace ConceptorUI.Views.Component

@@ -5,6 +5,7 @@ using System.Windows.Media;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 
 namespace ConceptorUI.ViewModels.Text
 {

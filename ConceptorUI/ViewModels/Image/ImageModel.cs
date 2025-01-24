@@ -7,6 +7,7 @@ using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 
 namespace ConceptorUI.ViewModels.Image
 {

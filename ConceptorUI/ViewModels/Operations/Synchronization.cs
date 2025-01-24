@@ -2,6 +2,7 @@
 using System.Windows;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
+using ConceptorUI.ViewModels.Components;
 
 namespace ConceptorUi.ViewModels.Operations;
 

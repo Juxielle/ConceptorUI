@@ -8,6 +8,7 @@ using ConceptorUI.Assets.GoogleFontIcons;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 using FontAwesome.WPF;
 using MaterialDesignThemes.Wpf;
 
