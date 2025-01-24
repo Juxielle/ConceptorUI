@@ -25,6 +25,7 @@ namespace ConceptorUI.ViewModels.Window
         private readonly System.Windows.Controls.Image _image;
         public double Width;
         public double Height;
+        private double _ratio;
 
         public WindowModel(bool allowConstraints = false)
         {
@@ -39,7 +40,8 @@ namespace ConceptorUI.ViewModels.Window
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
             Width = 280;
-            Height = 620;
+            _ratio = 2.022106631989597;
+            Height = Width * _ratio;
 
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
@@ -152,7 +154,8 @@ namespace ConceptorUI.ViewModels.Window
             _image.Source = ReadScreenImageService.GetImage(screenUi.Label);
 
             Width = screenUi.Width;
-            Height = screenUi.Height;
+            _ratio = screenUi.Ratio;
+            Height = Width * _ratio;
             
             if (!isSaving) return;
 

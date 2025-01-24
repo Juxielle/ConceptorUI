@@ -29,7 +29,7 @@ public class GetScreenQueryHandler
                 ScreenName = x.ScreenName,
                 PlatformName = x.PlatformName,
                 Width = x.Width,
-                Height = x.Height,
+                Ratio = x.Ratio,
                 MarginLeft = x.MarginLeft,
                 MarginRight = x.MarginRight,
                 MarginTop = x.MarginTop,

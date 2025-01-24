@@ -459,6 +459,7 @@ namespace ConceptorUI.Views.Component
 
         public void OnUnSelect()
         {
+            if(!_components.ContainsKey(_project.ReportInfos[_selectedReport].Code!)) return;
             _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
         }
 

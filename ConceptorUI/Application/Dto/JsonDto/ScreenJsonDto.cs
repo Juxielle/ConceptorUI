@@ -6,7 +6,7 @@ public class ScreenJsonDto
     public string ScreenName { get; init; }
     public string PlatformName { get; init; }
     public double Width { get; init; }
-    public double Height { get; init; }
+    public double Ratio { get; init; }
     public double MarginLeft { get; init; }
     public double MarginRight { get; init; }
     public double MarginTop { get; init; }

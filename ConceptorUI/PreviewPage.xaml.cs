@@ -34,6 +34,7 @@ namespace ConceptorUI
         private string _repeatPassword;
         private string _image;
         private string _projectPath;
+        private int _clickCount;
 
         private static readonly string DirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -43,6 +44,7 @@ namespace ConceptorUI
             _obj = this;
             _projects = [];
             _selectedProject = -1;
+            _clickCount = 0;
             _formState = FormStates.Closed;
 
             PbPassword.Password = TbPassword.Text = string.Empty;
@@ -146,19 +148,25 @@ namespace ConceptorUI
         private void OnMouseDownApp(object sender, MouseButtonEventArgs e)
         {
             var id = (sender as FrameworkElement)!.Tag.ToString()!;
-
+            
             if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
-
+            
             _selectedProject = _projects.ToList().FindIndex(d => d.ZipPath == id);
             var project = _projects[_selectedProject];
             TNameApp.Text = project.Name;
             IdApp.Text = project.Id;
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
-
-            BCreate.Content = "EXECUTER";
-            _formState = FormStates.Opened;
-            Form.Visibility = Visibility.Visible;
+            
+            _clickCount++;
+            if(_clickCount < 2) return;
+            _clickCount = 0;
+            
+            MainWindow.Instance.Show(_projects[_selectedProject]);
+            Close();
+            // BCreate.Content = "EXECUTER";
+            // _formState = FormStates.Opened;
+            // Form.Visibility = Visibility.Visible;
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)
