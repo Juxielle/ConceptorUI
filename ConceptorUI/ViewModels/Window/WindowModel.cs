@@ -1,4 +1,5 @@
-﻿using System.Text.Json;
+﻿using System;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -153,6 +154,7 @@ namespace ConceptorUI.ViewModels.Window
 
             Width = screenUi.Width;
             Height = screenUi.Height;
+            
             if (!isSaving) return;
 
             OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{Width}", true);
