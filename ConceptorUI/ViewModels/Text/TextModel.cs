@@ -7,8 +7,8 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Text
 {
@@ -44,7 +44,7 @@ namespace ConceptorUI.ViewModels.Text
             var height = control!.ActualHeight;
             SelectedContent.Height = height;
 
-            var width = GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            var width = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
@@ -89,7 +89,7 @@ namespace ConceptorUI.ViewModels.Text
                 _isEventCanHandled = true;
 
                 var index = Convert.ToInt32(
-                    GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
+                    this.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
                 if (index >= Children.Count) return;
 
                 Children[index].WhenTextChanged(propertyName, value);
@@ -105,27 +105,27 @@ namespace ConceptorUI.ViewModels.Text
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
-            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "1");
+            this.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Vt, "1");
             /* Transform */
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Ve, false);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.He);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Height, false);
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Ve, false);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.He);
             /* Text */
-            SetGroupVisibility(GroupNames.Text);
-            SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");
+            this.SetGroupVisibility(GroupNames.Text);
+            this.SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");
             /* Appearance */
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Padding, false);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderWidth, false);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius, false);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor, false);
-            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Padding, false);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderWidth, false);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius, false);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor, false);
+            this.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            this.SetGroupVisibility(GroupNames.Shadow, false);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
@@ -198,7 +198,7 @@ namespace ConceptorUI.ViewModels.Text
             var index = k != -1
                 ? k
                 : Convert.ToInt32(
-                    GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
+                    this.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.CurrentTextIndex));
 
             Children.RemoveAt(index);
             _text.Inlines.Remove(_runs[index]);

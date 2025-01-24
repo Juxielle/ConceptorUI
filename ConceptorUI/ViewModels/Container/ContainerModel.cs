@@ -51,20 +51,20 @@ namespace ConceptorUI.ViewModels.Container
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment);
-            SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceBetween, false);
-            SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceAround, false);
-            SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceEvery, false);
+            this.SetGroupVisibility(GroupNames.Alignment);
+            this.SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceBetween, false);
+            this.SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceAround, false);
+            this.SetPropertyVisibility(GroupNames.Alignment, PropertyNames.SpaceEvery, false);
             /* Self Alignment */
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform);
+            this.SetGroupVisibility(GroupNames.Transform);
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow);
+            this.SetGroupVisibility(GroupNames.Shadow);
         }
 
         protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
@@ -75,7 +75,7 @@ namespace ConceptorUI.ViewModels.Container
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveRight, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveTop, false);
             Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.MoveBottom, false);
-            //Children[id].SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            //Children[id].this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
 
             /* Content Alignment */
             /* Self Alignment */
@@ -104,11 +104,11 @@ namespace ConceptorUI.ViewModels.Container
                 if (hl == "1" || hc == "1" || hr == "1")
                 {
                     var horizontal = hr == "1" ? PropertyNames.Hr : hc == "1" ? PropertyNames.Hc : PropertyNames.Hl;
-                    SetPropertyValue(GroupNames.Alignment, horizontal, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, horizontal, "1");
                     WhenAlignmentChanged(horizontal, "1");
                 }
                 else if (w != SizeValue.Expand.ToString())
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "1");
             }
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
@@ -123,11 +123,11 @@ namespace ConceptorUI.ViewModels.Container
                 if (vt == "1" || vc == "1" || vb == "1")
                 {
                     var vertical = vb == "1" ? PropertyNames.Vb : vc == "1" ? PropertyNames.Vc : PropertyNames.Vt;
-                    SetPropertyValue(GroupNames.Alignment, vertical, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, vertical, "1");
                     WhenAlignmentChanged(vertical, "1");
                 }
                 else if (h != SizeValue.Expand.ToString())
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
             }
         }
 
@@ -135,10 +135,10 @@ namespace ConceptorUI.ViewModels.Container
         {
             if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
             {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
                 foreach (var child in Children)
                 {
@@ -147,10 +147,10 @@ namespace ConceptorUI.ViewModels.Container
             }
             else if (propertyName is PropertyNames.Vt or PropertyNames.Vc or PropertyNames.Vb)
             {
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
                 foreach (var child in Children)
                 {
@@ -167,13 +167,13 @@ namespace ConceptorUI.ViewModels.Container
             (Content.Child as Border)!.Child = null;
 
             if (k > 0) return;
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
 
             if (k == -1) OnSelected();
         }
@@ -182,22 +182,22 @@ namespace ConceptorUI.ViewModels.Container
         {
             if (Children.Count == 0 || !Children[0].Selected) return;
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, value != SizeValue.Expand.ToString() ? "1" : "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
 
         protected override void WhenHeightChanged(string value)
         {
             if (Children.Count == 0 || !Children[0].Selected) return;
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
 
-            SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value != SizeValue.Expand.ToString() ? "1" : "0");
+            this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
 
         protected override object GetPropertyGroups()

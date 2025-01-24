@@ -7,8 +7,8 @@ using System.Windows.Media;
 using ConceptorUI.Assets.GoogleFontIcons;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 using FontAwesome.WPF;
 using MaterialDesignThemes.Wpf;
 
@@ -62,23 +62,23 @@ namespace ConceptorUI.ViewModels.Icon
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "20");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "20");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance, false);
-            SetGroupOnlyVisibility(GroupNames.Appearance);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
-            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#000000");
+            this.SetGroupVisibility(GroupNames.Appearance, false);
+            this.SetGroupOnlyVisibility(GroupNames.Appearance);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.FillColor);
+            this.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, "#000000");
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            this.SetGroupVisibility(GroupNames.Shadow, false);
         }
 
         protected override void WhenFileLoaded(string value)
@@ -122,9 +122,9 @@ namespace ConceptorUI.ViewModels.Icon
 
                         var googleFontIcon = _googleFontIcon.GetIcon();
                         if (googleFontIcon == null!) return;
-                        var width = Convert.ToInt32(GetGroupProperties(GroupNames.Transform)
+                        var width = Convert.ToInt32(this.GetGroupProperties(GroupNames.Transform)
                             .GetValue(PropertyNames.Width));
-                        var color = GetGroupProperties(GroupNames.Appearance)
+                        var color = this.GetGroupProperties(GroupNames.Appearance)
                             .GetValue(PropertyNames.FillColor);
 
                         ((TextBlock)googleFontIcon).FontSize = width;
@@ -177,8 +177,8 @@ namespace ConceptorUI.ViewModels.Icon
                 _awesomeIcon.Width = _awesomeIcon.Height = vd2;
                 _googleFontIcon.Width = _googleFontIcon.Height = vd2;
 
-                SetPropertyValue(GroupNames.Transform, PropertyNames.Width, value);
-                SetPropertyValue(GroupNames.Transform, PropertyNames.Height, value);
+                this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, value);
+                this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, value);
 
                 var googleFontIcon = _googleFontIcon.GetIcon();
                 if (googleFontIcon == null!) return;

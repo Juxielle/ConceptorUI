@@ -1,5 +1,4 @@
-﻿using System;
-using System.Text.Json;
+﻿using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -8,9 +7,9 @@ using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
+using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
 
 namespace ConceptorUI.ViewModels.Window
@@ -110,25 +109,25 @@ namespace ConceptorUI.ViewModels.Window
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetGroupVisibility(GroupNames.Global, false);
+            this.SetGroupVisibility(GroupNames.Global, false);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
-            SetGroupVisibility(GroupNames.SelfAlignment, false);
-            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "1");
+            this.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            this.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "1");
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform, false);
-            SetGroupOnlyVisibility(GroupNames.Transform);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "620");
+            this.SetGroupVisibility(GroupNames.Transform, false);
+            this.SetGroupOnlyVisibility(GroupNames.Transform);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "620");
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance, false);
+            this.SetGroupVisibility(GroupNames.Appearance, false);
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            this.SetGroupVisibility(GroupNames.Shadow, false);
         }
 
         private void LoadImage()
@@ -152,7 +151,7 @@ namespace ConceptorUI.ViewModels.Window
 
             OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{screenUi.Width}", true);
             OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{screenUi.Height}", true);
-            SetPropertyValue(GroupNames.Global, PropertyNames.Screen, screenJson);
+            this.SetPropertyValue(GroupNames.Global, PropertyNames.Screen, screenJson);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)

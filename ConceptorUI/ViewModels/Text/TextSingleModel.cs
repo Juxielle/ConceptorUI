@@ -4,8 +4,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Text
 {
@@ -37,19 +37,19 @@ namespace ConceptorUI.ViewModels.Text
             {
                 _text.FontFamily = ManageEnums.Instance.GetFontFamily(value);
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.FontFamily, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.FontFamily, value);
             }
             else if (propertyName == PropertyNames.FontWeight.ToString())
             {
                 _text.FontWeight = value == "0" ? FontWeights.Normal : FontWeights.Bold;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.FontWeight, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.FontWeight, value);
             }
             else if (propertyName == PropertyNames.FontStyle.ToString())
             {
                 _text.FontStyle = value == "0" ? FontStyles.Normal : FontStyles.Italic;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.FontStyle, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.FontStyle, value);
             }
             else if (propertyName == PropertyNames.FontSize.ToString())
             {
@@ -57,28 +57,28 @@ namespace ConceptorUI.ViewModels.Text
                 vd = vd == 0 ? 10 : vd;
                 _text.FontSize = vd;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.FontSize, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.FontSize, value);
             }
             else if (propertyName == PropertyNames.TextUnderline.ToString())
             {
                 if((isInitialize && value == "1") || !isInitialize)
                     _text.TextDecorations = value == "1" ? TextDecorations.Underline : null;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.TextUnderline, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.TextUnderline, value);
             }
             else if (propertyName == PropertyNames.TextOverline.ToString())
             {
                 if((isInitialize && value == "1") || !isInitialize)
                     _text.TextDecorations = value == "1" ? TextDecorations.OverLine : null;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.TextOverline, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.TextOverline, value);
             }
             else if (propertyName == PropertyNames.TextThrough.ToString())
             {
                 if((isInitialize && value == "1") || !isInitialize)
                     _text.TextDecorations = value == "1" ? TextDecorations.Strikethrough : null;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.TextThrough, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.TextThrough, value);
             }
             else if (propertyName == PropertyNames.Color.ToString())
             {
@@ -86,13 +86,13 @@ namespace ConceptorUI.ViewModels.Text
                     ? Brushes.Transparent
                     : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.Color, value);
             }
             else if (propertyName == PropertyNames.Text.ToString())
             {
                 _text.Text = value;
                 if(!isInitialize)
-                    SetPropertyValue(GroupNames.Text, PropertyNames.Text, value);
+                    this.SetPropertyValue(GroupNames.Text, PropertyNames.Text, value);
             }
         }
 

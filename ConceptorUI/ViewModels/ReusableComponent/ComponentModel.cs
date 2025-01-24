@@ -1,9 +1,9 @@
 ﻿using System.Windows;
 using System.Windows.Input;
 using ConceptorUI.Models;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.ReusableComponent
 {
@@ -120,24 +120,24 @@ namespace ConceptorUI.ViewModels.ReusableComponent
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetGroupVisibility(GroupNames.Global, false);
+            this.SetGroupVisibility(GroupNames.Global, false);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
-            SetGroupVisibility(GroupNames.SelfAlignment, false);
-            SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "1");
+            this.SetGroupVisibility(GroupNames.SelfAlignment, false);
+            this.SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "1");
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform, false);
-            SetGroupOnlyVisibility(GroupNames.Transform);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
+            this.SetGroupVisibility(GroupNames.Transform, false);
+            this.SetGroupOnlyVisibility(GroupNames.Transform);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance, false);
-            SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
+            this.SetGroupVisibility(GroupNames.Appearance, false);
+            this.SetPropertyValue(GroupNames.Appearance, PropertyNames.FillColor, ColorValue.Transparent.ToString());
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            this.SetGroupVisibility(GroupNames.Shadow, false);
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

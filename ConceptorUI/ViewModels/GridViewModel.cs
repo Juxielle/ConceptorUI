@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUi.ViewModels;
 
@@ -45,16 +46,16 @@ internal class GridViewModel : Component
     public sealed override void SelfConstraints()
     {
         /* Global */
-        SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+        this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
         /* Content Alignment */
-        SetGroupVisibility(GroupNames.Alignment, false);
+        this.SetGroupVisibility(GroupNames.Alignment, false);
         /* Self Alignment */
         /* Transform */
         /* Text */
-        SetGroupVisibility(GroupNames.Text, false);
+        this.SetGroupVisibility(GroupNames.Text, false);
         /* Appearance */
         /* Shadow */
-        SetGroupVisibility(GroupNames.Shadow);
+        this.SetGroupVisibility(GroupNames.Shadow);
     }
 
     protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
@@ -185,7 +186,7 @@ internal class GridViewModel : Component
 
     protected override void OnMoveTop()
     {
-        var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+        var focus = this.GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
         var k = -1;
         foreach (var child in Children.Where(child => child.Selected))
         {
@@ -211,7 +212,7 @@ internal class GridViewModel : Component
 
     protected override void OnMoveBottom()
     {
-        var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+        var focus = this.GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
         var k = -1;
         foreach (var child in Children.Where(child => child.Selected))
         {

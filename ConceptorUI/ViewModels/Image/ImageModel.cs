@@ -6,8 +6,8 @@ using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUI.ViewModels.Image
 {
@@ -49,23 +49,23 @@ namespace ConceptorUI.ViewModels.Image
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
-            SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "40");
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch);
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "40");
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch);
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
-            SetGroupVisibility(GroupNames.Appearance, false);
-            SetGroupOnlyVisibility(GroupNames.Appearance);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
-            SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius);
+            this.SetGroupVisibility(GroupNames.Appearance, false);
+            this.SetGroupOnlyVisibility(GroupNames.Appearance);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.Margin);
+            this.SetPropertyVisibility(GroupNames.Appearance, PropertyNames.BorderRadius);
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow, false);
+            this.SetGroupVisibility(GroupNames.Shadow, false);
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

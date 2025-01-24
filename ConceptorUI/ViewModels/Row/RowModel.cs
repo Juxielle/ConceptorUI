@@ -4,7 +4,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Models;
 using ConceptorUI.Utils;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUi.ViewModels.Row;
@@ -42,19 +41,19 @@ namespace ConceptorUI.ViewModels.Row
         public sealed override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.Focus);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.Focus);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment);
+            this.SetGroupVisibility(GroupNames.Alignment);
             /* Self Alignment */
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform);
-            SetPropertyVisibility(GroupNames.Transform, PropertyNames.Gap);
+            this.SetGroupVisibility(GroupNames.Transform);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Gap);
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow);
+            this.SetGroupVisibility(GroupNames.Shadow);
         }
 
         protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
@@ -72,10 +71,10 @@ namespace ConceptorUI.ViewModels.Row
                     return;
                 }
 
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, "0");
-                SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hl : PropertyNames.Vt, "0");
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hc : PropertyNames.Vc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Hr : PropertyNames.Vb, "0");
+                this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
                 foreach (var child in Children)
                 {
@@ -106,13 +105,13 @@ namespace ConceptorUI.ViewModels.Row
                         else SetDimension(i, new GridLength(0, GridUnitType.Auto));
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
                 else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -128,13 +127,13 @@ namespace ConceptorUI.ViewModels.Row
                         else SetDimension(i, new GridLength(0, GridUnitType.Auto));
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
                 else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -150,13 +149,13 @@ namespace ConceptorUI.ViewModels.Row
                         else SetDimension(i, new GridLength(0, GridUnitType.Auto));
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
                 else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -173,13 +172,13 @@ namespace ConceptorUI.ViewModels.Row
                         else SetDimension(i, new GridLength(0, GridUnitType.Auto));
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
                 else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -194,13 +193,13 @@ namespace ConceptorUI.ViewModels.Row
                         else SetDimension(i, new GridLength(0, GridUnitType.Auto));
                     }
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
                 }
                 else WhenAlignmentChanged(IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
@@ -208,20 +207,20 @@ namespace ConceptorUI.ViewModels.Row
             {
                 if (value == "1")
                 {
-                    var vt = GetGroupProperties(GroupNames.Alignment)
+                    var vt = this.GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
-                    var vc = GetGroupProperties(GroupNames.Alignment)
+                    var vc = this.GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-                    var vb = GetGroupProperties(GroupNames.Alignment)
+                    var vb = this.GetGroupProperties(GroupNames.Alignment)
                         .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                    SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
-                    SetPropertyValue(GroupNames.Alignment, propertyName, value);
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                    this.SetPropertyValue(GroupNames.Alignment, propertyName, value);
 
                     for (var i = 0; i < GetSpaceCount(); i++)
                     {
@@ -278,15 +277,15 @@ namespace ConceptorUI.ViewModels.Row
                 if (IsVertical) Grid.RowDefinitions.Clear();
                 else Grid.ColumnDefinitions.Clear();
 
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vb, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hl, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Hr, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
             }
             else if (IsVertical)
             {
@@ -335,12 +334,12 @@ namespace ConceptorUI.ViewModels.Row
 
             if (i != -1 && value == SizeValue.Expand.ToString())
             {
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
-                SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
-                SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "0");
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vc : PropertyNames.Hc, "0");
+                this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vb : PropertyNames.Hr, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceBetween, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceAround, "0");
+                this.SetPropertyValue(GroupNames.Alignment, PropertyNames.SpaceEvery, "0");
 
                 SetDimension(0, new GridLength(0, GridUnitType.Auto));
                 SetDimension(GetSpaceCount() - 1, new GridLength(0, GridUnitType.Auto));
@@ -361,7 +360,7 @@ namespace ConceptorUI.ViewModels.Row
                 var d = Children[i].GetGroupProperties(GroupNames.Transform)
                     .GetValue(IsVertical ? PropertyNames.Height : PropertyNames.Width);
                 if (d == SizeValue.Expand.ToString())
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
             }
         }
 
@@ -377,7 +376,7 @@ namespace ConceptorUI.ViewModels.Row
 
         protected override void OnMoveTop()
         {
-            var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+            var focus = this.GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
 
             foreach (var i in from child in Children let i = Children.IndexOf(child) where child.Selected select i)
@@ -420,7 +419,7 @@ namespace ConceptorUI.ViewModels.Row
 
         protected override void OnMoveBottom()
         {
-            var focus = GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
+            var focus = this.GetGroupProperties(GroupNames.Global).GetValue(PropertyNames.Focus) == "1";
             var k = -1;
             foreach (var i in from child in Children let i = Children.IndexOf(child) where child.Selected select i)
             {
@@ -498,22 +497,22 @@ namespace ConceptorUI.ViewModels.Row
 
             var component = Children[id];
 
-            var vt = GetGroupProperties(GroupNames.Alignment)
+            var vt = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vt : PropertyNames.Hl);
-            var vc = GetGroupProperties(GroupNames.Alignment)
+            var vc = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vc : PropertyNames.Hc);
-            var vb = GetGroupProperties(GroupNames.Alignment)
+            var vb = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Vb : PropertyNames.Hr);
 
-            var sb = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
-            var sa = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
-            var se = GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
+            var sb = this.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceBetween);
+            var sa = this.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceAround);
+            var se = this.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.SpaceEvery);
 
-            var hl = GetGroupProperties(GroupNames.Alignment)
+            var hl = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Hl : PropertyNames.Vt);
-            var hc = GetGroupProperties(GroupNames.Alignment)
+            var hc = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Hc : PropertyNames.Vc);
-            var hr = GetGroupProperties(GroupNames.Alignment)
+            var hr = this.GetGroupProperties(GroupNames.Alignment)
                 .GetValue(IsVertical ? PropertyNames.Hr : PropertyNames.Vb);
 
             var hlc = component.GetGroupProperties(GroupNames.SelfAlignment)
@@ -616,7 +615,7 @@ namespace ConceptorUI.ViewModels.Row
                 else if (!existExpand)
                 {
                     SetDimension(GetSpaceCount() - 1, new GridLength(1, GridUnitType.Star));
-                    SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
+                    this.SetPropertyValue(GroupNames.Alignment, IsVertical ? PropertyNames.Vt : PropertyNames.Hl, "1");
                 }
             }
 
@@ -683,7 +682,7 @@ namespace ConceptorUI.ViewModels.Row
                 if (Children.Count <= 1) return;
                 var vd = Helper.ConvertToDouble(value);
                 var oldGap =
-                    Helper.ConvertToDouble(GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                    Helper.ConvertToDouble(this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
 
                 for (var i = 0; i < Children.Count; i++)
                 {
@@ -691,7 +690,7 @@ namespace ConceptorUI.ViewModels.Row
                     SetChildGap(i, oldGap, vd);
                 }
 
-                SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
+                this.SetPropertyValue(GroupNames.Transform, PropertyNames.Gap, value);
             }
         }
 

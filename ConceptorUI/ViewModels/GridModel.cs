@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUi.ViewModels.Operations;
 
 
 namespace ConceptorUi.ViewModels
@@ -29,17 +30,17 @@ namespace ConceptorUi.ViewModels
         public override void SelfConstraints()
         {
             /* Global */
-            SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
+            this.SetPropertyVisibility(GroupNames.Global, PropertyNames.FilePicker, false);
             /* Content Alignment */
-            SetGroupVisibility(GroupNames.Alignment, false);
+            this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
-            SetGroupVisibility(GroupNames.Transform);
+            this.SetGroupVisibility(GroupNames.Transform);
             /* Text */
-            SetGroupVisibility(GroupNames.Text, false);
+            this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
             /* Shadow */
-            SetGroupVisibility(GroupNames.Shadow);
+            this.SetGroupVisibility(GroupNames.Shadow);
         }
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
