@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 
@@ -14,7 +15,8 @@ static class ManageProperties
         return new GroupProperties();
     }
 
-    public static void SetPropertyValue(this Component component, GroupNames groupName, PropertyNames propertyName, string value)
+    public static void SetPropertyValue(this Component component, GroupNames groupName, PropertyNames propertyName,
+        string value)
     {
         var i = -1;
         foreach (var group in component.PropertyGroups!)
@@ -66,7 +68,8 @@ static class ManageProperties
         }
     }
 
-    public static void SetPropertiesOnlyVisibility(this Component component, GroupNames groupName, bool isVisible = true)
+    public static void SetPropertiesOnlyVisibility(this Component component, GroupNames groupName,
+        bool isVisible = true)
     {
         var i = -1;
         foreach (var group in component.PropertyGroups!)
@@ -85,7 +88,8 @@ static class ManageProperties
         }
     }
 
-    public static void SetPropertyVisibility(this Component component, GroupNames groupName, PropertyNames propertyName, bool isVisible = true)
+    public static void SetPropertyVisibility(this Component component, GroupNames groupName, PropertyNames propertyName,
+        bool isVisible = true)
     {
         var i = -1;
         foreach (var group in component.PropertyGroups!)
@@ -101,6 +105,25 @@ static class ManageProperties
                     ? VisibilityValue.Visible.ToString()
                     : VisibilityValue.Collapsed.ToString();
                 return;
+            }
+        }
+    }
+
+    public static void AddMissingProperties(this Component component, List<GroupProperties> groups)
+    {
+        for (var i = 0; i < component.PropertyGroups!.Count; i++)
+        {
+            var group = groups.Find(g => g.Name == component.PropertyGroups[i].Name);
+            if (group == null) continue;
+
+            component.PropertyGroups[i].Visibility = group.Visibility;
+
+            for (var j = 0; j < component.PropertyGroups[i].Properties.Count; j++)
+            {
+                var property = group.Properties.Find(p => p.Name == component.PropertyGroups[i].Properties[j].Name);
+                if (property == null) continue;
+                
+                component.PropertyGroups[i].Properties[j] = property;
             }
         }
     }

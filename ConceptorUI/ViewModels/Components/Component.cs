@@ -1348,7 +1348,9 @@ namespace ConceptorUI.ViewModels.Components
 
         public void OnDeserializer(CompSerializer compSerializer)
         {
-            PropertyGroups = compSerializer.Properties;
+            //PropertyGroups = compSerializer.Properties;
+            this.AddMissingProperties(compSerializer.Properties!);
+            
             HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
             _addedChildrenCount = compSerializer.AddedChildrenCount;
@@ -1545,7 +1547,6 @@ namespace ConceptorUI.ViewModels.Components
             ComponentView.PreviewMouseDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;
 
-            PropertyGroups = [];
             Children = [];
 
             PropertyGroups =

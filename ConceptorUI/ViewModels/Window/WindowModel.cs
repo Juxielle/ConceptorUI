@@ -23,6 +23,8 @@ namespace ConceptorUI.ViewModels.Window
         private readonly Grid _grid;
         private readonly Border _border;
         private readonly System.Windows.Controls.Image _image;
+        public double Width;
+        public double Height;
 
         public WindowModel(bool allowConstraints = false)
         {
@@ -36,6 +38,8 @@ namespace ConceptorUI.ViewModels.Window
             HasChildren = false;
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
+            Width = 280;
+            Height = 620;
 
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
@@ -120,8 +124,8 @@ namespace ConceptorUI.ViewModels.Window
             this.SetGroupOnlyVisibility(GroupNames.Transform);
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.X);
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y);
-            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "300");
-            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "620");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, $"{Width}");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, $"{Height}");
             /* Text */
             this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
@@ -147,10 +151,12 @@ namespace ConceptorUI.ViewModels.Window
 
             _image.Source = ReadScreenImageService.GetImage(screenUi.Label);
 
+            Width = screenUi.Width;
+            Height = screenUi.Height;
             if (!isSaving) return;
 
-            OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{screenUi.Width}", true);
-            OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{screenUi.Height}", true);
+            OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{Width}", true);
+            OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{Height}", true);
             this.SetPropertyValue(GroupNames.Global, PropertyNames.Screen, screenJson);
         }
 
