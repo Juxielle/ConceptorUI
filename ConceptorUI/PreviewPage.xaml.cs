@@ -34,7 +34,6 @@ namespace ConceptorUI
         private string _repeatPassword;
         private string _image;
         private string _projectPath;
-        private int _clickCount;
 
         private static readonly string DirBase = Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData);
 
@@ -44,7 +43,6 @@ namespace ConceptorUI
             _obj = this;
             _projects = [];
             _selectedProject = -1;
-            _clickCount = 0;
             _formState = FormStates.Closed;
 
             PbPassword.Password = TbPassword.Text = string.Empty;
@@ -158,10 +156,7 @@ namespace ConceptorUI
             CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
             UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
             
-            _clickCount++;
-            if(_clickCount < 2) return;
-            _clickCount = 0;
-            
+            if(!TimerClick.IsEnable()) return;
             MainWindow.Instance.Show(_projects[_selectedProject]);
             Close();
             // BCreate.Content = "EXECUTER";
