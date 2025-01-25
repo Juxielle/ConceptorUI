@@ -49,7 +49,7 @@ namespace ConceptorUI.ViewModels.Window
 
             _border = new Border
             {
-                Padding = new Thickness(10, 60, 12, 60),
+                Padding = new Thickness(10, 58, 12, 56),
                 Child = Layout.ComponentView
             };
 

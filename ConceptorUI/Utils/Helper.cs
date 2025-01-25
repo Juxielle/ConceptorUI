@@ -1,14 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
-using System.IO.Compression;
 using System.Text.Json;
 using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using ConceptorUI.Classes;
-using ConceptorUI.Constants;
 
 namespace ConceptorUI.Utils;
 
@@ -81,82 +77,6 @@ public class Helper
         }
     }
 
-    public static void CompressFolder(string folderPath, string filePath)
-    {
-        // var folderName = folderPath.Replace(Path.GetDirectoryName(folderPath)+@"\", "");
-        // var newPath = folderPath + "_copy";
-        // var targetFolderPath = Path.Combine(newPath, folderName);
-        // CopyDirectory(folderPath, targetFolderPath, true);
-
-        if (File.Exists(filePath))
-            File.Delete(filePath);
-        ZipFile.CreateFromDirectory(folderPath, filePath);
-        //Directory.Delete(folderPath, true);
-    }
-
-    public static List<Project> GetProjects()
-    {
-        var projects = JsonSerializer.Deserialize<List<Project>>(
-            File.ReadAllText(Env.FileConfig)
-        );
-        return projects!;
-    }
-
-    public static string GetProjectName(string projectPath)
-    {
-        if (!Directory.Exists(projectPath)) return string.Empty;
-        
-        var dirs = Directory.GetDirectories(projectPath, "*", SearchOption.TopDirectoryOnly);
-        
-        return dirs.Length == 1 ? dirs[0].Replace($@"{projectPath}\", string.Empty) : string.Empty;
-    }
-
-    public static void SaveProject(Project project)
-    {
-        var projects = JsonSerializer.Deserialize<List<Project>>(
-            File.ReadAllText(Env.FileConfig)
-        );
-        var oldProject = projects?.Find(p => p.Name == project.Name && p.FilePath == project.FilePath);
-
-        if (projects == null)
-            projects = [];
-        if (oldProject != null)
-            projects.Remove(oldProject);
-
-        projects.Add(project);
-
-        var jsonString = JsonSerializer.Serialize(projects);
-        File.WriteAllText(Env.FileConfig, jsonString);
-    }
-
-    public static void DeleteProject(string filePath, string projectName)
-    {
-        var projects = JsonSerializer.Deserialize<List<Project>>(
-            File.ReadAllText(Env.FileConfig)
-        );
-        var oldProject = projects?.Find(p => p.Name == projectName && p.FilePath == filePath);
-
-        if (oldProject == null || !Directory.Exists(oldProject.FolderPath)) return;
-        Directory.Delete(oldProject.FolderPath, true);
-    }
-
-    public static void SaveCompressedFolder(string folderName)
-    {
-        var dlg = new Microsoft.Win32.SaveFileDialog();
-        dlg.FileName = folderName;
-        dlg.DefaultExt = ".zip";
-        dlg.Filter = "Zip documents (.zip)|*.zip";
-
-        var result = dlg.ShowDialog();
-
-        if (result != true) return;
-        var destinationPath = dlg.FileName;
-        var sourcePath = Path.GetTempPath() + folderName + ".zip";
-
-        if (File.Exists(sourcePath))
-            File.Move(sourcePath, destinationPath);
-    }
-
     public static bool IsNumber(string value)
     {
         double.TryParse(value.Replace(',', '.'), NumberStyles.Any, new CultureInfo("en-US"), out var newValue);
@@ -178,7 +98,7 @@ public class Helper
 
     public static T Deserialize<T>(string value)
     {
-        return System.Text.Json.JsonSerializer.Deserialize<T>(value)!;
+        return JsonSerializer.Deserialize<T>(value)!;
     }
 
     private static void CopyDirectory(string sourceDir, string destinationDir, bool recursive)
