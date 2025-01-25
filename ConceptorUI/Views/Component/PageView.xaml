@@ -7,7 +7,13 @@
              d:DesignHeight="700"
              d:DesignWidth="900">
     <Border Padding="60">
-        <Grid x:Name="Page"
-              PreviewMouseDown="OnPageClickHandle" />
+        <Grid>
+            <Grid x:Name="Page"
+                  PreviewMouseDown="OnPageClickHandle">
+                <Grid.RenderTransform>
+                    <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1"/>
+                </Grid.RenderTransform>
+            </Grid>
+        </Grid>
     </Border>
 </UserControl>

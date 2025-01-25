@@ -6,6 +6,7 @@
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:component="clr-namespace:ConceptorUI.Views.Component"
         xmlns:propertyPanel="clr-namespace:ConceptorUI.Views.PropertyPanel"
+        xmlns:widgets="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Conceptor UI"
@@ -128,7 +129,7 @@
                         <component:PageView MinWidth="2000"
                                             MinHeight="2000"
                                             Visibility="Visible"
-                                            x:Name="PageView"/>
+                                            x:Name="PageView" />
 
                         <component:ComponentPage Margin="60"
                                                  Visibility="Collapsed"
@@ -287,6 +288,10 @@
                                    HorizontalAlignment="Center"
                                    Foreground="#000000" />
                     </StackPanel>
+
+                    <widgets:ZoomButtons Margin="10"
+                                         Width="150"
+                                         HorizontalAlignment="Left" />
                 </StackPanel>
 
                 <component:LeftCompPanel HorizontalAlignment="Left"
@@ -296,7 +301,7 @@
                                          x:Name="CompPage" />
             </Grid>
         </DockPanel>
-        
+
         <ProgressBar Width="100"
                      Height="4"
                      IsIndeterminate="True"
@@ -309,6 +314,6 @@
                      HorizontalAlignment="Left"
                      VerticalAlignment="Bottom"
                      Visibility="Collapsed"
-                     x:Name="Loading"/>
+                     x:Name="Loading" />
     </Grid>
 </Window>

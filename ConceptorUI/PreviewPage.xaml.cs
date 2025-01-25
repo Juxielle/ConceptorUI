@@ -150,18 +150,14 @@ namespace ConceptorUI
             if (_formState is not (FormStates.Closed or FormStates.Opened)) return;
             
             _selectedProject = _projects.ToList().FindIndex(d => d.ZipPath == id);
-            var project = _projects[_selectedProject];
-            TNameApp.Text = project.Name;
-            IdApp.Text = project.Id;
-            CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
-            UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
+            // var project = _projects[_selectedProject];
+            // TNameApp.Text = project.Name;
+            // IdApp.Text = project.Id;
+            // CreatedDate.Text = project.Created.ToString(CultureInfo.InvariantCulture);
+            // UpdatedDate.Text = project.Updated.ToString(CultureInfo.InvariantCulture);
             
-            if(!TimerClick.IsEnable()) return;
             MainWindow.Instance.Show(_projects[_selectedProject]);
             Close();
-            // BCreate.Content = "EXECUTER";
-            // _formState = FormStates.Opened;
-            // Form.Visibility = Visibility.Visible;
         }
 
         private void OnTextChanged(object sender, RoutedEventArgs e)

@@ -1,4 +1,5 @@
-﻿using System.Timers;
+﻿using System;
+using System.Timers;
 
 namespace ConceptorUI.Utils;
 
@@ -9,7 +10,7 @@ public static class TimerClick
 
     private static void BeginTimer()
     {
-        _timer = new Timer(80);
+        _timer = new Timer(100);
         _timer.Elapsed += OnTimedEvent!;
         _timer.AutoReset = true;
         _timer.Enabled = true;
@@ -18,24 +19,33 @@ public static class TimerClick
 
     public static bool IsEnable()
     {
+        Console.WriteLine($@"Click count -->0: {_count}");
         if (_count == 0)
         {
             BeginTimer();
             return false;
         }
 
+        Console.WriteLine($@"Click count -->1: {_count}");
         if (_count < 2) return false;
 
-        _timer?.Dispose();
+        Dispose();
         return true;
     }
 
     private static void OnTimedEvent(object source, ElapsedEventArgs e)
     {
         _count++;
-        if (_count < 3) return;
-        
+        Console.WriteLine($@"Click count: {_count}");
+        if (_count < 10) return;
+        Dispose();
+    }
+
+    private static void Dispose()
+    {
         _count = 0;
         _timer?.Dispose();
+        _timer?.Close();
+        _timer!.Elapsed -= OnTimedEvent!;
     }
 }

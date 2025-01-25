@@ -50,20 +50,24 @@
                 <ItemsControl.ItemTemplate>
                     <DataTemplate>
                         <WrapPanel>
-                            <Border Width="250"
+                            <Button Width="250"
                                     Height="400"
-                                    CornerRadius="10"
                                     Padding="10"
+                                    BorderBrush="Transparent"
+                                    BorderThickness="0"
+                                    Background="Transparent"
                                     Margin="0 0 20 20"
                                     Tag="{Binding Label}"
-                                    Style="{StaticResource CardStyle}"
-                                    MouseLeftButtonDown="OnScreenClick"
-                                    d:DataContext="{d:DesignInstance }">
+                                    d:DataContext="{d:DesignInstance }"
+                                    MouseDoubleClick="OnScreenClick">
+                                <!-- <Border CornerRadius="10" -->
+                                <!--         Style="{StaticResource CardStyle}"> -->
+                                <!-- </Border> -->
                                 <Image Source="{Binding Label, Converter={StaticResource ScreenImageConverter}}"
                                        Stretch="Uniform"
                                        HorizontalAlignment="Center"
                                        d:DataContext="{d:DesignInstance }" />
-                            </Border>
+                            </Button>
                         </WrapPanel>
                     </DataTemplate>
                 </ItemsControl.ItemTemplate>

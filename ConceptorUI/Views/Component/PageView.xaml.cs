@@ -34,8 +34,6 @@ namespace ConceptorUI.Views.Component
         private string? _selectedKey;
 
         private string _copiedComponent;
-        private int _clickCount;
-        private string? _componentId;
 
         public ICommand? RefreshPropertyPanelCommand;
         public ICommand? DisplayTextTypingCommand;
@@ -54,7 +52,6 @@ namespace ConceptorUI.Views.Component
 
             _components = new Dictionary<string, ViewModels.Components.Component>();
             _selectedReport = 0;
-            _clickCount = 0;
 
             _copiedComponent = string.Empty;
         }
@@ -96,7 +93,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-        
+
         private void InitStructuralView()
         {
             var structuralElement = _components[_project.ReportInfos[_selectedReport].Code!].AddToStructuralView();
@@ -106,10 +103,11 @@ namespace ConceptorUI.Views.Component
             StructuralView.Instance.BuildView(structuralElement, 0, structuralElement.IsSimpleElement);
             PanelStructuralView.Instance.Refresh();
         }
-        
+
         private async void LoadSpace()
         {
             #region Load spage
+
             var reportsResult = await new GetReportsQueryHandler().Handle(new GetReportsQuery
             {
                 ZipPath = ComponentHelper.ProjectPath!,
@@ -123,7 +121,7 @@ namespace ConceptorUI.Views.Component
             Page.Children.Clear();
             var counter = 0;
             var failCounter = 0;
-            
+
             DisplayLoadingCommand?.Execute(true);
             for (var i = 0; i < reports.Count; i++)
             {
@@ -134,7 +132,7 @@ namespace ConceptorUI.Views.Component
                     try
                     {
                         var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
-                        
+
                         var k = j;
                         var counter1 = failCounter;
                         sc!.Post(delegate
@@ -161,8 +159,8 @@ namespace ConceptorUI.Views.Component
 
                             for (var p = 0; p < reports.Count - counter1; p++)
                             {
-                                if(!_components.ContainsKey(reports[p].Code!)) continue;
-                                
+                                if (!_components.ContainsKey(reports[p].Code!)) continue;
+
                                 var componentSx = _components[reports[p].Code!].GetGroupProperties(GroupNames.Transform)
                                     .GetValue(PropertyNames.X);
                                 var componentX = 0.0;
@@ -219,7 +217,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-        
+
         public async void NewReport(bool isComponent = false)
         {
             #region Adding new Report
@@ -289,9 +287,9 @@ namespace ConceptorUI.Views.Component
                 }
             });
 
-            if(result.IsFailure)
+            if (result.IsFailure)
                 return;
-            
+
             await new SaveConfigCommandHandler().Handle(new SaveConfigCommand
             {
                 ZipPath = ComponentHelper.ProjectPath!,
@@ -301,7 +299,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-        
+
         public async void DeleteReport()
         {
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
@@ -319,14 +317,14 @@ namespace ConceptorUI.Views.Component
             title.PreviewMouseUp -= OnPreviewMouseUp;
             title.MouseLeave -= OnPreviewMouseLeave;
             title.PreviewMouseMove -= OnPreviewMouseMove;
-            
+
             var index = -1;
             for (var i = 0; i < Page.Children.Count; i++)
                 if (_project.ReportInfos[_selectedReport].Code == ((StackPanel)Page.Children[i]).Tag.ToString())
                     index = i;
-            
-            if(index == -1) return;
-            
+
+            if (index == -1) return;
+
             Page.Children.RemoveAt(index);
 
             _components.Remove(_project.ReportInfos[_selectedReport].Code!);
@@ -346,7 +344,7 @@ namespace ConceptorUI.Views.Component
         {
             foreach (var key in _components.Keys)
             {
-                if(_components[key].Name != ComponentList.Window) continue;
+                if (_components[key].Name != ComponentList.Window) continue;
                 ((WindowModel)_components[key]).ChangeScreen(screen);
             }
         }
@@ -437,16 +435,11 @@ namespace ConceptorUI.Views.Component
 
             RefreshStructuralView();
 
-            _clickCount++;
-            if (_componentId == values["Id"] && _clickCount == 2)
+            if (TimerClick.IsEnable())
             {
-                _clickCount = 0;
                 if (values["componentName"] == ComponentList.Text)
                     DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
             }
-
-            _clickCount = _clickCount >= 2 ? 0 : _clickCount;
-            _componentId = values["Id"];
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)
@@ -459,7 +452,7 @@ namespace ConceptorUI.Views.Component
 
         public void OnUnSelect()
         {
-            if(!_components.ContainsKey(_project.ReportInfos[_selectedReport].Code!)) return;
+            if (!_components.ContainsKey(_project.ReportInfos[_selectedReport].Code!)) return;
             _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
         }
 
@@ -584,14 +577,14 @@ namespace ConceptorUI.Views.Component
                 componentY = Helper.Deserialize<WindowPosition>(componentSy).ForMouse;
             else if (Helper.IsNumber(componentSy))
                 componentY = Helper.ConvertToDouble(componentSy);
-            
+
             var index = -1;
             for (var i = 0; i < Page.Children.Count; i++)
                 if (_selectedKey == ((StackPanel)Page.Children[i]).Tag.ToString())
                     index = i;
-            
-            if(index == -1) return;
-            
+
+            if (index == -1) return;
+
             var child = Page.Children[index] as StackPanel; //Source potentielle du problème
             var point = e.GetPosition(Page);
 
@@ -619,6 +612,18 @@ namespace ConceptorUI.Views.Component
         {
             if (!e.OriginalSource.Equals(Page)) return;
             _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
+        }
+
+        private void ZoomIn_Click(object sender, RoutedEventArgs e)
+        {
+            ScaleTransform.ScaleX *= 1.2;
+            ScaleTransform.ScaleY *= 1.2;
+        }
+
+        private void ZoomOut_Click(object sender, RoutedEventArgs e)
+        {
+            ScaleTransform.ScaleX /= 1.2;
+            ScaleTransform.ScaleY /= 1.2;
         }
     }
 }

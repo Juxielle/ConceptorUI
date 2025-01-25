@@ -5,19 +5,18 @@ using System.Windows.Input;
 using ConceptorUI.Application.Dto.UiDto;
 using ConceptorUI.Application.Screens;
 using ConceptorUI.Constants;
+using ConceptorUI.Utils;
 
 namespace ConceptorUI.Views.Modals;
 
 public partial class ScreenModal
 {
     public ICommand? ScreenChangedCommand;
-    private int _clickCount;
     private ObservableCollection<ScreenUiDto> _screens;
     
     public ScreenModal()
     {
         InitializeComponent();
-        _clickCount = 0;
         
         LoadScreens();
     }
@@ -36,13 +35,9 @@ public partial class ScreenModal
 
     private void OnScreenClick(object sender, MouseButtonEventArgs e)
     {
-        _clickCount++;
-        if(_clickCount < 2) return;
-        
         var tag = ((FrameworkElement)sender).Tag.ToString();
         var screen = _screens.ToList().Find(s => s.Label == tag);
         ScreenChangedCommand?.Execute(screen);
-        _clickCount = 0;
         Close();
     }
 }
