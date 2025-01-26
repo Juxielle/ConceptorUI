@@ -39,6 +39,31 @@ namespace ConceptorUI.Views.Component
         public ICommand? DisplayTextTypingCommand;
         public ICommand? DisplayLoadingCommand;
 
+        /*
+            A. Mécanisme d'annulation et restauration des actions
+                1. Structure de données:
+                    - Id du composant sur lequel l'action est effectuée
+                    - Nom du groupe de propriété
+                    - Nom de la propriété
+                    - Valeur de la propriété
+                2. On peut effectuer des enregistrements individuels ou par groupe
+            
+            B. Reussir la multi-sélection des composants
+                1. Il suffit de dire au composant à sélectionner que la multi-sélection est activée, afin qu'il ne
+                    desélectionne pas les autres;
+                2. Créer une fonction capable de faire l'intersection entre les propriétés des composants;
+            
+            C. Sélection, desélection et déplacement par balayage;
+            D. Composant reutilisable;
+            E. Margin et Padding horizontal/vertical;
+            F. Déplacement des composants avec la souris;
+            G. Drag and Drop des composants;
+            H. Fichier multi-onglets;
+            
+            I. Remplacement des mises en page:
+                - Définir les types de composants;
+                - Définir les critères de remplacement entre mises en page;
+         */
         public PageView()
         {
             InitializeComponent();

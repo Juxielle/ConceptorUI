@@ -31,7 +31,8 @@
         </Button>
         
         <ComboBox Grid.Column="1"
-                  BorderThickness="0"
+                  BorderBrush="#8c8c8a"
+                  BorderThickness="0 0.6"
                   Foreground="#666666"
                   FontSize="16"
                   SelectedIndex="0"
