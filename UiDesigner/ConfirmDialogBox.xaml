@@ -1,0 +1,144 @@
+﻿<Window x:Class="UiDesigner.ConfirmDialogBox"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        WindowStyle="None"
+        WindowStartupLocation="CenterScreen"
+        AllowsTransparency="True"
+        Background="Transparent"
+        Title="ConfirmDialogBox"
+        Height="220"
+        Width="280">
+    
+    <Border CornerRadius="4"
+            Background="#ffffff"
+            BorderBrush="#5335e9"
+            BorderThickness="0.5">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="50" />
+            </Grid.RowDefinitions>
+
+            <StackPanel Grid.Row="0"
+                        Margin="15">
+                <Grid Height="50">
+                    <Border Width="40"
+                            Height="40"
+                            CornerRadius="20"
+                            VerticalAlignment="Center"
+                            HorizontalAlignment="Left"
+                            Background="#d2f8eb"
+                            x:Name="ContentIcon">
+                        <materialDesign:PackIcon Kind="CheckCircleOutline"
+                                                 Width="18"
+                                                 Height="18"
+                                                 Foreground="#24c295"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center"
+                                                 x:Name="Icon" />
+                    </Border>
+                    <Button Width="20"
+                            Height="20"
+                            VerticalAlignment="Top"
+                            HorizontalAlignment="Right"
+                            Tag="Close"
+                            Background="#ffffff"
+                            BorderBrush="#000000"
+                            BorderThickness="0.4"
+                            Click="BtnClick"
+                            Cursor="Hand">
+                        <materialDesign:PackIcon Kind="Close"
+                                                 Width="14"
+                                                 Height="14"
+                                                 Foreground="#000000"
+                                                 VerticalAlignment="Center"
+                                                 HorizontalAlignment="Center" />
+                    </Button>
+                </Grid>
+                
+                <TextBlock Text="You are about to delete task."
+                           FontSize="12"
+                           FontWeight="Bold"
+                           Foreground="#000000"
+                           Margin="0 20 0 8"
+                           x:Name="LTitle" />
+                
+                <TextBlock Text="Are you sure you want to delete this post ? This action cannot be undone."
+                           FontSize="10"
+                           Foreground="#000000"
+                           TextWrapping="Wrap"
+                           x:Name="LMessage" />
+            </StackPanel>
+
+            <Border Background="#f7f7f7"
+                    Grid.Row="1"
+                    CornerRadius="0 0 10 10">
+                <Grid>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Button Grid.Column="0"
+                            Grid.Row="0"
+                            FontSize="10"
+                            Foreground="#000000"
+                            Background="#ffffff"
+                            BorderBrush="#c2c2c2"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            Height="30"
+                            HorizontalAlignment="Right"
+                            Padding="20 0"
+                            Margin="5 0"
+                            Tag="Cancel"
+                            x:Name="BCancel"
+                            Click="BtnClick">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Close"
+                                                     Width="14"
+                                                     Height="14"
+                                                     Foreground="#8c8c8a"
+                                                     Margin="0 0 10 0" />
+                            
+                            <TextBlock Text="Annuler"
+                                       FontSize="10"
+                                       Foreground="#000000" />
+                        </StackPanel>
+                    </Button>
+                    <Button FontSize="10"
+                            Foreground="#ffffff"
+                            Background="#5335e9"
+                            BorderBrush="#c2c2c2"
+                            BorderThickness="1"
+                            Cursor="Hand"
+                            Height="30"
+                            HorizontalAlignment="Left"
+                            Padding="20 0"
+                            Margin="5 0"
+                            Grid.Column="1"
+                            Tag="Confirm"
+                            x:Name="BConfirm"
+                            Click="BtnClick">
+                        <StackPanel Orientation="Horizontal">
+                            <materialDesign:PackIcon Kind="Check"
+                                                     Width="14"
+                                                     Height="14"
+                                                     Foreground="#ffffff"
+                                                     Margin="0 0 10 0"
+                                                     x:Name="IConfirm" />
+                            
+                            <TextBlock Text="Confirmer"
+                                       FontSize="10"
+                                       Foreground="#ffffff"
+                                       x:Name="Confirm" />
+                        </StackPanel>
+                    </Button>
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</Window>
