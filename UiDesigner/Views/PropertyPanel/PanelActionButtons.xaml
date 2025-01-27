@@ -8,7 +8,9 @@
              d:DesignHeight="50"
              d:DesignWidth="800">
 
-    <Border Background="#f3f3f3">
+    <Border Background="#f3f3f3"
+            BorderBrush="#e4e4e4"
+            BorderThickness="0 2 0 2">
         <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
@@ -24,7 +26,7 @@
             <widgets:MainButton Grid.Column="0"
                                 Kind="ContentSave"
                                 Content="ENREGISTRER"
-                                Margin="0 0 10 0" />
+                                Margin="10 0" />
 
             <widgets:MainButton Grid.Column="1"
                                 Kind="BookPlusOutline"
@@ -52,7 +54,8 @@
                                 Margin="0 0 10 0" />
 
             <widgets:ZoomButtons Grid.Column="7"
-                                 Width="150" />
+                                 Width="150"
+                                 VerticalAlignment="Center" />
         </Grid>
     </Border>
 </UserControl>

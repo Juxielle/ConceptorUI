@@ -3,6 +3,7 @@
     
     <ResourceDictionary.MergedDictionaries>
         <ResourceDictionary Source="/Themes/ToggleButtonStyle.xaml" />
+        <ResourceDictionary Source="/Themes/ThemeColors.xaml" />
     </ResourceDictionary.MergedDictionaries>
     
 </ResourceDictionary>

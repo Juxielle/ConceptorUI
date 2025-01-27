@@ -5,9 +5,13 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d" 
-             d:DesignHeight="700" d:DesignWidth="40">
+             d:DesignHeight="700"
+             d:DesignWidth="40">
     
-    <Border Width="40" Background="White" BorderBrush="#e4e4e4" BorderThickness="0 0 2 0">
+    <Border Width="40"
+            Background="White"
+            BorderBrush="#e4e4e4"
+            BorderThickness="0 0 2 0">
         <DockPanel>
             <Border Background="Transparent" BorderBrush="Transparent" Height="35" MouseEnter="BtnMouseEnter" MouseLeave="BtnMouseLeave"
                     DockPanel.Dock="Top" Margin="4" Cursor="Hand" MouseDown="BtnClick" Tag="Menu" x:Name="BMenu" BorderThickness="0" ToolTip="Menu des composants">
