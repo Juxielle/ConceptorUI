@@ -5,28 +5,28 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
              mc:Ignorable="d"
-             d:DesignHeight="40"
-             d:DesignWidth="150">
+             d:DesignHeight="30"
+             d:DesignWidth="120">
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="40"/>
-            <ColumnDefinition Width="70"/>
-            <ColumnDefinition Width="40"/>
+            <ColumnDefinition Width="30"/>
+            <ColumnDefinition Width="60"/>
+            <ColumnDefinition Width="30"/>
         </Grid.ColumnDefinitions>
         <Button Grid.Column="0"
                 Background="#e1e1e1"
                 BorderBrush="#8c8c8a"
                 BorderThickness="0.4"
                 Cursor="Hand"
-                Width="40"
-                Height="40"
+                Width="30"
+                Height="30"
                 Tag="OpenScreenModal"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
             <materialDesign:PackIcon Kind="Minus"
-                                     Width="30"
-                                     Height="30"
+                                     Width="22"
+                                     Height="22"
                                      Foreground="#666666" />
         </Button>
         
@@ -34,7 +34,8 @@
                   BorderBrush="#8c8c8a"
                   BorderThickness="0 0.6"
                   Foreground="#666666"
-                  FontSize="16"
+                  FontSize="15"
+                  Height="30"
                   SelectedIndex="0"
                   VerticalContentAlignment="Center"
                   x:Name="CbStretch">
@@ -55,14 +56,14 @@
                 BorderBrush="#8c8c8a"
                 BorderThickness="0.4"
                 Cursor="Hand"
-                Width="40"
-                Height="40"
+                Width="30"
+                Height="30"
                 Tag="OpenScreenModal"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top">
             <materialDesign:PackIcon Kind="Plus"
-                                     Width="30"
-                                     Height="30"
+                                     Width="22"
+                                     Height="22"
                                      Foreground="#666666" />
         </Button>
     </Grid>

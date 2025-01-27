@@ -8,7 +8,7 @@
         mc:Ignorable="d"
         WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
-        Title="Conceptor UI"
+        Title="Ui Designer"
         MinHeight="700"
         MinWidth="1035"
         Height="700"

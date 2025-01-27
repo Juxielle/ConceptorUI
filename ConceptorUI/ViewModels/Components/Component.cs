@@ -768,6 +768,9 @@ namespace ConceptorUI.ViewModels.Components
 
                 ContinueToUpdate(groupName, propertyName, value);
                 Parent?.CallBack(groupName, propertyName, value);
+
+                CheckVisibilities();
+                RestoreProperties();
             }
             else
             {

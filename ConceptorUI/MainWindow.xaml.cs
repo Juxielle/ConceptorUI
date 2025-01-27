@@ -112,8 +112,11 @@ namespace ConceptorUI
         public void Show(object project)
         {
             Show();
-
-            _projects.Add((ProjectInfoUiDto)project);
+            
+            var projectInfo = (ProjectInfoUiDto)project;
+            Title = $"Ui Designer -- {projectInfo.Name}";
+            
+            _projects.Add(projectInfo);
             PageView.Refresh(_projects[0]);
         }
 
