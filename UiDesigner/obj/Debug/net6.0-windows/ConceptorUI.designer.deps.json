@@ -1,0 +1,178 @@
+{
+  "runtimeTarget": {
+    "name": ".NETCoreApp,Version=v6.0",
+    "signature": ""
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETCoreApp,Version=v6.0": {
+      "FontAwesome.WPF/4.7.0.9": {
+        "runtime": {
+          "lib/net40/FontAwesome.WPF.dll": {
+            "assemblyVersion": "4.7.0.37774",
+            "fileVersion": "4.7.0.9"
+          }
+        }
+      },
+      "MaterialDesignColors/2.1.3-ci193": {
+        "runtime": {
+          "lib/net6.0/MaterialDesignColors.dll": {
+            "assemblyVersion": "2.1.3.0",
+            "fileVersion": "2.1.3.0"
+          }
+        }
+      },
+      "MaterialDesignThemes/4.8.1-ci193": {
+        "dependencies": {
+          "MaterialDesignColors": "2.1.3-ci193",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.39"
+        },
+        "runtime": {
+          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
+            "assemblyVersion": "4.8.1.0",
+            "fileVersion": "4.8.1.0"
+          }
+        }
+      },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+        "runtime": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "assemblyVersion": "1.1.0.0",
+            "fileVersion": "1.1.39.4716"
+          }
+        }
+      },
+      "Syncfusion.Data.WPF/25.2.4": {
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.Data.WPF.dll": {
+            "assemblyVersion": "25.2.4.0",
+            "fileVersion": "25.2.4.0"
+          }
+        }
+      },
+      "Syncfusion.Licensing/25.2.4": {
+        "runtime": {
+          "lib/net6.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "25.2.4.0",
+            "fileVersion": "25.2.4.0"
+          }
+        }
+      },
+      "Syncfusion.SfBusyIndicator.WPF/25.2.4": {
+        "dependencies": {
+          "Syncfusion.Licensing": "25.2.4"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.dll": {
+            "assemblyVersion": "25.2.4.0",
+            "fileVersion": "25.2.4.0"
+          }
+        }
+      },
+      "Syncfusion.SfGrid.WPF/25.2.4": {
+        "dependencies": {
+          "Syncfusion.Data.WPF": "25.2.4",
+          "Syncfusion.Licensing": "25.2.4",
+          "Syncfusion.Shared.WPF": "25.2.4"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfGrid.WPF.dll": {
+            "assemblyVersion": "25.2.4.0",
+            "fileVersion": "25.2.4.0"
+          }
+        }
+      },
+      "Syncfusion.Shared.WPF/25.2.4": {
+        "dependencies": {
+          "Syncfusion.Licensing": "25.2.4"
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "assemblyVersion": "25.2.4.0",
+            "fileVersion": "25.2.4.0"
+          }
+        }
+      },
+      "Unnoficial.Microsoft.Expression.Drawing/1.0.0": {
+        "runtime": {
+          "lib/Microsoft.Expression.Drawing.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "2.0.20525.0"
+          }
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FontAwesome.WPF/4.7.0.9": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-SXE080rnyWMm9Dt0BZzMxh89/o9teuSaqL1N+0O/XM/F/HU8JuZA4XaEKxjBigwZPHHU3/udTa0QMYCHkmH43Q==",
+      "path": "fontawesome.wpf/4.7.0.9",
+      "hashPath": "fontawesome.wpf.4.7.0.9.nupkg.sha512"
+    },
+    "MaterialDesignColors/2.1.3-ci193": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-yXvpbMBJdPPOFHkDJCVBC14jpw3xAEDrVP93ZwQOejm3vTgrzLc2oHcsOh1MYRo4MpqB0XPvZ5JCmBNxRm++Ew==",
+      "path": "materialdesigncolors/2.1.3-ci193",
+      "hashPath": "materialdesigncolors.2.1.3-ci193.nupkg.sha512"
+    },
+    "MaterialDesignThemes/4.8.1-ci193": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-k2oDw8eHuIJ2APig0Stnl8REmRKsdtlNYwxOARkSjB9DS4Uti8YDcvm+AQfQfA8OLosSFbLKeEXZ0ZF8EUQhBA==",
+      "path": "materialdesignthemes/4.8.1-ci193",
+      "hashPath": "materialdesignthemes.4.8.1-ci193.nupkg.sha512"
+    },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8PZKqw9QOcu42xk8puY4P1+EXHL9YGOR9b7qhaYx5cILHul456H073tj99vyPcCt0W0781T9RwHqkx507ZyUpQ==",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.39",
+      "hashPath": "microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512"
+    },
+    "Syncfusion.Data.WPF/25.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-M1f5Ed44KgEag/2kJLJwASKDAUl+cB4RnKAzYUtE1iNVKASTZTBrJhTs2J1D7pJqp6d1xtWV0dGcDTPaDz0ieg==",
+      "path": "syncfusion.data.wpf/25.2.4",
+      "hashPath": "syncfusion.data.wpf.25.2.4.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/25.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-0IIre+PQHFxpYL+i3a3wYDSGWLkdoDA/ulB8DHuK2DeTEQeBe/qsVkYc6DHCRpR7nHAd02cHS4V6CYGDuMDYWw==",
+      "path": "syncfusion.licensing/25.2.4",
+      "hashPath": "syncfusion.licensing.25.2.4.nupkg.sha512"
+    },
+    "Syncfusion.SfBusyIndicator.WPF/25.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-njLJ+O8r+p+RfqTWKcwzBmbUmU6EghRQuT9kigihpUVxsKA+MbUYvy1qFJnvNKY0P5jhZeh9qUxZ0Li6sfZuxA==",
+      "path": "syncfusion.sfbusyindicator.wpf/25.2.4",
+      "hashPath": "syncfusion.sfbusyindicator.wpf.25.2.4.nupkg.sha512"
+    },
+    "Syncfusion.SfGrid.WPF/25.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-tu3uOQpFnu5iyTkSeM0FIu0xW1mDlQFaiuR+HqOKYRSgYDt3fxDzn92EKYZnVehN8y5+sB6gJfNTAxtdW2WV3g==",
+      "path": "syncfusion.sfgrid.wpf/25.2.4",
+      "hashPath": "syncfusion.sfgrid.wpf.25.2.4.nupkg.sha512"
+    },
+    "Syncfusion.Shared.WPF/25.2.4": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-38a9O+/v7Si72cmo/TaUs8LB5D5L0bg2QJrBOavOAYROctrZkE84BwRDzSpLG212SACfz2/UTWrVzlnaItFTPw==",
+      "path": "syncfusion.shared.wpf/25.2.4",
+      "hashPath": "syncfusion.shared.wpf.25.2.4.nupkg.sha512"
+    },
+    "Unnoficial.Microsoft.Expression.Drawing/1.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oCrZ3DZg3TnhU4aKRtfPEIwsnqsBW0athv+5L0t+ti+ajibgGcwVgoLBRyQDHXAMxn68YKrhCQ766TXg+pVvgg==",
+      "path": "unnoficial.microsoft.expression.drawing/1.0.0",
+      "hashPath": "unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512"
+    }
+  }
+}

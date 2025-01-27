@@ -1,0 +1,529 @@
+{
+  "version": 3,
+  "targets": {
+    "net6.0-windows7.0": {
+      "FontAwesome.WPF/4.7.0.9": {
+        "type": "package",
+        "compile": {
+          "lib/net40/FontAwesome.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net40/FontAwesome.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "MaterialDesignColors/2.1.3-ci193": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/MaterialDesignColors.dll": {
+            "related": ".pdb"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/MaterialDesignColors.dll": {
+            "related": ".pdb"
+          }
+        }
+      },
+      "MaterialDesignThemes/4.8.1-ci193": {
+        "type": "package",
+        "dependencies": {
+          "MaterialDesignColors": "2.1.3-ci193",
+          "Microsoft.Xaml.Behaviors.Wpf": "1.1.39"
+        },
+        "compile": {
+          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0/MaterialDesignThemes.Wpf.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "build": {
+          "build/MaterialDesignThemes.targets": {}
+        }
+      },
+      "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+        "type": "package",
+        "compile": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "runtime": {
+          "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll": {
+            "related": ".pdb;.xml"
+          }
+        },
+        "frameworkReferences": [
+          "Microsoft.WindowsDesktop.App.WPF"
+        ]
+      },
+      "Syncfusion.Data.WPF/25.2.4": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0-windows7.0/Syncfusion.Data.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.Data.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.Licensing/25.2.4": {
+        "type": "package",
+        "compile": {
+          "lib/net6.0/Syncfusion.Licensing.dll": {}
+        },
+        "runtime": {
+          "lib/net6.0/Syncfusion.Licensing.dll": {}
+        }
+      },
+      "Syncfusion.SfBusyIndicator.WPF/25.2.4": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Licensing": "25.2.4"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.SfGrid.WPF/25.2.4": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Data.WPF": "25.2.4",
+          "Syncfusion.Licensing": "25.2.4",
+          "Syncfusion.Shared.WPF": "25.2.4"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/Syncfusion.SfGrid.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.SfGrid.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Syncfusion.Shared.WPF/25.2.4": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Licensing": "25.2.4"
+        },
+        "compile": {
+          "lib/net6.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net6.0-windows7.0/Syncfusion.Shared.WPF.dll": {
+            "related": ".xml"
+          }
+        }
+      },
+      "Unnoficial.Microsoft.Expression.Drawing/1.0.0": {
+        "type": "package",
+        "compile": {
+          "lib/Microsoft.Expression.Drawing.dll": {}
+        },
+        "runtime": {
+          "lib/Microsoft.Expression.Drawing.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "FontAwesome.WPF/4.7.0.9": {
+      "sha512": "SXE080rnyWMm9Dt0BZzMxh89/o9teuSaqL1N+0O/XM/F/HU8JuZA4XaEKxjBigwZPHHU3/udTa0QMYCHkmH43Q==",
+      "type": "package",
+      "path": "fontawesome.wpf/4.7.0.9",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "fontawesome.wpf.4.7.0.9.nupkg.sha512",
+        "fontawesome.wpf.nuspec",
+        "lib/net35/FontAwesome.WPF.dll",
+        "lib/net35/FontAwesome.WPF.xml",
+        "lib/net40/FontAwesome.WPF.dll",
+        "lib/net40/FontAwesome.WPF.xml",
+        "lib/uap10.0/FontAwesome.UWP.XML",
+        "lib/uap10.0/FontAwesome.UWP.dll",
+        "lib/uap10.0/FontAwesome.UWP.pri",
+        "lib/uap10.0/FontAwesome.UWP/FontAwesome.otf",
+        "lib/wp81/FontAwesome.WIN81.dll",
+        "lib/wp81/FontAwesome.WIN81.xml",
+        "tools/install.ps1"
+      ]
+    },
+    "MaterialDesignColors/2.1.3-ci193": {
+      "sha512": "yXvpbMBJdPPOFHkDJCVBC14jpw3xAEDrVP93ZwQOejm3vTgrzLc2oHcsOh1MYRo4MpqB0XPvZ5JCmBNxRm++Ew==",
+      "type": "package",
+      "path": "materialdesigncolors/2.1.3-ci193",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "images/MaterialDesignColors.Icon.png",
+        "lib/net462/MaterialDesignColors.dll",
+        "lib/net462/MaterialDesignColors.pdb",
+        "lib/net6.0/MaterialDesignColors.dll",
+        "lib/net6.0/MaterialDesignColors.pdb",
+        "lib/net7.0/MaterialDesignColors.dll",
+        "lib/net7.0/MaterialDesignColors.pdb",
+        "lib/netcoreapp3.1/MaterialDesignColors.dll",
+        "lib/netcoreapp3.1/MaterialDesignColors.pdb",
+        "materialdesigncolors.2.1.3-ci193.nupkg.sha512",
+        "materialdesigncolors.nuspec"
+      ]
+    },
+    "MaterialDesignThemes/4.8.1-ci193": {
+      "sha512": "k2oDw8eHuIJ2APig0Stnl8REmRKsdtlNYwxOARkSjB9DS4Uti8YDcvm+AQfQfA8OLosSFbLKeEXZ0ZF8EUQhBA==",
+      "type": "package",
+      "path": "materialdesignthemes/4.8.1-ci193",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "build/MaterialDesignThemes.targets",
+        "build/Resources/Roboto/Roboto-Black.ttf",
+        "build/Resources/Roboto/Roboto-BlackItalic.ttf",
+        "build/Resources/Roboto/Roboto-Bold.ttf",
+        "build/Resources/Roboto/Roboto-BoldItalic.ttf",
+        "build/Resources/Roboto/Roboto-Italic.ttf",
+        "build/Resources/Roboto/Roboto-Light.ttf",
+        "build/Resources/Roboto/Roboto-LightItalic.ttf",
+        "build/Resources/Roboto/Roboto-Medium.ttf",
+        "build/Resources/Roboto/Roboto-MediumItalic.ttf",
+        "build/Resources/Roboto/Roboto-Regular.ttf",
+        "build/Resources/Roboto/Roboto-Thin.ttf",
+        "build/Resources/Roboto/Roboto-ThinItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Bold.ttf",
+        "build/Resources/Roboto/RobotoCondensed-BoldItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Italic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Light.ttf",
+        "build/Resources/Roboto/RobotoCondensed-LightItalic.ttf",
+        "build/Resources/Roboto/RobotoCondensed-Regular.ttf",
+        "images/MaterialDesignThemes.Icon.png",
+        "lib/net462/MaterialDesignThemes.Wpf.dll",
+        "lib/net462/MaterialDesignThemes.Wpf.pdb",
+        "lib/net462/MaterialDesignThemes.Wpf.xml",
+        "lib/net6.0/MaterialDesignThemes.Wpf.dll",
+        "lib/net6.0/MaterialDesignThemes.Wpf.pdb",
+        "lib/net6.0/MaterialDesignThemes.Wpf.xml",
+        "lib/net7.0/MaterialDesignThemes.Wpf.dll",
+        "lib/net7.0/MaterialDesignThemes.Wpf.pdb",
+        "lib/net7.0/MaterialDesignThemes.Wpf.xml",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.dll",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.pdb",
+        "lib/netcoreapp3.1/MaterialDesignThemes.Wpf.xml",
+        "materialdesignthemes.4.8.1-ci193.nupkg.sha512",
+        "materialdesignthemes.nuspec",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Microsoft.Xaml.Behaviors.Wpf/1.1.39": {
+      "sha512": "8PZKqw9QOcu42xk8puY4P1+EXHL9YGOR9b7qhaYx5cILHul456H073tj99vyPcCt0W0781T9RwHqkx507ZyUpQ==",
+      "type": "package",
+      "path": "microsoft.xaml.behaviors.wpf/1.1.39",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/net45/Design/Microsoft.Xaml.Behaviors.Design.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.dll",
+        "lib/net45/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net45/Microsoft.Xaml.Behaviors.xml",
+        "lib/net5.0-windows7.0/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.dll",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.pdb",
+        "lib/net5.0-windows7.0/Microsoft.Xaml.Behaviors.xml",
+        "lib/netcoreapp3.1/Design/Microsoft.Xaml.Behaviors.DesignTools.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.dll",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.pdb",
+        "lib/netcoreapp3.1/Microsoft.Xaml.Behaviors.xml",
+        "microsoft.xaml.behaviors.wpf.1.1.39.nupkg.sha512",
+        "microsoft.xaml.behaviors.wpf.nuspec",
+        "tools/Install.ps1"
+      ]
+    },
+    "Syncfusion.Data.WPF/25.2.4": {
+      "sha512": "M1f5Ed44KgEag/2kJLJwASKDAUl+cB4RnKAzYUtE1iNVKASTZTBrJhTs2J1D7pJqp6d1xtWV0dGcDTPaDz0ieg==",
+      "type": "package",
+      "path": "syncfusion.data.wpf/25.2.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "lib/net40/Syncfusion.Data.WPF.dll",
+        "lib/net40/Syncfusion.Data.WPF.xml",
+        "lib/net462/Syncfusion.Data.WPF.dll",
+        "lib/net462/Syncfusion.Data.WPF.xml",
+        "lib/net6.0-windows7.0/Syncfusion.Data.WPF.dll",
+        "lib/net6.0-windows7.0/Syncfusion.Data.WPF.xml",
+        "syncfusion.data.wpf.25.2.4.nupkg.sha512",
+        "syncfusion.data.wpf.nuspec",
+        "syncfusion_logo.png"
+      ]
+    },
+    "Syncfusion.Licensing/25.2.4": {
+      "sha512": "0IIre+PQHFxpYL+i3a3wYDSGWLkdoDA/ulB8DHuK2DeTEQeBe/qsVkYc6DHCRpR7nHAd02cHS4V6CYGDuMDYWw==",
+      "type": "package",
+      "path": "syncfusion.licensing/25.2.4",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/MonoAndroid90/Syncfusion.Licensing.dll",
+        "lib/Xamarin.Mac/Syncfusion.Licensing.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Licensing.dll",
+        "lib/net40/Syncfusion.Licensing.dll",
+        "lib/net45/Syncfusion.Licensing.dll",
+        "lib/net462/Syncfusion.Licensing.dll",
+        "lib/net6.0/Syncfusion.Licensing.dll",
+        "lib/net7.0/Syncfusion.Licensing.dll",
+        "lib/net8.0/Syncfusion.Licensing.dll",
+        "lib/netstandard2.0/Syncfusion.Licensing.dll",
+        "lib/uap10.0/Syncfusion.Licensing.dll",
+        "syncfusion.licensing.25.2.4.nupkg.sha512",
+        "syncfusion.licensing.nuspec",
+        "syncfusion_logo.png"
+      ]
+    },
+    "Syncfusion.SfBusyIndicator.WPF/25.2.4": {
+      "sha512": "njLJ+O8r+p+RfqTWKcwzBmbUmU6EghRQuT9kigihpUVxsKA+MbUYvy1qFJnvNKY0P5jhZeh9qUxZ0Li6sfZuxA==",
+      "type": "package",
+      "path": "syncfusion.sfbusyindicator.wpf/25.2.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net40/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net40/Design/Syncfusion.SfBusyIndicator.WPF.DesignTools.dll",
+        "lib/net40/Design/Syncfusion.SfBusyIndicator.WPF.Expression.Design.dll",
+        "lib/net40/Design/Syncfusion.SfBusyIndicator.Wpf.VisualStudio.Design.dll",
+        "lib/net40/Syncfusion.SfBusyIndicator.WPF.dll",
+        "lib/net40/Syncfusion.SfBusyIndicator.WPF.xml",
+        "lib/net462/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net462/Design/Syncfusion.SfBusyIndicator.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.SfBusyIndicator.WPF.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.SfBusyIndicator.Wpf.VisualStudio.Design.dll",
+        "lib/net462/Syncfusion.SfBusyIndicator.WPF.dll",
+        "lib/net462/Syncfusion.SfBusyIndicator.WPF.xml",
+        "lib/net6.0-windows7.0/Design/Syncfusion.SfBusyIndicator.WPF.DesignTools.dll",
+        "lib/net6.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.dll",
+        "lib/net6.0-windows7.0/Syncfusion.SfBusyIndicator.WPF.xml",
+        "syncfusion.sfbusyindicator.wpf.25.2.4.nupkg.sha512",
+        "syncfusion.sfbusyindicator.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Syncfusion.SfGrid.WPF/25.2.4": {
+      "sha512": "tu3uOQpFnu5iyTkSeM0FIu0xW1mDlQFaiuR+HqOKYRSgYDt3fxDzn92EKYZnVehN8y5+sB6gJfNTAxtdW2WV3g==",
+      "type": "package",
+      "path": "syncfusion.sfgrid.wpf/25.2.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net40/Design/Syncfusion.SfGrid.WPF.DesignTools.dll",
+        "lib/net40/Design/Syncfusion.SfGrid.WPF.Expression.Design.dll",
+        "lib/net40/Design/Syncfusion.SfGrid.WPF.VisualStudio.Design.dll",
+        "lib/net40/Syncfusion.SfGrid.WPF.dll",
+        "lib/net40/Syncfusion.SfGrid.WPF.xml",
+        "lib/net462/Design/Syncfusion.SfGrid.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.SfGrid.WPF.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.SfGrid.WPF.VisualStudio.Design.dll",
+        "lib/net462/Syncfusion.SfGrid.WPF.dll",
+        "lib/net462/Syncfusion.SfGrid.WPF.xml",
+        "lib/net6.0-windows7.0/Design/Syncfusion.SfGrid.WPF.DesignTools.dll",
+        "lib/net6.0-windows7.0/Syncfusion.SfGrid.WPF.dll",
+        "lib/net6.0-windows7.0/Syncfusion.SfGrid.WPF.xml",
+        "syncfusion.sfgrid.wpf.25.2.4.nupkg.sha512",
+        "syncfusion.sfgrid.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Syncfusion.Shared.WPF/25.2.4": {
+      "sha512": "38a9O+/v7Si72cmo/TaUs8LB5D5L0bg2QJrBOavOAYROctrZkE84BwRDzSpLG212SACfz2/UTWrVzlnaItFTPw==",
+      "type": "package",
+      "path": "syncfusion.shared.wpf/25.2.4",
+      "hasTools": true,
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "LICENSE.txt",
+        "README.md",
+        "lib/net40/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net40/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net40/Design/Syncfusion.Shared.Wpf.Expression.Design.dll",
+        "lib/net40/Design/Syncfusion.Shared.Wpf.VisualStudio.Design.dll",
+        "lib/net40/Design/Syncfusion.Shared.Wpf.dll.Design.dll",
+        "lib/net40/Syncfusion.Shared.WPF.dll",
+        "lib/net40/Syncfusion.Shared.WPF.xml",
+        "lib/net462/Design/Syncfusion.Design.Wpf.dll",
+        "lib/net462/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.Expression.Design.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.VisualStudio.Design.dll",
+        "lib/net462/Design/Syncfusion.Shared.Wpf.dll.Design.dll",
+        "lib/net462/Syncfusion.Shared.WPF.dll",
+        "lib/net462/Syncfusion.Shared.WPF.xml",
+        "lib/net6.0-windows7.0/Design/Syncfusion.Shared.WPF.DesignTools.dll",
+        "lib/net6.0-windows7.0/Syncfusion.Shared.WPF.dll",
+        "lib/net6.0-windows7.0/Syncfusion.Shared.WPF.xml",
+        "syncfusion.shared.wpf.25.2.4.nupkg.sha512",
+        "syncfusion.shared.wpf.nuspec",
+        "syncfusion_logo.png",
+        "tools/VisualStudioToolsManifest.xml"
+      ]
+    },
+    "Unnoficial.Microsoft.Expression.Drawing/1.0.0": {
+      "sha512": "oCrZ3DZg3TnhU4aKRtfPEIwsnqsBW0athv+5L0t+ti+ajibgGcwVgoLBRyQDHXAMxn68YKrhCQ766TXg+pVvgg==",
+      "type": "package",
+      "path": "unnoficial.microsoft.expression.drawing/1.0.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/Microsoft.Expression.Drawing.dll",
+        "lib/Microsoft.Expression.Drawing.xml",
+        "unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512",
+        "unnoficial.microsoft.expression.drawing.nuspec"
+      ]
+    }
+  },
+  "projectFileDependencyGroups": {
+    "net6.0-windows7.0": [
+      "FontAwesome.WPF >= 4.7.0.9",
+      "MaterialDesignThemes >= 4.8.1-ci193",
+      "Syncfusion.SfBusyIndicator.WPF >= 25.2.4",
+      "Syncfusion.SfGrid.WPF >= 25.2.4",
+      "Unnoficial.Microsoft.Expression.Drawing >= 1.0.0"
+    ]
+  },
+  "packageFolders": {
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\": {}
+  },
+  "project": {
+    "version": "1.0.0",
+    "restore": {
+      "projectUniqueName": "C:\\Users\\INITIAL Dev\\Documents\\Dossier Harold\\Projets\\ConceptorUI\\UiDesigner\\UiDesigner.csproj",
+      "projectName": "UiDesigner",
+      "projectPath": "C:\\Users\\INITIAL Dev\\Documents\\Dossier Harold\\Projets\\ConceptorUI\\UiDesigner\\UiDesigner.csproj",
+      "packagesPath": "C:\\Users\\INITIAL Dev\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\INITIAL Dev\\Documents\\Dossier Harold\\Projets\\ConceptorUI\\UiDesigner\\obj\\",
+      "projectStyle": "PackageReference",
+      "configFilePaths": [
+        "C:\\Users\\INITIAL Dev\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
+      ],
+      "originalTargetFrameworks": [
+        "net6.0-windows"
+      ],
+      "sources": {
+        "C:\\Program Files (x86)\\Microsoft SDKs\\NuGetPackages\\": {},
+        "https://api.nuget.org/v3/index.json": {}
+      },
+      "frameworks": {
+        "net6.0-windows7.0": {
+          "targetAlias": "net6.0-windows",
+          "projectReferences": {}
+        }
+      },
+      "warningProperties": {
+        "warnAsError": [
+          "NU1605"
+        ]
+      }
+    },
+    "frameworks": {
+      "net6.0-windows7.0": {
+        "targetAlias": "net6.0-windows",
+        "dependencies": {
+          "FontAwesome.WPF": {
+            "target": "Package",
+            "version": "[4.7.0.9, )"
+          },
+          "MaterialDesignThemes": {
+            "target": "Package",
+            "version": "[4.8.1-ci193, )"
+          },
+          "Syncfusion.SfBusyIndicator.WPF": {
+            "target": "Package",
+            "version": "[25.2.4, )"
+          },
+          "Syncfusion.SfGrid.WPF": {
+            "target": "Package",
+            "version": "[25.2.4, )"
+          },
+          "Unnoficial.Microsoft.Expression.Drawing": {
+            "target": "Package",
+            "version": "[1.0.0, )"
+          }
+        },
+        "imports": [
+          "net461",
+          "net462",
+          "net47",
+          "net471",
+          "net472",
+          "net48",
+          "net481"
+        ],
+        "assetTargetFallback": true,
+        "warn": true,
+        "frameworkReferences": {
+          "Microsoft.NETCore.App": {
+            "privateAssets": "all"
+          },
+          "Microsoft.WindowsDesktop.App.WPF": {
+            "privateAssets": "none"
+          }
+        },
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\8.0.100\\RuntimeIdentifierGraph.json"
+      }
+    }
+  },
+  "logs": [
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Le package 'FontAwesome.WPF 4.7.0.9' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' au lieu du framework cible du projet 'net6.0-windows7.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "libraryId": "FontAwesome.WPF",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    },
+    {
+      "code": "NU1701",
+      "level": "Warning",
+      "warningLevel": 1,
+      "message": "Le package 'Unnoficial.Microsoft.Expression.Drawing 1.0.0' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' au lieu du framework cible du projet 'net6.0-windows7.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "libraryId": "Unnoficial.Microsoft.Expression.Drawing",
+      "targetGraphs": [
+        "net6.0-windows7.0"
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="no"?>
+<Project ToolsVersion="14.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <RestoreSuccess Condition=" '$(RestoreSuccess)' == '' ">True</RestoreSuccess>
+    <RestoreTool Condition=" '$(RestoreTool)' == '' ">NuGet</RestoreTool>
+    <ProjectAssetsFile Condition=" '$(ProjectAssetsFile)' == '' ">$(MSBuildThisFileDirectory)project.assets.json</ProjectAssetsFile>
+    <NuGetPackageRoot Condition=" '$(NuGetPackageRoot)' == '' ">$(UserProfile)\.nuget\packages\</NuGetPackageRoot>
+    <NuGetPackageFolders Condition=" '$(NuGetPackageFolders)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\</NuGetPackageFolders>
+    <NuGetProjectStyle Condition=" '$(NuGetProjectStyle)' == '' ">PackageReference</NuGetProjectStyle>
+    <NuGetToolVersion Condition=" '$(NuGetToolVersion)' == '' ">6.8.0</NuGetToolVersion>
+  </PropertyGroup>
+  <ItemGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <SourceRoot Include="C:\Users\INITIAL Dev\.nuget\packages\" />
+  </ItemGroup>
+  <PropertyGroup Condition=" '$(ExcludeRestorePackageImports)' != 'true' ">
+    <PkgSyncfusion_Shared_WPF Condition=" '$(PkgSyncfusion_Shared_WPF)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\syncfusion.shared.wpf\25.2.4</PkgSyncfusion_Shared_WPF>
+    <PkgSyncfusion_SfGrid_WPF Condition=" '$(PkgSyncfusion_SfGrid_WPF)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\syncfusion.sfgrid.wpf\25.2.4</PkgSyncfusion_SfGrid_WPF>
+    <PkgSyncfusion_SfBusyIndicator_WPF Condition=" '$(PkgSyncfusion_SfBusyIndicator_WPF)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\syncfusion.sfbusyindicator.wpf\25.2.4</PkgSyncfusion_SfBusyIndicator_WPF>
+    <PkgMicrosoft_Xaml_Behaviors_Wpf Condition=" '$(PkgMicrosoft_Xaml_Behaviors_Wpf)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\microsoft.xaml.behaviors.wpf\1.1.39</PkgMicrosoft_Xaml_Behaviors_Wpf>
+    <PkgMaterialDesignThemes Condition=" '$(PkgMaterialDesignThemes)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\materialdesignthemes\4.8.1-ci193</PkgMaterialDesignThemes>
+    <PkgFontAwesome_WPF Condition=" '$(PkgFontAwesome_WPF)' == '' ">C:\Users\INITIAL Dev\.nuget\packages\fontawesome.wpf\4.7.0.9</PkgFontAwesome_WPF>
+  </PropertyGroup>
+</Project>

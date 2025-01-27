@@ -1,0 +1,20 @@
+﻿ConceptorUI
+
+
+exe
+C#
+.cs
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\ConceptorUI\obj\Debug\net6.0-windows\
+ConceptorUI
+none
+false
+TRACE;DEBUG;NET;NET6_0;NETCOREAPP
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\ConceptorUI\App.xaml
+541203720995
+
+242-621095741
+204586380846
+Assets\GoogleFontIcons\GoogleFontIcon.xaml;Assets\GoogleFontIcons\Home.xaml;Assets\GoogleFontIcons\Setting.xaml;ConfirmDialogBox.xaml;DBIcons.xaml;MainWindow.xaml;PreviewPage.xaml;SplashView.xaml;Themes\Generic.xaml;Themes\ToggleButtonStyle.xaml;Views\Component\AlignmentProperty.xaml;Views\Component\AppearanceProperty.xaml;Views\Component\BottomPanel.xaml;Views\Component\ComponentPage.xaml;Views\Component\GlobalProperty.xaml;Views\Component\GridProperty.xaml;Views\Component\ItemReport.xaml;Views\Component\LeftCompPanel.xaml;Views\Component\LeftPanel.xaml;Views\Component\NativeComponent.xaml;Views\Component\NativeComponentPanel.xaml;Views\Component\PageView.xaml;Views\Component\PanelProperty.xaml;Views\Component\PanelStructuralView.xaml;Views\Component\ParentProperties.xaml;Views\Component\PopupView.xaml;Views\Component\RightPanel.xaml;Views\Component\ScreenFormat.xaml;Views\Component\ShadowPanel.xaml;Views\Component\TextElementView.xaml;Views\Component\TextProperty.xaml;Views\Component\TopPanel.xaml;Views\Component\TransformProperty.xaml;Views\Modals\ColorPicker.xaml;Views\Modals\ComponentPropertyConfig.xaml;Views\Modals\ProductDetail.xaml;Views\Modals\ScreenModal.xaml;Views\Modals\TextTyping.xaml;Views\PropertyPanel\ComponentList.xaml;Views\PropertyPanel\ComponentPropertyConfig.xaml;Views\PropertyPanel\DynamicPropertyPanel.xaml;Views\PropertyPanel\PanelActionButtons.xaml;Views\Widgets\AppBox.xaml;Views\Widgets\ColorBox.xaml;Views\Widgets\CustomComboBox.xaml;Views\Widgets\CustomTextBox.xaml;Views\Widgets\ExpandComponent.xaml;Views\Widgets\IconButton.xaml;Views\Widgets\MainButton.xaml;Views\Widgets\RoundIconButton.xaml;Views\Widgets\TextAlignment.xaml;Views\Widgets\TextFormat.xaml;Views\Widgets\TextItem.xaml;Views\Widgets\ZoomButtons.xaml;
+
+False
+
