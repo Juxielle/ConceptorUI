@@ -25,32 +25,32 @@
 
             <widgets:MainButton Grid.Column="0"
                                 Kind="ContentSave"
-                                Content="ENREGISTRER"
+                                ToolTip="ENREGISTRER"
                                 Margin="10 0" />
 
             <widgets:MainButton Grid.Column="1"
                                 Kind="BookPlusOutline"
-                                Content="AJOUTER PAGE"
+                                ToolTip="AJOUTER PAGE"
                                 Margin="0 0 10 0" />
 
             <widgets:MainButton Grid.Column="2"
                                 Kind="ShapeRectanglePlus"
-                                Content="AJOUTER COMPOSANT"
+                                ToolTip="AJOUTER COMPOSANT"
                                 Margin="0 0 10 0" />
 
             <widgets:MainButton Grid.Column="3"
                                 Kind="Refresh"
-                                Content="RAFRAICHIR"
+                                ToolTip="RAFRAICHIR"
                                 Margin="0 0 10 0" />
 
             <widgets:MainButton Grid.Column="4"
                                 Kind="FitToScreen"
-                                Content="ECRANS"
+                                ToolTip="ECRANS"
                                 Margin="0 0 10 0" />
 
             <widgets:MainButton Grid.Column="5"
                                 Kind="Delete"
-                                Content="SUPPRIMER"
+                                ToolTip="SUPPRIMER"
                                 Margin="0 0 10 0" />
 
             <widgets:ZoomButtons Grid.Column="7"
