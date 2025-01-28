@@ -13,9 +13,6 @@
     <Compile Update="DBIcons.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Update="FlashWiew.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Update="PreviewPage.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -31,9 +28,6 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Update="DBIcons.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="FlashWiew.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
