@@ -7,6 +7,8 @@
         xmlns:component="clr-namespace:UiDesigner.Views.Component"
         xmlns:propertyPanel="clr-namespace:UiDesigner.Views.PropertyPanel"
         xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
+        xmlns:propertyPanel1="clr-namespace:ConceptorUI.Views.PropertyPanel"
+        xmlns:widgets1="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -260,7 +262,7 @@
                                    Foreground="#000000" />
                     </StackPanel>
 
-                    <widgets:ZoomButtons Margin="10"
+                    <widgets1:ZoomButtons Margin="10"
                                          Width="150"
                                          HorizontalAlignment="Left" />
                 </StackPanel>
@@ -271,7 +273,7 @@
                                          Visibility="Collapsed"
                                          x:Name="CompPage" />
 
-                <propertyPanel:PanelActionButtons Height="50"
+                <propertyPanel1:PanelActionButtons Height="50"
                                                   VerticalAlignment="Bottom" />
             </Grid>
         </DockPanel>
