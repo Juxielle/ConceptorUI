@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
 using UiDesigner.ViewModels.Components;
 
@@ -102,6 +103,27 @@ static class ManageProperties
                 j++;
                 if (property.Name != propertyName.ToString()) continue;
                 component.PropertyGroups[i].Properties[j].Visibility = isVisible
+                    ? VisibilityValue.Visible.ToString()
+                    : VisibilityValue.Collapsed.ToString();
+                return;
+            }
+        }
+    }
+
+    public static void SetComponentVisibility(this Component component, GroupNames groupName, PropertyNames propertyName,
+        bool isVisible = true)
+    {
+        var i = -1;
+        foreach (var group in component.PropertyGroups!)
+        {
+            i++;
+            if (group.Name != groupName.ToString()) continue;
+            var j = -1;
+            foreach (var property in group.Properties)
+            {
+                j++;
+                if (property.Name != propertyName.ToString()) continue;
+                component.PropertyGroups[i].Properties[j].ComponentVisibility = isVisible
                     ? VisibilityValue.Visible.ToString()
                     : VisibilityValue.Collapsed.ToString();
                 return;

@@ -10,9 +10,8 @@ using UiDesigner.ViewModels.ListView;
 using UiDesigner.ViewModels.Row;
 using UiDesigner.ViewModels.Stack;
 using UiDesigner.ViewModels.Text;
-using UiDesigner.ViewModels.Window;
 
-namespace UiDesigner.ViewModels.Components;
+namespace ConceptorUI.ViewModels.Components;
 
 internal class ComponentHelper
 {

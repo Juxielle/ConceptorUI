@@ -7,10 +7,11 @@ using UiDesigner.Models;
 
 namespace UiDesigner.Classes
 {
-    internal class PropertyConfig
+    public class PropertyConfig
     {
         public string Name { get; set; }
-        public bool IsVisible { get; set; }
+        public bool IsEditable { get; set; }
+        public bool IsFocusable { get; set; }
         public PropertyNames PropertyName { get; set; }
     }
 }

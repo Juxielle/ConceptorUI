@@ -5,16 +5,15 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUi.ViewModels;
-using System.Collections.ObjectModel;
+using ConceptorUI.Services;
+using ConceptorUI.ViewModels.Components;
+using ConceptorUI.Views.Modals;
+using UiDesigner;
 using UiDesigner.Application.Images;
-using UiDesigner.Classes;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
-using UiDesigner.Views.Modals;
+using UiDesigner.Views.Component;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class GlobalProperty
     {
@@ -224,28 +223,8 @@ namespace UiDesigner.Views.Component
 
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
-            var componentSetting = new ObservableCollection<PropertyConfig>
-            {
-                new()
-                {
-                    Name = "DELETE COMPONENT",
-                    IsVisible = true,
-                    PropertyName = PropertyNames.Trash
-                },
-                new()
-                {
-                    Name = "COPY COMPONENT",
-                    IsVisible = true,
-                    PropertyName = PropertyNames.Copy
-                },
-                new()
-                {
-                    Name = "PASTE COMPONENT",
-                    IsVisible = true,
-                    PropertyName = PropertyNames.Paste
-                },
-            };
-            ComponentPropertyConfig.Instance.Refresh(componentSetting);
+            var componentSetting = PropertiesConfigService.GetConfigs(_properties);
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "GLOBAL PROPERTIES");
         }
 
         private static string PickFile()

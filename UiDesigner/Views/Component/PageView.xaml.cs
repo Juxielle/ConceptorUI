@@ -8,6 +8,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Application.Configs;
@@ -30,7 +31,7 @@ namespace UiDesigner.Views.Component
         private static PageView? _obj;
 
         private ProjectUiDto _project;
-        private readonly Dictionary<string, ViewModels.Components.Component> _components;
+        private readonly Dictionary<string, ConceptorUI.ViewModels.Components.Component> _components;
         private int _selectedReport;
         private string? _selectedKey;
 
@@ -76,7 +77,7 @@ namespace UiDesigner.Views.Component
                 ReportInfos = []
             };
 
-            _components = new Dictionary<string, ViewModels.Components.Component>();
+            _components = new Dictionary<string, ConceptorUI.ViewModels.Components.Component>();
             _selectedReport = 0;
 
             _copiedComponent = string.Empty;
@@ -163,7 +164,7 @@ namespace UiDesigner.Views.Component
                         var counter1 = failCounter;
                         sc!.Post(delegate
                         {
-                            ViewModels.Components.Component windowModel;
+                            ConceptorUI.ViewModels.Components.Component windowModel;
 
                             if (component.Name == ComponentList.Window.ToString())
                                 windowModel = new WindowModel(true);
@@ -248,7 +249,7 @@ namespace UiDesigner.Views.Component
         {
             #region Adding new Report
 
-            ViewModels.Components.Component windowModel;
+            ConceptorUI.ViewModels.Components.Component windowModel;
             if (isComponent) windowModel = new ComponentModel();
             else windowModel = new WindowModel();
 
@@ -484,7 +485,7 @@ namespace UiDesigner.Views.Component
 
         public object SendComponent()
         {
-            List<ViewModels.Components.Component> components = [];
+            List<ConceptorUI.ViewModels.Components.Component> components = [];
             components.AddRange(from key in _components.Keys
                 where _components[key].GetType().Name == nameof(ComponentModel)
                 select _components[key]);

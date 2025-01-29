@@ -1,6 +1,7 @@
 ﻿using UiDesigner.Constants;
+using UiDesigner.Models;
 
-namespace UiDesigner.Models
+namespace ConceptorUI.Models
 {
     public class Property
     {

@@ -25,7 +25,7 @@ public partial class ComponentList
     public void Refresh(object sender)
     {
         if (sender == null!) return;
-        var components = sender as List<ViewModels.Components.Component>;
+        var components = sender as List<ConceptorUI.ViewModels.Components.Component>;
 
         Content.Children.Clear();
         for (var i = 0; i < components!.Count; i++)

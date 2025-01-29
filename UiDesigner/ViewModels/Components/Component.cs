@@ -8,18 +8,18 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
-using UiDesigner.Enums;
+using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
+using UiDesigner.ViewModels.Components;
 using UiDesigner.ViewModels.Components.GroupProperty;
 using UiDesigner.ViewModels.Text;
-using TransformGroup = UiDesigner.ViewModels.Components.GroupProperty.TransformGroup;
 
-namespace UiDesigner.ViewModels.Components
+namespace ConceptorUI.ViewModels.Components
 {
-    using TransformGroup = GroupProperty.TransformGroup;
+    using TransformGroup = UiDesigner.ViewModels.Components.GroupProperty.TransformGroup;
 
     internal abstract class Component
     {
