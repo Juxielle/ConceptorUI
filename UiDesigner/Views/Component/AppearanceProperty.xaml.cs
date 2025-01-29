@@ -5,13 +5,14 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Services;
+using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
 using UiDesigner.Views.Modals;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class AppearanceProperty
     {
@@ -867,6 +868,12 @@ namespace UiDesigner.Views.Component
             MouseDownCommand?.Execute(
                 new dynamic[] { GroupNames.Appearance, PropertyNames.Opacity, opacity.ToString()! }
             );
+        }
+
+        private void OnSettingClick(object sender, RoutedEventArgs e)
+        {
+            var componentSetting = PropertiesConfigService.GetConfigs(_properties!);
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "APPEARANCE PROPERTIES");
         }
     }
 }

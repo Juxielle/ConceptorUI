@@ -8,9 +8,9 @@ using UiDesigner.Enums;
 using UiDesigner.Models;
 using UiDesigner.Services;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Image;
 
-namespace UiDesigner.ViewModels.Image
+namespace ConceptorUI.ViewModels.Image
 {
     class ImageModel : Component
     {

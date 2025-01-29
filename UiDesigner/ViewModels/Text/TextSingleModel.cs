@@ -6,9 +6,8 @@ using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
 
-namespace UiDesigner.ViewModels.Text
+namespace ConceptorUI.ViewModels.Text
 {
     internal class TextSingleModel : Component
     {

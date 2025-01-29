@@ -10,16 +10,15 @@ using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.Text;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
-using UiDesigner.ViewModels.Components.GroupProperty;
-using UiDesigner.ViewModels.Text;
+using TransformGroup = ConceptorUI.ViewModels.Components.GroupProperty.TransformGroup;
 
 namespace ConceptorUI.ViewModels.Components
 {
-    using TransformGroup = UiDesigner.ViewModels.Components.GroupProperty.TransformGroup;
+    using TransformGroup = TransformGroup;
 
     internal abstract class Component
     {

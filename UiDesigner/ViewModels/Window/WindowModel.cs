@@ -4,14 +4,13 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.Row;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Models;
 using UiDesigner.Services;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
-using UiDesigner.ViewModels.Container;
-using UiDesigner.ViewModels.Row;
 using UiDesigner.ViewModels.Window;
 
 namespace ConceptorUI.ViewModels.Window

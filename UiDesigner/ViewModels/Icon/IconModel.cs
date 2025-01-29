@@ -11,9 +11,9 @@ using MaterialDesignThemes.Wpf;
 using UiDesigner.Assets.GoogleFontIcons;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Icon;
 
-namespace UiDesigner.ViewModels.Icon
+namespace ConceptorUI.ViewModels.Icon
 {
     internal class IconModel : Component
     {
@@ -94,7 +94,7 @@ namespace UiDesigner.ViewModels.Icon
                 found = true;
             }
 
-            var myDataObject = new Models.Icon { Code = found ? iValue![0] : value };
+            var myDataObject = new UiDesigner.Models.Icon { Code = found ? iValue![0] : value };
             var myBinding = new System.Windows.Data.Binding("Code")
             {
                 Source = myDataObject

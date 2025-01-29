@@ -1,7 +1,7 @@
 ﻿using ConceptorUI.Models;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Components.GroupProperty;
+namespace ConceptorUI.ViewModels.Components.GroupProperty;
 
 public class TextGroup
 {

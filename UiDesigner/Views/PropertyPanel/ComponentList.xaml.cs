@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.ReusableComponent;
 using UiDesigner.Models;
 using UiDesigner.ViewModels.ReusableComponent;
 

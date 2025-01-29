@@ -1,5 +1,4 @@
-﻿using ConceptorUi.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -8,8 +7,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
@@ -19,12 +20,9 @@ using UiDesigner.Classes;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
-using UiDesigner.ViewModels.ReusableComponent;
-using UiDesigner.ViewModels.Window;
+using UiDesigner.Views.Component;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class PageView
     {
@@ -307,7 +305,7 @@ namespace UiDesigner.Views.Component
             {
                 ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
-                Report = new Domain.Entities.Report
+                Report = new UiDesigner.Domain.Entities.Report
                 {
                     Name = code,
                     Json = jsonString
@@ -501,13 +499,13 @@ namespace UiDesigner.Views.Component
             {
                 #region
 
-                var reports = new List<Domain.Entities.Report>();
+                var reports = new List<UiDesigner.Domain.Entities.Report>();
                 foreach (var key in _components.Keys)
                 {
                     var componentSerializer = _components[key].OnSerializer();
 
                     var jsonString = JsonSerializer.Serialize(componentSerializer);
-                    reports.Add(new Domain.Entities.Report { Name = key, Json = jsonString });
+                    reports.Add(new UiDesigner.Domain.Entities.Report { Name = key, Json = jsonString });
                 }
 
                 sc!.Post(async delegate

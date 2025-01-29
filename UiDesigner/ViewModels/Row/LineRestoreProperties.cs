@@ -1,12 +1,11 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Row;
 
-namespace UiDesigner.ViewModels.Row;
+namespace ConceptorUI.ViewModels.Row;
 
 static class LineRestoreProperties
 {

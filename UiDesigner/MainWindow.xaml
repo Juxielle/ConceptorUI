@@ -7,6 +7,7 @@
         xmlns:component="clr-namespace:UiDesigner.Views.Component"
         xmlns:propertyPanel="clr-namespace:UiDesigner.Views.PropertyPanel"
         xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
+        xmlns:component1="clr-namespace:ConceptorUI.Views.Component"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -97,7 +98,7 @@
                               PreviewMouseWheel="OnMouseWheel"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component:PageView MinWidth="2000"
+                        <component1:PageView MinWidth="2000"
                                             MinHeight="2000"
                                             Visibility="Visible"
                                             x:Name="PageView" />
