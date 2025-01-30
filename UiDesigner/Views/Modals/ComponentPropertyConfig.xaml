@@ -13,7 +13,7 @@
         Topmost="True"
         WindowStartupLocation="CenterScreen"
         Title="ComponentPropertyConfig"
-        Height="250"
+        Height="320"
         Width="300">
 
     <Grid>
@@ -78,7 +78,7 @@
                                                       VerticalAlignment="Center"
                                                       Margin="0 6 0 0"
                                                       Cursor="Hand"
-                                                      Tag="Editable"
+                                                      Tag="{Binding PropertyName}"
                                                       Checked="OnColorChecked"
                                                       Unchecked="OnColorChecked"
                                                       d:DataContext="{d:DesignInstance }" />
@@ -98,8 +98,6 @@
                                                       Margin="0 6 0 0"
                                                       Cursor="Hand"
                                                       Tag="Focusable"
-                                                      Checked="OnColorChecked"
-                                                      Unchecked="OnColorChecked"
                                                       d:DataContext="{d:DesignInstance }" />
                                             <TextBlock Text="SELECTIONNABLE"
                                                        Foreground="#666666"

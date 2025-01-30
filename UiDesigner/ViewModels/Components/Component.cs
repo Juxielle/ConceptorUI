@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Text.Json;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -89,7 +90,7 @@ namespace ConceptorUI.ViewModels.Components
             BorderContent.StrokeThickness = 0.4;
             ShadowContent.Margin = Content.Margin = new Thickness(0.8);
             Selected = true;
-
+            
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
@@ -1189,9 +1190,9 @@ namespace ConceptorUI.ViewModels.Components
 
             foreach (var i in index)
             {
-                var compSerialize = System.Text.Json.JsonSerializer.Serialize(Children[i].OnSerializer());
-                var senderSerialize = System.Text.Json.JsonSerializer.Serialize(sender);
-                var senderDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(senderSerialize);
+                var compSerialize = JsonSerializer.Serialize(Children[i].OnSerializer());
+                var senderSerialize = JsonSerializer.Serialize(sender);
+                var senderDeSerialize = JsonSerializer.Deserialize<CompSerializer>(senderSerialize);
 
                 var component = ComponentHelper.GetComponent(senderDeSerialize!.Name!);
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
@@ -1202,7 +1203,7 @@ namespace ConceptorUI.ViewModels.Components
                 ResetChildAlignment(i);
                 LayoutConstraints(i);
 
-                var compDeSerialize = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(compSerialize);
+                var compDeSerialize = JsonSerializer.Deserialize<CompSerializer>(compSerialize);
                 OnUpdateProperties(compDeSerialize!, i);
             }
         }
@@ -1220,7 +1221,7 @@ namespace ConceptorUI.ViewModels.Components
 
                     if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
                     {
-                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                        //Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                     else if (groupEnum == GroupNames.Global)
                     {
@@ -1229,24 +1230,18 @@ namespace ConceptorUI.ViewModels.Components
                     }
                     else if (groupEnum == GroupNames.Transform)
                     {
-                        if (propertyEnum is PropertyNames.Width or PropertyNames.Height)
+                        if (propertyEnum is PropertyNames.Width or
+                            PropertyNames.Height or
+                            PropertyNames.Gap)
                             Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                     else if (groupEnum == GroupNames.Appearance)
                     {
-                        if (propertyEnum is PropertyNames.MarginLeft or
-                            PropertyNames.MarginRight or
-                            PropertyNames.MarginTop or
-                            PropertyNames.MarginBottom or
-                            PropertyNames.FillColor)
-                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                     else if (groupEnum == GroupNames.Shadow)
                     {
-                        if (propertyEnum is PropertyNames.ShadowColor or
-                            PropertyNames.ShadowDepth or
-                            PropertyNames.ShadowDirection)
-                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                 }
             }
@@ -1388,7 +1383,7 @@ namespace ConceptorUI.ViewModels.Components
                     var component = ComponentHelper.GetComponent(child.Name!);
                     component.Parent = this;
                     component.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                    component.CreateId();
+                    //component.CreateId();
 
                     component.OnDeserializer(child);
                     components.Add(component);

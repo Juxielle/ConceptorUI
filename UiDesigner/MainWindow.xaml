@@ -1,4 +1,4 @@
-﻿<Window x:Class="UiDesigner.MainWindow"
+﻿<Window x:Class="ConceptorUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -8,6 +8,7 @@
         xmlns:propertyPanel="clr-namespace:UiDesigner.Views.PropertyPanel"
         xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
         xmlns:component1="clr-namespace:ConceptorUI.Views.Component"
+        xmlns:propertyPanel1="clr-namespace:ConceptorUI.Views.PropertyPanel"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -71,7 +72,7 @@
                                  DockPanel.Dock="Left"
                                  x:Name="ComponentButtons" />
 
-            <component:RightPanel Margin="0 2"
+            <component1:RightPanel Margin="0 2"
                                   Background="White"
                                   DockPanel.Dock="Right" />
 
@@ -82,7 +83,7 @@
                                      Visibility="Collapsed"
                                      x:Name="RightPanel" />
 
-            <propertyPanel:ComponentList Width="320"
+            <propertyPanel1:ComponentList Width="320"
                                          Margin="0 2"
                                          Background="#d2d2d2"
                                          DockPanel.Dock="Right"

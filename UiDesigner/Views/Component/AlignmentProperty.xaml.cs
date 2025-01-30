@@ -202,12 +202,6 @@ namespace ConceptorUI.Views.Component
             );
         }
 
-        private void OnSettingClick(object sender, RoutedEventArgs e)
-        {
-            var componentSetting = PropertiesConfigService.GetConfigs(_properties);
-            ComponentPropertyConfig.Instance.Refresh(componentSetting, "ALIGNMENT PROPERTIES");
-        }
-
         private void LoadValue(string tag, string value)
         {
             switch (tag)

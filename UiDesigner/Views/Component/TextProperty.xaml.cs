@@ -481,7 +481,7 @@ namespace ConceptorUI.Views.Component
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
             var componentSetting = PropertiesConfigService.GetConfigs(_properties);
-            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TEXT PROPERTIES");
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TEXT PROPERTIES", GroupNames.Text);
         }
     }
 }

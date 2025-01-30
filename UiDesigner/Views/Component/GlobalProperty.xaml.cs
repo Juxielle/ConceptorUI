@@ -224,7 +224,7 @@ namespace ConceptorUI.Views.Component
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
             var componentSetting = PropertiesConfigService.GetConfigs(_properties);
-            ComponentPropertyConfig.Instance.Refresh(componentSetting, "GLOBAL PROPERTIES");
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "GLOBAL PROPERTIES", GroupNames.Global);
         }
 
         private static string PickFile()

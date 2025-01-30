@@ -23,13 +23,13 @@
 
             <TextBlock Text="APPEARANCE" Foreground="#666666" VerticalAlignment="Center" FontSize="10"
                        FontWeight="Bold" Margin="10 0" Grid.ColumnSpan="2"/>
-            <Button Grid.Row="0" Background="#ffffff" BorderBrush="Transparent"
+            <Button Grid.Row="0" Background="#ffffff" BorderBrush="Transparent" Grid.Column="2"
                     Margin="0 0 10 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center"
                     Click="OnSettingClick">
                 <materialDesign:PackIcon Kind="Settings" Width="15" Height="15" Foreground="#8c8c8a"/>
             </Button>
-            <Button Background="Transparent" BorderBrush="Transparent" Grid.Column="2"
+            <Button Grid.Row="0" Background="Transparent" BorderBrush="Transparent" Grid.Column="2"
                     Margin="0 0 30 0" Cursor="Hand" Width="20" Height="20" HorizontalAlignment="Right"
                     VerticalAlignment="Center">
                 <materialDesign:PackIcon Kind="ContentCopy" Width="15" Height="15"

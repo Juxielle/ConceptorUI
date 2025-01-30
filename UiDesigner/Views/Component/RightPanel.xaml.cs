@@ -1,9 +1,9 @@
 ﻿using System.Windows.Controls;
 using System.Windows.Input;
+using UiDesigner;
 using UiDesigner.Enums;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class RightPanel
     {

@@ -4,12 +4,10 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.ReusableComponent;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.ReusableComponent;
 
-namespace UiDesigner.Views.PropertyPanel;
+namespace ConceptorUI.Views.PropertyPanel;
 
 public partial class ComponentList
 {
@@ -61,7 +59,7 @@ public partial class ComponentList
         Console.WriteLine($@"Arrive Bien ici.");
         if (id == _selectedIndex)
         {
-            if (_clickCount != 2) return;
+            if (_clickCount < 2) return;
             SendComponentCommand?.Execute(id);
             _clickCount = 0;
             return;

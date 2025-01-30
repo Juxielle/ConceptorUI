@@ -873,7 +873,7 @@ namespace ConceptorUI.Views.Component
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
             var componentSetting = PropertiesConfigService.GetConfigs(_properties!);
-            ComponentPropertyConfig.Instance.Refresh(componentSetting, "APPEARANCE PROPERTIES");
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "APPEARANCE PROPERTIES", GroupNames.Appearance);
         }
     }
 }

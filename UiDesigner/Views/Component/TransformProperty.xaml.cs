@@ -241,7 +241,7 @@ namespace ConceptorUI.Views.Component
         private void OnSettingClick(object sender, RoutedEventArgs e)
         {
             var componentSetting = PropertiesConfigService.GetConfigs(_properties);
-            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TRANSFORM PROPERTIES");
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TRANSFORM PROPERTIES", GroupNames.Transform);
         }
     }
 }

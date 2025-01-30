@@ -7,6 +7,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Enums;
+using ConceptorUI.Senders;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
@@ -47,19 +49,19 @@ namespace ConceptorUI.Views.Component
                     - Nom de la propriété
                     - Valeur de la propriété
                 2. On peut effectuer des enregistrements individuels ou par groupe
-            
+
             B. Reussir la multi-sélection des composants
                 1. Il suffit de dire au composant à sélectionner que la multi-sélection est activée, afin qu'il ne
                     desélectionne pas les autres;
                 2. Créer une fonction capable de faire l'intersection entre les propriétés des composants;
-            
+
             C. Sélection, desélection et déplacement par balayage;
             D. Composant reutilisable;
             E. Margin et Padding horizontal/vertical;
             F. Déplacement des composants avec la souris;
             G. Drag and Drop des composants;
             H. Fichier multi-onglets;
-            
+
             I. Remplacement des mises en page:
                 - Définir les types de composants;
                 - Définir les critères de remplacement entre mises en page;
@@ -516,7 +518,8 @@ namespace ConceptorUI.Views.Component
                         ProjectName = _project.Id,
                         Reports = reports
                     });
-
+                    
+                    RefreshReusableComponent();
                     DisplayLoadingCommand?.Execute(false);
                 }, null);
 
@@ -649,6 +652,18 @@ namespace ConceptorUI.Views.Component
         {
             ScaleTransform.ScaleX /= 1.2;
             ScaleTransform.ScaleY /= 1.2;
+        }
+
+        public override void GetTransferData(object sender, object data)
+        {
+            if (data == null! || data is not PropertySender propertySender) return;
+
+            if (propertySender.SenderAction == SenderAction.UpdatePropertyVisibility)
+            {
+                _components[_project.ReportInfos[_selectedReport].Code!]
+                    .SetComponentVisibility(propertySender.GroupName, propertySender.propertyName,
+                        propertySender.Value == VisibilityValue.Visible.ToString());
+            }
         }
     }
 }
