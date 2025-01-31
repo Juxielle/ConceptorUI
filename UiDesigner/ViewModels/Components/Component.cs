@@ -1217,24 +1217,17 @@ namespace ConceptorUI.ViewModels.Components
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
-                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) return;
+                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) continue;
+                    
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
-                    if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
-                    {
-                        //Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                    else if (groupEnum == GroupNames.Global)
+                    if (groupEnum == GroupNames.Global)
                     {
                         if (propertyEnum == PropertyNames.FilePicker)
                             Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
-                    else if (groupEnum == GroupNames.Transform)
+                    else if (groupEnum == GroupNames.Text)
                     {
-                        if (propertyEnum is PropertyNames.Width or
-                            PropertyNames.Height or
-                            PropertyNames.Gap)
-                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                     else if (groupEnum == GroupNames.Appearance)
                     {
@@ -1249,8 +1242,8 @@ namespace ConceptorUI.ViewModels.Components
 
             for (var k = 0; k < Children[k].Children.Count; k++)
             {
-                if (k >= sender.Children!.Count ||
-                    sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
+                // if (k >= sender.Children!.Count ||
+                //     sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
                 Children[i].Children[k].OnUpdateProperties(sender.Children![k], k);
             }
         }

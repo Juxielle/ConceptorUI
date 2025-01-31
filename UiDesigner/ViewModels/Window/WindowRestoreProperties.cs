@@ -54,9 +54,9 @@ static class WindowRestoreProperties
             window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
         }
 
-        if (statusH != "20")
+        if (statusH != $"{window.StatusHeight}")
         {
-            window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
+            window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, $"{window.StatusHeight}");
         }
 
         window.Statusbar.Synchronize();

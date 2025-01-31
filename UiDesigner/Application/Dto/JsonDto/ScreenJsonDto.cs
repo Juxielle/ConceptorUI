@@ -15,4 +15,5 @@ public class ScreenJsonDto
     public double BorderTopRightRadius { get; init; }
     public double BorderBottomLeftRadius { get; init; }
     public double BorderBottomRightRadius { get; init; }
+    public double StatusHeight { get; init; }
 }

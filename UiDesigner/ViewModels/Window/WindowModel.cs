@@ -3,13 +3,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Services;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
-using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Models;
-using UiDesigner.Services;
 using UiDesigner.Utils;
 using UiDesigner.ViewModels.Window;
 
@@ -26,6 +26,7 @@ namespace ConceptorUI.ViewModels.Window
         private readonly System.Windows.Controls.Image _image;
         public double Width;
         public double Height;
+        public double StatusHeight;
         private double _ratio;
 
         public WindowModel(bool allowConstraints = false)
@@ -43,6 +44,7 @@ namespace ConceptorUI.ViewModels.Window
             Width = 280;
             _ratio = 2.022106631989597;
             Height = Width * _ratio;
+            StatusHeight = 20;
 
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
@@ -54,8 +56,8 @@ namespace ConceptorUI.ViewModels.Window
                 Child = Layout.ComponentView
             };
 
-            _grid.Children.Add(_image);
             _grid.Children.Add(_border);
+            _grid.Children.Add(_image);
             Content.Child = _grid;
 
             if (!allowConstraints) _init();
@@ -157,11 +159,13 @@ namespace ConceptorUI.ViewModels.Window
             Width = screenUi.Width;
             _ratio = screenUi.Ratio;
             Height = Width * _ratio;
+            StatusHeight = screenUi.StatusHeight;
             
             if (!isSaving) return;
 
             OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{Width}", true);
             OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{Height}", true);
+            Statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{StatusHeight}", true);
             this.SetPropertyValue(GroupNames.Global, PropertyNames.Screen, screenJson);
         }
 
