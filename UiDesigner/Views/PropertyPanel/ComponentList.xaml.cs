@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -56,7 +55,6 @@ public partial class ComponentList
         var id = (sender as Border)!.Tag.ToString();
         _clickCount++;
         
-        Console.WriteLine($@"Arrive Bien ici.");
         if (id == _selectedIndex)
         {
             if (_clickCount < 2) return;

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Views.Modals;
 using UiDesigner;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;

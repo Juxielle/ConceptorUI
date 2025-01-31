@@ -50,7 +50,7 @@ namespace ConceptorUI.ViewModels.Components
         public List<Component> Children;
 
         public Border SelectedContent;
-        protected Border Content;
+        public Border Content;
         public Grid ParentContent;
         protected Border ShadowContent;
         protected Rectangle BorderContent;
@@ -1174,6 +1174,7 @@ namespace ConceptorUI.ViewModels.Components
 
             var index = new List<int>();
             var found = false;
+
             foreach (var child in Children)
             {
                 if (sender.Id != child.Id)
@@ -1216,24 +1217,17 @@ namespace ConceptorUI.ViewModels.Components
                 var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
                 foreach (var property in group.Properties)
                 {
-                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) return;
+                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) continue;
+                    
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-
-                    if (groupEnum == GroupNames.SelfAlignment && property.Value == "1")
-                    {
-                        //Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                    else if (groupEnum == GroupNames.Global)
+                    if (groupEnum == GroupNames.Global)
                     {
                         if (propertyEnum == PropertyNames.FilePicker)
                             Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
-                    else if (groupEnum == GroupNames.Transform)
+                    else if (groupEnum == GroupNames.Text)
                     {
-                        if (propertyEnum is PropertyNames.Width or
-                            PropertyNames.Height or
-                            PropertyNames.Gap)
-                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
+                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
                     }
                     else if (groupEnum == GroupNames.Appearance)
                     {
@@ -1248,8 +1242,8 @@ namespace ConceptorUI.ViewModels.Components
 
             for (var k = 0; k < Children[k].Children.Count; k++)
             {
-                if (k >= sender.Children!.Count ||
-                    sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
+                // if (k >= sender.Children!.Count ||
+                //     sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
                 Children[i].Children[k].OnUpdateProperties(sender.Children![k], k);
             }
         }
@@ -1278,7 +1272,7 @@ namespace ConceptorUI.ViewModels.Components
         {
             CompSerializer valueD = null!;
             if (value != null!)
-                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(value)!;
+                valueD = JsonSerializer.Deserialize<CompSerializer>(value)!;
 
             if (Selected && isPaste && valueD != null! && CanAddIntoChildContent && Children.Count < ChildContentLimit)
             {
@@ -1310,11 +1304,11 @@ namespace ConceptorUI.ViewModels.Components
                 LayoutConstraints(Children.Count - 1, false, expanded);
             }
             else if (Selected && !isPaste)
-                return System.Text.Json.JsonSerializer.Serialize(OnSerializer());
+                return JsonSerializer.Serialize(OnSerializer());
             else if (!Selected)
                 foreach (var child in Children)
                 {
-                    var comp = child.OnCopyOrPaste(value!, isPaste);
+                    var comp = child.OnCopyOrPaste(value!, isPaste, isComponent);
                     if (comp != null!)
                         return comp;
                 }

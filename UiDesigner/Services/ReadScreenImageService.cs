@@ -3,7 +3,7 @@ using System.IO;
 using System.Windows.Media.Imaging;
 using UiDesigner.Constants;
 
-namespace UiDesigner.Services;
+namespace ConceptorUI.Services;
 
 public class ReadScreenImageService
 {

@@ -1,4 +1,5 @@
-﻿using UiDesigner.Application.Dto.UiDto;
+﻿using System;
+using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Utils;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Window;
@@ -54,9 +55,9 @@ static class WindowRestoreProperties
             window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
         }
 
-        if (statusH != "20")
+        if (statusH != $"{window.StatusHeight}")
         {
-            window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "20");
+            window.Statusbar.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, $"{window.StatusHeight}");
         }
 
         window.Statusbar.Synchronize();

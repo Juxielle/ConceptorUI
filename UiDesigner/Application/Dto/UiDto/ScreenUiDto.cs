@@ -1,4 +1,4 @@
-﻿namespace UiDesigner.Application.Dto.UiDto;
+﻿namespace ConceptorUI.Application.Dto.UiDto;
 
 public class ScreenUiDto
 {
@@ -15,4 +15,5 @@ public class ScreenUiDto
     public double BorderTopRightRadius { get; init; }
     public double BorderBottomLeftRadius { get; init; }
     public double BorderBottomRightRadius { get; init; }
+    public double StatusHeight { get; init; }
 }
