@@ -2,14 +2,15 @@
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Enums;
 using UiDesigner.Models;
 using UiDesigner.Services;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Image;
 
-namespace UiDesigner.ViewModels.Image
+namespace ConceptorUI.ViewModels.Image
 {
     class ImageModel : Component
     {

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
 
 namespace ConceptorUi.ViewModels.Operations;
 
@@ -106,6 +106,58 @@ static class ManageProperties
                     : VisibilityValue.Collapsed.ToString();
                 return;
             }
+        }
+    }
+
+    public static void SetComponentVisibility(this Component component, GroupNames groupName, PropertyNames propertyName,
+        bool isVisible = true)
+    {
+        if(!component.Selected)
+        {
+            foreach (var child in component.Children)
+                child.SetComponentVisibility(groupName, propertyName, isVisible);
+            return;
+        }
+        
+        var i = -1;
+        foreach (var group in component.PropertyGroups!)
+        {
+            i++;
+            if (group.Name != groupName.ToString()) continue;
+            var j = -1;
+            foreach (var property in group.Properties)
+            {
+                j++;
+                if (property.Name != propertyName.ToString()) continue;
+                
+                component.PropertyGroups[i].Properties[j].ComponentVisibility = isVisible
+                    ? VisibilityValue.Visible.ToString()
+                    : VisibilityValue.Collapsed.ToString();
+                break;
+            }
+            break;
+        }
+
+        if (propertyName == PropertyNames.Margin)
+        {
+            SetComponentVisibility(component, groupName, PropertyNames.MarginLeft, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.MarginRight, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.MarginTop, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.MarginBottom, isVisible);
+        }
+        else if (propertyName == PropertyNames.Padding)
+        {
+            SetComponentVisibility(component, groupName, PropertyNames.PaddingLeft, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.PaddingRight, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.PaddingTop, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.PaddingBottom, isVisible);
+        }
+        else if (propertyName == PropertyNames.BorderRadius)
+        {
+            SetComponentVisibility(component, groupName, PropertyNames.BorderRadiusTopLeft, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.BorderRadiusTopRight, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.BorderRadiusBottomLeft, isVisible);
+            SetComponentVisibility(component, groupName, PropertyNames.BorderRadiusBottomRight, isVisible);
         }
     }
 

@@ -1,5 +1,6 @@
 ﻿using UiDesigner.Models;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.Row;
 using UiDesigner.ViewModels.Row;
 
 namespace ConceptorUi.ViewModels.Row;

@@ -1,4 +1,4 @@
-﻿<Window x:Class="UiDesigner.MainWindow"
+﻿<Window x:Class="ConceptorUI.MainWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -7,8 +7,8 @@
         xmlns:component="clr-namespace:UiDesigner.Views.Component"
         xmlns:propertyPanel="clr-namespace:UiDesigner.Views.PropertyPanel"
         xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
+        xmlns:component1="clr-namespace:ConceptorUI.Views.Component"
         xmlns:propertyPanel1="clr-namespace:ConceptorUI.Views.PropertyPanel"
-        xmlns:widgets1="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -72,7 +72,7 @@
                                  DockPanel.Dock="Left"
                                  x:Name="ComponentButtons" />
 
-            <component:RightPanel Margin="0 2"
+            <component1:RightPanel Margin="0 2"
                                   Background="White"
                                   DockPanel.Dock="Right" />
 
@@ -83,7 +83,7 @@
                                      Visibility="Collapsed"
                                      x:Name="RightPanel" />
 
-            <propertyPanel:ComponentList Width="320"
+            <propertyPanel1:ComponentList Width="320"
                                          Margin="0 2"
                                          Background="#d2d2d2"
                                          DockPanel.Dock="Right"
@@ -99,7 +99,7 @@
                               PreviewMouseWheel="OnMouseWheel"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component:PageView MinWidth="2000"
+                        <component1:PageView MinWidth="2000"
                                             MinHeight="2000"
                                             Visibility="Visible"
                                             x:Name="PageView" />
@@ -262,7 +262,7 @@
                                    Foreground="#000000" />
                     </StackPanel>
 
-                    <widgets1:ZoomButtons Margin="10"
+                    <widgets:ZoomButtons Margin="10"
                                          Width="150"
                                          HorizontalAlignment="Left" />
                 </StackPanel>
@@ -273,7 +273,7 @@
                                          Visibility="Collapsed"
                                          x:Name="CompPage" />
 
-                <propertyPanel1:PanelActionButtons Height="50"
+                <propertyPanel:PanelActionButtons Height="50"
                                                   VerticalAlignment="Bottom" />
             </Grid>
         </DockPanel>

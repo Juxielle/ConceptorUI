@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.ListView;
 
-namespace UiDesigner.ViewModels.ListView
+namespace ConceptorUI.ViewModels.ListView
 {
     class ListViewModel : Component
     {

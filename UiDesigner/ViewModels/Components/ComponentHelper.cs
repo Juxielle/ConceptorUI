@@ -1,18 +1,22 @@
 ﻿using System;
 using System.Collections.Generic;
 using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Container;
+using ConceptorUI.ViewModels.Icon;
+using ConceptorUI.ViewModels.Image;
+using ConceptorUI.ViewModels.ListView;
+using ConceptorUI.ViewModels.Row;
+using ConceptorUI.ViewModels.Stack;
+using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Container;
 using UiDesigner.ViewModels.Icon;
 using UiDesigner.ViewModels.Image;
 using UiDesigner.ViewModels.ListView;
 using UiDesigner.ViewModels.Row;
 using UiDesigner.ViewModels.Stack;
-using UiDesigner.ViewModels.Text;
-using UiDesigner.ViewModels.Window;
 
-namespace UiDesigner.ViewModels.Components;
+namespace ConceptorUI.ViewModels.Components;
 
 internal class ComponentHelper
 {

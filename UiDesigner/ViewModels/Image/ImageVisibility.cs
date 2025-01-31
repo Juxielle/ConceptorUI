@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ConceptorUI.ViewModels.Image;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 

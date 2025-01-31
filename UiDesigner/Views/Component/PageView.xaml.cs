@@ -1,5 +1,4 @@
-﻿using ConceptorUi.ViewModels;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json;
@@ -8,7 +7,12 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Enums;
+using ConceptorUI.Senders;
+using ConceptorUi.ViewModels;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
@@ -18,19 +22,16 @@ using UiDesigner.Classes;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
-using UiDesigner.ViewModels.ReusableComponent;
-using UiDesigner.ViewModels.Window;
+using UiDesigner.Views.Component;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class PageView
     {
         private static PageView? _obj;
 
         private ProjectUiDto _project;
-        private readonly Dictionary<string, ViewModels.Components.Component> _components;
+        private readonly Dictionary<string, ConceptorUI.ViewModels.Components.Component> _components;
         private int _selectedReport;
         private string? _selectedKey;
 
@@ -48,19 +49,19 @@ namespace UiDesigner.Views.Component
                     - Nom de la propriété
                     - Valeur de la propriété
                 2. On peut effectuer des enregistrements individuels ou par groupe
-            
+
             B. Reussir la multi-sélection des composants
                 1. Il suffit de dire au composant à sélectionner que la multi-sélection est activée, afin qu'il ne
                     desélectionne pas les autres;
                 2. Créer une fonction capable de faire l'intersection entre les propriétés des composants;
-            
+
             C. Sélection, desélection et déplacement par balayage;
             D. Composant reutilisable;
             E. Margin et Padding horizontal/vertical;
             F. Déplacement des composants avec la souris;
             G. Drag and Drop des composants;
             H. Fichier multi-onglets;
-            
+
             I. Remplacement des mises en page:
                 - Définir les types de composants;
                 - Définir les critères de remplacement entre mises en page;
@@ -76,7 +77,7 @@ namespace UiDesigner.Views.Component
                 ReportInfos = []
             };
 
-            _components = new Dictionary<string, ViewModels.Components.Component>();
+            _components = new Dictionary<string, ConceptorUI.ViewModels.Components.Component>();
             _selectedReport = 0;
 
             _copiedComponent = string.Empty;
@@ -163,7 +164,7 @@ namespace UiDesigner.Views.Component
                         var counter1 = failCounter;
                         sc!.Post(delegate
                         {
-                            ViewModels.Components.Component windowModel;
+                            ConceptorUI.ViewModels.Components.Component windowModel;
 
                             if (component.Name == ComponentList.Window.ToString())
                                 windowModel = new WindowModel(true);
@@ -248,7 +249,7 @@ namespace UiDesigner.Views.Component
         {
             #region Adding new Report
 
-            ViewModels.Components.Component windowModel;
+            ConceptorUI.ViewModels.Components.Component windowModel;
             if (isComponent) windowModel = new ComponentModel();
             else windowModel = new WindowModel();
 
@@ -306,7 +307,7 @@ namespace UiDesigner.Views.Component
             {
                 ZipPath = ComponentHelper.ProjectPath!,
                 ProjectName = _project.Id,
-                Report = new Domain.Entities.Report
+                Report = new UiDesigner.Domain.Entities.Report
                 {
                     Name = code,
                     Json = jsonString
@@ -405,7 +406,6 @@ namespace UiDesigner.Views.Component
                     var serializer = _components[key].Children[0].Children[0].OnSerializer();
                     foreach (var key2 in _components.Keys.Where(key2 => key != key2))
                         _components[key2].OnUpdateComponent(serializer);
-                    break;
                 }
             }
             catch (Exception)
@@ -484,7 +484,7 @@ namespace UiDesigner.Views.Component
 
         public object SendComponent()
         {
-            List<ViewModels.Components.Component> components = [];
+            List<ConceptorUI.ViewModels.Components.Component> components = [];
             components.AddRange(from key in _components.Keys
                 where _components[key].GetType().Name == nameof(ComponentModel)
                 select _components[key]);
@@ -495,18 +495,20 @@ namespace UiDesigner.Views.Component
         public void OnSaved()
         {
             DisplayLoadingCommand?.Execute(true);
+            RefreshReusableComponent();
+            
             var sc = SynchronizationContext.Current;
             ThreadPool.QueueUserWorkItem(delegate
             {
                 #region
 
-                var reports = new List<Domain.Entities.Report>();
+                var reports = new List<UiDesigner.Domain.Entities.Report>();
                 foreach (var key in _components.Keys)
                 {
                     var componentSerializer = _components[key].OnSerializer();
 
                     var jsonString = JsonSerializer.Serialize(componentSerializer);
-                    reports.Add(new Domain.Entities.Report { Name = key, Json = jsonString });
+                    reports.Add(new UiDesigner.Domain.Entities.Report { Name = key, Json = jsonString });
                 }
 
                 sc!.Post(async delegate
@@ -517,7 +519,7 @@ namespace UiDesigner.Views.Component
                         ProjectName = _project.Id,
                         Reports = reports
                     });
-
+                    
                     DisplayLoadingCommand?.Execute(false);
                 }, null);
 
@@ -650,6 +652,18 @@ namespace UiDesigner.Views.Component
         {
             ScaleTransform.ScaleX /= 1.2;
             ScaleTransform.ScaleY /= 1.2;
+        }
+
+        public override void GetTransferData(object sender, object data)
+        {
+            if (data == null! || data is not PropertySender propertySender) return;
+
+            if (propertySender.SenderAction == SenderAction.UpdatePropertyVisibility)
+            {
+                _components[_project.ReportInfos[_selectedReport].Code!]
+                    .SetComponentVisibility(propertySender.GroupName, propertySender.propertyName,
+                        propertySender.Value == VisibilityValue.Visible.ToString());
+            }
         }
     }
 }

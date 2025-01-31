@@ -1,7 +1,8 @@
-﻿using UiDesigner.Enums;
+﻿using ConceptorUI.Models;
+using UiDesigner.Enums;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Components.GroupProperty;
+namespace ConceptorUI.ViewModels.Components.GroupProperty;
 
 public class TransformGroup
 {

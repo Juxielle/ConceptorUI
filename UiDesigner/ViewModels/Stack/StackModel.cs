@@ -2,11 +2,12 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Stack;
 
-namespace UiDesigner.ViewModels.Stack
+namespace ConceptorUI.ViewModels.Stack
 {
     internal class StackModel : Component
     {

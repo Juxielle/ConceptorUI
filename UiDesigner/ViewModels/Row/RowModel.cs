@@ -2,13 +2,14 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUi.ViewModels.Row;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Components;
+using UiDesigner.ViewModels.Row;
 
-namespace UiDesigner.ViewModels.Row
+namespace ConceptorUI.ViewModels.Row
 {
     internal class RowModel : Component
     {

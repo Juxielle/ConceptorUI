@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using UiDesigner.ViewModels.Components;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 
 

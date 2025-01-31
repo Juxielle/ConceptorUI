@@ -4,12 +4,13 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Services;
+using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Views.Modals;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class TextProperty
     {
@@ -475,6 +476,12 @@ namespace UiDesigner.Views.Component
                 TextTrimming.Foreground =
                     BTextTrimming.BorderBrush = new BrushConverter().ConvertFrom(color) as SolidColorBrush;
             }
+        }
+
+        private void OnSettingClick(object sender, RoutedEventArgs e)
+        {
+            var componentSetting = PropertiesConfigService.GetConfigs(_properties);
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TEXT PROPERTIES", GroupNames.Text);
         }
     }
 }

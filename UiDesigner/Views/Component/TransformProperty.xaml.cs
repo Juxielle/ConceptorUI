@@ -3,10 +3,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Services;
+using ConceptorUI.Views.Modals;
 using UiDesigner.Models;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     public partial class TransformProperty
     {
@@ -235,6 +236,12 @@ namespace UiDesigner.Views.Component
                     new dynamic[] { GroupNames.Transform, propertyName, value }
                 );
             if (_firstCount < 2) _firstCount++;
+        }
+
+        private void OnSettingClick(object sender, RoutedEventArgs e)
+        {
+            var componentSetting = PropertiesConfigService.GetConfigs(_properties);
+            ComponentPropertyConfig.Instance.Refresh(componentSetting, "TRANSFORM PROPERTIES", GroupNames.Transform);
         }
     }
 }

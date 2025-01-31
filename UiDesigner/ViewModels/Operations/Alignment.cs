@@ -1,5 +1,5 @@
-﻿using UiDesigner.Models;
-using UiDesigner.ViewModels.Components;
+﻿using ConceptorUI.ViewModels.Components;
+using UiDesigner.Models;
 
 namespace ConceptorUi.ViewModels.Operations;
 

@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Windows;
 using ConceptorUi.ViewModels.Operations;
+using ConceptorUI.ViewModels.Stack;
 using UiDesigner.Models;
 
 namespace UiDesigner.ViewModels.Stack;

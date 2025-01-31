@@ -111,7 +111,7 @@ namespace UiDesigner.Models
         AlignLeft, AlignCenter, AlignRight, AlignJustify, ListOrd, ListNOrd, TabLeft, TabRight, TextError, TextIndex, TextExpo,
         SelectedMode, SelectedElement, Add, Gap,
         Row, Column, RowSpan, ColumnSpan, MoveLeft, MoveRight, MoveTop, MoveBottom,
-        Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, CBorder, CBorderRadius,
+        Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, Border, CBorder, CBorderRadius,
         MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
         SpaceBetween, SpaceAround, SpaceEvery, Text, DisplayText, CurrentTextIndex, TextTrimming,
         Focus, MoveParentToChild, MoveChildToParent, Trash, Fusion, Merged, TextWrap, LineSpacing, FilePicker,

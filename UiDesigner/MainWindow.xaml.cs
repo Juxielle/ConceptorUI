@@ -1,16 +1,16 @@
-﻿using UiDesigner.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using UiDesigner.Inputs;
-using UiDesigner.Views.Modals;
+using UiDesigner;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;
+using UiDesigner.Inputs;
+using UiDesigner.Models;
+using UiDesigner.Views.Modals;
 
-
-namespace UiDesigner
+namespace ConceptorUI
 {
     public partial class MainWindow
     {
@@ -250,7 +250,7 @@ namespace UiDesigner
             var property = (PropertyNames)infos![1];
 
             if (property == PropertyNames.Add)
-                PageView.AddComponent(Models.ComponentList.TextSingle.ToString());
+                PageView.AddComponent(UiDesigner.Models.ComponentList.TextSingle.ToString());
             else PageView.SetProperty((GroupNames)infos[0], (PropertyNames)infos[1], infos[2]);
         }
 
@@ -258,7 +258,7 @@ namespace UiDesigner
         {
             var values = sender as Dictionary<string, dynamic>;
             List<GroupProperties> groups;
-            if (((ComponentList)values!["componentName"]) == Models.ComponentList.Text)
+            if (((ComponentList)values!["componentName"]) == UiDesigner.Models.ComponentList.Text)
                 groups = ((List<List<GroupProperties>>)values["propertyGroups"])[0];
             else groups = (List<GroupProperties>)values["propertyGroups"];
 
