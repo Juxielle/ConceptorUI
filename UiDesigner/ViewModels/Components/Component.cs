@@ -1174,6 +1174,7 @@ namespace ConceptorUI.ViewModels.Components
 
             var index = new List<int>();
             var found = false;
+
             foreach (var child in Children)
             {
                 if (sender.Id != child.Id)
@@ -1278,7 +1279,7 @@ namespace ConceptorUI.ViewModels.Components
         {
             CompSerializer valueD = null!;
             if (value != null!)
-                valueD = System.Text.Json.JsonSerializer.Deserialize<CompSerializer>(value)!;
+                valueD = JsonSerializer.Deserialize<CompSerializer>(value)!;
 
             if (Selected && isPaste && valueD != null! && CanAddIntoChildContent && Children.Count < ChildContentLimit)
             {
@@ -1310,11 +1311,11 @@ namespace ConceptorUI.ViewModels.Components
                 LayoutConstraints(Children.Count - 1, false, expanded);
             }
             else if (Selected && !isPaste)
-                return System.Text.Json.JsonSerializer.Serialize(OnSerializer());
+                return JsonSerializer.Serialize(OnSerializer());
             else if (!Selected)
                 foreach (var child in Children)
                 {
-                    var comp = child.OnCopyOrPaste(value!, isPaste);
+                    var comp = child.OnCopyOrPaste(value!, isPaste, isComponent);
                     if (comp != null!)
                         return comp;
                 }

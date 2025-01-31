@@ -393,6 +393,7 @@ namespace ConceptorUI.Views.Component
 
             component.CheckIsExistId();
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
+            
             _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true, true);
         }
 
@@ -404,6 +405,7 @@ namespace ConceptorUI.Views.Component
                 {
                     if (_components[key].GetType().Name != nameof(ComponentModel)) continue;
                     var serializer = _components[key].Children[0].Children[0].OnSerializer();
+                    
                     foreach (var key2 in _components.Keys.Where(key2 => key != key2))
                         _components[key2].OnUpdateComponent(serializer);
                 }
