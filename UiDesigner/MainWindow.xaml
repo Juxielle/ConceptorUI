@@ -9,6 +9,7 @@
         xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
         xmlns:component1="clr-namespace:ConceptorUI.Views.Component"
         xmlns:propertyPanel1="clr-namespace:ConceptorUI.Views.PropertyPanel"
+        xmlns:widgets1="clr-namespace:ConceptorUI.Views.Widgets"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -73,8 +74,8 @@
                                  x:Name="ComponentButtons" />
 
             <component1:RightPanel Margin="0 2"
-                                  Background="White"
-                                  DockPanel.Dock="Right" />
+                                   Background="White"
+                                   DockPanel.Dock="Right" />
 
             <component:PanelProperty Width="320"
                                      Margin="0 2"
@@ -84,11 +85,11 @@
                                      x:Name="RightPanel" />
 
             <propertyPanel1:ComponentList Width="320"
-                                         Margin="0 2"
-                                         Background="#d2d2d2"
-                                         DockPanel.Dock="Right"
-                                         Visibility="Collapsed"
-                                         x:Name="ComponentList" />
+                                          Margin="0 2"
+                                          Background="#d2d2d2"
+                                          DockPanel.Dock="Right"
+                                          Visibility="Collapsed"
+                                          x:Name="ComponentList" />
 
             <Grid Margin="0 0 0 2"
                   x:Name="ContentPages"
@@ -100,9 +101,9 @@
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
                         <component1:PageView MinWidth="2000"
-                                            MinHeight="2000"
-                                            Visibility="Visible"
-                                            x:Name="PageView" />
+                                             MinHeight="2000"
+                                             Visibility="Visible"
+                                             x:Name="PageView" />
 
                         <component:ComponentPage Margin="60"
                                                  Visibility="Collapsed"
@@ -262,9 +263,9 @@
                                    Foreground="#000000" />
                     </StackPanel>
 
-                    <widgets:ZoomButtons Margin="10"
-                                         Width="150"
-                                         HorizontalAlignment="Left" />
+                    <widgets1:ZoomButtons Margin="10"
+                                          Width="150"
+                                          HorizontalAlignment="Left" />
                 </StackPanel>
 
                 <component:LeftCompPanel HorizontalAlignment="Left"
@@ -273,8 +274,8 @@
                                          Visibility="Collapsed"
                                          x:Name="CompPage" />
 
-                <propertyPanel:PanelActionButtons Height="50"
-                                                  VerticalAlignment="Bottom" />
+                <propertyPanel1:PanelActionButtons Height="50"
+                                                   VerticalAlignment="Bottom" />
             </Grid>
         </DockPanel>
 
