@@ -9,6 +9,7 @@ using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
+using ConceptorUI.Views.Widgets;
 using UiDesigner.Models;
 using UiDesigner.Utils;
 using UiDesigner.ViewModels.Window;
@@ -56,8 +57,8 @@ namespace ConceptorUI.ViewModels.Window
                 Child = Layout.ComponentView
             };
 
-            _grid.Children.Add(_border);
             _grid.Children.Add(_image);
+            _grid.Children.Add(_border);
             Content.Child = _grid;
 
             if (!allowConstraints) _init();
@@ -177,6 +178,8 @@ namespace ConceptorUI.ViewModels.Window
         {
             if (groupName == GroupNames.Global.ToString() && propertyName == PropertyNames.Screen.ToString())
             {
+                Statusbar.Content.Child = new StatusBarIcons();
+                
                 if (!Helper.IsDeserializable<ScreenUiDto>(value)) return;
                 var screenUi = Helper.Deserialize<ScreenUiDto>(value);
                 ChangeScreen(screenUi, false);

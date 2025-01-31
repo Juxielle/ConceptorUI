@@ -138,3 +138,5 @@ C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.genruntimeconfig.cache
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\ref\UiDesigner.dll
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\Themes\ThemeColors.baml
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\Views\Widgets\StatusBarIcons.baml
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\Views\Widgets\StatusBarIcons.g.cs

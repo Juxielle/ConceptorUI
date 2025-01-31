@@ -50,7 +50,7 @@ namespace ConceptorUI.ViewModels.Components
         public List<Component> Children;
 
         public Border SelectedContent;
-        protected Border Content;
+        public Border Content;
         public Grid ParentContent;
         protected Border ShadowContent;
         protected Rectangle BorderContent;
