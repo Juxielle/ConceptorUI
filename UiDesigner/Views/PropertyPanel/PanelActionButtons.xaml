@@ -3,7 +3,6 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:widgets="clr-namespace:UiDesigner.Views.Widgets"
              xmlns:widgets1="clr-namespace:ConceptorUI.Views.Widgets"
              mc:Ignorable="d"
              d:DesignHeight="50"
@@ -11,7 +10,7 @@
 
     <Border Background="#f3f3f3"
             BorderBrush="#e4e4e4"
-            BorderThickness="0 2 0 2">
+            BorderThickness="0 2 0 0">
         <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

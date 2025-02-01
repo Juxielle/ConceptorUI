@@ -27,22 +27,22 @@
         <materialDesign:PackIcon Grid.Column="2"
                                  Kind="NetworkStrength3"
                                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                 Width="14"
-                                 Height="14"
+                                 Width="12"
+                                 Height="12"
                                  Margin="5 0 0 0" />
 
         <materialDesign:PackIcon Grid.Column="3"
                                  Kind="Wifi"
                                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                 Width="14"
-                                 Height="14"
+                                 Width="12"
+                                 Height="12"
                                  Margin="5 0 0 0" />
 
         <materialDesign:PackIcon Grid.Column="4"
                                  Kind="Battery80"
                                  Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}"
-                                 Width="14"
-                                 Height="14"
+                                 Width="12"
+                                 Height="12"
                                  Margin="5 0 0 0" />
     </Grid>
 </UserControl>

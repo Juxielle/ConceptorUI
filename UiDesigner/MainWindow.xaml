@@ -10,6 +10,7 @@
         xmlns:component1="clr-namespace:ConceptorUI.Views.Component"
         xmlns:propertyPanel1="clr-namespace:ConceptorUI.Views.PropertyPanel"
         xmlns:widgets1="clr-namespace:ConceptorUI.Views.Widgets"
+        xmlns:conceptorUi="clr-namespace:ConceptorUI"
         mc:Ignorable="d" WindowStartupLocation="CenterScreen"
         Icon="/Assets/icon2.png"
         Title="Ui Designer"
@@ -68,6 +69,11 @@
           Background="#e4e4e4"
           PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
         <DockPanel>
+            <propertyPanel1:PanelActionButtons Height="40"
+                                               DockPanel.Dock="Bottom"
+                                               VerticalAlignment="Bottom"
+                                               Command="{Binding PanelActionCommand, RelativeSource={RelativeSource AncestorType=conceptorUi:MainWindow}}" />
+            
             <component:LeftPanel Margin="0 2"
                                  Background="White"
                                  DockPanel.Dock="Left"
@@ -111,171 +117,11 @@
                     </Grid>
                 </ScrollViewer>
 
-                <StackPanel>
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Tag="Save"
-                                Width="40"
-                                Height="40"
-                                Cursor="Hand"
-                                Click="BtnClick"
-                                Background="#e1e1e1"
-                                BorderBrush="#666666"
-                                BorderThickness="0.4"
-                                VerticalAlignment="Top"
-                                HorizontalAlignment="Center">
-                            <materialDesign:PackIcon Kind="ContentSave"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="ENREGISTRER"
-                                   FontSize="7"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#8c8c8a"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
-                                Width="40"
-                                Height="40"
-                                Tag="AddReport"
-                                Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                            <materialDesign:PackIcon Kind="BookPlusOutline"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="AJOUTER PAGE"
-                                   FontSize="7"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#8c8c8a"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
-                                Width="40"
-                                Height="40"
-                                Tag="AddComponent"
-                                Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                            <materialDesign:PackIcon Kind="ShapeRectanglePlus"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="AJOUTER COMPOSANT"
-                                   FontSize="7"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#8c8c8a"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
-                                Width="40"
-                                Height="40"
-                                Tag="RefreshComponent"
-                                Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                            <materialDesign:PackIcon Kind="Refresh"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="RAFRAICHIR"
-                                   FontSize="7"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#8c8c8a"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
-                                Width="40"
-                                Height="40"
-                                Tag="OpenScreenModal"
-                                Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                            <materialDesign:PackIcon Kind="FitToScreen"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="ECRANS"
-                                   FontSize="7"
-                                   TextAlignment="Center"
-                                   TextWrapping="Wrap"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-
-                    <StackPanel Margin="10"
-                                Width="50"
-                                HorizontalAlignment="Left">
-                        <Button Background="#e1e1e1"
-                                BorderBrush="#8c8c8a"
-                                BorderThickness="0.4"
-                                Cursor="Hand"
-                                Width="40"
-                                Height="40"
-                                Tag="Trash"
-                                Click="BtnClick"
-                                HorizontalAlignment="Center"
-                                VerticalAlignment="Top">
-                            <materialDesign:PackIcon Kind="Delete"
-                                                     Width="30"
-                                                     Height="30"
-                                                     Foreground="#666666" />
-                        </Button>
-                        <TextBlock Text="SUPPRIMER"
-                                   FontSize="7"
-                                   HorizontalAlignment="Center"
-                                   Foreground="#000000" />
-                    </StackPanel>
-
-                    <widgets1:ZoomButtons Margin="10"
-                                          Width="150"
-                                          HorizontalAlignment="Left" />
-                </StackPanel>
-
                 <component:LeftCompPanel HorizontalAlignment="Left"
                                          Margin="0"
                                          Width="400"
                                          Visibility="Collapsed"
                                          x:Name="CompPage" />
-
-                <propertyPanel1:PanelActionButtons Height="50"
-                                                   VerticalAlignment="Bottom" />
             </Grid>
         </DockPanel>
 

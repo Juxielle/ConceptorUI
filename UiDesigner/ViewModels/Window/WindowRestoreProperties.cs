@@ -1,11 +1,7 @@
-﻿using System;
-using UiDesigner.Application.Dto.UiDto;
-using UiDesigner.Utils;
-using ConceptorUi.ViewModels.Operations;
-using ConceptorUI.ViewModels.Window;
+﻿using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Window;
+namespace ConceptorUI.ViewModels.Window;
 
 static class WindowRestoreProperties
 {

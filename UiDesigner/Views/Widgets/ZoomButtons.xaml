@@ -21,10 +21,10 @@
                 Cursor="Hand"
                 Width="30"
                 Height="30"
-                Tag="Left"
+                Tag="ZoomOut"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Command="{Binding ZoomButtonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                Click="OnClick">
             <materialDesign:PackIcon Kind="Minus"
                                      Width="22"
                                      Height="22"
@@ -59,10 +59,10 @@
                 Cursor="Hand"
                 Width="30"
                 Height="30"
-                Tag="Right"
+                Tag="ZoomIn"
                 HorizontalAlignment="Center"
                 VerticalAlignment="Top"
-                Command="{Binding ZoomButtonCommand, RelativeSource={RelativeSource AncestorType=UserControl}}">
+                Click="OnClick">
             <materialDesign:PackIcon Kind="Plus"
                                      Width="22"
                                      Height="22"

@@ -4,5 +4,11 @@ public enum SenderAction
 {
     UpdatePropertyVisibility,
     ZoomIn,
-    ZoomOut
+    ZoomOut,
+    Save,
+    AddPage,
+    AddComponent,
+    Refresh,
+    Screens,
+    Delete
 }
