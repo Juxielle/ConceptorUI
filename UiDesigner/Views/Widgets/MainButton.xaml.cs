@@ -3,7 +3,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using MaterialDesignThemes.Wpf;
 
-namespace UiDesigner.Views.Widgets;
+namespace ConceptorUI.Views.Widgets;
 
 public partial class MainButton
 {
@@ -42,16 +42,6 @@ public partial class MainButton
         set => SetValue(BorderBrushProperty, value);
     }
 
-    public static readonly DependencyProperty CommandParameterProperty =
-        DependencyProperty.Register(nameof(CommandParameter), typeof(string), typeof(MainButton),
-            new PropertyMetadata(string.Empty));
-
-    public string CommandParameter
-    {
-        get => (string)GetValue(CommandParameterProperty);
-        set => SetValue(CommandParameterProperty, value);
-    }
-
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(MainButton),
             new PropertyMetadata(null));
@@ -64,6 +54,6 @@ public partial class MainButton
 
     private void OnClick(object sender, RoutedEventArgs e)
     {
-        Command?.Execute(CommandParameter);
+        Command?.Execute(Tag);
     }
 }

@@ -644,16 +644,16 @@ namespace ConceptorUI.Views.Component
             _components[_project.ReportInfos[_selectedReport].Code!].OnUnselected();
         }
 
-        private void ZoomIn_Click(object sender, RoutedEventArgs e)
+        private void ZoomIn(double value)
         {
-            ScaleTransform.ScaleX *= 1.2;
-            ScaleTransform.ScaleY *= 1.2;
+            ScaleTransform.ScaleX *= value;
+            ScaleTransform.ScaleY *= value;
         }
 
-        private void ZoomOut_Click(object sender, RoutedEventArgs e)
+        private void ZoomOut(double value)
         {
-            ScaleTransform.ScaleX /= 1.2;
-            ScaleTransform.ScaleY /= 1.2;
+            ScaleTransform.ScaleX /= value;
+            ScaleTransform.ScaleY /= value;
         }
 
         public override void GetTransferData(object sender, object data)
@@ -665,6 +665,26 @@ namespace ConceptorUI.Views.Component
                 _components[_project.ReportInfos[_selectedReport].Code!]
                     .SetComponentVisibility(propertySender.GroupName, propertySender.propertyName,
                         propertySender.Value == VisibilityValue.Visible.ToString());
+            }
+            else if (propertySender.SenderAction == SenderAction.ZoomIn)
+            {
+                ZoomIn(1.2);
+            }
+            else if (propertySender.SenderAction == SenderAction.ZoomOut)
+            {
+                ZoomOut(1.2);
+            }
+            else if (propertySender.SenderAction == SenderAction.Save)
+            {
+                OnSaved();
+            }
+            else if (propertySender.SenderAction == SenderAction.Refresh)
+            {
+                RefreshReusableComponent();
+            }
+            else if (propertySender.SenderAction == SenderAction.Delete)
+            {
+                DeleteReport();
             }
         }
     }

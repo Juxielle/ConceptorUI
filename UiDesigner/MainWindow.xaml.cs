@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Enums;
+using ConceptorUI.Senders;
 using ConceptorUI.Views.Modals;
 using UiDesigner;
 using UiDesigner.Application.Dto.UiDto;
@@ -43,7 +45,10 @@ namespace ConceptorUI
             TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
 
             ComponentList.SendComponentCommand = new RelayCommand(OnSendComponentHandle);
+            PanelActionCommand = new RelayCommand(OnExecuteAction);
         }
+        
+        public ICommand PanelActionCommand { get; }
 
         private void OnComponentButtonMouseClick(object sender, EventArgs e)
         {
@@ -274,6 +279,23 @@ namespace ConceptorUI
         private void OnSendComponentHandle(object sender)
         {
             PageView.AddReusableComponent(sender.ToString()!);
+        }
+
+        private void OnExecuteAction(object sender)
+        {
+            PropertySender propertySender;
+            if (sender is PropertySender pSender) propertySender = pSender;
+            else
+            {
+                var senderAction = (SenderAction)Enum.Parse(typeof(SenderAction), $"{sender}");
+                propertySender = new PropertySender
+                {
+                    SenderAction = senderAction,
+                    Value = $"{sender}"
+                };
+            }
+                
+            PageView.GetTransferData(nameof(PageView), propertySender);
         }
 
         private void OnDisplayLoadingHandle(object sender)
