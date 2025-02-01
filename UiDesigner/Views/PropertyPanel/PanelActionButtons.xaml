@@ -9,8 +9,7 @@
              d:DesignWidth="800">
 
     <Border Background="#f3f3f3"
-            BorderBrush="#e4e4e4"
-            BorderThickness="0 2 0 0">
+            BorderBrush="#e4e4e4">
         <Grid VerticalAlignment="Center">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />

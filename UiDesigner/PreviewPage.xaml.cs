@@ -11,7 +11,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media.Imaging;
 using MaterialDesignThemes.Wpf;
-using UiDesigner;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Application.PlatformSystem;
 using UiDesigner.Application.Project;

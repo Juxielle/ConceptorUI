@@ -1211,7 +1211,7 @@ namespace ConceptorUI.ViewModels.Components
 
         private void OnUpdateProperties(CompSerializer sender, int i)
         {
-            //if(Children[i].Id != sender.Id) return;
+            if(Children[i].Id != sender.Id) return;
             
             var groups = sender.Properties;
             foreach (var group in groups!)
@@ -1244,8 +1244,8 @@ namespace ConceptorUI.ViewModels.Components
 
             for (var k = 0; k < Children[k].Children.Count; k++)
             {
-                // if (k >= sender.Children!.Count ||
-                //     sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
+                if (k >= sender.Children!.Count ||
+                    sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
                 Children[i].Children[k].OnUpdateProperties(sender.Children![k], k);
             }
         }
