@@ -1211,6 +1211,8 @@ namespace ConceptorUI.ViewModels.Components
 
         private void OnUpdateProperties(CompSerializer sender, int i)
         {
+            if(Children[i].Id != sender.Id) return;
+            
             var groups = sender.Properties;
             foreach (var group in groups!)
             {
