@@ -175,69 +175,6 @@ namespace ConceptorUI
             }
         }
 
-        private void BtnClick(object sender, RoutedEventArgs e)
-        {
-            var tag = (sender as Button)!.Tag.ToString()!;
-            switch (tag)
-            {
-                case "Save":
-                    PageView.OnSaved();
-                    break;
-                case "AddReport":
-                    new ConfirmDialogBox(
-                        "Confirmation",
-                        "Confirmer la création de la page",
-                        AlertType.Confirm,
-                        () => PageView.NewReport()
-                    ).ShowDialog();
-                    break;
-                case "AddComponent":
-                    new ConfirmDialogBox(
-                        "Confirmation",
-                        "Confirmer la création du composant",
-                        AlertType.Confirm,
-                        () => PageView.NewReport(true)
-                    ).ShowDialog();
-                    break;
-                case "RefreshComponent":
-                    PageView.RefreshReusableComponent();
-                    break;
-                case "Trash":
-                    PageView.DeleteReport();
-                    break;
-            }
-        }
-
-        private void OnStateChanged(object sender, EventArgs e)
-        {
-            switch (WindowState)
-            {
-                case WindowState.Maximized:
-                    break;
-                case WindowState.Minimized:
-                    // if(ColorPicker.Instance.IsVisible)
-                    //     ColorPicker.Instance.Hide();
-                    break;
-                case WindowState.Normal:
-                    try
-                    {
-                        // if(!ColorPicker.Instance.IsVisible)
-                        //     ColorPicker.Instance.Show();
-                    }
-                    catch (Exception)
-                    {
-                        //
-                    }
-
-                    break;
-            }
-        }
-
-        private void OnScreenChanged(object sender)
-        {
-            PageView.ChangeScreen(sender);
-        }
-
         private void OnAddComponentHandle(object sender, EventArgs e)
         {
             PageView.AddComponent(sender.ToString()!);
