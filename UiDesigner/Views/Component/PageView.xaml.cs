@@ -15,11 +15,13 @@ using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
 using ConceptorUI.Views.Modals;
+using UiDesigner;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Application.Project;
 using UiDesigner.Application.Reports;
 using UiDesigner.Classes;
+using UiDesigner.Enums;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
@@ -661,6 +663,17 @@ namespace ConceptorUI.Views.Component
         {
             ChangeScreen(sender);
         }
+        
+        private void CreateComponent(bool isComponent = false)
+        {
+            var destination = isComponent ? "de la page" : "du composant";
+            new ConfirmDialogBox(
+                "Confirmation",
+                $"Confirmer la création {destination}",
+                AlertType.Confirm,
+                () => NewReport(isComponent)
+            ).ShowDialog();
+        }
 
         public override void GetTransferData(object sender, object data)
         {
@@ -683,6 +696,14 @@ namespace ConceptorUI.Views.Component
             else if (propertySender.SenderAction == SenderAction.Save)
             {
                 OnSaved();
+            }
+            else if (propertySender.SenderAction == SenderAction.AddPage)
+            {
+                CreateComponent();
+            }
+            else if (propertySender.SenderAction == SenderAction.AddComponent)
+            {
+                CreateComponent(true);
             }
             else if (propertySender.SenderAction == SenderAction.Refresh)
             {

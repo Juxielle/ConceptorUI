@@ -57,8 +57,8 @@ namespace ConceptorUI.ViewModels.Window
                 Child = Layout.ComponentView
             };
 
-            _grid.Children.Add(_border);
             _grid.Children.Add(_image);
+            _grid.Children.Add(_border);
             Content.Child = _grid;
 
             if (!allowConstraints) _init();
