@@ -45,13 +45,17 @@ static class Synchronization
         else if (!isVertical && component.SelectedContent.VerticalAlignment != VerticalAlignment.Stretch)
             component.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
 
-        if (width == SizeValue.Expand.ToString() && !double.IsNaN(component.SelectedContent.Width))
+        if (width == SizeValue.Expand.ToString() && (!double.IsNaN(component.SelectedContent.Width) ||
+                                                     component.SelectedContent.HorizontalAlignment !=
+                                                     HorizontalAlignment.Stretch))
         {
             component.SelectedContent.Width = double.NaN;
             component.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
         }
         else if (width == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Width))
+        {
             component.SelectedContent.Width = double.NaN;
+        }
         else if (width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString() &&
                  (double.IsNaN(component.SelectedContent.Width) ||
                   Math.Abs(Convert.ToDouble(width) - component.SelectedContent.Width) != 0))
@@ -60,7 +64,9 @@ static class Synchronization
             component.SelectedContent.Width = vd;
         }
 
-        if (height == SizeValue.Expand.ToString() && !double.IsNaN(component.SelectedContent.Height))
+        if (height == SizeValue.Expand.ToString() && (!double.IsNaN(component.SelectedContent.Height) ||
+                                                      component.SelectedContent.VerticalAlignment !=
+                                                      VerticalAlignment.Stretch))
         {
             component.SelectedContent.Height = double.NaN;
             component.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
