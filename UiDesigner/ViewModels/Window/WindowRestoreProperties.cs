@@ -1,4 +1,5 @@
-﻿using ConceptorUi.ViewModels.Operations;
+﻿using System;
+using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
 namespace ConceptorUI.ViewModels.Window;
@@ -88,6 +89,8 @@ static class WindowRestoreProperties
         if (bodyH != SizeValue.Expand.ToString())
         {
             window.Body.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+            bodyH = window.Body.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
+            Console.WriteLine($@"Body height: {bodyH}");
         }
 
         window.Body.Synchronize();

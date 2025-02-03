@@ -199,13 +199,6 @@ namespace ConceptorUI
                         () => PageView.NewReport(true)
                     ).ShowDialog();
                     break;
-                case "OpenScreenModal":
-                    var screenModal = new ScreenModal
-                    {
-                        ScreenChangedCommand = new RelayCommand(OnScreenChanged)
-                    };
-                    screenModal.ShowDialog();
-                    break;
                 case "RefreshComponent":
                     PageView.RefreshReusableComponent();
                     break;

@@ -14,6 +14,7 @@ using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
+using ConceptorUI.Views.Modals;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Application.Project;
@@ -656,6 +657,11 @@ namespace ConceptorUI.Views.Component
             ScaleTransform.ScaleY /= value;
         }
 
+        private void OnScreenChanged(object sender)
+        {
+            ChangeScreen(sender);
+        }
+
         public override void GetTransferData(object sender, object data)
         {
             if (data == null! || data is not PropertySender propertySender) return;
@@ -685,6 +691,14 @@ namespace ConceptorUI.Views.Component
             else if (propertySender.SenderAction == SenderAction.Delete)
             {
                 DeleteReport();
+            }
+            else if (propertySender.SenderAction == SenderAction.Screens)
+            {
+                var screenModal = new ScreenModal
+                {
+                    ScreenChangedCommand = new RelayCommand(OnScreenChanged)
+                };
+                screenModal.ShowDialog();
             }
         }
     }

@@ -57,8 +57,8 @@ namespace ConceptorUI.ViewModels.Window
                 Child = Layout.ComponentView
             };
 
-            _grid.Children.Add(_image);
             _grid.Children.Add(_border);
+            _grid.Children.Add(_image);
             Content.Child = _grid;
 
             if (!allowConstraints) _init();
@@ -154,16 +154,26 @@ namespace ConceptorUI.ViewModels.Window
                 screenUi.MarginTop,
                 screenUi.MarginRight,
                 screenUi.MarginBottom);
-
+            
+            Statusbar.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusTopLeft, $"{screenUi.BorderTopLeftRadius}", true);
+            Statusbar.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusTopRight, $"{screenUi.BorderTopRightRadius}", true);
+            Layout.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusTopLeft, $"{screenUi.BorderTopLeftRadius}", true);
+            Layout.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusTopRight, $"{screenUi.BorderTopRightRadius}", true);
+            
+            Layout.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusBottomLeft, $"{screenUi.BorderBottomLeftRadius}", true);
+            Layout.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusBottomRight, $"{screenUi.BorderBottomRightRadius}", true);
+            Body.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusBottomLeft, $"{screenUi.BorderBottomLeftRadius}", true);
+            Body.OnUpdated(GroupNames.Appearance, PropertyNames.BorderRadiusBottomRight, $"{screenUi.BorderBottomRightRadius}", true);
+            
             _image.Source = ReadScreenImageService.GetImage(screenUi.Label);
-
+            
             Width = screenUi.Width;
             _ratio = screenUi.Ratio;
             Height = Width * _ratio;
             StatusHeight = screenUi.StatusHeight;
             
             if (!isSaving) return;
-
+            
             OnUpdated(GroupNames.Transform, PropertyNames.Width, $"{Width}", true);
             OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{Height}", true);
             Statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{StatusHeight}", true);
