@@ -1,4 +1,5 @@
-﻿using System;
+﻿using System.Windows;
+using System.Windows.Controls;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
@@ -64,6 +65,8 @@ static class WindowRestoreProperties
         var bodyH = window.Body.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var isBodyHorizontal = Alignment.IsHorizontal(window.Body);
         var isBodyVertical = Alignment.IsVertical(window.Body);
+        var isBodySelfHorizontal = SelfAlignment.IsHorizontal(window.Body);
+        var isBodySelfVertical = SelfAlignment.IsVertical(window.Body);
 
         Alignment.SetSeveralActivations(window.Body);
         Alignment.SetInvalidValues(window.Body);
@@ -80,6 +83,16 @@ static class WindowRestoreProperties
 
         SelfAlignment.SetSeveralActivations(window.Body);
         SelfAlignment.SetInvalidValues(window.Body);
+
+        if (isBodySelfHorizontal)
+        {
+            SelfAlignment.SetHorizontalOnNull(window.Body);
+        }
+
+        if (isBodySelfVertical)
+        {
+            SelfAlignment.SetVerticalOnNull(window.Body);
+        }
 
         if (bodyW != SizeValue.Expand.ToString())
         {
@@ -98,6 +111,8 @@ static class WindowRestoreProperties
         var layoutH = window.Layout.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var isLayoutHorizontal = Alignment.IsHorizontal(window.Layout);
         var isLayoutVertical = Alignment.IsVertical(window.Layout);
+        var isLayoutSelfHorizontal = SelfAlignment.IsHorizontal(window.Layout);
+        var isLayoutSelfVertical = SelfAlignment.IsVertical(window.Layout);
 
         Alignment.SetSeveralActivations(window.Layout);
         Alignment.SetInvalidValues(window.Layout);
@@ -115,6 +130,16 @@ static class WindowRestoreProperties
         SelfAlignment.SetSeveralActivations(window.Layout);
         SelfAlignment.SetInvalidValues(window.Layout);
 
+        if (isLayoutSelfHorizontal)
+        {
+            SelfAlignment.SetHorizontalOnNull(window.Layout);
+        }
+
+        if (isLayoutSelfVertical)
+        {
+            SelfAlignment.SetVerticalOnNull(window.Layout);
+        }
+
         if (layoutW != SizeValue.Expand.ToString())
         {
             window.Layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Expand.ToString());
@@ -123,6 +148,19 @@ static class WindowRestoreProperties
         if (layoutH != SizeValue.Expand.ToString())
         {
             window.Layout.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Expand.ToString());
+        }
+
+        if (window.Layout.Grid.RowDefinitions.Count >= 2 &&
+            window.Layout.Grid.RowDefinitions[1].Height.GridUnitType != GridUnitType.Auto)
+        {
+            window.Layout.Grid.RowDefinitions[1].Height = new GridLength(0, GridUnitType.Auto);
+        }
+
+        var rowIndex = Grid.GetRow(window.Body.ComponentView);
+        if (window.Layout.Grid.RowDefinitions.Count >= rowIndex &&
+            window.Layout.Grid.RowDefinitions[rowIndex].Height.GridUnitType == GridUnitType.Auto)
+        {
+            window.Layout.Grid.RowDefinitions[rowIndex].Height = new GridLength(1, GridUnitType.Star);
         }
 
         window.Layout.Synchronize();
