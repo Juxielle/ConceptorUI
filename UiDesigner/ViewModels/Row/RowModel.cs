@@ -57,7 +57,7 @@ namespace ConceptorUI.ViewModels.Row
             this.SetGroupVisibility(GroupNames.Shadow);
         }
 
-        protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
+        public override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             if (Children.Count == 0) return;
 

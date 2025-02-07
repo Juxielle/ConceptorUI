@@ -131,7 +131,7 @@ namespace ConceptorUI.ViewModels.Container
             }
         }
 
-        protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
+        public override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
             if (propertyName is PropertyNames.Hl or PropertyNames.Hc or PropertyNames.Hr)
             {

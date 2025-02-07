@@ -24,9 +24,14 @@ namespace ConceptorUI.ViewModels.Components
     internal abstract class Component
     {
         /*
-         * Mettre en place un système de remplacement de composants
-         * Donner une mise en page à un composant
-         * Mettre en place le mécanisme du glisser déposer des composants
+         * Mettre en place un système de remplacement de composants -> 1
+         * Donner une mise en page à un composant -> 2
+         * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
+         * Multi selections
+         * Annuler et Restaurer
+         * Composant reutilisable -> En cours
+         * Zoom de l'écran -> En cours
+         * Margin horizontal
          */
         public ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
@@ -59,7 +64,7 @@ namespace ConceptorUI.ViewModels.Components
 
         public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
-        protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
+        public abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
         public abstract void WhenTextChanged(string propertyName, string value, bool isInitialize = false);
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();

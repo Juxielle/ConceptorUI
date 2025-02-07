@@ -167,7 +167,7 @@ namespace ConceptorUI.ViewModels.ReusableComponent
         {
         }
 
-        protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
+        public override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
         }
 

@@ -3,7 +3,6 @@ using System.Windows.Controls;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Row;
 
 namespace ConceptorUI.ViewModels.Row;
 
