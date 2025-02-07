@@ -24,9 +24,14 @@ namespace ConceptorUI.ViewModels.Components
     internal abstract class Component
     {
         /*
-         * Mettre en place un système de remplacement de composants
-         * Donner une mise en page à un composant
-         * Mettre en place le mécanisme du glisser déposer des composants
+         * Mettre en place un système de remplacement de composants -> 1
+         * Donner une mise en page à un composant -> 2
+         * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
+         * Multi selections
+         * Annuler et Restaurer
+         * Composant reutilisable -> En cours
+         * Zoom de l'écran -> En cours
+         * Margin horizontal
          */
         public ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
