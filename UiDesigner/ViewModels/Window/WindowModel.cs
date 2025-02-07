@@ -208,7 +208,7 @@ namespace ConceptorUI.ViewModels.Window
         {
         }
 
-        protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
+        public override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
         }
 

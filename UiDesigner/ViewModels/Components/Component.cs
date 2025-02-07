@@ -59,7 +59,7 @@ namespace ConceptorUI.ViewModels.Components
 
         public abstract void SelfConstraints();
         protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
-        protected abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
+        public abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
         public abstract void WhenTextChanged(string propertyName, string value, bool isInitialize = false);
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();

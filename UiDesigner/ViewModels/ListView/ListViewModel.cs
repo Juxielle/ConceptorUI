@@ -60,7 +60,7 @@ namespace ConceptorUI.ViewModels.ListView
         {
         }
 
-        protected override void WhenAlignmentChanged(PropertyNames propertyName, string value)
+        public override void WhenAlignmentChanged(PropertyNames propertyName, string value)
         {
         }
 

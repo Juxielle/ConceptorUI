@@ -125,6 +125,14 @@ static class WindowRestoreProperties
         if (isLayoutVertical)
         {
             Alignment.SetVerticalOnNull(window.Layout);
+            var rowIndex = Grid.GetRow(window.Body.ComponentView);
+            
+            foreach (var rowDefinition in window.Layout.Grid.RowDefinitions)
+            {
+                if(rowIndex == window.Layout.Grid.RowDefinitions.IndexOf(rowDefinition))
+                    rowDefinition.Height = new GridLength(1, GridUnitType.Star);
+                else rowDefinition.Height = new GridLength(0, GridUnitType.Auto);
+            }
         }
 
         SelfAlignment.SetSeveralActivations(window.Layout);
@@ -154,13 +162,6 @@ static class WindowRestoreProperties
             window.Layout.Grid.RowDefinitions[1].Height.GridUnitType != GridUnitType.Auto)
         {
             window.Layout.Grid.RowDefinitions[1].Height = new GridLength(0, GridUnitType.Auto);
-        }
-
-        var rowIndex = Grid.GetRow(window.Body.ComponentView);
-        if (window.Layout.Grid.RowDefinitions.Count >= rowIndex &&
-            window.Layout.Grid.RowDefinitions[rowIndex].Height.GridUnitType == GridUnitType.Auto)
-        {
-            window.Layout.Grid.RowDefinitions[rowIndex].Height = new GridLength(1, GridUnitType.Star);
         }
 
         window.Layout.Synchronize();
