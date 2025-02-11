@@ -281,4 +281,4 @@ E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\refint\UiDesi
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.pdb
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.genruntimeconfig.cache
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\ref\UiDesigner.dll
-C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.csproj.Up2Date
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.csproj.CopyComplete

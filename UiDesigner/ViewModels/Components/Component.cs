@@ -9,6 +9,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
+using ConceptorUI.Classes;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
@@ -19,8 +20,6 @@ using TransformGroup = ConceptorUI.ViewModels.Components.GroupProperty.Transform
 
 namespace ConceptorUI.ViewModels.Components
 {
-    using TransformGroup = TransformGroup;
-
     internal abstract class Component
     {
         /*
@@ -28,7 +27,7 @@ namespace ConceptorUI.ViewModels.Components
          * Donner une mise en page à un composant -> 2
          * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
          * Multi selections - En cours
-         * Annuler et Restaurer
+         * Annuler et Restaurer -> En cours
          * Composant reutilisable -> En cours
          * Zoom de l'écran -> En cours
          * Margin horizontal
@@ -142,7 +141,7 @@ namespace ConceptorUI.ViewModels.Components
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
 
-            if (!ComponentHelper.IsMultiselectionEnable)
+            if (!ComponentHelper.IsMultiSelectionEnable)
             {
                 SelectedCommand?.Execute(
                     new Dictionary<string, dynamic>
@@ -191,6 +190,12 @@ namespace ConceptorUI.ViewModels.Components
                             _ when value == "1" => HorizontalAlignment.Right,
                             _ => HorizontalAlignment.Left
                         };
+                        
+                        ComponentHelper.SaveUndoRedoAction(new UndoRedoAction
+                        {
+                            CurrentAction = new UndoRedo(),
+                            PreviousAction = new UndoRedo()
+                        });
 
                         var w = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (value == "0" && w == SizeValue.Auto.ToString() && AllowExpanded())

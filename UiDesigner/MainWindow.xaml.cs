@@ -81,11 +81,11 @@ namespace ConceptorUI
                     Console.WriteLine("RightShift is pressed.");
                     break;
                 case Key.LeftCtrl:
-                    ComponentHelper.IsMultiselectionEnable = true;
+                    ComponentHelper.IsMultiSelectionEnable = true;
                     Console.WriteLine("LeftCtrl is pressed.");
                     break;
                 case Key.RightCtrl:
-                    ComponentHelper.IsMultiselectionEnable = true;
+                    ComponentHelper.IsMultiSelectionEnable = true;
                     Console.WriteLine("RightCtrl is pressed.");
                     break;
             }
@@ -107,7 +107,7 @@ namespace ConceptorUI
             }
             else if (e.Key is Key.LeftCtrl or Key.RightCtrl)
             {
-                ComponentHelper.IsMultiselectionEnable = false;
+                ComponentHelper.IsMultiSelectionEnable = false;
             }
         }
 

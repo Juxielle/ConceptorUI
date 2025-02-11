@@ -167,7 +167,7 @@ namespace ConceptorUI.Views.Component
             {
                 if(i >= groups.Count) continue;
                 
-                if (ComponentHelper.IsMultiselectionEnable)
+                if (ComponentHelper.IsMultiSelectionEnable)
                 {
                     _groupProperties[i].Visibility =
                         _groupProperties[i].Visibility == VisibilityValue.Collapsed.ToString() ||
@@ -184,7 +184,7 @@ namespace ConceptorUI.Views.Component
                 {
                     if(j >= groups[i].Properties.Count) continue;
 
-                    if (ComponentHelper.IsMultiselectionEnable)
+                    if (ComponentHelper.IsMultiSelectionEnable)
                     {
                         _groupProperties[i].Properties[j].Visibility =
                             _groupProperties[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString() ||

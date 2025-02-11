@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using ConceptorUI.Classes;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Icon;
@@ -11,11 +11,6 @@ using ConceptorUI.ViewModels.Stack;
 using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Icon;
-using UiDesigner.ViewModels.Image;
-using UiDesigner.ViewModels.ListView;
-using UiDesigner.ViewModels.Row;
-using UiDesigner.ViewModels.Stack;
 
 namespace ConceptorUI.ViewModels.Components;
 
@@ -25,7 +20,9 @@ internal class ComponentHelper
     public static string? ProjectName;
     public static string? ProjectTempId;
     public static string? FilePath;
-    public static bool IsMultiselectionEnable = false;
+    
+    public static bool IsMultiSelectionEnable = false;
+    public static readonly List<UndoRedoAction> UndoRedoActions = [];
     
     private static List<string>? _ids;
 
@@ -108,5 +105,13 @@ internal class ComponentHelper
     public static void DeleteId(string id)
     {
         _ids?.Remove(id);
+    }
+
+    public static void SaveUndoRedoAction(UndoRedoAction action)
+    {
+        UndoRedoActions.Add(action);
+        
+        if(UndoRedoActions.Count <= 50) return;
+        UndoRedoActions.RemoveAt(0);
     }
 }

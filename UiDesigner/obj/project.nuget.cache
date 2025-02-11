@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "R4mxiPvqiT4=",
+  "dgSpecHash": "0L7ScwJ5ick=",
   "success": true,
   "projectFilePath": "C:\\Users\\INITIAL Dev\\Documents\\Dossier Harold\\Projets\\ConceptorUI\\UiDesigner\\UiDesigner.csproj",
   "expectedPackageFiles": [
@@ -13,11 +13,7 @@
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.sfbusyindicator.wpf\\25.2.4\\syncfusion.sfbusyindicator.wpf.25.2.4.nupkg.sha512",
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.sfgrid.wpf\\25.2.4\\syncfusion.sfgrid.wpf.25.2.4.nupkg.sha512",
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.shared.wpf\\25.2.4\\syncfusion.shared.wpf.25.2.4.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\unnoficial.microsoft.expression.drawing\\1.0.0\\unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\unnoficial.microsoft.expression.drawing\\1.0.0\\unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512"
   ],
   "logs": [
     {
