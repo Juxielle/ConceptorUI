@@ -27,7 +27,7 @@ namespace ConceptorUI.ViewModels.Components
          * Mettre en place un système de remplacement de composants -> 1
          * Donner une mise en page à un composant -> 2
          * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
-         * Multi selections
+         * Multi selections - En cours
          * Annuler et Restaurer
          * Composant reutilisable -> En cours
          * Zoom de l'écran -> En cours
