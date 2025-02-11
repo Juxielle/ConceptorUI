@@ -5,8 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Enums;
 using ConceptorUI.Senders;
-using ConceptorUI.Views.Modals;
-using UiDesigner;
+using ConceptorUI.ViewModels.Components;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
@@ -81,6 +80,10 @@ namespace ConceptorUI
                     Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("RightShift is pressed.");
                     break;
+                case Key.LeftCtrl:
+                    ComponentHelper.IsMultiselectionEnable = true;
+                    Console.WriteLine("LeftCtrl is pressed.");
+                    break;
             }
         }
 
@@ -89,15 +92,19 @@ namespace ConceptorUI
             if (_isHorizontalScroll)
                 Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - e.Delta);
             else Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
-            Console.WriteLine(@$"OnMouseWheel: {e.Delta}");
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
-            if (e.Key != Key.LeftShift && e.Key != Key.RightShift) return;
-            _isHorizontalScroll = false;
-            Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
-            Console.WriteLine("Shift is relached.");
+            if (e.Key is Key.LeftShift or Key.RightShift)
+            {
+                _isHorizontalScroll = false;
+                Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Hidden;
+            }
+            else if (e.Key is Key.LeftCtrl or Key.RightCtrl)
+            {
+                ComponentHelper.IsMultiselectionEnable = false;
+            }
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

@@ -78,7 +78,7 @@
                                    Background="White"
                                    DockPanel.Dock="Right" />
 
-            <component:PanelProperty Width="320"
+            <component1:PanelProperty Width="320"
                                      Margin="0 2"
                                      Background="#d2d2d2"
                                      DockPanel.Dock="Right"
