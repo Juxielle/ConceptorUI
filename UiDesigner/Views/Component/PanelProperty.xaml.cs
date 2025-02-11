@@ -4,25 +4,24 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
-using ConceptorUI.Views.Component;
+using ConceptorUI.ViewModels.Components.GroupProperty;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
+using UiDesigner.Views.Component;
+using TransformGroup = ConceptorUI.ViewModels.Components.GroupProperty.TransformGroup;
 
-
-namespace UiDesigner.Views.Component
+namespace ConceptorUI.Views.Component
 {
     partial class PanelProperty
     {
         public ICommand? MouseDownCommand;
-        public ICommand? DisplayStructureViewCommand;
-        
+        private List<GroupProperties>? _groupProperties;
+
         public PanelProperty()
         {
             InitializeComponent();
-            // AlignSelf.Refresh(false);
-            //
-            // Global.Visibility = Align.Visibility = AlignSelf.Visibility = Transform.Visibility =
-            // Grid.Visibility = Text.Visibility = Appearance.Visibility = Shadow.Visibility = Visibility.Collapsed;
+
+            InitGroups();
         }
 
         public void FeedProps(object value, ComponentList componentName)
@@ -50,8 +49,9 @@ namespace UiDesigner.Views.Component
                 text.Visibility = appearance.Visibility = shadow.Visibility = Visibility.Collapsed;
             
             var groups = value as List<GroupProperties>;
+            SetPropertyValues(groups!);
             
-            foreach (var group in groups!.Where(group => group.Visibility == VisibilityValue.Visible.ToString()))
+            foreach (var group in _groupProperties!.Where(group => group.Visibility == VisibilityValue.Visible.ToString()))
             {
                 if(group.Name == GroupNames.Alignment.ToString())
                 {
@@ -143,6 +143,42 @@ namespace UiDesigner.Views.Component
         private void OnValueChangedHandle(object sender)
         {
             MouseDownCommand?.Execute(sender);
+        }
+
+        private void InitGroups()
+        {
+            _groupProperties =
+            [
+                new AlignmentGroup().GetContentAlignment(),
+                new TransformGroup().GetTransformGroup(),
+                new TextGroup().GetTextGroup(),
+                new AppearanceGroup().GetAppearanceGroup(),
+                new SelfAlignmentGroup().GetSelfAlignmentGroup(),
+                new GridPropertyGroup().GetGridPropertyGroup(),
+                new GlobalGroup().GetGlobalGroup(),
+                new ShadowGroup().GetShadowGroup()
+            ];
+        }
+
+        private void SetPropertyValues(List<GroupProperties> groups)
+        {
+            for (var i = 0; i < _groupProperties?.Count; i++)
+            {
+                _groupProperties[i].Visibility =
+                    _groupProperties[i].Visibility == VisibilityValue.Collapsed.ToString() ||
+                    groups[i].Visibility == VisibilityValue.Collapsed.ToString()
+                        ? VisibilityValue.Collapsed.ToString()
+                        : VisibilityValue.Visible.ToString();
+                
+                for (var j = 0; j < _groupProperties[j].Properties.Count; j++)
+                {
+                    _groupProperties[i].Properties[j].Visibility =
+                        _groupProperties[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString() ||
+                        groups[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString()
+                            ? VisibilityValue.Collapsed.ToString()
+                            : VisibilityValue.Visible.ToString();
+                }
+            }
         }
     }
 }

@@ -91,6 +91,7 @@ namespace ConceptorUI.Views.Component
         public async void Refresh(object projectObject)
         {
             var projectInfoUiDto = (projectObject as ProjectInfoUiDto)!;
+            
             _project = new ProjectUiDto
             {
                 ZipPath = projectInfoUiDto.ZipPath,
@@ -102,6 +103,7 @@ namespace ConceptorUI.Views.Component
                 Updated = projectInfoUiDto.Updated,
                 ReportInfos = []
             };
+            
             ComponentHelper.ProjectPath = projectInfoUiDto.ZipPath;
             ComponentHelper.ProjectName = projectInfoUiDto.Id;
             ComponentHelper.ProjectTempId = projectInfoUiDto.UniqueId;

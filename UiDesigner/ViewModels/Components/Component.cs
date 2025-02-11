@@ -142,15 +142,19 @@ namespace ConceptorUI.ViewModels.Components
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
 
-            SelectedCommand?.Execute(
-                new Dictionary<string, dynamic>
-                {
-                    { "Id", Id! },
-                    { "selected", false },
-                    { "propertyGroups", GetPropertyGroups() },
-                    { "componentName", Name }
-                }
-            );
+            if (!ComponentHelper.IsMultiselectionEnable)
+            {
+                SelectedCommand?.Execute(
+                    new Dictionary<string, dynamic>
+                    {
+                        { "Id", Id! },
+                        { "selected", false },
+                        { "propertyGroups", GetPropertyGroups() },
+                        { "componentName", Name }
+                    }
+                );
+            }
+            
             OnSelected();
         }
 

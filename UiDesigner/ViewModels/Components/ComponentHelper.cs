@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Icon;
@@ -24,6 +25,8 @@ internal class ComponentHelper
     public static string? ProjectName;
     public static string? ProjectTempId;
     public static string? FilePath;
+    public static bool IsMultiselectionEnable = false;
+    
     private static List<string>? _ids;
 
     public static Component GetComponent(string name)
