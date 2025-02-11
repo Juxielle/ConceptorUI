@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "TknZ0wWniZ0k9svjO4e2WLuHfPCtTqPT3MN11IeeB5Hz0enlMf/Y2p4T3wExSrTDGbCHL2X58at7OigIdQKe1A==",
+  "dgSpecHash": "R4mxiPvqiT4=",
   "success": true,
   "projectFilePath": "C:\\Users\\INITIAL Dev\\Documents\\Dossier Harold\\Projets\\ConceptorUI\\UiDesigner\\UiDesigner.csproj",
   "expectedPackageFiles": [
@@ -13,14 +13,18 @@
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.sfbusyindicator.wpf\\25.2.4\\syncfusion.sfbusyindicator.wpf.25.2.4.nupkg.sha512",
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.sfgrid.wpf\\25.2.4\\syncfusion.sfgrid.wpf.25.2.4.nupkg.sha512",
     "C:\\Users\\INITIAL Dev\\.nuget\\packages\\syncfusion.shared.wpf\\25.2.4\\syncfusion.shared.wpf.25.2.4.nupkg.sha512",
-    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\unnoficial.microsoft.expression.drawing\\1.0.0\\unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512"
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\unnoficial.microsoft.expression.drawing\\1.0.0\\unnoficial.microsoft.expression.drawing.1.0.0.nupkg.sha512",
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.netcore.app.ref\\6.0.36\\microsoft.netcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.windowsdesktop.app.ref\\6.0.36\\microsoft.windowsdesktop.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.aspnetcore.app.ref\\6.0.36\\microsoft.aspnetcore.app.ref.6.0.36.nupkg.sha512",
+    "C:\\Users\\INITIAL Dev\\.nuget\\packages\\microsoft.netcore.app.host.win-x64\\6.0.36\\microsoft.netcore.app.host.win-x64.6.0.36.nupkg.sha512"
   ],
   "logs": [
     {
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'FontAwesome.WPF 4.7.0.9' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' au lieu du framework cible du projet 'net6.0-windows7.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Package 'FontAwesome.WPF 4.7.0.9' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "FontAwesome.WPF",
       "targetGraphs": [
         "net6.0-windows7.0"
@@ -30,7 +34,7 @@
       "code": "NU1701",
       "level": "Warning",
       "warningLevel": 1,
-      "message": "Le package 'Unnoficial.Microsoft.Expression.Drawing 1.0.0' a été restauré en utilisant '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' au lieu du framework cible du projet 'net6.0-windows7.0'. Ce package n'est peut-être pas totalement compatible avec votre projet.",
+      "message": "Package 'Unnoficial.Microsoft.Expression.Drawing 1.0.0' was restored using '.NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8, .NETFramework,Version=v4.8.1' instead of the project target framework 'net6.0-windows7.0'. This package may not be fully compatible with your project.",
       "libraryId": "Unnoficial.Microsoft.Expression.Drawing",
       "targetGraphs": [
         "net6.0-windows7.0"
