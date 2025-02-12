@@ -19,6 +19,7 @@ namespace ConceptorUI
         private static MainWindow? _obj;
         private readonly List<ProjectInfoUiDto> _projects;
         private bool _isHorizontalScroll;
+        private bool _allowMove;
 
         public MainWindow()
         {
@@ -26,6 +27,7 @@ namespace ConceptorUI
 
             _obj = this;
             _projects = new List<ProjectInfoUiDto>();
+            _allowMove = true;
             _isHorizontalScroll = false;
             Pages.Focus();
 
@@ -70,12 +72,28 @@ namespace ConceptorUI
                     PageView.OnSaved();
                     Console.WriteLine("Ctrl + S is pressed.");
                     break;
+                case Key.Z when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
+                    PageView.GetTransferData(nameof(PageView), new PropertySender
+                    {
+                        SenderAction = SenderAction.CancelAction
+                    });
+                    Console.WriteLine("Ctrl + Z is pressed.");
+                    break;
+                case Key.Y when (Keyboard.Modifiers & ModifierKeys.Control) == ModifierKeys.Control:
+                    PageView.GetTransferData(nameof(PageView), new PropertySender
+                    {
+                        SenderAction = SenderAction.RestoreAction
+                    });
+                    Console.WriteLine("Ctrl + Y is pressed.");
+                    break;
                 case Key.LeftShift:
+                    _allowMove = false;
                     _isHorizontalScroll = true;
                     Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("LeftShift is pressed.");
                     break;
                 case Key.RightShift:
+                    _allowMove = false;
                     _isHorizontalScroll = true;
                     Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("RightShift is pressed.");
