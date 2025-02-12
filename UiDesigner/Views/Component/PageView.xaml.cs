@@ -423,7 +423,8 @@ namespace ConceptorUI.Views.Component
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
-            _components[_project.ReportInfos[_selectedReport].Code!].OnUpdated(groupName, propertyName, value);
+            _components[_project.ReportInfos[_selectedReport].Code!]
+                .OnUpdated(groupName, propertyName, value, allowSavingAction: true);
         }
 
         private void RefreshStructuralView()
@@ -724,21 +725,34 @@ namespace ConceptorUI.Views.Component
                 screenModal.ShowDialog();
             }
             else if (propertySender.SenderAction == SenderAction.CancelAction &&
-                     ComponentHelper.UndoRedoActions.Count > 0)
+                     ComponentHelper.UndoActions.Count > 0)
             {
-                var index = ComponentHelper.UndoRedoActions.Count - 1;
-                
-                _components[_project.ReportInfos[_selectedReport].Code!].OnUpdated(
-                    groupName: ComponentHelper.UndoRedoActions[index].CurrentAction.GroupName,
-                    propertyName: ComponentHelper.UndoRedoActions[index].CurrentAction.PropertyName,
-                    value: ComponentHelper.UndoRedoActions[index].CurrentAction.Value
+                var index = ComponentHelper.UndoActions.Count - 1;
+
+                ComponentHelper.UndoActions[index].Instance?.OnUpdated(
+                    groupName: ComponentHelper.UndoActions[index].PreviousAction.GroupName,
+                    propertyName: ComponentHelper.UndoActions[index].PreviousAction.PropertyName,
+                    value: ComponentHelper.UndoActions[index].PreviousAction.Value,
+                    allow: true
                 );
-                ComponentHelper.UndoRedoActions.RemoveAt(index);
+                
+                ComponentHelper.RedoActions.Add(ComponentHelper.UndoActions[index]);
+                ComponentHelper.UndoActions.RemoveAt(index);
             }
             else if (propertySender.SenderAction == SenderAction.RestoreAction &&
-                     ComponentHelper.UndoRedoActions.Count > 0)
+                     ComponentHelper.RedoActions.Count > 0)
             {
-                //_components[_project.ReportInfos[_selectedReport].Code!].OnUpdated(groupName, propertyName, value);
+                var index = ComponentHelper.RedoActions.Count - 1;
+
+                ComponentHelper.RedoActions[index].Instance?.OnUpdated(
+                    groupName: ComponentHelper.RedoActions[index].CurrentAction.GroupName,
+                    propertyName: ComponentHelper.RedoActions[index].CurrentAction.PropertyName,
+                    value: ComponentHelper.RedoActions[index].CurrentAction.Value,
+                    allow: true
+                );
+                
+                ComponentHelper.UndoActions.Add(ComponentHelper.RedoActions[index]);
+                ComponentHelper.RedoActions.RemoveAt(index);
             }
         }
     }

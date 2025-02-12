@@ -22,7 +22,9 @@ internal class ComponentHelper
     public static string? FilePath;
 
     public static bool IsMultiSelectionEnable = false;
-    public static readonly List<UndoRedoAction> UndoRedoActions = [];
+    
+    public static readonly List<UndoRedoAction> UndoActions = [];
+    public static readonly List<UndoRedoAction> RedoActions = [];
 
     private static List<string>? _ids;
 
@@ -107,10 +109,10 @@ internal class ComponentHelper
         _ids?.Remove(id);
     }
 
-    public static void SaveUndoRedoAction(GroupNames groupName, PropertyNames propertyName, string oldValue,
-        string newValue)
+    public static void SaveUndoRedoAction(Component instance, GroupNames groupName, PropertyNames propertyName,
+        string oldValue, string newValue)
     {
-        UndoRedoActions.Add(new UndoRedoAction
+        UndoActions.Add(new UndoRedoAction
         {
             CurrentAction = new UndoRedo
             {
@@ -123,10 +125,11 @@ internal class ComponentHelper
                 GroupName = groupName,
                 PropertyName = propertyName,
                 Value = oldValue
-            }
+            },
+            Instance = instance
         });
 
-        if (UndoRedoActions.Count <= 50) return;
-        UndoRedoActions.RemoveAt(0);
+        if (UndoActions.Count <= 50) return;
+        UndoActions.RemoveAt(0);
     }
 }

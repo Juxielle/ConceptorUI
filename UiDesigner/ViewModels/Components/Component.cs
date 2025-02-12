@@ -9,7 +9,6 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
-using ConceptorUI.Classes;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
@@ -169,7 +168,8 @@ namespace ConceptorUI.ViewModels.Components
         {
         }
 
-        public void OnUpdated(GroupNames groupName, PropertyNames propertyName, string value, bool allow = false)
+        public void OnUpdated(GroupNames groupName, PropertyNames propertyName, string value, bool allow = false,
+            bool allowSavingAction = false)
         {
             if (Selected || allow)
             {
@@ -199,8 +199,8 @@ namespace ConceptorUI.ViewModels.Components
                             _ => HorizontalAlignment.Left
                         };
 
-                        var oldValue = value == "1" ? "0" : "1";
-                        ComponentHelper.SaveUndoRedoAction(groupName, propertyName, oldValue, value);
+                        // var oldValue = value == "1" ? "0" : "1";
+                        // ComponentHelper.SaveUndoRedoAction(groupName, propertyName, oldValue, value);
 
                         var w = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (value == "0" && w == SizeValue.Auto.ToString() && AllowExpanded())
@@ -480,10 +480,13 @@ namespace ConceptorUI.ViewModels.Components
                     Content.Background = ShadowContent.Background = value == ColorValue.Transparent.ToString()
                         ? Brushes.Transparent
                         : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
-                    
-                    var oldValue = this.GetGroupProperties(groupName).GetValue(propertyName);
-                    ComponentHelper.SaveUndoRedoAction(groupName, propertyName, oldValue, value);
-                    
+
+                    if(allowSavingAction)
+                    {
+                        var oldValue = this.GetGroupProperties(groupName).GetValue(propertyName);
+                        ComponentHelper.SaveUndoRedoAction(this, groupName, propertyName, oldValue, value);
+                    }
+
                     this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.Opacity)
@@ -860,7 +863,7 @@ namespace ConceptorUI.ViewModels.Components
                 }
 
                 foreach (var child in Children)
-                    child.OnUpdated(groupName, propertyName, value);
+                    child.OnUpdated(groupName, propertyName, value, allowSavingAction: allowSavingAction);
 
                 #endregion
             }
