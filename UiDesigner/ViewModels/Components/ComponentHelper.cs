@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
+using ConceptorUI.Classes;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Icon;
@@ -11,11 +11,6 @@ using ConceptorUI.ViewModels.Stack;
 using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Icon;
-using UiDesigner.ViewModels.Image;
-using UiDesigner.ViewModels.ListView;
-using UiDesigner.ViewModels.Row;
-using UiDesigner.ViewModels.Stack;
 
 namespace ConceptorUI.ViewModels.Components;
 
@@ -25,8 +20,12 @@ internal class ComponentHelper
     public static string? ProjectName;
     public static string? ProjectTempId;
     public static string? FilePath;
-    public static bool IsMultiselectionEnable = false;
+
+    public static bool IsMultiSelectionEnable = false;
     
+    public static readonly List<UndoRedoAction> UndoActions = [];
+    public static readonly List<UndoRedoAction> RedoActions = [];
+
     private static List<string>? _ids;
 
     public static Component GetComponent(string name)
@@ -79,19 +78,19 @@ internal class ComponentHelper
 
         var i = 0;
         var time = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
-        var generatedId =  $"{i}{time}";
+        var generatedId = $"{i}{time}";
 
         while (_ids.Count > 0)
         {
             var found = false;
             foreach (var id in _ids)
             {
-                if(id != generatedId) continue;
+                if (id != generatedId) continue;
                 found = true;
                 break;
             }
-            
-            if(!found) break;
+
+            if (!found) break;
             i++;
             generatedId = $"{i}{time}";
         }
@@ -99,7 +98,7 @@ internal class ComponentHelper
         _ids.Add(generatedId);
         return generatedId;
     }
-    
+
     public static void SaveId(string id)
     {
         _ids?.Add(id);
@@ -108,5 +107,29 @@ internal class ComponentHelper
     public static void DeleteId(string id)
     {
         _ids?.Remove(id);
+    }
+
+    public static void SaveUndoRedoAction(Component instance, GroupNames groupName, PropertyNames propertyName,
+        string oldValue, string newValue)
+    {
+        UndoActions.Add(new UndoRedoAction
+        {
+            CurrentAction = new UndoRedo
+            {
+                GroupName = groupName,
+                PropertyName = propertyName,
+                Value = newValue
+            },
+            PreviousAction = new UndoRedo
+            {
+                GroupName = groupName,
+                PropertyName = propertyName,
+                Value = oldValue
+            },
+            Instance = instance
+        });
+
+        if (UndoActions.Count <= 50) return;
+        UndoActions.RemoveAt(0);
     }
 }

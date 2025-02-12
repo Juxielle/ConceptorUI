@@ -42,6 +42,26 @@ public partial class MainButton
         set => SetValue(BorderBrushProperty, value);
     }
 
+    public new static readonly DependencyProperty BackgroundProperty =
+        DependencyProperty.Register(nameof(Background), typeof(Brush), typeof(MainButton),
+            new PropertyMetadata(new BrushConverter().ConvertFrom("#e1e1e1") as SolidColorBrush));
+
+    public new Brush Background
+    {
+        get => (Brush)GetValue(BackgroundProperty);
+        set => SetValue(BackgroundProperty, value);
+    }
+
+    public new static readonly DependencyProperty ForegroundProperty =
+        DependencyProperty.Register(nameof(Foreground), typeof(Brush), typeof(MainButton),
+            new PropertyMetadata(new BrushConverter().ConvertFrom("#666666") as SolidColorBrush));
+
+    public new Brush Foreground
+    {
+        get => (Brush)GetValue(ForegroundProperty);
+        set => SetValue(ForegroundProperty, value);
+    }
+
     public static readonly DependencyProperty CommandProperty =
         DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(MainButton),
             new PropertyMetadata(null));

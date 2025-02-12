@@ -29,6 +29,8 @@ using System.Windows.Media.TextFormatting;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Shell;
+using UiDesigner.Binding;
+using UiDesigner.Views.Component;
 using UiDesigner.Views.Widgets;
 
 

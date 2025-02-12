@@ -91,7 +91,7 @@ namespace ConceptorUI.Views.Component
         public async void Refresh(object projectObject)
         {
             var projectInfoUiDto = (projectObject as ProjectInfoUiDto)!;
-            
+
             _project = new ProjectUiDto
             {
                 ZipPath = projectInfoUiDto.ZipPath,
@@ -103,7 +103,7 @@ namespace ConceptorUI.Views.Component
                 Updated = projectInfoUiDto.Updated,
                 ReportInfos = []
             };
-            
+
             ComponentHelper.ProjectPath = projectInfoUiDto.ZipPath;
             ComponentHelper.ProjectName = projectInfoUiDto.Id;
             ComponentHelper.ProjectTempId = projectInfoUiDto.UniqueId;
@@ -398,7 +398,7 @@ namespace ConceptorUI.Views.Component
 
             component.CheckIsExistId();
             var compText = JsonSerializer.Serialize(component.Children[0].Children[0].OnSerializer());
-            
+
             _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true, true);
         }
 
@@ -410,7 +410,7 @@ namespace ConceptorUI.Views.Component
                 {
                     if (_components[key].GetType().Name != nameof(ComponentModel)) continue;
                     var serializer = _components[key].Children[0].Children[0].OnSerializer();
-                    
+
                     foreach (var key2 in _components.Keys.Where(key2 => key != key2))
                         _components[key2].OnUpdateComponent(serializer);
                 }
@@ -423,7 +423,8 @@ namespace ConceptorUI.Views.Component
 
         public void SetProperty(GroupNames groupName, PropertyNames propertyName, string value)
         {
-            _components[_project.ReportInfos[_selectedReport].Code!].OnUpdated(groupName, propertyName, value);
+            _components[_project.ReportInfos[_selectedReport].Code!]
+                .OnUpdated(groupName, propertyName, value, allowSavingAction: true);
         }
 
         private void RefreshStructuralView()
@@ -503,7 +504,7 @@ namespace ConceptorUI.Views.Component
         {
             DisplayLoadingCommand?.Execute(true);
             RefreshReusableComponent();
-            
+
             var sc = SynchronizationContext.Current;
             ThreadPool.QueueUserWorkItem(delegate
             {
@@ -526,7 +527,7 @@ namespace ConceptorUI.Views.Component
                         ProjectName = _project.Id,
                         Reports = reports
                     });
-                    
+
                     DisplayLoadingCommand?.Execute(false);
                 }, null);
 
@@ -665,7 +666,7 @@ namespace ConceptorUI.Views.Component
         {
             ChangeScreen(sender);
         }
-        
+
         private void CreateComponent(bool isComponent = false)
         {
             var destination = isComponent ? "de la page" : "du composant";
@@ -722,6 +723,36 @@ namespace ConceptorUI.Views.Component
                     ScreenChangedCommand = new RelayCommand(OnScreenChanged)
                 };
                 screenModal.ShowDialog();
+            }
+            else if (propertySender.SenderAction == SenderAction.CancelAction &&
+                     ComponentHelper.UndoActions.Count > 0)
+            {
+                var index = ComponentHelper.UndoActions.Count - 1;
+
+                ComponentHelper.UndoActions[index].Instance?.OnUpdated(
+                    groupName: ComponentHelper.UndoActions[index].PreviousAction.GroupName,
+                    propertyName: ComponentHelper.UndoActions[index].PreviousAction.PropertyName,
+                    value: ComponentHelper.UndoActions[index].PreviousAction.Value,
+                    allow: true
+                );
+                
+                ComponentHelper.RedoActions.Add(ComponentHelper.UndoActions[index]);
+                ComponentHelper.UndoActions.RemoveAt(index);
+            }
+            else if (propertySender.SenderAction == SenderAction.RestoreAction &&
+                     ComponentHelper.RedoActions.Count > 0)
+            {
+                var index = ComponentHelper.RedoActions.Count - 1;
+
+                ComponentHelper.RedoActions[index].Instance?.OnUpdated(
+                    groupName: ComponentHelper.RedoActions[index].CurrentAction.GroupName,
+                    propertyName: ComponentHelper.RedoActions[index].CurrentAction.PropertyName,
+                    value: ComponentHelper.RedoActions[index].CurrentAction.Value,
+                    allow: true
+                );
+                
+                ComponentHelper.UndoActions.Add(ComponentHelper.RedoActions[index]);
+                ComponentHelper.RedoActions.RemoveAt(index);
             }
         }
     }

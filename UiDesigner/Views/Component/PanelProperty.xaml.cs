@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
@@ -164,19 +165,39 @@ namespace ConceptorUI.Views.Component
         {
             for (var i = 0; i < _groupProperties?.Count; i++)
             {
-                _groupProperties[i].Visibility =
-                    _groupProperties[i].Visibility == VisibilityValue.Collapsed.ToString() ||
-                    groups[i].Visibility == VisibilityValue.Collapsed.ToString()
-                        ? VisibilityValue.Collapsed.ToString()
-                        : VisibilityValue.Visible.ToString();
+                if(i >= groups.Count) continue;
+                
+                if (ComponentHelper.IsMultiSelectionEnable)
+                {
+                    _groupProperties[i].Visibility =
+                        _groupProperties[i].Visibility == VisibilityValue.Collapsed.ToString() ||
+                        groups[i].Visibility == VisibilityValue.Collapsed.ToString()
+                            ? VisibilityValue.Collapsed.ToString()
+                            : VisibilityValue.Visible.ToString();
+                }
+                else
+                {
+                    _groupProperties[i].Visibility = $"{groups[i].Visibility}";
+                }
                 
                 for (var j = 0; j < _groupProperties[j].Properties.Count; j++)
                 {
-                    _groupProperties[i].Properties[j].Visibility =
-                        _groupProperties[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString() ||
-                        groups[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString()
-                            ? VisibilityValue.Collapsed.ToString()
-                            : VisibilityValue.Visible.ToString();
+                    if(j >= groups[i].Properties.Count) continue;
+
+                    if (ComponentHelper.IsMultiSelectionEnable)
+                    {
+                        _groupProperties[i].Properties[j].Visibility =
+                            _groupProperties[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString() ||
+                            groups[i].Properties[j].Visibility == VisibilityValue.Collapsed.ToString()
+                                ? VisibilityValue.Collapsed.ToString()
+                                : VisibilityValue.Visible.ToString();
+                    }
+                    else
+                    {
+                        _groupProperties[i].Properties[j].Visibility = $"{groups[i].Properties[j].Visibility}";
+                    }
+                    
+                    _groupProperties[i].Properties[j].Value = $"{groups[i].Properties[j].Value}";
                 }
             }
         }

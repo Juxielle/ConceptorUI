@@ -131,7 +131,6 @@ C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.AssemblyInfo.cs
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.csproj.CoreCompileInputs.cache
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.sourcelink.json
-C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.csproj.CopyComplete
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.dll
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\refint\UiDesigner.dll
 C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.pdb
@@ -282,3 +281,4 @@ E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\refint\UiDesi
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.pdb
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.genruntimeconfig.cache
 E:\Projets Desktop\ConceptorUi\UiDesigner\obj\Debug\net6.0-windows\ref\UiDesigner.dll
+C:\Users\INITIAL Dev\Documents\Dossier Harold\Projets\ConceptorUI\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.csproj.CopyComplete
