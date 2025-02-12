@@ -93,8 +93,15 @@ namespace ConceptorUI.ViewModels.Components
             BorderContent.Stroke = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             BorderContent.StrokeThickness = 0.4;
             ShadowContent.Margin = Content.Margin = new Thickness(0.8);
+
+            if (Selected && ComponentHelper.IsMultiSelectionEnable)
+            {
+                OnUnselected(false);
+                return;
+            }
+
             Selected = true;
-            
+
             SelectedCommand?.Execute(
                 new Dictionary<string, dynamic>
                 {
@@ -123,13 +130,14 @@ namespace ConceptorUI.ViewModels.Components
             return Selected || found;
         }
 
-        public void OnUnselected()
+        public void OnUnselected(bool isDeep = true)
         {
             Selected = false;
             BorderContent.Stroke = Brushes.Transparent;
             BorderContent.StrokeThickness = 0;
             ShadowContent.Margin = Content.Margin = new Thickness(0);
 
+            if (!isDeep) return;
             foreach (var child in Children)
                 child.OnUnselected();
         }
@@ -153,7 +161,7 @@ namespace ConceptorUI.ViewModels.Components
                     }
                 );
             }
-            
+
             OnSelected();
         }
 
@@ -190,12 +198,9 @@ namespace ConceptorUI.ViewModels.Components
                             _ when value == "1" => HorizontalAlignment.Right,
                             _ => HorizontalAlignment.Left
                         };
-                        
-                        ComponentHelper.SaveUndoRedoAction(new UndoRedoAction
-                        {
-                            CurrentAction = new UndoRedo(),
-                            PreviousAction = new UndoRedo()
-                        });
+
+                        var oldValue = value == "1" ? "0" : "1";
+                        ComponentHelper.SaveUndoRedoAction(groupName, propertyName, oldValue, value);
 
                         var w = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
                         if (value == "0" && w == SizeValue.Auto.ToString() && AllowExpanded())
@@ -346,7 +351,7 @@ namespace ConceptorUI.ViewModels.Components
                 else if (propertyName is PropertyNames.Hve)
                 {
                     if (value == "1" && !AllowExpanded() && !AllowExpanded(false)) return;
-                    
+
                     OnUpdated(groupName, PropertyNames.Width,
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
                     OnUpdated(groupName, PropertyNames.Height,
@@ -475,6 +480,10 @@ namespace ConceptorUI.ViewModels.Components
                     Content.Background = ShadowContent.Background = value == ColorValue.Transparent.ToString()
                         ? Brushes.Transparent
                         : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
+                    
+                    var oldValue = this.GetGroupProperties(groupName).GetValue(propertyName);
+                    ComponentHelper.SaveUndoRedoAction(groupName, propertyName, oldValue, value);
+                    
                     this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.Opacity)
@@ -495,14 +504,19 @@ namespace ConceptorUI.ViewModels.Components
                 {
                     var vd = Helper.ConvertToDouble(value);
                     this.SetPropertyValue(groupName, PropertyNames.Margin, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.MarginLeft, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.MarginRight, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.MarginTop, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.MarginBottom, vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.MarginLeft,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.MarginRight,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.MarginTop,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.MarginBottom,
+                        vd.ToString(CultureInfo.InvariantCulture));
 
                     this.SetPropertyValue(groupName, PropertyNames.CMargin, "1");
                     var gap =
-                        Helper.ConvertToDouble(this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                        Helper.ConvertToDouble(
+                            this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
                     var marginBottom = IsVertical ? gap + vd : vd;
                     var marginRight = !IsVertical ? gap + vd : vd;
 
@@ -527,7 +541,8 @@ namespace ConceptorUI.ViewModels.Components
                     var vd = Helper.ConvertToDouble(value);
                     this.SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
                     var gap =
-                        Helper.ConvertToDouble(this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                        Helper.ConvertToDouble(
+                            this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
                     var marginRight = !IsVertical ? gap + vd : vd;
 
                     SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
@@ -538,7 +553,8 @@ namespace ConceptorUI.ViewModels.Components
                     var vd = Helper.ConvertToDouble(value);
                     this.SetPropertyValue(groupName, propertyName, vd.ToString(CultureInfo.InvariantCulture));
                     var gap =
-                        Helper.ConvertToDouble(this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
+                        Helper.ConvertToDouble(
+                            this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Gap));
                     var marginBottom = IsVertical ? gap + vd : vd;
 
                     SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
@@ -556,10 +572,14 @@ namespace ConceptorUI.ViewModels.Components
                 {
                     var vd = Helper.ConvertToDouble(value);
                     this.SetPropertyValue(groupName, PropertyNames.Padding, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.PaddingLeft, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.PaddingRight, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.PaddingTop, vd.ToString(CultureInfo.InvariantCulture));
-                    this.SetPropertyValue(groupName, PropertyNames.PaddingBottom, vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.PaddingLeft,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.PaddingRight,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.PaddingTop,
+                        vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.PaddingBottom,
+                        vd.ToString(CultureInfo.InvariantCulture));
 
                     this.SetPropertyValue(groupName, PropertyNames.CPadding, "1");
 
@@ -608,7 +628,8 @@ namespace ConceptorUI.ViewModels.Components
                 else if (propertyName == PropertyNames.BorderWidth)
                 {
                     var vd = Helper.ConvertToDouble(value);
-                    this.SetPropertyValue(groupName, PropertyNames.BorderWidth, vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.BorderWidth,
+                        vd.ToString(CultureInfo.InvariantCulture));
                     this.SetPropertyValue(groupName, PropertyNames.BorderLeftWidth,
                         vd.ToString(CultureInfo.InvariantCulture));
                     this.SetPropertyValue(groupName, PropertyNames.BorderRightWidth,
@@ -668,7 +689,8 @@ namespace ConceptorUI.ViewModels.Components
                 else if (propertyName == PropertyNames.BorderRadius)
                 {
                     var vd = Helper.ConvertToDouble(value);
-                    this.SetPropertyValue(groupName, PropertyNames.BorderRadius, vd.ToString(CultureInfo.InvariantCulture));
+                    this.SetPropertyValue(groupName, PropertyNames.BorderRadius,
+                        vd.ToString(CultureInfo.InvariantCulture));
                     this.SetPropertyValue(groupName, PropertyNames.BorderRadiusTopLeft,
                         vd.ToString(CultureInfo.InvariantCulture));
                     this.SetPropertyValue(groupName, PropertyNames.BorderRadiusTopRight,
@@ -1225,8 +1247,8 @@ namespace ConceptorUI.ViewModels.Components
 
         private void OnUpdateProperties(CompSerializer sender, int i)
         {
-            if(Children[i].Id != sender.Id) return;
-            
+            if (Children[i].Id != sender.Id) return;
+
             var groups = sender.Properties;
             foreach (var group in groups!)
             {
@@ -1234,7 +1256,7 @@ namespace ConceptorUI.ViewModels.Components
                 foreach (var property in group.Properties)
                 {
                     if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) continue;
-                    
+
                     var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
                     if (groupEnum == GroupNames.Global)
                     {
@@ -1359,7 +1381,7 @@ namespace ConceptorUI.ViewModels.Components
         {
             //PropertyGroups = compSerializer.Properties;
             this.AddMissingProperties(compSerializer.Properties!);
-            
+
             HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
             _addedChildrenCount = compSerializer.AddedChildrenCount;
@@ -1534,7 +1556,7 @@ namespace ConceptorUI.ViewModels.Components
         protected void OnInit()
         {
             InitChildContent();
-            
+
             Content = new Border();
             ShadowContent = new Border();
             BorderContent = new Rectangle

@@ -11,7 +11,7 @@
     <Border Width="30"
             Height="30"
             CornerRadius="4"
-            Background="#e1e1e1"
+            Background="{Binding Background, RelativeSource={RelativeSource AncestorType=UserControl}}"
             BorderBrush="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}"
             BorderThickness="0.4">
         <Button Cursor="Hand"
@@ -21,7 +21,7 @@
             <materialDesign:PackIcon Kind="{Binding Kind, RelativeSource={RelativeSource AncestorType=UserControl}}"
                                      Width="22"
                                      Height="22"
-                                     Foreground="{Binding BorderBrush, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                                     Foreground="{Binding Foreground, RelativeSource={RelativeSource AncestorType=UserControl}}" />
         </Button>
     </Border>
 </UserControl>

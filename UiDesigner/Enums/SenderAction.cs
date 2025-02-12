@@ -10,5 +10,7 @@ public enum SenderAction
     AddComponent,
     Refresh,
     Screens,
-    Delete
+    Delete,
+    CancelAction,
+    RestoreAction
 }

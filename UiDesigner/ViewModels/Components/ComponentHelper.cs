@@ -20,10 +20,10 @@ internal class ComponentHelper
     public static string? ProjectName;
     public static string? ProjectTempId;
     public static string? FilePath;
-    
+
     public static bool IsMultiSelectionEnable = false;
     public static readonly List<UndoRedoAction> UndoRedoActions = [];
-    
+
     private static List<string>? _ids;
 
     public static Component GetComponent(string name)
@@ -76,19 +76,19 @@ internal class ComponentHelper
 
         var i = 0;
         var time = ((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds();
-        var generatedId =  $"{i}{time}";
+        var generatedId = $"{i}{time}";
 
         while (_ids.Count > 0)
         {
             var found = false;
             foreach (var id in _ids)
             {
-                if(id != generatedId) continue;
+                if (id != generatedId) continue;
                 found = true;
                 break;
             }
-            
-            if(!found) break;
+
+            if (!found) break;
             i++;
             generatedId = $"{i}{time}";
         }
@@ -96,7 +96,7 @@ internal class ComponentHelper
         _ids.Add(generatedId);
         return generatedId;
     }
-    
+
     public static void SaveId(string id)
     {
         _ids?.Add(id);
@@ -107,11 +107,26 @@ internal class ComponentHelper
         _ids?.Remove(id);
     }
 
-    public static void SaveUndoRedoAction(UndoRedoAction action)
+    public static void SaveUndoRedoAction(GroupNames groupName, PropertyNames propertyName, string oldValue,
+        string newValue)
     {
-        UndoRedoActions.Add(action);
-        
-        if(UndoRedoActions.Count <= 50) return;
+        UndoRedoActions.Add(new UndoRedoAction
+        {
+            CurrentAction = new UndoRedo
+            {
+                GroupName = groupName,
+                PropertyName = propertyName,
+                Value = newValue
+            },
+            PreviousAction = new UndoRedo
+            {
+                GroupName = groupName,
+                PropertyName = propertyName,
+                Value = oldValue
+            }
+        });
+
+        if (UndoRedoActions.Count <= 50) return;
         UndoRedoActions.RemoveAt(0);
     }
 }
