@@ -9,6 +9,8 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
+using ConceptorUI.Enums;
+using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
@@ -87,7 +89,7 @@ namespace ConceptorUI.ViewModels.Components
         protected abstract void ContinueToInitialize(string groupName, string propertyName, string value);
         protected abstract object GetPropertyGroups();
 
-        public void OnSelected()
+        public void OnSelected(int clickCount = 1)
         {
             BorderContent.Stroke = new BrushConverter().ConvertFrom("#000000") as SolidColorBrush;
             BorderContent.StrokeThickness = 0.4;
@@ -100,14 +102,16 @@ namespace ConceptorUI.ViewModels.Components
             }
 
             Selected = true;
-
+            
             SelectedCommand?.Execute(
-                new Dictionary<string, dynamic>
+                new SelectComponentSender
                 {
-                    { "Id", Id! },
-                    { "selected", true },
-                    { "propertyGroups", GetPropertyGroups() },
-                    { "componentName", Name }
+                    Id = Id!,
+                    SelectComponentAction = clickCount == 1 ?
+                        SelectComponentActions.Select :
+                        SelectComponentActions.DoubleClick,
+                    PropertyGroups = GetPropertyGroups(),
+                    ComponentName = Name
                 }
             );
         }
@@ -147,21 +151,21 @@ namespace ConceptorUI.ViewModels.Components
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
-
+            
             if (!ComponentHelper.IsMultiSelectionEnable)
             {
                 SelectedCommand?.Execute(
-                    new Dictionary<string, dynamic>
+                    new SelectComponentSender
                     {
-                        { "Id", Id! },
-                        { "selected", false },
-                        { "propertyGroups", GetPropertyGroups() },
-                        { "componentName", Name }
+                        Id = Id!,
+                        SelectComponentAction = SelectComponentActions.Unselect,
+                        PropertyGroups = GetPropertyGroups(),
+                        ComponentName = Name
                     }
                 );
             }
 
-            OnSelected();
+            OnSelected(e.ClickCount);
         }
 
         private void OnMouseEnter(object sender, MouseEventArgs e)
@@ -363,12 +367,12 @@ namespace ConceptorUI.ViewModels.Components
                     if (Children.Count <= 0) return;
 
                     SelectedCommand?.Execute(
-                        new Dictionary<string, dynamic>
+                        new SelectComponentSender
                         {
-                            { "Id", Id! },
-                            { "selected", false },
-                            { "propertyGroups", GetPropertyGroups() },
-                            { "componentName", Name }
+                            Id = Id!,
+                            SelectComponentAction = SelectComponentActions.Unselect,
+                            PropertyGroups = GetPropertyGroups(),
+                            ComponentName = Name
                         }
                     );
                     Children[0].OnSelected();
@@ -1468,12 +1472,12 @@ namespace ConceptorUI.ViewModels.Components
             if (structuralElement.Selected)
             {
                 SelectedCommand?.Execute(
-                    new Dictionary<string, dynamic>
+                    new SelectComponentSender
                     {
-                        { "Id", Id! },
-                        { "selected", false },
-                        { "propertyGroups", GetPropertyGroups() },
-                        { "componentName", Name }
+                        Id = Id!,
+                        SelectComponentAction = SelectComponentActions.Unselect,
+                        PropertyGroups = GetPropertyGroups(),
+                        ComponentName = Name
                     }
                 );
                 OnSelected();

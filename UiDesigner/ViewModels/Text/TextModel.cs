@@ -5,6 +5,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using ConceptorUI.Enums;
+using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
@@ -276,16 +278,20 @@ namespace ConceptorUI.ViewModels.Text
 
         private void OnTextItemMouseDown(object sender, MouseButtonEventArgs e)
         {
-            SelectedCommand?.Execute(
-                new Dictionary<string, dynamic>
-                {
-                    { "Id", Id! },
-                    { "selected", false },
-                    { "propertyGroups", GetPropertyGroups() },
-                    { "componentName", Name }
-                }
-            );
-            OnSelected();
+            if (!ComponentHelper.IsMultiSelectionEnable)
+            {
+                SelectedCommand?.Execute(
+                    new SelectComponentSender
+                    {
+                        Id = Id!,
+                        SelectComponentAction = SelectComponentActions.Unselect,
+                        PropertyGroups = GetPropertyGroups(),
+                        ComponentName = Name
+                    }
+                );
+            }
+
+            OnSelected(e.ClickCount);
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

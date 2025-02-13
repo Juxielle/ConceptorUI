@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -255,7 +256,7 @@ namespace ConceptorUI.ViewModels.Icon
             return false;
         }
 
-        protected override object GetPropertyGroups()
+        protected override List<GroupProperties> GetPropertyGroups()
         {
             return PropertyGroups!;
         }

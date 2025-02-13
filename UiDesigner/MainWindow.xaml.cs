@@ -221,13 +221,14 @@ namespace ConceptorUI
 
         private void OnRefreshPropertyPanelHandle(object sender)
         {
-            var values = sender as Dictionary<string, dynamic>;
+            var customSender = sender as SelectComponentSender;
             List<GroupProperties> groups;
-            if (((ComponentList)values!["componentName"]) == UiDesigner.Models.ComponentList.Text)
-                groups = ((List<List<GroupProperties>>)values["propertyGroups"])[0];
-            else groups = (List<GroupProperties>)values["propertyGroups"];
+            
+            if (customSender?.ComponentName == UiDesigner.Models.ComponentList.Text)
+                groups = ((List<List<GroupProperties>>)customSender.PropertyGroups)[0];
+            else groups = (List<GroupProperties>)customSender?.PropertyGroups!;
 
-            RightPanel.FeedProps(groups, values["componentName"]);
+            RightPanel.FeedProps(groups, customSender!.ComponentName);
         }
 
         private void OnDisplayTextTypingHandle(object sender)

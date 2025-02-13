@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.ViewModels.Components;
@@ -200,7 +201,7 @@ namespace ConceptorUI.ViewModels.Container
             this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, value != SizeValue.Expand.ToString() ? "1" : "0");
         }
 
-        protected override object GetPropertyGroups()
+        protected override List<GroupProperties> GetPropertyGroups()
         {
             return PropertyGroups!;
         }

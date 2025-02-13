@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Input;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
@@ -146,7 +147,7 @@ namespace ConceptorUI.ViewModels.ReusableComponent
             return false;
         }
 
-        protected override object GetPropertyGroups()
+        protected override List<GroupProperties> GetPropertyGroups()
         {
             return PropertyGroups!;
         }

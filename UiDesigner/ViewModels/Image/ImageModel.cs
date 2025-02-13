@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System.Collections.Generic;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -74,7 +75,7 @@ namespace ConceptorUI.ViewModels.Image
             return false;
         }
 
-        protected override object GetPropertyGroups()
+        protected override List<GroupProperties> GetPropertyGroups()
         {
             return PropertyGroups!;
         }

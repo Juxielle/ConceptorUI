@@ -454,25 +454,24 @@ namespace ConceptorUI.Views.Component
 
         private void OnSelectedHandle(object sender)
         {
-            var values = sender as Dictionary<string, dynamic>;
-
-            foreach (var key in _components.Keys.Where(_ => !values!["selected"]))
+            var customSender = sender as SelectComponentSender;
+            
+            foreach (var key in _components.Keys.Where(_ => customSender!.SelectComponentAction == SelectComponentActions.Unselect))
                 _components[key].OnUnselected();
-
-            if (!values!["selected"]) return;
-
+            
+            if (customSender!.SelectComponentAction == SelectComponentActions.Unselect) return;
+            
             foreach (var key in _components.Keys.Where(key => _components[key].OnChildSelected()))
                 _selectedReport = _project.ReportInfos.FindIndex(r => r.Code == key);
-
-            Console.WriteLine($@"_selectedReport: {_selectedReport}");
-            RefreshPropertyPanelCommand?.Execute(values);
-
+            
+            RefreshPropertyPanelCommand?.Execute(customSender);
+            
             RefreshStructuralView();
-
-            if (TimerClick.IsEnable())
+            
+            if (customSender.SelectComponentAction == SelectComponentActions.DoubleClick)
             {
-                if (values["componentName"] == ComponentList.Text)
-                    DisplayTextTypingCommand?.Execute(values["propertyGroups"]);
+                if (customSender.ComponentName == ComponentList.Text)
+                    DisplayTextTypingCommand?.Execute(customSender.PropertyGroups);
             }
         }
 

@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -149,7 +150,7 @@ namespace ConceptorUI.ViewModels.Stack
             return false;
         }
 
-        protected override object GetPropertyGroups()
+        protected override List<GroupProperties> GetPropertyGroups()
         {
             return PropertyGroups!;
         }
