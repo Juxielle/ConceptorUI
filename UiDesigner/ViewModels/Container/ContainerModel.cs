@@ -1,9 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Container;
+using ConceptorUI.ViewModels.Image;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
@@ -86,7 +88,6 @@ namespace ConceptorUI.ViewModels.Container
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
 
             /* Appearance */
             /* Shadow */

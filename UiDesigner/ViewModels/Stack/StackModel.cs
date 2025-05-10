@@ -66,7 +66,6 @@ namespace ConceptorUI.ViewModels.Stack
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Y, false);
-            Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch, false);
 
             /* Appearance */
             /* Shadow */

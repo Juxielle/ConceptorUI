@@ -57,6 +57,7 @@ static class Synchronization
             component.SelectedContent.Width = double.NaN;
         }
         else if (width != SizeValue.Expand.ToString() && width != SizeValue.Auto.ToString() &&
+                 double.TryParse(width, out _) &&
                  (double.IsNaN(component.SelectedContent.Width) ||
                   Math.Abs(Convert.ToDouble(width) - component.SelectedContent.Width) != 0))
         {
@@ -74,6 +75,7 @@ static class Synchronization
         else if (height == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Height))
             component.SelectedContent.Height = double.NaN;
         else if (height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() &&
+                 double.TryParse(height, out _) &&
                  (double.IsNaN(component.SelectedContent.Height) ||
                   Math.Abs(Convert.ToDouble(height) - component.SelectedContent.Height) != 0))
         {

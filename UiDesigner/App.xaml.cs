@@ -38,7 +38,7 @@ namespace UiDesigner
             if (e.Args.Length > 0)
             {
                 var filePath = e.Args[0];
-                var filename = Path.GetFileName(filePath).Replace(".uix", "");
+                var filename = Path.GetFileName(filePath).Replace(".uid", "");
                 var trueMetaDataFound = false;
                 
                 ProjectInfoUiDto projectInfoUiDto = default!;
@@ -135,7 +135,7 @@ namespace UiDesigner
             try
             {
                 // Nom de l'extension de fichier et du chemin de l'exécutable
-                const string extension = ".uix";
+                const string extension = ".uid";
                 var appPath = Assembly.GetExecutingAssembly().Location;
                 appPath = appPath.Replace("dll", "exe");
                 var iconPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),

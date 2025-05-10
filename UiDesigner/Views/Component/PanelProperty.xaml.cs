@@ -17,6 +17,7 @@ namespace ConceptorUI.Views.Component
     {
         public ICommand? MouseDownCommand;
         private List<GroupProperties>? _groupProperties;
+        private List<GroupProperties>? _oldGroups;
 
         public PanelProperty()
         {
@@ -49,8 +50,8 @@ namespace ConceptorUI.Views.Component
             global.Visibility = alignment.Visibility = selfAlignment.Visibility = transform.Visibility = grid.Visibility =
                 text.Visibility = appearance.Visibility = shadow.Visibility = Visibility.Collapsed;
             
-            var groups = value as List<GroupProperties>;
-            SetPropertyValues(groups!);
+            _oldGroups = value as List<GroupProperties>;
+            SetPropertyValues(_oldGroups!);
             
             foreach (var group in _groupProperties!.Where(group => group.Visibility == VisibilityValue.Visible.ToString()))
             {
@@ -144,6 +145,7 @@ namespace ConceptorUI.Views.Component
         private void OnValueChangedHandle(object sender)
         {
             MouseDownCommand?.Execute(sender);
+            SetPropertyValues(_oldGroups!);
         }
 
         private void InitGroups()
@@ -180,7 +182,7 @@ namespace ConceptorUI.Views.Component
                     _groupProperties[i].Visibility = $"{groups[i].Visibility}";
                 }
                 
-                for (var j = 0; j < _groupProperties[j].Properties.Count; j++)
+                for (var j = 0; j < _groupProperties[i].Properties.Count; j++)
                 {
                     if(j >= groups[i].Properties.Count) continue;
 

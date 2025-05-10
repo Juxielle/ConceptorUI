@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -213,10 +214,9 @@ namespace ConceptorUI.Views.Component
 
         private void OnSelectedChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_allowSetField) return;
-
             var comboBox = (sender as ComboBox)!;
-            var tag = comboBox.Tag != null ? comboBox.Tag.ToString()! : "";
+            if(comboBox.Tag == null) return;
+            var tag = comboBox.Tag.ToString();
             var propertyName = PropertyNames.None;
             string value = null!;
 
@@ -230,12 +230,10 @@ namespace ConceptorUI.Views.Component
                     break;
             }
 
-            if (propertyName == PropertyNames.None && value != null!) return;
-            if (_firstCount > 1 && value != null)
-                MouseDownCommand?.Execute(
-                    new dynamic[] { GroupNames.Transform, propertyName, value }
-                );
-            if (_firstCount < 2) _firstCount++;
+            if (propertyName == PropertyNames.None) return;
+            MouseDownCommand?.Execute(
+                new dynamic[] { GroupNames.Transform, propertyName, value }
+            );
         }
 
         private void OnSettingClick(object sender, RoutedEventArgs e)

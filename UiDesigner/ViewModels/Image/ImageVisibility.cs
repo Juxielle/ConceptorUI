@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
-using ConceptorUI.ViewModels.Image;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Image;
+namespace ConceptorUI.ViewModels.Image;
 
 static class ImageVisibility
 {
@@ -22,11 +21,14 @@ static class ImageVisibility
             else if (group.Name == GroupNames.Appearance.ToString() &&
                      group.Visibility != Visibility.Visible.ToString())
                 image.SetGroupOnlyVisibility(groupName);
-            else if (group.Name == GroupNames.Transform.ToString() && group.Visibility != Visibility.Visible.ToString())
+            else if (group.Name == GroupNames.Transform.ToString() &&
+                     group.Visibility != Visibility.Visible.ToString())
                 image.SetGroupOnlyVisibility(groupName);
-            else if (group.Name == GroupNames.Global.ToString() && group.Visibility != Visibility.Visible.ToString())
+            else if (group.Name == GroupNames.Global.ToString() &&
+                     group.Visibility != Visibility.Visible.ToString())
                 image.SetGroupOnlyVisibility(groupName);
-            else if (group.Name == GroupNames.Text.ToString() && group.Visibility != Visibility.Collapsed.ToString())
+            else if (group.Name == GroupNames.Text.ToString() &&
+                     group.Visibility != Visibility.Collapsed.ToString())
                 image.SetGroupVisibility(groupName, false);
 
             foreach (var property in group.Properties)
@@ -42,7 +44,7 @@ static class ImageVisibility
                         property.Visibility != Visibility.Visible.ToString())
                         image.SetPropertyVisibility(groupName, propertyName);
                     else if (property.Name == PropertyNames.Stretch.ToString() &&
-                        property.Visibility != Visibility.Visible.ToString())
+                             property.Visibility != Visibility.Visible.ToString())
                         image.SetPropertyVisibility(groupName, propertyName);
                     else if (property.Name == PropertyNames.He.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())

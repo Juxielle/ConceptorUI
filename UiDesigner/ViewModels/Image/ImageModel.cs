@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -107,6 +108,7 @@ namespace ConceptorUI.ViewModels.Image
                 {
                     var vd = Helper.ConvertToDouble(value);
                     (Content.Child as Border)!.CornerRadius = new CornerRadius(vd);
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusTopLeft)
                 {
@@ -115,6 +117,7 @@ namespace ConceptorUI.ViewModels.Image
                         Content.CornerRadius.TopRight,
                         Content.CornerRadius.BottomRight,
                         Content.CornerRadius.BottomLeft);
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusBottomLeft)
                 {
@@ -123,6 +126,7 @@ namespace ConceptorUI.ViewModels.Image
                         Content.CornerRadius.TopRight,
                         Content.CornerRadius.BottomRight,
                         vd);
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusTopRight)
                 {
@@ -131,6 +135,7 @@ namespace ConceptorUI.ViewModels.Image
                         vd,
                         Content.CornerRadius.BottomRight,
                         Content.CornerRadius.BottomLeft);
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
                 else if (propertyName == PropertyNames.BorderRadiusBottomRight)
                 {
@@ -139,6 +144,7 @@ namespace ConceptorUI.ViewModels.Image
                         Content.CornerRadius.TopRight,
                         vd,
                         Content.CornerRadius.BottomLeft);
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
             }
             else if (groupName == GroupNames.Transform)
@@ -148,6 +154,7 @@ namespace ConceptorUI.ViewModels.Image
                     _child.Stretch = value == ImageStretch.Fill.ToString() ? Stretch.Fill :
                         value == ImageStretch.Uniform.ToString() ? Stretch.Uniform :
                         value == ImageStretch.UniformToFill.ToString() ? Stretch.UniformToFill : Stretch.None;
+                    this.SetPropertyValue(groupName, propertyName, value);
                 }
             }
         }

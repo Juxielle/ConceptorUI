@@ -59,6 +59,7 @@ namespace ConceptorUI.Views.Component
                 else if (prop.Name == PropertyNames.Margin.ToString())
                 {
                     SMargin.Visibility = Visibility.Visible;
+                    Console.WriteLine($"CMargin: {_properties.GetValue(PropertyNames.CMargin)}");
                     if (_properties.GetValue(PropertyNames.CMargin) == "1")
                     {
                         BMarginLeft.Background = BMarginTop.Background = BMarginRight.Background =
