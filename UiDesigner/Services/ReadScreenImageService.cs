@@ -5,7 +5,7 @@ using UiDesigner.Constants;
 
 namespace ConceptorUI.Services;
 
-public class ReadScreenImageService
+public abstract class ReadScreenImageService
 {
     public static BitmapImage GetImage(string imageName)
     {
@@ -24,7 +24,7 @@ public class ReadScreenImageService
         }
         catch (Exception)
         {
-            return GetBitmap("pack://application:,,,/Assets/default_mobile_traite.png");
+            return GetBitmap("pack://application:,,,/Assets/default_screen.png");
         }
     }
 

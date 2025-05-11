@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
 using ConceptorUi.ViewModels.Operations;
-using ConceptorUI.ViewModels.Stack;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Stack;
+namespace ConceptorUI.ViewModels.Stack;
 
 static class StackVisibility
 {
@@ -163,27 +162,27 @@ static class StackVisibility
 
                     if (group.Name == GroupNames.SelfAlignment.ToString())
                     {
-                        if (property.Name == PropertyNames.Hl.ToString() && stack.IsVertical &&
+                        if (property.Name == PropertyNames.Hl.ToString() &&
                             property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                         
-                        else if (property.Name == PropertyNames.Hr.ToString() && stack.IsVertical &&
+                        else if (property.Name == PropertyNames.Hr.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                         
-                        else if (property.Name == PropertyNames.Hc.ToString() && stack.IsVertical &&
+                        else if (property.Name == PropertyNames.Hc.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                         
-                        else if (property.Name == PropertyNames.Vt.ToString() && !stack.IsVertical &&
+                        else if (property.Name == PropertyNames.Vt.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                         
-                        else if (property.Name == PropertyNames.Vb.ToString() && !stack.IsVertical &&
+                        else if (property.Name == PropertyNames.Vb.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                         
-                        else if (property.Name == PropertyNames.Vc.ToString() && !stack.IsVertical &&
+                        else if (property.Name == PropertyNames.Vc.ToString() &&
                                  property.Visibility != Visibility.Visible.ToString())
                             property.Visibility = Visibility.Visible.ToString();
                     }

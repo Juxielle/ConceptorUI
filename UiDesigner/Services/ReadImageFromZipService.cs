@@ -4,7 +4,7 @@ using System.IO.Compression;
 using System.Windows.Media.Imaging;
 using UiDesigner.Constants;
 
-namespace UiDesigner.Services;
+namespace ConceptorUI.Services;
 
 public class ReadImageFromZipService
 {

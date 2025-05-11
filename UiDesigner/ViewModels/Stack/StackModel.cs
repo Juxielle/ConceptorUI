@@ -60,8 +60,8 @@ namespace ConceptorUI.ViewModels.Stack
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hr);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vt);
             Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vb);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hc, false);
-            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vc, false);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Hc);
+            Children[id].SetPropertyVisibility(GroupNames.SelfAlignment, PropertyNames.Vc);
             /* Transform */
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.Rot, false);
             Children[id].SetPropertyVisibility(GroupNames.Transform, PropertyNames.X, false);

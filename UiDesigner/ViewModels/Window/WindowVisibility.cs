@@ -1,10 +1,9 @@
 ﻿using System;
 using System.Windows;
 using ConceptorUi.ViewModels.Operations;
-using ConceptorUI.ViewModels.Window;
 using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Window;
+namespace ConceptorUI.ViewModels.Window;
 
 static class WindowVisibility
 {
@@ -269,6 +268,15 @@ static class WindowVisibility
                     if (property.Name == PropertyNames.FillColor.ToString() &&
                         property.Visibility != Visibility.Visible.ToString())
                         window.Body.SetPropertyVisibility(groupName, propertyName);
+                    else if (property.Name == PropertyNames.Margin.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.BorderWidth.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
+                    else if (property.Name == PropertyNames.BorderRadius.ToString() &&
+                        property.Visibility != Visibility.Collapsed.ToString())
+                        window.Body.SetPropertyVisibility(groupName, propertyName, false);
                 }
                 else if (group.Name == GroupNames.Global.ToString())
                 {

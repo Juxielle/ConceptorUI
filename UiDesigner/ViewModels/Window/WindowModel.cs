@@ -12,7 +12,6 @@ using ConceptorUI.ViewModels.Row;
 using ConceptorUI.Views.Widgets;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Window;
 
 namespace ConceptorUI.ViewModels.Window
 {
@@ -43,7 +42,7 @@ namespace ConceptorUI.ViewModels.Window
             CanAddIntoChildContent = false;
             ChildContentLimit = 1;
             Width = 280;
-            _ratio = 2.022106631989597;
+            _ratio = 2.1796875;
             Height = Width * _ratio;
             StatusHeight = 20;
 
@@ -53,7 +52,7 @@ namespace ConceptorUI.ViewModels.Window
 
             _border = new Border
             {
-                Padding = new Thickness(10, 58, 12, 56),
+                Padding = new Thickness(0, 0, 1, 20),
                 Child = Layout.ComponentView
             };
 

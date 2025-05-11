@@ -36,8 +36,8 @@ namespace ConceptorUI.Views.Component
         public void FeedProps(object properties)
         {
             SFillColor.Visibility = SMargin.Visibility = SPadding.Visibility = SBorder.Visibility =
-                SBorderRad.Visibility =
-                    SBorderRadBtn.Visibility = CBorderRad.Visibility = CFillColor.Visibility = Visibility.Collapsed;
+            SBorderRad.Visibility = SBorderRadBtn.Visibility = CBorderRad.Visibility = 
+            CFillColor.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
             _allowSetField = false;
 
@@ -161,7 +161,7 @@ namespace ConceptorUI.Views.Component
                 }
                 else if (prop.Name == PropertyNames.BorderWidth.ToString())
                 {
-                    SBorder.Visibility = Visibility.Visible;
+                    SBorder.Visibility  = Visibility.Visible;
                     if (_properties.GetValue(PropertyNames.CBorder) == "1")
                     {
                         BBorderLeft.Background = BBorderTop.Background = BBorderRight.Background =

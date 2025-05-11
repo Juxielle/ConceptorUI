@@ -128,7 +128,7 @@
                     <ColumnDefinition Width="30"/>
                 </Grid.ColumnDefinitions>
 
-                <StackPanel Margin="10 0 0 0">
+                <StackPanel Margin="10 0 0 0" x:Name="SBorderC">
                     <TextBlock Text="Border Color" Foreground="#666666" FontSize="10"
                        FontWeight="Bold" VerticalAlignment="Center"/>
                     <StackPanel Orientation="Horizontal">

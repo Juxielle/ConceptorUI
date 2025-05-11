@@ -113,11 +113,11 @@ static class ContainerVisibility
                         property.Visibility = Visibility.Visible.ToString();
 
                     else if (property.Name == PropertyNames.Stretch.ToString() &&
-                             property.Visibility != Visibility.Visible.ToString())
+                             property.Visibility != Visibility.Collapsed.ToString())
                         property.Visibility = Visibility.Collapsed.ToString();
 
                     else if (property.Name == PropertyNames.Gap.ToString() &&
-                             property.Visibility != Visibility.Visible.ToString())
+                             property.Visibility != Visibility.Collapsed.ToString())
                         property.Visibility = Visibility.Collapsed.ToString();
                 }
                 else if (group.Name == GroupNames.Global.ToString())
