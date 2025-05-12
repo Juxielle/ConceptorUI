@@ -428,7 +428,7 @@ namespace ConceptorUI.ViewModels.Row
                 k = i;
                 break;
             }
-
+            
             if (k != -1 && k < Children.Count - 1)
             {
                 if (focus)
@@ -723,6 +723,8 @@ namespace ConceptorUI.ViewModels.Row
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)
         {
             if (Children.Count == 0) return;
+            /*var vt1 = this.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vt);
+            Console.WriteLine($"Vt before: {vt1}");
 
             if (groupName == GroupNames.SelfAlignment)
             {
@@ -764,7 +766,7 @@ namespace ConceptorUI.ViewModels.Row
                     Alignment.SetVerticalOnNull(this);
                 else if (heightChild != SizeValue.Expand.ToString() && !isVertical)
                     Alignment.SetVerticalValue(this, PropertyNames.Vt, "1");
-            }
+            }*/
         }
     }
 }

@@ -24,7 +24,7 @@ public abstract class ReadScreenImageService
         }
         catch (Exception)
         {
-            return GetBitmap("pack://application:,,,/Assets/default_screen.png");
+            return GetBitmap("pack://application:,,,/Assets/screen11.png");
         }
     }
 

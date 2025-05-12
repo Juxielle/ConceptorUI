@@ -44,7 +44,7 @@ namespace ConceptorUI.ViewModels.Window
             Width = 280;
             _ratio = 2.1796875;
             Height = Width * _ratio;
-            StatusHeight = 20;
+            StatusHeight = 0;
 
             Statusbar = new ContainerModel();
             Body = new ContainerModel();
@@ -52,7 +52,7 @@ namespace ConceptorUI.ViewModels.Window
 
             _border = new Border
             {
-                Padding = new Thickness(0, 0, 1, 20),
+                Padding = new Thickness(0, 0, 1, 0),
                 Child = Layout.ComponentView
             };
 

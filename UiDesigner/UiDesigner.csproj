@@ -107,6 +107,8 @@
     <None Remove="Assets\default_mobile.png" />
     <None Remove="Assets\default_screen.png" />
     <Resource Include="Assets\default_screen.png" />
+    <None Remove="Assets\screen11.png" />
+    <Resource Include="Assets\screen11.png" />
   </ItemGroup>
 
 </Project>

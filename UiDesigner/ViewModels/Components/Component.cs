@@ -350,7 +350,7 @@ namespace ConceptorUI.ViewModels.Components
                     this.SetPropertyValue(groupName, propertyName, value);
                     OnUpdated(groupName,
                         propertyName is PropertyNames.He ? PropertyNames.Width : PropertyNames.Height,
-                        value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString());
+                        value == "1" ? SizeValue.Expand.ToString() : SizeValue.Auto.ToString(), true);
                 }
                 else if (propertyName is PropertyNames.Hve)
                 {
@@ -841,8 +841,7 @@ namespace ConceptorUI.ViewModels.Components
                             .Auto.ToString();
                     WhenHeightChanged(value2);
                 }
-
-                if (propertyName is PropertyNames.Width or PropertyNames.He or PropertyNames.Hve)
+                else if (propertyName is PropertyNames.Width or PropertyNames.He or PropertyNames.Hve)
                 {
                     var value2 = propertyName is PropertyNames.Width ? value :
                         value == "1" ? SizeValue.Expand.ToString() : SizeValue
