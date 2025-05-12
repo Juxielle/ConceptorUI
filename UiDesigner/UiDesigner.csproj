@@ -109,6 +109,10 @@
     <Resource Include="Assets\default_screen.png" />
     <None Remove="Assets\screen11.png" />
     <Resource Include="Assets\screen11.png" />
+    <None Remove="Assets\Icons\letter_a.png" />
+    <Resource Include="Assets\Icons\letter_a.png" />
+    <None Remove="Assets\Icons\paint-single.png" />
+    <Resource Include="Assets\Icons\paint-single.png" />
   </ItemGroup>
 
 </Project>

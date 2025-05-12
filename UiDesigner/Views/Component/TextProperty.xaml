@@ -4,6 +4,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:widgets="clr-namespace:ConceptorUI.Views.Widgets"
              mc:Ignorable="d" 
              d:DesignHeight="225" d:DesignWidth="800">
     <Border Height="225" BorderBrush="#c2c2c2" BorderThickness="0 0 0 2" Background="White">
@@ -86,12 +87,36 @@
                 </DockPanel>
             </StackPanel>
 
-            <StackPanel Grid.Row="3" Grid.Column="0" Orientation="Horizontal" Margin="10 0" x:Name="SColor">
-                <CheckBox Width="20" Height="20" IsChecked="True" VerticalAlignment="Center" Margin="0 6 0 0" Cursor="Hand" 
-                          Checked="OnColorChecked" Unchecked="OnColorChecked" x:Name="CColor" Tag="Color"/>
-                <Button Width="20" Height="20" Background="#6739b7" BorderBrush="#8c8c8a" BorderThickness="0.5"
-                        Cursor="Hand" Click="BtnClick" x:Name="BColor" Tag="Color"/>
-                <TextBlock Text="Color" Foreground="#666666" FontSize="10" FontWeight="Bold" VerticalAlignment="Center" Margin="4 0"/>
+            <StackPanel Grid.Row="3"
+                        Grid.Column="0"
+                        Orientation="Horizontal"
+                        Margin="10 0"
+                        x:Name="SColor">
+                <CheckBox Width="20"
+                          Height="20"
+                          IsChecked="True"
+                          VerticalAlignment="Center"
+                          Margin="0 6 0 0"
+                          Cursor="Hand" 
+                          Checked="OnColorChecked"
+                          Unchecked="OnColorChecked"
+                          x:Name="CColor"
+                          Tag="Color"/>
+                
+                <widgets:BoxColor Width="20"
+                                  Height="20"
+                                  Tag="Color"
+                                  x:Name="BColor"
+                                  HorizontalAlignment="Left"
+                                  Margin="4 0 0 0"
+                                  Command="{Binding PickColorCommand, RelativeSource={RelativeSource AncestorType=UserControl}}" />
+                
+                <TextBlock Text="Color"
+                           Foreground="#666666"
+                           FontSize="10"
+                           FontWeight="Bold"
+                           VerticalAlignment="Center"
+                           Margin="4 0"/>
             </StackPanel>
 
             <StackPanel Grid.Row="2" Grid.Column="1" Margin="10 0"  x:Name="SFontSize">

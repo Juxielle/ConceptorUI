@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Senders;
 using ConceptorUI.Services;
 using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
@@ -19,6 +20,7 @@ namespace ConceptorUI.Views.Component
         private bool _allowSetField;
 
         public ICommand? MouseDownCommand;
+        public ICommand? PickColorCommand { get; }
 
         public TextProperty()
         {
@@ -34,6 +36,8 @@ namespace ConceptorUI.Views.Component
                     new ComboBoxItem { Content = fontFamily.Source }
                 );
             }
+
+            PickColorCommand = new RelayCommand(OnPickColor);
         }
 
         public void FeedProps(object value)
@@ -72,9 +76,9 @@ namespace ConceptorUI.Views.Component
                     CColor.IsChecked = prop.Value != ColorValue.Transparent.ToString();
 
                     SColor.Visibility = Visibility.Visible;
-                    BColor.Background = prop.Value == ColorValue.Transparent.ToString()
+                    BColor.Color = (prop.Value == ColorValue.Transparent.ToString()
                         ? Brushes.Transparent
-                        : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
+                        : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!;
                 }
                 else if (prop.Name == PropertyNames.FontSize.ToString())
                 {
@@ -281,15 +285,17 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.Color;
                     if (CColor.IsChecked == true)
                     {
-                        var colorPicker = new ColorPicker(BColor.Background, 1);
-                        colorPicker.ColorSelectedCommand = new RelayCommand((color) =>
+                        var colorPicker = new ColorPicker(BColor.Color, 1)
                         {
-                            MouseDownCommand?.Execute(
-                                new dynamic[] { GroupNames.Text, PropertyNames.Color, color.ToString()! }
-                            );
+                            ColorSelectedCommand = new RelayCommand((color) =>
+                            {
+                                MouseDownCommand?.Execute(
+                                    new dynamic[] { GroupNames.Text, PropertyNames.Color, color.ToString()! }
+                                );
 
-                            BColor.Background = new BrushConverter().ConvertFrom(color.ToString()!) as SolidColorBrush;
-                        });
+                                BColor.Color = (new BrushConverter().ConvertFrom(color.ToString()!) as SolidColorBrush)!;
+                            })
+                        };
                         colorPicker.Show();
                     }
 
@@ -381,16 +387,38 @@ namespace ConceptorUI.Views.Component
             );
         }
 
+        private void OnPickColor(object sender)
+        {
+            var propertyName = PropertyNames.None;
+            if(sender is not PropertyActionSender propertyActionSender) return;
+            
+            if (propertyActionSender.Name == "Color")
+                propertyName = PropertyNames.Color;
+            
+            if(propertyName == PropertyNames.None) return;
+            MouseDownCommand?.Execute(
+                new dynamic[]
+                {
+                    GroupNames.Text,
+                    propertyName,
+                    propertyActionSender.Value
+                }
+            );
+        }
+
         private void OnColorChecked(object sender, RoutedEventArgs e)
         {
             if (!_allowSetField) return;
 
             var cb = (sender as CheckBox)!;
             if (cb.IsChecked != false) return;
-            BColor.Background = Brushes.Transparent;
+            BColor.Color = Brushes.Transparent;
 
             MouseDownCommand?.Execute(
-                new dynamic[] { GroupNames.Text, PropertyNames.Color, ColorValue.Transparent.ToString() }
+                new dynamic[]
+                {
+                    GroupNames.Text, PropertyNames.Color, ColorValue.Transparent.ToString()
+                }
             );
         }
 

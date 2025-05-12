@@ -20,7 +20,7 @@ namespace ConceptorUI.ViewModels.Window
         public ContainerModel Statusbar;
         public ContainerModel Body;
         public RowModel Layout;
-
+        
         private readonly Grid _grid;
         private readonly Border _border;
         private readonly System.Windows.Controls.Image _image;
@@ -28,7 +28,7 @@ namespace ConceptorUI.ViewModels.Window
         public double Height;
         public double StatusHeight;
         private double _ratio;
-
+        
         public WindowModel(bool allowConstraints = false)
         {
             OnInit();

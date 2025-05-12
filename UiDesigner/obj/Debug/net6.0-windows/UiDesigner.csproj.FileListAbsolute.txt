@@ -424,3 +424,9 @@ C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net
 C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.pdb
 C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\UiDesigner.genruntimeconfig.cache
 C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\ref\UiDesigner.dll
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\ContextMenus\CustomContextMenu.baml
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\ContextMenus\CustomContextMenu.g.cs
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\Modals\ColorView.g.cs
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\Modals\ColorView.baml
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\Widgets\BoxColor.g.cs
+C:\Users\User\Documents\Projets\Wpf projects\UiDesigner\UiDesigner\obj\Debug\net6.0-windows\Views\Widgets\BoxColor.baml

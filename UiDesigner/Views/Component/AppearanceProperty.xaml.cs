@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Senders;
 using ConceptorUI.Services;
 using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
@@ -25,12 +26,15 @@ namespace ConceptorUI.Views.Component
         private bool _allowSetField;
 
         public ICommand? MouseDownCommand;
+        public ICommand? PickColorCommand { get; }
 
         public AppearanceProperty()
         {
             _allowSetField = false;
             InitializeComponent();
             _opacity = 1;
+
+            PickColorCommand = new RelayCommand(OnPickColor);
         }
 
         public void FeedProps(object properties)
@@ -50,7 +54,7 @@ namespace ConceptorUI.Views.Component
                 {
                     SFillColor.Visibility = CFillColor.Visibility = Visibility.Visible;
                     CFillColor.IsChecked = prop.Value != ColorValue.Transparent.ToString();
-                    BFillColor.Background = ManageEnums.GetColor(prop.Value);
+                    BFillColor.Color = ManageEnums.GetColor(prop.Value);
                 }
                 else if (prop.Name == PropertyNames.Opacity.ToString())
                 {
@@ -177,9 +181,9 @@ namespace ConceptorUI.Views.Component
                 else if (prop.Name == PropertyNames.BorderColor.ToString())
                 {
                     CBorderC.IsChecked = prop.Value != ColorValue.Transparent.ToString();
-                    BBorderC.Background = prop.Value == ColorValue.Transparent.ToString()
+                    BBorderC.Color = (prop.Value == ColorValue.Transparent.ToString()
                         ? Brushes.Transparent
-                        : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
+                        : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush)!;
                 }
                 else if (prop.Name == PropertyNames.BorderStyle.ToString())
                 {
@@ -677,23 +681,6 @@ namespace ConceptorUI.Views.Component
                     }
 
                     break;
-                case "BorderC":
-                    if (CBorderC.IsChecked == false) return;
-                    var colorPickerB = new ColorPicker(BBorderC.Background, 1);
-                    colorPickerB.ColorSelectedCommand = new RelayCommand(OnBorderColorChangedHandle);
-                    colorPickerB.Show();
-                    break;
-                case "FillColor":
-                    if (CFillColor.IsChecked == true)
-                    {
-                        var colorPicker = new ColorPicker(BFillColor.Background, _opacity);
-                        colorPicker.OpacityChangedCommand = new RelayCommand(OnFillOpacityChangedHandle);
-
-                        colorPicker.ColorSelectedCommand = new RelayCommand(OnFillColorChangedHandle);
-                        colorPicker.Show();
-                    }
-
-                    break;
             }
 
             if (!found) return;
@@ -821,7 +808,7 @@ namespace ConceptorUI.Views.Component
                         propertyName = PropertyNames.BorderBottomColor;
                     if (checkBox.IsChecked == false)
                     {
-                        BBorderC.Background = Brushes.Transparent;
+                        BBorderC.Color = Brushes.Transparent;
                         value = ColorValue.Transparent.ToString();
                         found = true;
                     }
@@ -831,7 +818,7 @@ namespace ConceptorUI.Views.Component
                     propertyName = PropertyNames.FillColor;
                     if (checkBox.IsChecked == false)
                     {
-                        BFillColor.Background = Brushes.Transparent;
+                        BFillColor.Color = Brushes.Transparent;
                         value = ColorValue.Transparent.ToString();
                         found = true;
                     }
@@ -842,6 +829,27 @@ namespace ConceptorUI.Views.Component
             if (!found) return;
             MouseDownCommand?.Execute(
                 new dynamic[] { GroupNames.Appearance, propertyName, value }
+            );
+        }
+
+        private void OnPickColor(object sender)
+        {
+            var propertyName = PropertyNames.None;
+            if(sender is not PropertyActionSender propertyActionSender) return;
+            
+            if (propertyActionSender.Name == "FillColor")
+                propertyName = PropertyNames.FillColor;
+            else if (propertyActionSender.Name == "BorderC")
+                propertyName = PropertyNames.BorderColor;
+            
+            if(propertyName == PropertyNames.None) return;
+            MouseDownCommand?.Execute(
+                new dynamic[]
+                {
+                    GroupNames.Appearance,
+                    propertyName,
+                    propertyActionSender.Value
+                }
             );
         }
 
