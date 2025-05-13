@@ -470,8 +470,9 @@ namespace ConceptorUI.Views.Component
             
             if (customSender.SelectComponentAction == SelectComponentActions.DoubleClick)
             {
-                if (customSender.ComponentName == ComponentList.Text)
-                    DisplayTextTypingCommand?.Execute(customSender.PropertyGroups);
+                TextContextMenu.IsOpen = true;
+                /*if (customSender.ComponentName == ComponentList.Text)
+                    DisplayTextTypingCommand?.Execute(customSender.PropertyGroups);*/
             }
         }
 

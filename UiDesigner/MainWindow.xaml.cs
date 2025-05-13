@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ConceptorUI.Enums;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUI.Views.Modals;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
@@ -43,7 +44,7 @@ namespace ConceptorUI
             PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
             PageView.DisplayLoadingCommand = new RelayCommand(OnDisplayLoadingHandle);
 
-            TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
+            //TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
 
             ComponentList.SendComponentCommand = new RelayCommand(OnSendComponentHandle);
             PanelActionCommand = new RelayCommand(OnExecuteAction);
@@ -233,7 +234,7 @@ namespace ConceptorUI
 
         private void OnDisplayTextTypingHandle(object sender)
         {
-            TextTyping.Instance.Refresh(sender);
+            //TextTyping.Instance.Refresh(sender);
         }
 
         private void OnSendComponentHandle(object sender)

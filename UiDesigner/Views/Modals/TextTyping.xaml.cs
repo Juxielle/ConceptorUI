@@ -8,9 +8,8 @@ using System.Windows.Media;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Views.Widgets;
-using TextDecorations = UiDesigner.Enums.TextDecorations;
 
-namespace UiDesigner.Views.Modals;
+namespace ConceptorUI.Views.Modals;
 
 public partial class TextTyping
 {
@@ -71,19 +70,17 @@ public partial class TextTyping
                 var textDecorationOverline = group.GetValue(PropertyNames.TextOverline);
                 var textDecorationThrough = group.GetValue(PropertyNames.TextThrough);
                 var textDecoration = textDecorationUnderline == "1"
-                    ? Enums.TextDecorations.Underline.ToString()
+                    ? UiDesigner.Enums.TextDecorations.Underline.ToString()
                     : textDecorationOverline == "1"
-                        ? Enums.TextDecorations.OverLine.ToString()
+                        ? UiDesigner.Enums.TextDecorations.OverLine.ToString()
                         : textDecorationThrough == "1"
-                            ? Enums.TextDecorations.Strikethrough.ToString()
-                            : Enums.TextDecorations.None.ToString();
+                            ? UiDesigner.Enums.TextDecorations.Strikethrough.ToString()
+                            : UiDesigner.Enums.TextDecorations.None.ToString();
                 AddTextItem(text, fontFamily, fontWeight, fontStyle, foreground, textDecoration);
             }
 
             OnSelectedItemChanged(_selectedTextIndex);
         }
-
-        Show();
     }
 
     private void TextChanged(object sender, EventArgs e)
@@ -115,9 +112,6 @@ public partial class TextTyping
                     new dynamic[] { GroupNames.Text, PropertyNames.Add, text }
                 );
                 break;
-            case "Close":
-                Hide();
-                break;
         }
     }
 
@@ -141,21 +135,21 @@ public partial class TextTyping
                 break;
             case "TextUnderline":
                 propertyName = PropertyNames.TextUnderline;
-                index = _textItems[_selectedTextIndex].TextDecoration == Enums.TextDecorations.None.ToString() ? 1 : 0;
+                index = _textItems[_selectedTextIndex].TextDecoration == UiDesigner.Enums.TextDecorations.None.ToString() ? 1 : 0;
                 _textItems[_selectedTextIndex].TextDecoration =
-                    index == 1 ? Enums.TextDecorations.Underline.ToString() : Enums.TextDecorations.None.ToString();
+                    index == 1 ? UiDesigner.Enums.TextDecorations.Underline.ToString() : UiDesigner.Enums.TextDecorations.None.ToString();
                 break;
             case "TextOverline":
                 propertyName = PropertyNames.TextOverline;
-                index = _textItems[_selectedTextIndex].TextDecoration == Enums.TextDecorations.None.ToString() ? 1 : 0;
+                index = _textItems[_selectedTextIndex].TextDecoration == UiDesigner.Enums.TextDecorations.None.ToString() ? 1 : 0;
                 _textItems[_selectedTextIndex].TextDecoration =
-                    index == 1 ? Enums.TextDecorations.OverLine.ToString() : Enums.TextDecorations.None.ToString();
+                    index == 1 ? UiDesigner.Enums.TextDecorations.OverLine.ToString() : UiDesigner.Enums.TextDecorations.None.ToString();
                 break;
             case "TextThrough":
                 propertyName = PropertyNames.TextThrough;
-                index = _textItems[_selectedTextIndex].TextDecoration == Enums.TextDecorations.None.ToString() ? 1 : 0;
+                index = _textItems[_selectedTextIndex].TextDecoration == UiDesigner.Enums.TextDecorations.None.ToString() ? 1 : 0;
                 _textItems[_selectedTextIndex].TextDecoration =
-                    index == 1 ? Enums.TextDecorations.Strikethrough.ToString() : Enums.TextDecorations.None.ToString();
+                    index == 1 ? UiDesigner.Enums.TextDecorations.Strikethrough.ToString() : UiDesigner.Enums.TextDecorations.None.ToString();
                 break;
         }
 
@@ -271,22 +265,17 @@ public partial class TextTyping
             ? new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush
             : new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush;
 
-        TextUnderline.Foreground = _textItems[index].TextDecoration == Enums.TextDecorations.Underline.ToString()
+        TextUnderline.Foreground = _textItems[index].TextDecoration == UiDesigner.Enums.TextDecorations.Underline.ToString()
             ? new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush
             : new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
 
-        TextOverline.Foreground = _textItems[index].TextDecoration == Enums.TextDecorations.OverLine.ToString()
+        TextOverline.Foreground = _textItems[index].TextDecoration == UiDesigner.Enums.TextDecorations.OverLine.ToString()
             ? new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush
             : new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
 
-        TextThrough.Foreground = _textItems[index].TextDecoration == Enums.TextDecorations.Strikethrough.ToString()
+        TextThrough.Foreground = _textItems[index].TextDecoration == UiDesigner.Enums.TextDecorations.Strikethrough.ToString()
             ? new BrushConverter().ConvertFrom("#6739b7") as SolidColorBrush
             : new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
-    }
-
-    protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
-    {
-        DragMove();
     }
 
     private void AddTextItem(string text = "My text",

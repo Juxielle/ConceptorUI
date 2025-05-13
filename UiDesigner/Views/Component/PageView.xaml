@@ -1,18 +1,32 @@
 ﻿<services:TransferControlExtension x:Class="ConceptorUI.Views.Component.PageView"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-             xmlns:services="clr-namespace:ConceptorUI.Services"
-             mc:Ignorable="d"
-             d:DesignHeight="700"
-             d:DesignWidth="900">
+                                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                                   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                                   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+                                   xmlns:services="clr-namespace:ConceptorUI.Services"
+                                   xmlns:contextMenus="clr-namespace:ConceptorUI.Views.ContextMenus"
+                                   xmlns:modals="clr-namespace:ConceptorUI.Views.Modals"
+                                   mc:Ignorable="d"
+                                   d:DesignHeight="700"
+                                   d:DesignWidth="900">
     <Border Padding="60">
+        <Border.ContextMenu>
+            <contextMenus:CustomContextMenu x:Name="TextContextMenu"
+                                            Height="300"
+                                            Width="400">
+                <contextMenus:CustomContextMenu.Template>
+                    <ControlTemplate TargetType="{x:Type contextMenus:CustomContextMenu}">
+                        <modals:TextTyping />
+                    </ControlTemplate>
+                </contextMenus:CustomContextMenu.Template>
+            </contextMenus:CustomContextMenu>
+        </Border.ContextMenu>
+
         <Grid>
             <Grid x:Name="Page"
                   PreviewMouseDown="OnPageClickHandle">
                 <Grid.RenderTransform>
-                    <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1"/>
+                    <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />
                 </Grid.RenderTransform>
             </Grid>
         </Grid>
