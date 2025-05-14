@@ -16,7 +16,8 @@
                                             Width="400">
                 <contextMenus:CustomContextMenu.Template>
                     <ControlTemplate TargetType="{x:Type contextMenus:CustomContextMenu}">
-                        <modals:TextTyping />
+                        <modals:TextTyping Command="{TemplateBinding Command}"
+                                           Sender="{TemplateBinding Sender}" />
                     </ControlTemplate>
                 </contextMenus:CustomContextMenu.Template>
             </contextMenus:CustomContextMenu>

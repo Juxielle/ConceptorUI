@@ -57,7 +57,7 @@ namespace ConceptorUI.ViewModels.Components
         public Border SelectedContent;
         public Border Content;
         public Grid ParentContent;
-        protected Border ShadowContent;
+        public Border ShadowContent;
         protected Rectangle BorderContent;
 
         public ICommand? SelectedCommand;
@@ -100,7 +100,6 @@ namespace ConceptorUI.ViewModels.Components
                 OnUnselected(false);
                 return;
             }
-
             Selected = true;
             
             SelectedCommand?.Execute(
@@ -1581,7 +1580,7 @@ namespace ConceptorUI.ViewModels.Components
             };
 
             ComponentView = SelectedContent;
-            ComponentView.PreviewMouseDown += OnMouseDown;
+            ComponentView.PreviewMouseLeftButtonDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;
 
             Children = [];

@@ -1,4 +1,5 @@
-﻿using ConceptorUI.Models;
+﻿using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using UiDesigner.Enums;
 using UiDesigner.Models;
 
@@ -91,6 +92,14 @@ public class TransformGroup
                     Name = PropertyNames.Gap.ToString(),
                     Type = PropertyTypes.String.ToString(),
                     Value = "0",
+                    Visibility = VisibilityValue.Collapsed.ToString()
+                },
+
+                new Property
+                {
+                    Name = PropertyNames.Shape.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = Shapes.Rectangle.ToString(),
                     Visibility = VisibilityValue.Collapsed.ToString()
                 }
             ]

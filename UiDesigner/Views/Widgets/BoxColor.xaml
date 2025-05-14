@@ -29,7 +29,7 @@
                                 Background="White"
                                 BorderBrush="Gray">
                             <modals:ColorView Command="{TemplateBinding Command}"
-                                              Color="{TemplateBinding Color}" />
+                                              Color="{TemplateBinding Sender}" />
                         </Border>
                     </ControlTemplate>
                 </contextMenus1:CustomContextMenu.Template>

@@ -112,47 +112,109 @@ namespace UiDesigner.Models
         SelectedMode, SelectedElement, Add, Gap,
         Row, Column, RowSpan, ColumnSpan, MoveLeft, MoveRight, MoveTop, MoveBottom,
         Hl, Hc, Hr, Vt, Vc, Vb, He, Ve, Hve, Rot, X, Y, CMargin, CPadding, Border, CBorder, CBorderRadius,
-        MarginBtnActif, PaddingBtnActif, BorderBtnActif, BorderRadBtnActif, Opacity,
-        SpaceBetween, SpaceAround, SpaceEvery, Text, DisplayText, CurrentTextIndex, TextTrimming,
-        Focus, MoveParentToChild, MoveChildToParent, Trash, Fusion, Merged, TextWrap, LineSpacing, FilePicker,
-        CanSelect, HideBorder, ShadowDepth, BlurRadius, ShadowColor, ShadowDirection, Stretch, Copy, Paste,
+        MarginBtnActif,
+        PaddingBtnActif,
+        BorderBtnActif,
+        BorderRadBtnActif,
+        Opacity,
+        SpaceBetween,
+        SpaceAround,
+        SpaceEvery,
+        Text,
+        DisplayText,
+        CurrentTextIndex,
+        TextTrimming,
+        Focus,
+        MoveParentToChild,
+        MoveChildToParent,
+        Trash,
+        Fusion,
+        Merged,
+        TextWrap,
+        LineSpacing,
+        FilePicker,
+        CanSelect,
+        HideBorder,
+        ShadowDepth,
+        BlurRadius,
+        ShadowColor,
+        ShadowDirection,
+        Stretch,
+        Shape,
+        Copy,
+        Paste,
         Screen
     }
     public enum GroupNames
     {
-        Alignment, Transform, Appearance, GridProperty, Text, ParentProperty, SelfAlignment, Global, Shadow
+        Alignment,
+        Transform,
+        Appearance,
+        GridProperty,
+        Text,
+        ParentProperty,
+        SelfAlignment,
+        Global,
+        Shadow
     }
     public enum PropertyTypes
     {
-        String, List, Action
+        String,
+        List,
+        Action
     }
     public enum SizeValue
     {
-        Define, Auto, Old, Expand
+        Define,
+        Auto,
+        Old,
+        Expand
     }
     public enum ColorValue
     {
-        Define, Transparent
+        Define,
+        Transparent
     }
     public enum ESelectedMode
     {
-        Single, Multiple
+        Single,
+        Multiple
     }
     public enum ESelectedElement
     {
-        Row, Column, Cell
+        Row,
+        Column,
+        Cell
     }
     public enum CanSelectValues
     {
-        This, Parent, None
+        This,
+        Parent,
+        None
     }
     public enum VisibilityValue
     {
-        Visible, Collapsed
+        Visible,
+        Collapsed
     }
     public enum ComponentList
     {
-        Text, TextSingle, Button, Row, Column, Container, Icon, Table, Stack, 
-        Window, Cell, Grid, Page, Image, ListV, ListH, Component
+        Text,
+        TextSingle,
+        Button,
+        Row,
+        Column,
+        Container,
+        Icon,
+        Table,
+        Stack, 
+        Window,
+        Cell,
+        Grid,
+        Page,
+        Image,
+        ListV,
+        ListH,
+        Component
     }
 }

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using ConceptorUI.Models;
+using ConceptorUI.Views.Widgets;
 using UiDesigner.Constants;
 using UiDesigner.Interfaces;
 using UiDesigner.Models;

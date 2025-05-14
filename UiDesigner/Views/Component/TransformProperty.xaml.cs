@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Enums;
 using ConceptorUI.Services;
 using ConceptorUI.Views.Modals;
 using UiDesigner.Models;
@@ -32,7 +33,7 @@ namespace ConceptorUI.Views.Component
         public void FeedProps(object properties)
         {
             W.Visibility = H.Visibility = Gap.Visibility = SStretch.Visibility =
-                Y.Visibility = R.Visibility = BHE.Visibility = BVE.Visibility = BHVE.Visibility = Visibility.Collapsed;
+                Y.Visibility = SShape.Visibility = Bhe.Visibility = BVE.Visibility = Bhve.Visibility = Visibility.Collapsed;
             _properties = (properties as GroupProperties)!;
             _allowSetField = false;
 
@@ -47,7 +48,7 @@ namespace ConceptorUI.Views.Component
 
                     if (prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
 
-                    WTB.Text = prop.Value.Replace(",", ".");
+                    Wtb.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.Height.ToString())
                 {
@@ -55,7 +56,7 @@ namespace ConceptorUI.Views.Component
 
                     if (prop.Value == SizeValue.Expand.ToString() || prop.Value == SizeValue.Auto.ToString()) continue;
 
-                    HTB.Text = prop.Value.Replace(",", ".");
+                    Htb.Text = prop.Value.Replace(",", ".");
                 }
                 else if (prop.Name == PropertyNames.Stretch.ToString())
                 {
@@ -72,19 +73,21 @@ namespace ConceptorUI.Views.Component
                 else if (prop.Name == PropertyNames.Y.ToString())
                 {
                     Y.Visibility = Visibility.Visible;
-                    YTB.Text = prop.Value.Replace(",", ".");
+                    Ytb.Text = prop.Value.Replace(",", ".");
                 }
-                else if (prop.Name == PropertyNames.Rot.ToString())
+                else if (prop.Name == PropertyNames.Shape.ToString())
                 {
-                    R.Visibility = Visibility.Visible;
-                    RTB.Text = prop.Value.Replace(",", ".");
+                    SShape.Visibility = Visibility.Visible;
+                    var cbShapeItem = CbShape.Items.OfType<ComboBoxItem>()
+                        .FirstOrDefault(x => x.Content.ToString() == prop.Value);
+                    CbShape.SelectedIndex = CbShape.Items.IndexOf(cbShapeItem!);
                 }
                 else if (prop.Name == PropertyNames.He.ToString())
                 {
-                    BHE.Visibility = Visibility.Visible;
+                    Bhe.Visibility = Visibility.Visible;
 
                     var w = _properties.GetValue(PropertyNames.Width);
-                    HE.Foreground = BHE.BorderBrush =
+                    He.Foreground = Bhe.BorderBrush =
                         new BrushConverter().ConvertFrom(w == SizeValue.Expand.ToString()
                             ? "#6739b7"
                             : "#8c8c8a") as SolidColorBrush;
@@ -94,18 +97,18 @@ namespace ConceptorUI.Views.Component
                     BVE.Visibility = Visibility.Visible;
 
                     var h = _properties.GetValue(PropertyNames.Height);
-                    VE.Foreground = BVE.BorderBrush =
+                    Ve.Foreground = BVE.BorderBrush =
                         new BrushConverter().ConvertFrom(h == SizeValue.Expand.ToString()
                             ? "#6739b7"
                             : "#8c8c8a") as SolidColorBrush;
                 }
                 else if (prop.Name == PropertyNames.Hve.ToString())
                 {
-                    BHVE.Visibility = Visibility.Visible;
+                    Bhve.Visibility = Visibility.Visible;
 
                     var w = _properties.GetValue(PropertyNames.Width);
                     var h = _properties.GetValue(PropertyNames.Height);
-                    HVE.Foreground = BHVE.BorderBrush =
+                    Hve.Foreground = Bhve.BorderBrush =
                         new BrushConverter().ConvertFrom(w == SizeValue.Expand.ToString() && h == SizeValue.Expand.ToString()
                             ? "#6739b7"
                             : "#8c8c8a") as SolidColorBrush;
@@ -132,13 +135,13 @@ namespace ConceptorUI.Views.Component
             {
                 case "W":
                     if (value != SizeValue.Old.ToString())
-                        HE.Foreground = BHE.BorderBrush =
+                        He.Foreground = Bhe.BorderBrush =
                             new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
                     propertyName = PropertyNames.Width;
                     break;
                 case "H":
                     if (value != SizeValue.Old.ToString())
-                        VE.Foreground = BVE.BorderBrush =
+                        Ve.Foreground = BVE.BorderBrush =
                             new BrushConverter().ConvertFrom("#8c8c8a") as SolidColorBrush;
                     propertyName = PropertyNames.Height;
                     break;
@@ -168,41 +171,41 @@ namespace ConceptorUI.Views.Component
             switch (tag)
             {
                 case "HE":
-                    WTB.Text = "";
+                    Wtb.Text = "";
                     propertyName = PropertyNames.He;
                     value = _properties.GetValue(PropertyNames.He);
-                    HE.Foreground = BHE.BorderBrush =
+                    He.Foreground = Bhe.BorderBrush =
                         new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                     value = value == "0" ? "1" : "0";
                     break;
                 case "VE":
-                    HTB.Text = "";
+                    Htb.Text = "";
                     propertyName = PropertyNames.Ve;
                     value = _properties.GetValue(PropertyNames.Ve);
-                    VE.Foreground = BVE.BorderBrush =
+                    Ve.Foreground = BVE.BorderBrush =
                         new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                     value = value == "0" ? "1" : "0";
                     break;
                 case "HVE":
-                    HTB.Text = "";
-                    WTB.Text = "";
+                    Htb.Text = "";
+                    Wtb.Text = "";
                     propertyName = PropertyNames.Hve;
                     value = _properties.GetValue(PropertyNames.Hve);
-                    HVE.Foreground = BHVE.BorderBrush =
+                    Hve.Foreground = Bhve.BorderBrush =
                         new BrushConverter().ConvertFrom(value == "0" ? "#6739b7" : "#8c8c8a") as SolidColorBrush;
                     value = value == "0" ? "1" : "0";
                     break;
                 case "UpValueW":
-                    WTB.Text = ManageEnums.SetNumber(WTB.Text).Replace(",", ".");
+                    Wtb.Text = ManageEnums.SetNumber(Wtb.Text).Replace(",", ".");
                     break;
                 case "DownValueW":
-                    WTB.Text = ManageEnums.SetNumber(WTB.Text, false).Replace(",", ".");
+                    Wtb.Text = ManageEnums.SetNumber(Wtb.Text, false).Replace(",", ".");
                     break;
                 case "UpValueH":
-                    HTB.Text = ManageEnums.SetNumber(HTB.Text).Replace(",", ".");
+                    Htb.Text = ManageEnums.SetNumber(Htb.Text).Replace(",", ".");
                     break;
                 case "DownValueH":
-                    HTB.Text = ManageEnums.SetNumber(HTB.Text, false).Replace(",", ".");
+                    Htb.Text = ManageEnums.SetNumber(Htb.Text, false).Replace(",", ".");
                     break;
             }
 
@@ -227,6 +230,12 @@ namespace ConceptorUI.Views.Component
                     value = (comboBox.SelectedValue as ComboBoxItem) != null
                         ? (comboBox.SelectedValue as ComboBoxItem)!.Content.ToString()!
                         : null!;
+                    break;
+                case "Shape":
+                    propertyName = PropertyNames.Shape;
+                    value = (comboBox.SelectedValue as ComboBoxItem) != null
+                        ? (comboBox.SelectedValue as ComboBoxItem)!.Content.ToString()!
+                        : Shapes.Rectangle.ToString();
                     break;
             }
 

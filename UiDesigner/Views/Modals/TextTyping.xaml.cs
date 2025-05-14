@@ -14,7 +14,6 @@ namespace ConceptorUI.Views.Modals;
 public partial class TextTyping
 {
     private static TextTyping? _obj;
-    public ICommand? TextChangedCommand;
 
     private readonly List<int> _ids;
     private int _selectedTextIndex;
@@ -42,9 +41,33 @@ public partial class TextTyping
         }
     }
 
-    public static TextTyping Instance => _obj ?? new TextTyping();
+    public static readonly DependencyProperty CommandProperty =
+        DependencyProperty.Register(nameof(Command), typeof(ICommand), typeof(TextTyping),
+            new PropertyMetadata(null));
+    
+    public ICommand Command
+    {
+        get => (ICommand)GetValue(CommandProperty);
+        set => SetValue(CommandProperty, value);
+    }
 
-    public void Refresh(object sender)
+    public static readonly DependencyProperty SenderProperty =
+        DependencyProperty.Register(nameof(Sender), typeof(object), typeof(TextTyping),
+            new FrameworkPropertyMetadata(null,
+                FrameworkPropertyMetadataOptions.BindsTwoWayByDefault, OnSenderChanged));
+
+    public object Sender
+    {
+        get => GetValue(SenderProperty);
+        set => SetValue(SenderProperty, value);
+    }
+    
+    private static void OnSenderChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)
+    {
+        (sender as TextTyping)!.Refresh(e.NewValue);
+    }
+
+    private void Refresh(object sender)
     {
         TextItems.Children.Clear();
         _textItems.Clear();
@@ -94,7 +117,7 @@ public partial class TextTyping
         var text = (sender as TextBox)!.Text;
         _textItems[_selectedTextIndex].Text = text;
 
-        TextChangedCommand?.Execute(
+        Command?.Execute(
             new dynamic[] { GroupNames.Text, PropertyNames.Text, text }
         );
     }
@@ -108,7 +131,7 @@ public partial class TextTyping
             case "AddText":
                 const string text = "Text numéro";
                 AddTextItem(text);
-                TextChangedCommand?.Execute(
+                Command?.Execute(
                     new dynamic[] { GroupNames.Text, PropertyNames.Add, text }
                 );
                 break;
@@ -156,7 +179,7 @@ public partial class TextTyping
         if (propertyName == PropertyNames.None) return;
 
         ChangeColor(_selectedTextIndex);
-        TextChangedCommand?.Execute(
+        Command?.Execute(
             new dynamic[] { GroupNames.Text, propertyName, index.ToString() }
         );
     }
@@ -179,7 +202,7 @@ public partial class TextTyping
                 _selectedTextIndex = index;
                 OnSelectedItemChanged(index);
 
-                TextChangedCommand?.Execute(
+                Command?.Execute(
                     new dynamic[] { GroupNames.Text, PropertyNames.CurrentTextIndex, index.ToString() }
                 );
                 break;
@@ -250,7 +273,7 @@ public partial class TextTyping
 
         if (propertyName == PropertyNames.None) return;
 
-        TextChangedCommand?.Execute(
+        Command?.Execute(
             new dynamic[] { GroupNames.Text, propertyName, value! }
         );
     }

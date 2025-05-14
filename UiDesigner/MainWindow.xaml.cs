@@ -6,12 +6,10 @@ using System.Windows.Input;
 using ConceptorUI.Enums;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components;
-using ConceptorUI.Views.Modals;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
-using UiDesigner.Views.Modals;
 
 namespace ConceptorUI
 {
@@ -41,7 +39,6 @@ namespace ConceptorUI
             RightPanel.MouseDownCommand = new RelayCommand(OnSetPropertyHandle);
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
-            PageView.DisplayTextTypingCommand = new RelayCommand(OnDisplayTextTypingHandle);
             PageView.DisplayLoadingCommand = new RelayCommand(OnDisplayLoadingHandle);
 
             //TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
@@ -230,11 +227,6 @@ namespace ConceptorUI
             else groups = (List<GroupProperties>)customSender?.PropertyGroups!;
 
             RightPanel.FeedProps(groups, customSender!.ComponentName);
-        }
-
-        private void OnDisplayTextTypingHandle(object sender)
-        {
-            //TextTyping.Instance.Refresh(sender);
         }
 
         private void OnSendComponentHandle(object sender)

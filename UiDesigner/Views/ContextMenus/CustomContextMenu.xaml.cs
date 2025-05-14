@@ -21,13 +21,13 @@ public partial class CustomContextMenu
         set => SetValue(CommandProperty, value);
     }
 
-    public static readonly DependencyProperty ColorProperty =
-        DependencyProperty.Register(nameof(Color), typeof(Brush), typeof(CustomContextMenu),
-            new PropertyMetadata(new BrushConverter().ConvertFrom("#000000") as SolidColorBrush));
+    public static readonly DependencyProperty SenderProperty =
+        DependencyProperty.Register(nameof(Sender), typeof(object), typeof(CustomContextMenu),
+            new PropertyMetadata(null));
 
-    public Brush Color
+    public object Sender
     {
-        get => (Brush)GetValue(ColorProperty);
-        set => SetValue(ColorProperty, value);
+        get => GetValue(SenderProperty);
+        set => SetValue(SenderProperty, value);
     }
 }

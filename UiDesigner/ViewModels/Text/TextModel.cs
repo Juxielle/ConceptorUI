@@ -161,7 +161,7 @@ namespace ConceptorUI.ViewModels.Text
             {
                 var textSource = GetSource(child);
                 var textTarget = new Run();
-                textTarget.MouseDown += OnTextItemMouseDown;
+                textTarget.PreviewMouseLeftButtonDown += OnTextItemMouseDown;
 
                 WhenTextChangedOwn(textSource, textTarget);
                 _text.Inlines.Add(textTarget);
@@ -278,6 +278,16 @@ namespace ConceptorUI.ViewModels.Text
 
         private void OnTextItemMouseDown(object sender, MouseButtonEventArgs e)
         {
+            var found = false;
+            foreach (var inline in _text.Inlines)
+            {
+                var run = inline as Run;
+                if(!e.OriginalSource.Equals(run)) continue;
+                found = true;
+                break;
+            }
+            if(!found) return;
+            
             if (!ComponentHelper.IsMultiSelectionEnable)
             {
                 SelectedCommand?.Execute(

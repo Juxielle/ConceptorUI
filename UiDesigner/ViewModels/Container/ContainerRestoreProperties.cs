@@ -190,5 +190,6 @@ static class ContainerRestoreProperties
         }
 
         container.Synchronize();
+        container.RestoreShape();
     }
 }

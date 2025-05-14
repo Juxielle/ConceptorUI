@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Enums;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Container;
-using ConceptorUI.ViewModels.Image;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 
@@ -63,6 +63,7 @@ namespace ConceptorUI.ViewModels.Container
             /* Self Alignment */
             /* Transform */
             this.SetGroupVisibility(GroupNames.Transform);
+            this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Shape);
             /* Text */
             this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */
@@ -209,6 +210,13 @@ namespace ConceptorUI.ViewModels.Container
 
         protected override void ContinueToUpdate(GroupNames groupName, PropertyNames propertyName, string value)
         {
+            if (groupName == GroupNames.Transform)
+            {
+                if (propertyName == PropertyNames.Shape)
+                {
+                    this.SetShape(value);
+                }
+            }
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

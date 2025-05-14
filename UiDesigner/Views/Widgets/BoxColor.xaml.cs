@@ -12,7 +12,7 @@ public partial class BoxColor
     {
         InitializeComponent();
         Menu.Command = new RelayCommand(OnSelect);
-        Menu.Color = Color;
+        Menu.Sender = Color;
     }
 
     public static readonly DependencyProperty CommandProperty =
@@ -38,7 +38,7 @@ public partial class BoxColor
 
     private void UpdateColor(Brush brush)
     {
-        Menu.Color = Color;
+        Menu.Sender = Color;
     }
     
     private static void OnColorChanged(DependencyObject sender, DependencyPropertyChangedEventArgs e)

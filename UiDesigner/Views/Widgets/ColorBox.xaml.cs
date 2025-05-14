@@ -5,7 +5,7 @@ using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Views.Modals;
 
-namespace UiDesigner.Views.Widgets;
+namespace ConceptorUI.Views.Widgets;
 
 public partial class ColorBox
 {

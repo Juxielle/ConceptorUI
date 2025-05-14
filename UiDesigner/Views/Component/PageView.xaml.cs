@@ -41,7 +41,6 @@ namespace ConceptorUI.Views.Component
         private string _copiedComponent;
 
         public ICommand? RefreshPropertyPanelCommand;
-        public ICommand? DisplayTextTypingCommand;
         public ICommand? DisplayLoadingCommand;
 
         /*
@@ -84,6 +83,7 @@ namespace ConceptorUI.Views.Component
             _selectedReport = 0;
 
             _copiedComponent = string.Empty;
+            TextContextMenu.Command = new RelayCommand(OnChangeText);
         }
 
         public static PageView Instance => _obj == null! ? new PageView() : _obj;
@@ -470,10 +470,19 @@ namespace ConceptorUI.Views.Component
             
             if (customSender.SelectComponentAction == SelectComponentActions.DoubleClick)
             {
-                TextContextMenu.IsOpen = true;
-                /*if (customSender.ComponentName == ComponentList.Text)
-                    DisplayTextTypingCommand?.Execute(customSender.PropertyGroups);*/
+                if (customSender.ComponentName == ComponentList.Text)
+                {
+                    TextContextMenu.Sender = customSender.PropertyGroups;
+                    TextContextMenu.IsOpen = true;
+                }
             }
+        }
+
+        private void OnChangeText(object sender)
+        {
+            var infos = sender as dynamic[];
+            if(infos?.Length < 3) return;
+            SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)
