@@ -268,6 +268,13 @@ namespace ConceptorUI.ViewModels.Container
 
         protected override void ContinueToInitialize(string groupName, string propertyName, string value)
         {
+            if (groupName == GroupNames.Transform.ToString())
+            {
+                if (propertyName == PropertyNames.Shape.ToString())
+                {
+                    this.SetShape(value);
+                }
+            }
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

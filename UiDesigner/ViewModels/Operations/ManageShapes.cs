@@ -79,7 +79,7 @@ static class ManageShapes
                 .GetValue(PropertyNames.CBorderRadius);
 
             if (shape == Shapes.Rectangle.ToString()) return;
-            if (width == SizeValue.Expand.ToString() || width == SizeValue.Expand.ToString())
+            if (width == SizeValue.Auto.ToString() || width == SizeValue.Expand.ToString())
             {
                 component.SelectedContent.Width = double.NaN;
             }
@@ -89,7 +89,7 @@ static class ManageShapes
                 component.SelectedContent.Width = vd;
             }
 
-            if (height == SizeValue.Expand.ToString() || height == SizeValue.Expand.ToString())
+            if (height == SizeValue.Auto.ToString() || height == SizeValue.Expand.ToString())
             {
                 component.SelectedContent.Height = double.NaN;
             }
@@ -150,7 +150,7 @@ static class ManageShapes
 
         component.SetPropertyValue(GroupNames.Transform, PropertyNames.Shape, value);
     }
-
+    
     public static void RestoreShape(this Component component)
     {
         var shape = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Shape);
@@ -164,30 +164,13 @@ static class ManageShapes
             double selectedHeight;
             var size = 0.0;
 
-            if (double.IsNaN(width))
+            if ((width == 0 || double.IsNaN(width)) || 
+                (height == 0 || double.IsNaN(height)))
             {
                 if ((double.IsNaN(actualWidth) || actualWidth == 0) ||
                     (double.IsNaN(actualHeight) || actualHeight == 0))
                 {
-                    SetShape(component, Shapes.Rectangle.ToString());
-                    return;
-                }
-
-                selectedWidth = actualWidth;
-                selectedHeight = actualHeight;
-                if (Math.Abs(selectedWidth - selectedHeight) != 0)
-                {
-                    size = selectedWidth < selectedHeight ? selectedWidth : selectedHeight;
-                    component.SelectedContent.Width = size;
-                    component.SelectedContent.Height = size;
-                }
-            }
-            else if (double.IsNaN(height))
-            {
-                if ((double.IsNaN(actualWidth) || actualWidth == 0) ||
-                    (double.IsNaN(actualHeight) || actualHeight == 0))
-                {
-                    SetShape(component, Shapes.Rectangle.ToString());
+                    //SetShape(component, Shapes.Rectangle.ToString());
                     return;
                 }
 
@@ -204,7 +187,7 @@ static class ManageShapes
             {
                 if (width == 0 || height == 0)
                 {
-                    SetShape(component, Shapes.Rectangle.ToString());
+                    //SetShape(component, Shapes.Rectangle.ToString());
                     return;
                 }
 
@@ -214,8 +197,8 @@ static class ManageShapes
             }
 
             var radius = component.Content.CornerRadius.BottomLeft;
-            if (Math.Abs(radius - size) != 0)
-                component.Content.CornerRadius = new CornerRadius(size);
+            if (size != 0 && Math.Abs(radius - size) != 0)
+                component.Content.CornerRadius = component.ShadowContent.CornerRadius = new CornerRadius(size);
             if (component.SelectedContent.HorizontalAlignment == HorizontalAlignment.Stretch)
                 component.SelectedContent.HorizontalAlignment = HorizontalAlignment.Center;
             if (component.SelectedContent.VerticalAlignment == VerticalAlignment.Stretch)
@@ -233,7 +216,7 @@ static class ManageShapes
                 if ((double.IsNaN(actualWidth) || actualWidth == 0) ||
                     (double.IsNaN(actualHeight) || actualHeight == 0))
                 {
-                    SetShape(component, Shapes.Rectangle.ToString());
+                    //SetShape(component, Shapes.Rectangle.ToString());
                     return;
                 }
 
@@ -245,7 +228,7 @@ static class ManageShapes
                 if ((double.IsNaN(actualWidth) || actualWidth == 0) ||
                     (double.IsNaN(actualHeight) || actualHeight == 0))
                 {
-                    SetShape(component, Shapes.Rectangle.ToString());
+                    //SetShape(component, Shapes.Rectangle.ToString());
                     return;
                 }
 
@@ -256,7 +239,7 @@ static class ManageShapes
             {
                 if (width == 0 || height == 0)
                 {
-                    SetShape(component, Shapes.Rectangle.ToString());
+                    //SetShape(component, Shapes.Rectangle.ToString());
                     return;
                 }
 
@@ -266,8 +249,8 @@ static class ManageShapes
 
             var size = actualWidth < actualHeight ? actualWidth : actualHeight;
             var radius = component.Content.CornerRadius.BottomLeft;
-            if (Math.Abs(radius - size) != 0)
-                component.Content.CornerRadius = new CornerRadius(size);
+            if (size != 0 && Math.Abs(radius - size) != 0)
+                component.Content.CornerRadius = component.ShadowContent.CornerRadius = new CornerRadius(size);
         }
         else if (shape == Shapes.Rectangle.ToString())
         {
@@ -281,7 +264,7 @@ static class ManageShapes
             {
                 component.SelectedContent.Width = double.NaN;
             }
-            else
+            else if(widthString != SizeValue.Expand.ToString() && widthString != SizeValue.Auto.ToString())
             {
                 var width = Helper.ConvertToDouble(widthString);
                 component.SelectedContent.Width = width;
@@ -292,7 +275,7 @@ static class ManageShapes
             {
                 component.SelectedContent.Height = double.NaN;
             }
-            else
+            else if(heightString != SizeValue.Expand.ToString() && heightString != SizeValue.Auto.ToString())
             {
                 var height = Helper.ConvertToDouble(heightString);
                 component.SelectedContent.Height = height;

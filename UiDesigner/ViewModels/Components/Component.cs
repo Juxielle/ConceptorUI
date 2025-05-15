@@ -12,6 +12,7 @@ using System.Windows.Shapes;
 using ConceptorUI.Enums;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components.GroupProperty;
+using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
 using UiDesigner.Inputs;
@@ -44,6 +45,7 @@ namespace ConceptorUI.ViewModels.Components
         public bool IsVertical = true;
         private int _addedChildrenCount;
         protected bool CanAddIntoChildContent = true;
+        public bool IsAllowSizeChange = false;
         protected int ChildContentLimit = 100;
 
         protected bool IsInComponent;
@@ -100,15 +102,15 @@ namespace ConceptorUI.ViewModels.Components
                 OnUnselected(false);
                 return;
             }
+
             Selected = true;
-            
+
             SelectedCommand?.Execute(
                 new SelectComponentSender
                 {
                     Id = Id!,
-                    SelectComponentAction = clickCount == 1 ?
-                        SelectComponentActions.Select :
-                        SelectComponentActions.DoubleClick,
+                    SelectComponentAction =
+                        clickCount == 1 ? SelectComponentActions.Select : SelectComponentActions.DoubleClick,
                     PropertyGroups = GetPropertyGroups(),
                     ComponentName = Name
                 }
@@ -150,7 +152,7 @@ namespace ConceptorUI.ViewModels.Components
                 CanSelectValues.None.ToString() ||
                 (!e.OriginalSource.Equals(SelectedContent) && !e.OriginalSource.Equals(Content) &&
                  !e.OriginalSource.Equals(Content.Child) && !IsSelected(e))) return;
-            
+
             if (!ComponentHelper.IsMultiSelectionEnable)
             {
                 SelectedCommand?.Execute(
@@ -169,6 +171,16 @@ namespace ConceptorUI.ViewModels.Components
 
         private void OnMouseEnter(object sender, MouseEventArgs e)
         {
+        }
+
+        private void OnSizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (GetType().Name != nameof(ContainerModel) || !IsAllowSizeChange) return;
+            
+            IsAllowSizeChange = false;
+            var shape = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Shape);
+            if(shape == Shapes.Rectangle.ToString()) return;
+            this.RestoreShape();
         }
 
         public void OnUpdated(GroupNames groupName, PropertyNames propertyName, string value, bool allow = false,
@@ -484,7 +496,7 @@ namespace ConceptorUI.ViewModels.Components
                         ? Brushes.Transparent
                         : new BrushConverter().ConvertFrom(value) as SolidColorBrush;
 
-                    if(allowSavingAction)
+                    if (allowSavingAction)
                     {
                         var oldValue = this.GetGroupProperties(groupName).GetValue(propertyName);
                         ComponentHelper.SaveUndoRedoAction(this, groupName, propertyName, oldValue, value);
@@ -1582,6 +1594,7 @@ namespace ConceptorUI.ViewModels.Components
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseLeftButtonDown += OnMouseDown;
             ComponentView.MouseEnter += OnMouseEnter;
+            ComponentView.SizeChanged += OnSizeChanged;
 
             Children = [];
 

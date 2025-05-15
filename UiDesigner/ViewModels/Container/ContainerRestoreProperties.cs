@@ -191,5 +191,6 @@ static class ContainerRestoreProperties
 
         container.Synchronize();
         container.RestoreShape();
+        container.IsAllowSizeChange = true;
     }
 }
