@@ -222,7 +222,7 @@ namespace ConceptorUI.ViewModels.Icon
             }
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
         }
 
@@ -242,7 +242,7 @@ namespace ConceptorUI.ViewModels.Icon
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
         }
 
@@ -261,7 +261,7 @@ namespace ConceptorUI.ViewModels.Icon
             return PropertyGroups!;
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
         }
 

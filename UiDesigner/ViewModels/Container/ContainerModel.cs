@@ -1,9 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using ConceptorUI.Enums;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
@@ -36,7 +34,7 @@ namespace ConceptorUI.ViewModels.Container
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             (Content.Child as Border)!.Child ??= child;
         }
@@ -71,7 +69,7 @@ namespace ConceptorUI.ViewModels.Container
             this.SetGroupVisibility(GroupNames.Shadow);
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
         {
             Children[id].Parent = this;
             /* Global */
@@ -162,7 +160,7 @@ namespace ConceptorUI.ViewModels.Container
             }
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
             if ((Children.Count == 0 || !Children[0].Selected) && k == -1) return;
 

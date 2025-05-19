@@ -241,7 +241,7 @@ namespace ConceptorUI.ViewModels.Row
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             if (k == -1)
                 Grid.Children.Add(child);
@@ -258,7 +258,7 @@ namespace ConceptorUI.ViewModels.Row
             return true;
         }
 
-        protected override void Delete(int j = -1)
+        public override void Delete(int j = -1)
         {
             var i = j;
             if (i == -1)
@@ -460,7 +460,7 @@ namespace ConceptorUI.ViewModels.Row
             }
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
             #region Contraintes de mise en page
 

@@ -164,7 +164,7 @@ namespace ConceptorUI.ViewModels.ReusableComponent
         {
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
         }
 
@@ -184,7 +184,7 @@ namespace ConceptorUI.ViewModels.ReusableComponent
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             Content.Child = child;
         }
@@ -199,7 +199,7 @@ namespace ConceptorUI.ViewModels.ReusableComponent
             return false;
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
         }
 

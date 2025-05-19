@@ -58,7 +58,7 @@ internal class GridViewModel : Component
         this.SetGroupVisibility(GroupNames.Shadow);
     }
 
-    protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+    public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
     {
         Children[id].Parent = this;
         /* Global */
@@ -120,7 +120,7 @@ internal class GridViewModel : Component
     {
     }
 
-    protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+    public override void AddIntoChildContent(FrameworkElement child, int k = -1)
     {
         if (k == -1)
         {
@@ -162,7 +162,7 @@ internal class GridViewModel : Component
         return true;
     }
 
-    protected override void Delete(int k = -1)
+    public override void Delete(int k = -1)
     {
     }
 

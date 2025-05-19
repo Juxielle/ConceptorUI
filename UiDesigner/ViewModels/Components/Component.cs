@@ -65,15 +65,15 @@ namespace ConceptorUI.ViewModels.Components
         public ICommand? SelectedCommand;
 
         public abstract void SelfConstraints();
-        protected abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
+        public abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
         public abstract void WhenAlignmentChanged(PropertyNames propertyName, string value);
         public abstract void WhenTextChanged(string propertyName, string value, bool isInitialize = false);
         protected abstract void WhenFileLoaded(string value);
         protected abstract void InitChildContent();
-        protected abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
+        public abstract void AddIntoChildContent(FrameworkElement child, int k = -1);
         public abstract bool AllowExpanded(bool isWidth = true);
         public abstract bool AllowAuto(bool isWidth = true);
-        protected abstract void Delete(int k = -1);
+        public abstract void Delete(int k = -1);
         protected abstract void WhenWidthChanged(string value);
         protected abstract void WhenHeightChanged(string value);
         protected abstract void OnMoveLeft();
@@ -117,7 +117,7 @@ namespace ConceptorUI.ViewModels.Components
             );
         }
 
-        private void OnSelectedHandle(object sender)
+        public void OnSelectedHandle(object sender)
         {
             SelectedCommand?.Execute(sender);
         }
@@ -1221,88 +1221,6 @@ namespace ConceptorUI.ViewModels.Components
             }
         }
 
-        public void OnUpdateComponent(CompSerializer sender)
-        {
-            if (Children.Count == 0) return;
-
-            var index = new List<int>();
-            var found = false;
-
-            foreach (var child in Children)
-            {
-                if (sender.Id != child.Id)
-                {
-                    child.OnUpdateComponent(sender);
-                    continue;
-                }
-
-                found = true;
-                index.Add(Children.IndexOf(child));
-            }
-
-            if (!found) return;
-
-            foreach (var i in index)
-            {
-                var compSerialize = JsonSerializer.Serialize(Children[i].OnSerializer());
-                var senderSerialize = JsonSerializer.Serialize(sender);
-                var senderDeSerialize = JsonSerializer.Deserialize<CompSerializer>(senderSerialize);
-
-                var component = ComponentHelper.GetComponent(senderDeSerialize!.Name!);
-                component.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                component.OnDeserializer(senderDeSerialize);
-                Delete(i);
-                Children.Insert(i, component);
-                AddIntoChildContent(component.ComponentView, i);
-                ResetChildAlignment(i);
-                LayoutConstraints(i);
-
-                var compDeSerialize = JsonSerializer.Deserialize<CompSerializer>(compSerialize);
-                OnUpdateProperties(compDeSerialize!, i);
-            }
-        }
-
-        private void OnUpdateProperties(CompSerializer sender, int i)
-        {
-            if (Children[i].Id != sender.Id) return;
-
-            var groups = sender.Properties;
-            foreach (var group in groups!)
-            {
-                var groupEnum = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
-                foreach (var property in group.Properties)
-                {
-                    if (property.ComponentVisibility != VisibilityValue.Visible.ToString()) continue;
-
-                    var propertyEnum = (PropertyNames)Enum.Parse(typeof(PropertyNames), property.Name);
-                    if (groupEnum == GroupNames.Global)
-                    {
-                        if (propertyEnum == PropertyNames.FilePicker)
-                            Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                    else if (groupEnum == GroupNames.Text)
-                    {
-                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                    else if (groupEnum == GroupNames.Appearance)
-                    {
-                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                    else if (groupEnum == GroupNames.Shadow)
-                    {
-                        Children[i].OnUpdated(groupEnum, propertyEnum, property.Value, true);
-                    }
-                }
-            }
-
-            for (var k = 0; k < Children[k].Children.Count; k++)
-            {
-                if (k >= sender.Children!.Count ||
-                    sender.Children[k].GetType().Name == Children[i].Children[k].GetType().Name) continue;
-                Children[i].Children[k].OnUpdateProperties(sender.Children![k], k);
-            }
-        }
-
         public void OnAdd(Component component, bool isExpanded = false)
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
@@ -1499,7 +1417,7 @@ namespace ConceptorUI.ViewModels.Components
             }
         }
 
-        private void ResetChildAlignment(int i)
+        public void ResetChildAlignment(int i)
         {
             Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hl, "0");
             Children[i].SetPropertyValue(GroupNames.SelfAlignment, PropertyNames.Hc, "0");

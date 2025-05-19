@@ -44,7 +44,7 @@ namespace ConceptorUI.ViewModels.Stack
             this.SetGroupVisibility(GroupNames.Shadow);
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
             Children[id].Parent = this;
             /* Global */
@@ -100,7 +100,7 @@ namespace ConceptorUI.ViewModels.Stack
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             if(k == -1) _grid.Children.Add(child);
             else _grid.Children.Insert(k, child);
@@ -116,7 +116,7 @@ namespace ConceptorUI.ViewModels.Stack
             return true;
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
             var i = k;
             if(i == -1)

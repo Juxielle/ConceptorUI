@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Senders;
 using ConceptorUI.Services;
 using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
@@ -17,6 +18,7 @@ public partial class ShadowPanel
     private bool _allowSetField;
 
     public ICommand? MouseDownCommand;
+    public ICommand? PickColorCommand { get; }
 
     public ShadowPanel()
     {
@@ -24,6 +26,7 @@ public partial class ShadowPanel
         InitializeComponent();
 
         _properties = new GroupProperties();
+        PickColorCommand = new RelayCommand(OnPickColor);
     }
 
     public void FeedProps(object value)
@@ -46,7 +49,7 @@ public partial class ShadowPanel
             {
                 SColor.Visibility = Visibility.Visible;
                 CColor.IsChecked = prop.Value != ColorValue.Transparent.ToString();
-                BColor.Background = ManageEnums.GetColor(prop.Value);
+                BColor.Color = ManageEnums.GetColor(prop.Value);
             }
             else if (prop.Name == PropertyNames.ShadowDirection.ToString())
             {
@@ -107,14 +110,14 @@ public partial class ShadowPanel
             case "ShadowColor":
                 if (CColor.IsChecked == true)
                 {
-                    var colorPicker = new ColorPicker(BColor.Background, 1);
+                    var colorPicker = new ColorPicker(BColor.Color, 1);
                     colorPicker.ColorSelectedCommand = new RelayCommand((color) =>
                     {
                         MouseDownCommand?.Execute(
                             new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, color!.ToString()! }
                         );
-
-                        BColor.Background = new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush;
+                        
+                        BColor.Color = (new BrushConverter().ConvertFrom(color!.ToString()!) as SolidColorBrush)!;
                     });
                     colorPicker.Show();
                 }
@@ -129,7 +132,7 @@ public partial class ShadowPanel
 
         var cb = (sender as CheckBox)!;
         if (cb.IsChecked != false) return;
-        BColor.Background = Brushes.Transparent;
+        BColor.Color = Brushes.Transparent;
 
         MouseDownCommand?.Execute(
             new dynamic[] { GroupNames.Shadow, PropertyNames.ShadowColor, ColorValue.Transparent.ToString() }
@@ -140,5 +143,24 @@ public partial class ShadowPanel
     {
         var componentSetting = PropertiesConfigService.GetConfigs(_properties);
         ComponentPropertyConfig.Instance.Refresh(componentSetting, "SHADOW PROPERTIES", GroupNames.Shadow);
+    }
+
+    private void OnPickColor(object sender)
+    {
+        var propertyName = PropertyNames.None;
+        if(sender is not PropertyActionSender propertyActionSender) return;
+            
+        if (propertyActionSender.Name == "ShadowColor")
+            propertyName = PropertyNames.ShadowColor;
+            
+        if(propertyName == PropertyNames.None) return;
+        MouseDownCommand?.Execute(
+            new dynamic[]
+            {
+                GroupNames.Shadow,
+                propertyName,
+                propertyActionSender.Value
+            }
+        );
     }
 }

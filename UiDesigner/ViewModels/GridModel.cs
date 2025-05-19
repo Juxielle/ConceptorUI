@@ -60,7 +60,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false)
         {
         }
 
@@ -80,7 +80,7 @@ namespace ConceptorUi.ViewModels
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
         }
 
@@ -99,7 +99,7 @@ namespace ConceptorUi.ViewModels
             return PropertyGroups!;
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
         }
 

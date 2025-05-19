@@ -11,7 +11,6 @@ using ConceptorUI.Views.Modals;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.Views.Modals;
 
 namespace ConceptorUI.Views.Component
 {

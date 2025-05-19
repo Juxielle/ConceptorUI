@@ -77,7 +77,7 @@ namespace ConceptorUI.ViewModels.ListView
         {
         }
 
-        protected override void AddIntoChildContent(FrameworkElement child, int k = -1)
+        public override void AddIntoChildContent(FrameworkElement child, int k = -1)
         {
             if (k == -1)
             {
@@ -96,7 +96,7 @@ namespace ConceptorUI.ViewModels.ListView
             return true;
         }
 
-        protected override void Delete(int k = -1)
+        public override void Delete(int k = -1)
         {
             var i = k;
             if (i == -1)
@@ -206,7 +206,7 @@ namespace ConceptorUI.ViewModels.ListView
             this.SetGroupVisibility(GroupNames.Shadow);
         }
 
-        protected override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
+        public override void LayoutConstraints(int id, bool isDeserialize = false, bool existExpaned = false)
         {
             Children[id].Parent = this;
             /* Global */

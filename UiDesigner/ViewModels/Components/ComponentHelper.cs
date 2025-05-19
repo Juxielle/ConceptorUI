@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Text.Json;
 using ConceptorUI.Classes;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
@@ -131,5 +132,11 @@ internal class ComponentHelper
 
         if (UndoActions.Count <= 50) return;
         UndoActions.RemoveAt(0);
+    }
+
+    public static CompSerializer? CopyComponent(Component component)
+    {
+        var json = JsonSerializer.Serialize(component);
+        return JsonSerializer.Deserialize<CompSerializer>(json);
     }
 }
