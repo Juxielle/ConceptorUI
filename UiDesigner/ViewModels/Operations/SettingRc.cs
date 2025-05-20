@@ -121,10 +121,12 @@ static class SettingRc
     public static void RestoreComponent(this Component comp, CompSerializer sender)
     {
         comp.Id = sender.Id;
+        if(sender.Children == null || 
+           comp.Children.Count == sender.Children.Count) return;
         for (var i = 0; i < comp.Children.Count; i++)
         {
-            comp.Children[i].Id = sender.Children![i].Id;
-            comp.RestoreComponent(sender.Children![i]);
+            comp.Children[i].Id = sender.Children[i].Id;
+            comp.RestoreComponent(sender.Children[i]);
         }
     }
 }

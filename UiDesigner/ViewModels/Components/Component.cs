@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
@@ -25,6 +24,7 @@ namespace ConceptorUI.ViewModels.Components
     internal abstract class Component
     {
         /*
+         * ------------------------------------
          * Mettre en place un système de remplacement de composants -> 1
          * Donner une mise en page à un composant -> 2
          * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
@@ -33,6 +33,23 @@ namespace ConceptorUI.ViewModels.Components
          * Composant reutilisable -> En cours
          * Zoom de l'écran -> En cours
          * Margin horizontal
+         * ------------------------------------
+         * Système de dimensions apparentes
+         * - C'est un problème qui se pose lorsqu'on crée un composant
+         * qui n'est pas une page, de façon indépendante;
+         * - Ces dimensions ne sont pas visibles à l'utilisateur, mais sont définies directement sur
+         * les controls du composant le plus externe;
+         * - Ces dimensions doivent être détruites lors de l'appel du composant;
+         * - Eviter tout simplement que ces dimensions soient completement nulles,
+         * sinon le composant sera invisivible à l'utilisateur;
+         * ------------------------------------
+         * Ctrl + Deplacement de la souris ou Ctrl + Fleches de direction, permet de
+         * déplacer le composant sélectionné;
+         * ------------------------------------
+         * - Mettre en place un algorithme de placement automatique des composants dans des zones
+         * disponibles pour éviter le chevauchement;
+         * - Mettre en place un algorithme de réarrangement automatique des composants dans des zones
+         * disponibles pour éviter le chevauchement;
          */
         public ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
