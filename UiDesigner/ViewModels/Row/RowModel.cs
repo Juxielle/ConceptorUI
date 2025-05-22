@@ -51,6 +51,8 @@ namespace ConceptorUI.ViewModels.Row
             /* Transform */
             this.SetGroupVisibility(GroupNames.Transform);
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Gap);
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewWidth, "300");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewHeight, "100");
             /* Text */
             this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */

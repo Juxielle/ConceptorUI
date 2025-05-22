@@ -117,6 +117,8 @@ namespace ConceptorUI.ViewModels.Text
             this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Ve, false);
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.He);
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewWidth, "300");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewHeight, SizeValue.Auto.ToString());
             /* Text */
             this.SetGroupVisibility(GroupNames.Text);
             this.SetPropertyValue(GroupNames.Text, PropertyNames.Color, "#000000");

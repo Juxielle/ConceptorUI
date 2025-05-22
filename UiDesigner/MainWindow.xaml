@@ -101,9 +101,7 @@
                               PreviewMouseWheel="OnMouseWheel"
                               PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                     <Grid>
-                        <component1:PageView MinWidth="2000"
-                                             MinHeight="2000"
-                                             Visibility="Visible"
+                        <component1:PageView Visibility="Visible"
                                              x:Name="PageView" />
 
                         <component:ComponentPage Margin="60"

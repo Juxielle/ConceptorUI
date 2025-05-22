@@ -25,6 +25,8 @@
 
         <Grid>
             <Grid x:Name="Page"
+                  Width="2000"
+                  Height="2000"
                   PreviewMouseDown="OnPageClickHandle">
                 <Grid.RenderTransform>
                     <ScaleTransform x:Name="ScaleTransform" ScaleX="1" ScaleY="1" />

@@ -199,6 +199,8 @@ namespace ConceptorUI.ViewModels.ListView
             this.SetGroupVisibility(GroupNames.Alignment, false);
             /* Self Alignment */
             /* Transform */
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewWidth, "300");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewHeight, "100");
             /* Text */
             this.SetGroupVisibility(GroupNames.Text, false);
             /* Appearance */

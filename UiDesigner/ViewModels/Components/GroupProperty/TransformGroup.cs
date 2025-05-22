@@ -33,6 +33,22 @@ public class TransformGroup
 
                 new Property
                 {
+                    Name = PropertyNames.PreviewWidth.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = SizeValue.Expand.ToString(),
+                    Visibility = VisibilityValue.Collapsed.ToString()
+                },
+
+                new Property
+                {
+                    Name = PropertyNames.PreviewHeight.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = SizeValue.Expand.ToString(),
+                    Visibility = VisibilityValue.Collapsed.ToString()
+                },
+
+                new Property
+                {
                     Name = PropertyNames.X.ToString(),
                     Type = PropertyTypes.String.ToString(),
                     Value = "0",

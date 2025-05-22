@@ -58,6 +58,8 @@ namespace ConceptorUI.ViewModels.Image
             /* Transform */
             this.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, "40");
             this.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, "40");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewWidth, "100");
+            this.SetPropertyValue(GroupNames.Transform, PropertyNames.PreviewHeight, "100");
             this.SetPropertyVisibility(GroupNames.Transform, PropertyNames.Stretch);
             /* Text */
             this.SetGroupVisibility(GroupNames.Text, false);

@@ -209,34 +209,29 @@ namespace ConceptorUI.Views.Component
                                 else if (Helper.IsNumber(componentSy))
                                     componentY = Helper.ConvertToDouble(componentSy);
 
-                                var content = new StackPanel
+                                var content = new Border
                                 {
-                                    Width = 400,
+                                    Tag = reports[p].Code,
+                                    Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
+                                };
+                                content.MouseDown += OnSelectedHandle;
+                                content.MouseEnter += OnMouseEnterHandle;
+                                content.PreviewMouseUp += OnPreviewMouseUp;
+                                content.MouseLeave += OnPreviewMouseLeave;
+                                content.PreviewMouseMove += OnPreviewMouseMove;
+
+                                _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
+
+                                var grid = new Grid
+                                {
+                                    Tag = reports[p].Code,
                                     VerticalAlignment = VerticalAlignment.Top,
                                     HorizontalAlignment = HorizontalAlignment.Left,
-                                    Margin = new Thickness(componentX, componentY, 0, 30)
+                                    Margin = new Thickness(componentX, componentY, 0, 30),
                                 };
-
-                                var title = new TextBlock
-                                {
-                                    Text = reports[p].Name,
-                                    FontSize = 14,
-                                    Margin = new Thickness(0, 0, 0, 6),
-                                    Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                                    HorizontalAlignment = HorizontalAlignment.Stretch,
-                                    TextAlignment = TextAlignment.Center,
-                                    Tag = reports[p].Code
-                                };
-                                title.MouseDown += OnSelectedHandle;
-                                title.MouseEnter += OnMouseEnterHandle;
-                                title.PreviewMouseUp += OnPreviewMouseUp;
-                                title.MouseLeave += OnPreviewMouseLeave;
-                                title.PreviewMouseMove += OnPreviewMouseMove;
-
-                                content.Tag = reports[p].Code;
-                                content.Children.Add(title);
-                                content.Children.Add(_components[reports[p].Code!].ComponentView);
-                                Page.Children.Add(content);
+                                grid.Children.Add(content);
+                                grid.Children.Add(_components[reports[p].Code!].ComponentView);
+                                Page.Children.Add(grid);
                             }
                         }, null);
                     }
@@ -246,6 +241,8 @@ namespace ConceptorUI.Views.Component
                     }
                 });
             }
+
+            AddSizeToScroll();
 
             #endregion
         }
@@ -277,33 +274,31 @@ namespace ConceptorUI.Views.Component
 
             _components.Add(code, windowModel);
 
-            var content = new StackPanel
+            var content = new Border
             {
-                Width = 400,
+                Tag = code,
+                Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
+            };
+            content.MouseDown += OnSelectedHandle;
+            content.MouseEnter += OnMouseEnterHandle;
+            content.PreviewMouseUp += OnPreviewMouseUp;
+            content.MouseLeave += OnPreviewMouseLeave;
+            content.PreviewMouseMove += OnPreviewMouseMove;
+
+            windowModel.ComponentView.Margin = new Thickness(15);
+            var point = GetNewPagePosition(300, 100);
+
+            var grid = new Grid
+            {
+                Tag = code,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
-                Margin = new Thickness(0, 0, 0, 30)
+                Margin = new Thickness(point.X, point.Y, 0, 30),
             };
-
-            var title = new TextBlock
-            {
-                Text = name,
-                FontSize = 14,
-                Margin = new Thickness(0, 0, 0, 6),
-                Foreground = new BrushConverter().ConvertFrom("#666666") as SolidColorBrush,
-                HorizontalAlignment = HorizontalAlignment.Center,
-                Tag = code
-            };
-            title.MouseDown += OnSelectedHandle;
-            title.MouseEnter += OnMouseEnterHandle;
-            title.PreviewMouseUp += OnPreviewMouseUp;
-            title.MouseLeave += OnPreviewMouseLeave;
-            title.PreviewMouseMove += OnPreviewMouseMove;
-
-            content.Tag = code;
-            content.Children.Add(title);
-            content.Children.Add(windowModel.ComponentView);
-            Page.Children.Add(content);
+            grid.Children.Add(content);
+            grid.Children.Add(windowModel.ComponentView);
+            Page.Children.Add(grid);
+            AddSizeToScroll();
 
             var componentSerializer = windowModel.OnSerializer();
             var jsonString = JsonSerializer.Serialize(componentSerializer);
@@ -455,19 +450,20 @@ namespace ConceptorUI.Views.Component
         private void OnSelectedHandle(object sender)
         {
             var customSender = sender as SelectComponentSender;
-            
-            foreach (var key in _components.Keys.Where(_ => customSender!.SelectComponentAction == SelectComponentActions.Unselect))
+
+            foreach (var key in _components.Keys.Where(_ =>
+                         customSender!.SelectComponentAction == SelectComponentActions.Unselect))
                 _components[key].OnUnselected();
-            
+
             if (customSender!.SelectComponentAction == SelectComponentActions.Unselect) return;
-            
+
             foreach (var key in _components.Keys.Where(key => _components[key].OnChildSelected()))
                 _selectedReport = _project.ReportInfos.FindIndex(r => r.Code == key);
-            
+
             RefreshPropertyPanelCommand?.Execute(customSender);
-            
+
             RefreshStructuralView();
-            
+
             if (customSender.SelectComponentAction == SelectComponentActions.DoubleClick)
             {
                 if (customSender.ComponentName == ComponentList.Text)
@@ -481,7 +477,7 @@ namespace ConceptorUI.Views.Component
         private void OnChangeText(object sender)
         {
             var infos = sender as dynamic[];
-            if(infos?.Length < 3) return;
+            if (infos?.Length < 3) return;
             SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
         }
 
@@ -588,8 +584,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnMouseEnterHandle(object sender, MouseEventArgs e)
         {
-            var textBlock = (TextBlock)sender;
-            textBlock.Cursor = Cursors.Hand;
+            var content = (FrameworkElement)sender;
+            content.Cursor = Cursors.SizeAll;
         }
 
         private void OnPreviewMouseUp(object sender, MouseEventArgs e)
@@ -604,8 +600,8 @@ namespace ConceptorUI.Views.Component
 
         private void OnPreviewMouseMove(object sender, MouseEventArgs e)
         {
-            var textBlock = (TextBlock)sender;
-            if (_selectedKey != textBlock.Tag.ToString()) return;
+            var content = (FrameworkElement)sender;
+            if (_selectedKey != content.Tag.ToString()) return;
 
             var componentSx = _components[_selectedKey!]
                 .GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
@@ -625,12 +621,12 @@ namespace ConceptorUI.Views.Component
 
             var index = -1;
             for (var i = 0; i < Page.Children.Count; i++)
-                if (_selectedKey == ((StackPanel)Page.Children[i]).Tag.ToString())
+                if (_selectedKey == ((FrameworkElement)Page.Children[i]).Tag.ToString())
                     index = i;
 
             if (index == -1) return;
 
-            var child = Page.Children[index] as StackPanel; //Source potentielle du problème
+            var child = Page.Children[index] as FrameworkElement; //Source potentielle du problème
             var point = e.GetPosition(Page);
 
             var toRight = componentX < point.X;
@@ -744,7 +740,7 @@ namespace ConceptorUI.Views.Component
                     value: ComponentHelper.UndoActions[index].PreviousAction.Value,
                     allow: true
                 );
-                
+
                 ComponentHelper.RedoActions.Add(ComponentHelper.UndoActions[index]);
                 ComponentHelper.UndoActions.RemoveAt(index);
             }
@@ -759,10 +755,78 @@ namespace ConceptorUI.Views.Component
                     value: ComponentHelper.RedoActions[index].CurrentAction.Value,
                     allow: true
                 );
-                
+
                 ComponentHelper.UndoActions.Add(ComponentHelper.RedoActions[index]);
                 ComponentHelper.RedoActions.RemoveAt(index);
             }
+        }
+
+        private Point GetNewPagePosition(double previewWidth, double previewHeight)
+        {
+            //Chercher l'espace libre le plus proche
+            double x = 0, y = 0;
+            List<Point> emptySpaces = [];
+            for (var i = 0; i < 10; i++)
+            {
+                for (var j = 0; j < 10; j++)
+                {
+                    var found = false;
+                    foreach (var child in Page.Children)
+                    {
+                        var page = child as FrameworkElement;
+                        var dx = page?.Margin.Left;
+                        var dy = page?.Margin.Top;
+                        var dw = page?.Width;
+                        var dh = page?.Height;
+                        if ((x >= dx && x + previewWidth <= dx + dw) &&
+                            (y >= dy && y + previewHeight <= dy + dh))
+                            found = true;
+                    }
+                    if (!found)
+                    {
+                        emptySpaces.Add(new Point(x, y));
+                        break;
+                    }
+                    x = (j + 1) * (previewWidth + 40);
+                }
+                y = (i + 1) * (previewHeight + 40);
+            }
+            
+            if(emptySpaces.Count == 0)
+                return new Point(0, 0);
+            Console.WriteLine(JsonSerializer.Serialize(emptySpaces));
+            x = emptySpaces[0].X;
+            y = emptySpaces[0].Y;
+            foreach (var emptySpace in emptySpaces)
+            {
+                if (emptySpace.X < x && emptySpace.Y < y)
+                {
+                    x = emptySpace.X;
+                    y = emptySpace.Y;
+                }
+            }
+            
+            return new Point(x, y);
+        }
+        
+        private void AddSizeToScroll()
+        {
+            double w = 0, h = 0;
+            foreach (var child in Page.Children)
+            {
+                var page = child as FrameworkElement;
+                var dx = page?.Margin.Left;
+                var dy = page?.Margin.Top;
+                var dW = page?.Width;
+                var dH = page?.Height;
+                if (dx + dW > w)
+                    w = (double)(dx + dW)!;
+                if (dy + dH > h)
+                    h = (double)(dy + dH)!;
+            }
+
+            Page.Width = 2000 + w;
+            Page.Height = 2000 + h;
         }
     }
 }
