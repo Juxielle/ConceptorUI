@@ -221,7 +221,7 @@ namespace ConceptorUI.Views.Component
                                 content.PreviewMouseMove += OnPreviewMouseMove;
 
                                 _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
-
+                                
                                 var grid = new Grid
                                 {
                                     Tag = reports[p].Code,
@@ -768,6 +768,7 @@ namespace ConceptorUI.Views.Component
             List<Point> emptySpaces = [];
             for (var i = 0; i < 10; i++)
             {
+                Console.WriteLine($"Line {i}");
                 for (var j = 0; j < 10; j++)
                 {
                     var found = false;
@@ -776,17 +777,24 @@ namespace ConceptorUI.Views.Component
                         var page = child as FrameworkElement;
                         var dx = page?.Margin.Left;
                         var dy = page?.Margin.Top;
-                        var dw = page?.Width;
-                        var dh = page?.Height;
-                        if ((x >= dx && x + previewWidth <= dx + dw) &&
-                            (y >= dy && y + previewHeight <= dy + dh))
+                        var dw = page?.ActualWidth;
+                        var dh = page?.ActualHeight;
+                        //Console.WriteLine($"x {x} - dx {dx}");
+                        //Console.WriteLine($"y {y} - dy {dy}");
+                        if (((x <= dx && x + previewWidth > dx && x + previewWidth <= dx + dw) ||
+                             (x >= dx && x + previewWidth <= dx + dw) ||
+                             (x <= dx && x + previewWidth >= dx + dw) ||
+                             (x > dx && x < dx && x + previewWidth >= dx + dw)) &&
+                            (y <= dy && y + previewHeight > dy && y + previewHeight <= dy + dh) ||
+                            (y >= dy && y + previewHeight <= dy + dh) ||
+                            (y <= dy && y + previewHeight >= dy + dh) ||
+                            (y > dy && y < dy && y + previewHeight >= dy + dh))
+                        {
                             found = true;
+                            break;
+                        }
                     }
-                    if (!found)
-                    {
-                        emptySpaces.Add(new Point(x, y));
-                        break;
-                    }
+                    if (!found) emptySpaces.Add(new Point(x, y));
                     x = (j + 1) * (previewWidth + 40);
                 }
                 y = (i + 1) * (previewHeight + 40);
@@ -794,12 +802,12 @@ namespace ConceptorUI.Views.Component
             
             if(emptySpaces.Count == 0)
                 return new Point(0, 0);
-            Console.WriteLine(JsonSerializer.Serialize(emptySpaces));
+            
             x = emptySpaces[0].X;
             y = emptySpaces[0].Y;
             foreach (var emptySpace in emptySpaces)
             {
-                if (emptySpace.X < x && emptySpace.Y < y)
+                if (emptySpace.X < x)
                 {
                     x = emptySpace.X;
                     y = emptySpace.Y;
