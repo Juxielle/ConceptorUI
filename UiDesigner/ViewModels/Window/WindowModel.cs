@@ -188,6 +188,7 @@ namespace ConceptorUI.ViewModels.Window
             if (groupName == GroupNames.Global.ToString() && propertyName == PropertyNames.Screen.ToString())
             {
                 Statusbar.Content.Child = new StatusBarIcons();
+                Statusbar.OnUpdated(GroupNames.Transform, PropertyNames.Height, $"{StatusHeight}", true);
                 
                 if (!Helper.IsDeserializable<ScreenUiDto>(value)) return;
                 var screenUi = Helper.Deserialize<ScreenUiDto>(value);

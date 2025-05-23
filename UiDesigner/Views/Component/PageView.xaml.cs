@@ -285,7 +285,7 @@ namespace ConceptorUI.Views.Component
             content.PreviewMouseUp += OnPreviewMouseUp;
             content.MouseLeave += OnPreviewMouseLeave;
             content.PreviewMouseMove += OnPreviewMouseMove;
-
+            
             windowModel.ComponentView.Margin = new Thickness(15);
             var point = GetNewPagePosition(w, h);
             windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.X,
@@ -293,7 +293,7 @@ namespace ConceptorUI.Views.Component
             windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
                 JsonSerializer.Serialize(new WindowPosition { ForMouse = 0, ForWindow = point.Y }));
             ScrollToPosition(point.X, point.Y, w, h);
-
+            
             var grid = new Grid
             {
                 Tag = code,
@@ -305,7 +305,7 @@ namespace ConceptorUI.Views.Component
             grid.Children.Add(windowModel.ComponentView);
             Page.Children.Add(grid);
             AddSizeToScroll();
-
+            
             var componentSerializer = windowModel.OnSerializer();
             var jsonString = JsonSerializer.Serialize(componentSerializer);
 
