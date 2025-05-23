@@ -40,6 +40,7 @@ namespace ConceptorUI
 
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             PageView.DisplayLoadingCommand = new RelayCommand(OnDisplayLoadingHandle);
+            PageView.ScrollCommand = new RelayCommand(OnScrollToPositionHandle);
 
             //TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
 
@@ -254,6 +255,14 @@ namespace ConceptorUI
         private void OnDisplayLoadingHandle(object sender)
         {
             Loading.Visibility = Loading.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
+        }
+
+        private void OnScrollToPositionHandle(object sender)
+        {
+            if(sender is not Dictionary<string, double> dictionary) return;
+            if(dictionary.Count == 0) return;
+            Pages.ScrollToVerticalOffset(dictionary["y"]);
+            Pages.ScrollToHorizontalOffset(dictionary["x"]);
         }
     }
 }

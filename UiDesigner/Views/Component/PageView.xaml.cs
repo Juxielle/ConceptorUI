@@ -42,6 +42,7 @@ namespace ConceptorUI.Views.Component
 
         public ICommand? RefreshPropertyPanelCommand;
         public ICommand? DisplayLoadingCommand;
+        public ICommand? ScrollCommand;
 
         /*
             A. Mécanisme d'annulation et restauration des actions
@@ -121,7 +122,7 @@ namespace ConceptorUI.Views.Component
                 _project = configResult.Value;
                 LoadSpace();
             }
-            else NewReport();
+            else NewReport(280, 611);
 
             #endregion
         }
@@ -221,7 +222,7 @@ namespace ConceptorUI.Views.Component
                                 content.PreviewMouseMove += OnPreviewMouseMove;
 
                                 _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
-                                
+
                                 var grid = new Grid
                                 {
                                     Tag = reports[p].Code,
@@ -247,7 +248,7 @@ namespace ConceptorUI.Views.Component
             #endregion
         }
 
-        public async void NewReport(bool isComponent = false)
+        public async void NewReport(double w, double h, bool isComponent = false)
         {
             #region Adding new Report
 
@@ -286,7 +287,12 @@ namespace ConceptorUI.Views.Component
             content.PreviewMouseMove += OnPreviewMouseMove;
 
             windowModel.ComponentView.Margin = new Thickness(15);
-            var point = GetNewPagePosition(300, 100);
+            var point = GetNewPagePosition(w, h);
+            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.X,
+                JsonSerializer.Serialize(new WindowPosition { ForMouse = 0, ForWindow = point.X }));
+            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
+                JsonSerializer.Serialize(new WindowPosition { ForMouse = 0, ForWindow = point.Y }));
+            ScrollToPosition(point.X, point.Y, w, h);
 
             var grid = new Grid
             {
@@ -679,7 +685,11 @@ namespace ConceptorUI.Views.Component
                 "Confirmation",
                 $"Confirmer la création {destination}",
                 AlertType.Confirm,
-                () => NewReport(isComponent)
+                () => NewReport(
+                    isComponent ? 300 : 280,
+                    isComponent ? 100 : 611,
+                    isComponent
+                )
             ).ShowDialog();
         }
 
@@ -766,10 +776,10 @@ namespace ConceptorUI.Views.Component
             //Chercher l'espace libre le plus proche
             double x = 0, y = 0;
             List<Point> emptySpaces = [];
-            for (var i = 0; i < 10; i++)
+            for (var i = 0; i <= Page.Children.Count + 2; i++)
             {
                 Console.WriteLine($"Line {i}");
-                for (var j = 0; j < 10; j++)
+                for (var j = 0; j <= Page.Children.Count + 2; j++)
                 {
                     var found = false;
                     foreach (var child in Page.Children)
@@ -779,30 +789,42 @@ namespace ConceptorUI.Views.Component
                         var dy = page?.Margin.Top;
                         var dw = page?.ActualWidth;
                         var dh = page?.ActualHeight;
-                        //Console.WriteLine($"x {x} - dx {dx}");
-                        //Console.WriteLine($"y {y} - dy {dy}");
+
+                        if (emptySpaces.Exists(p =>
+                                Math.Abs(p.X - x) == 0 && Math.Abs(p.Y - y) == 0))
+                        {
+                            found = true;
+                            break;
+                        }
+                        
                         if (((x <= dx && x + previewWidth > dx && x + previewWidth <= dx + dw) ||
                              (x >= dx && x + previewWidth <= dx + dw) ||
                              (x <= dx && x + previewWidth >= dx + dw) ||
-                             (x > dx && x < dx && x + previewWidth >= dx + dw)) &&
+                             (x >= dx && x < dx + dw && x + previewWidth >= dx + dw)) &&
                             (y <= dy && y + previewHeight > dy && y + previewHeight <= dy + dh) ||
                             (y >= dy && y + previewHeight <= dy + dh) ||
                             (y <= dy && y + previewHeight >= dy + dh) ||
-                            (y > dy && y < dy && y + previewHeight >= dy + dh))
+                            (y >= dy && y < dy + dh && y + previewHeight >= dy + dh))
                         {
                             found = true;
                             break;
                         }
                     }
-                    if (!found) emptySpaces.Add(new Point(x, y));
+
+                    if (!found)
+                    {
+                        emptySpaces.Add(new Point(x, y));
+                        Console.WriteLine($"x: {x} - y: {y}");
+                    }
                     x = (j + 1) * (previewWidth + 40);
                 }
+
                 y = (i + 1) * (previewHeight + 40);
             }
-            
-            if(emptySpaces.Count == 0)
+
+            if (emptySpaces.Count == 0)
                 return new Point(0, 0);
-            
+
             x = emptySpaces[0].X;
             y = emptySpaces[0].Y;
             foreach (var emptySpace in emptySpaces)
@@ -813,10 +835,10 @@ namespace ConceptorUI.Views.Component
                     y = emptySpace.Y;
                 }
             }
-            
+
             return new Point(x, y);
         }
-        
+
         private void AddSizeToScroll()
         {
             double w = 0, h = 0;
@@ -835,6 +857,14 @@ namespace ConceptorUI.Views.Component
 
             Page.Width = 2000 + w;
             Page.Height = 2000 + h;
+        }
+
+        private void ScrollToPosition(double x, double y, double w, double h)
+        {
+            ScrollCommand?.Execute(new Dictionary<string, double>
+            {
+                {"x", x}, {"y", y}, {"w", w}, {"h", h},
+            });
         }
     }
 }
