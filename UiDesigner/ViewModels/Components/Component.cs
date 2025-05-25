@@ -9,6 +9,7 @@ using System.Windows.Media;
 using System.Windows.Media.Effects;
 using System.Windows.Shapes;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUI.ViewModels.Container;

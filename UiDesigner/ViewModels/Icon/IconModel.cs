@@ -5,6 +5,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using FontAwesome.WPF;
@@ -12,7 +13,6 @@ using MaterialDesignThemes.Wpf;
 using UiDesigner.Assets.GoogleFontIcons;
 using UiDesigner.Models;
 using UiDesigner.Utils;
-using UiDesigner.ViewModels.Icon;
 
 namespace ConceptorUI.ViewModels.Icon
 {

@@ -3,6 +3,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;

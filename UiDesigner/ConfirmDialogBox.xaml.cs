@@ -1,18 +1,17 @@
-﻿using MaterialDesignThemes.Wpf;
-using System;
+﻿using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using MaterialDesignThemes.Wpf;
 using UiDesigner.Enums;
 
-
-namespace UiDesigner
+namespace ConceptorUI
 {
     public partial class ConfirmDialogBox
     {
         private readonly Action _confirm;
         private readonly Action? _cancel;
-        
+
         public ConfirmDialogBox(string title, string message, AlertType type, Action confirm, Action? cancel = null)
         {
             InitializeComponent();

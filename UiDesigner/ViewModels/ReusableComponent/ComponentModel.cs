@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Input;
+using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;

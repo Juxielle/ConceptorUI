@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Application.Dto.UiDto;
@@ -214,7 +215,7 @@ namespace ConceptorUI
             var property = (PropertyNames)infos![1];
 
             if (property == PropertyNames.Add)
-                PageView.AddComponent(UiDesigner.Models.ComponentList.TextSingle.ToString());
+                PageView.AddComponent(Models.ComponentList.TextSingle.ToString());
             else PageView.SetProperty((GroupNames)infos[0], (PropertyNames)infos[1], infos[2]);
         }
 
@@ -223,7 +224,7 @@ namespace ConceptorUI
             var customSender = sender as SelectComponentSender;
             List<GroupProperties> groups;
             
-            if (customSender?.ComponentName == UiDesigner.Models.ComponentList.Text)
+            if (customSender?.ComponentName == Models.ComponentList.Text)
                 groups = ((List<List<GroupProperties>>)customSender.PropertyGroups)[0];
             else groups = (List<GroupProperties>)customSender?.PropertyGroups!;
 

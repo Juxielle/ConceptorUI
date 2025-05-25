@@ -211,6 +211,14 @@ public class TextGroup
                     Type = PropertyTypes.String.ToString(),
                     Value = "0",
                     Visibility = VisibilityValue.Visible.ToString()
+                },
+
+                new Property
+                {
+                    Name = PropertyNames.MaxLines.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = "Infinite",
+                    Visibility = VisibilityValue.Visible.ToString()
                 }
             ]
         };

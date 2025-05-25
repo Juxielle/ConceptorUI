@@ -4,6 +4,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUI.Services;
 using ConceptorUI.Views.Component;

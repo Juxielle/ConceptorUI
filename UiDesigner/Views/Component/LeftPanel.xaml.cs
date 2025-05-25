@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI;
+using ConceptorUI.Models;
 using MaterialDesignThemes.Wpf;
 using UiDesigner.Interfaces;
 using UiDesigner.Models;

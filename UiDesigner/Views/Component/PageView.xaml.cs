@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;

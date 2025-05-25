@@ -4,6 +4,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Application.Dto.UiDto;
+using ConceptorUI.Models;
 using ConceptorUI.Services;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;

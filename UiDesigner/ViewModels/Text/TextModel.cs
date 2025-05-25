@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
+using System.Windows.Media;
 using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
@@ -19,6 +22,7 @@ namespace ConceptorUI.ViewModels.Text
         private readonly TextBlock _text;
         private readonly List<Run> _runs;
         private bool _isEventCanHandled;
+        private bool _allowChange;
 
         public TextModel(bool allowConstraints = false)
         {
@@ -29,6 +33,7 @@ namespace ConceptorUI.ViewModels.Text
             _text.SizeChanged -= OnTextSizeChanged;
             _text.SizeChanged += OnTextSizeChanged;
             _isEventCanHandled = false;
+            _allowChange = true;
 
             Content.Child = _text;
             Name = ComponentList.Text;
@@ -51,6 +56,16 @@ namespace ConceptorUI.ViewModels.Text
             if (width != SizeValue.Expand.ToString())
                 SelectedContent.Width = control.ActualWidth;
             _isEventCanHandled = false;
+
+            if (!_allowChange)
+            {
+                _allowChange = true;
+                return;
+            }
+
+            var ml = this.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.MaxLines);
+            if (!int.TryParse(ml, out var maxLines)) return;
+            TrimTextToMaxLines(maxLines);
         }
 
         public override void WhenTextChanged(string propertyName, string value, bool isInitialize = false)
@@ -85,6 +100,11 @@ namespace ConceptorUI.ViewModels.Text
             else if (propertyName == PropertyNames.TextTrimming.ToString())
             {
                 _text.TextTrimming = value == "0" ? TextTrimming.None : TextTrimming.CharacterEllipsis;
+            }
+            else if (propertyName == PropertyNames.MaxLines.ToString())
+            {
+                if (!int.TryParse(value, out var maxLines)) return;
+                TrimTextToMaxLines(maxLines);
             }
             else if (!isInitialize)
             {
@@ -284,12 +304,13 @@ namespace ConceptorUI.ViewModels.Text
             foreach (var inline in _text.Inlines)
             {
                 var run = inline as Run;
-                if(!e.OriginalSource.Equals(run)) continue;
+                if (!e.OriginalSource.Equals(run)) continue;
                 found = true;
                 break;
             }
-            if(!found) return;
-            
+
+            if (!found) return;
+
             if (!ComponentHelper.IsMultiSelectionEnable)
             {
                 SelectedCommand?.Execute(
@@ -304,6 +325,125 @@ namespace ConceptorUI.ViewModels.Text
             }
 
             OnSelected(e.ClickCount);
+        }
+
+        private void TrimTextToMaxLines2(int maxLines)
+        {
+            var fullText = this.GetGroupProperties(GroupNames.Text).GetValue(PropertyNames.Text);
+            var typeface = new Typeface(
+                _text.FontFamily,
+                _text.FontStyle,
+                _text.FontWeight,
+                _text.FontStretch);
+
+            var maxWidth = _text.ActualWidth;
+
+            if (double.IsNaN(maxWidth) || maxWidth == 0)
+                maxWidth = 300;
+
+            var lineHeight = GetLineHeight(_text, typeface);
+
+            var left = 0;
+            var right = fullText.Length;
+            var result = fullText;
+
+            while (left <= right)
+            {
+                var mid = (left + right) / 2;
+                var subText = fullText.Substring(0, mid) + "...";
+
+                var formattedText = new FormattedText(
+                    subText,
+                    CultureInfo.CurrentCulture,
+                    FlowDirection.LeftToRight,
+                    typeface,
+                    _text.FontSize,
+                    Brushes.Black,
+                    VisualTreeHelper.GetDpi(_text).PixelsPerDip)
+                {
+                    MaxTextWidth = maxWidth,
+                    TextAlignment = TextAlignment.Left
+                };
+
+                var totalHeight = formattedText.Height;
+                var estimatedLines = (int)Math.Ceiling(totalHeight / lineHeight);
+
+                if (estimatedLines > maxLines)
+                {
+                    right = mid - 1;
+                }
+                else
+                {
+                    result = subText;
+                    left = mid + 1;
+                }
+            }
+
+            _allowChange = false;
+            //_text.Text = result;
+        }
+
+        private void TrimTextToMaxLines(int maxLines)
+        {
+            if (_text == null! || _text.Inlines.Count == 0)
+                return;
+            
+            _text.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            _text.Arrange(new Rect(_text.DesiredSize));
+            
+            var lineHeight = GetLineHeight(_text);
+            var maxHeight = lineHeight * maxLines;
+            
+            while (_text.ActualHeight > maxHeight && _text.Inlines.Count > 0)
+            {
+                if (_text.Inlines.LastInline is not Run lastInline || string.IsNullOrEmpty(lastInline.Text))
+                {
+                    _text.Inlines.Remove(_text.Inlines.LastInline);
+                    continue;
+                }
+
+                lastInline.Text = lastInline.Text[..^1];
+
+                if (!lastInline.Text.EndsWith("..."))
+                    lastInline.Text += "...";
+
+                _text.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+                _text.Arrange(new Rect(_text.DesiredSize));
+            }
+        }
+        
+        private static double GetLineHeight(TextBlock textBlock)
+        {
+            var typeface = new Typeface(
+                textBlock.FontFamily,
+                textBlock.FontStyle,
+                textBlock.FontWeight,
+                textBlock.FontStretch);
+
+            var formattedLine = new FormattedText(
+                "A",
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                textBlock.FontSize,
+                Brushes.Black,
+                VisualTreeHelper.GetDpi(textBlock).PixelsPerDip);
+
+            return formattedLine.Height;
+        }
+
+        private double GetLineHeight(TextBlock targetBlock, Typeface typeface)
+        {
+            var formattedLine = new FormattedText(
+                "A",
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                typeface,
+                targetBlock.FontSize,
+                Brushes.Black,
+                VisualTreeHelper.GetDpi(targetBlock).PixelsPerDip);
+
+            return formattedLine.Height;
         }
 
         protected override void CallBack(GroupNames groupName, PropertyNames propertyName, string value)

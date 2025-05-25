@@ -1,4 +1,5 @@
-﻿using ConceptorUI.ViewModels.ListView;
+﻿using ConceptorUI.Models;
+using ConceptorUI.ViewModels.ListView;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
 

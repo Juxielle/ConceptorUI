@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Windows;
+using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
 using UiDesigner.Models;

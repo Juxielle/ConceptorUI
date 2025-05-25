@@ -1,8 +1,7 @@
-﻿using ConceptorUI.ViewModels.Icon;
+﻿using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
-using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Icon;
+namespace ConceptorUI.ViewModels.Icon;
 
 static class IconRestoreProperties
 {

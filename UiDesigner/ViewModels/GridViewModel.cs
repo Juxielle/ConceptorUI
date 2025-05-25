@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
 using ConceptorUi.ViewModels.Operations;
