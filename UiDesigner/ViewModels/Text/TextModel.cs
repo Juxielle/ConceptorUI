@@ -382,7 +382,7 @@ namespace ConceptorUI.ViewModels.Text
             _allowChange = false;
             //_text.Text = result;
         }
-
+        
         private void TrimTextToMaxLines(int maxLines)
         {
             if (_text == null! || _text.Inlines.Count == 0)

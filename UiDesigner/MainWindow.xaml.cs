@@ -89,13 +89,13 @@ namespace ConceptorUI
                 case Key.LeftShift:
                     _allowMove = false;
                     _isHorizontalScroll = true;
-                    Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    //Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("LeftShift is pressed.");
                     break;
                 case Key.RightShift:
                     _allowMove = false;
                     _isHorizontalScroll = true;
-                    Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
+                    //Pages.VerticalScrollBarVisibility = ScrollBarVisibility.Disabled;
                     Console.WriteLine("RightShift is pressed.");
                     break;
                 case Key.LeftCtrl:
@@ -112,8 +112,15 @@ namespace ConceptorUI
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
             if (_isHorizontalScroll)
+            {
+                Pages.ScrollToVerticalOffset(Pages.VerticalOffset);
                 Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - e.Delta);
-            else Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
+            }
+            else
+            {
+                Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset);
+                Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
+            }
         }
 
         private void OnKeyUp(object sender, KeyEventArgs e)
