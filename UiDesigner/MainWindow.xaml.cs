@@ -20,14 +20,16 @@ namespace ConceptorUI
         private readonly List<ProjectInfoUiDto> _projects;
         private bool _isHorizontalScroll;
         private bool _allowMove;
+        private bool _allowScroll;
 
         public MainWindow()
         {
             InitializeComponent();
 
             _obj = this;
-            _projects = new List<ProjectInfoUiDto>();
+            _projects = [];
             _allowMove = true;
+            _allowScroll = true;
             _isHorizontalScroll = false;
             Pages.Focus();
 
@@ -42,6 +44,7 @@ namespace ConceptorUI
             PageView.RefreshPropertyPanelCommand = new RelayCommand(OnRefreshPropertyPanelHandle);
             PageView.DisplayLoadingCommand = new RelayCommand(OnDisplayLoadingHandle);
             PageView.ScrollCommand = new RelayCommand(OnScrollToPositionHandle);
+            PageView.MainMouseWheelCommand = new RelayCommand(OnMainMouseWheelHandle);
 
             //TextTyping.Instance.TextChangedCommand = new RelayCommand(OnSetPropertyHandle);
 
@@ -108,9 +111,17 @@ namespace ConceptorUI
                     break;
             }
         }
-
+        
         private void OnMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            if (!_allowScroll)
+            {
+                _allowScroll = true;
+                Pages.ScrollToVerticalOffset(Pages.VerticalOffset);
+                Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset);
+                return;
+            }
+            
             if (_isHorizontalScroll)
             {
                 Pages.ScrollToVerticalOffset(Pages.VerticalOffset);
@@ -122,7 +133,7 @@ namespace ConceptorUI
                 Pages.ScrollToVerticalOffset(Pages.VerticalOffset - e.Delta);
             }
         }
-
+        
         private void OnKeyUp(object sender, KeyEventArgs e)
         {
             if (e.Key is Key.LeftShift or Key.RightShift)
@@ -242,7 +253,7 @@ namespace ConceptorUI
         {
             PageView.AddReusableComponent(sender.ToString()!);
         }
-
+        
         private void OnExecuteAction(object sender)
         {
             PropertySender propertySender;
@@ -259,18 +270,24 @@ namespace ConceptorUI
                 
             PageView.GetTransferData(nameof(PageView), propertySender);
         }
-
+        
         private void OnDisplayLoadingHandle(object sender)
         {
             Loading.Visibility = Loading.Visibility == Visibility.Visible ? Visibility.Collapsed : Visibility.Visible;
         }
-
+        
         private void OnScrollToPositionHandle(object sender)
         {
             if(sender is not Dictionary<string, double> dictionary) return;
             if(dictionary.Count == 0) return;
             Pages.ScrollToVerticalOffset(dictionary["y"]);
             Pages.ScrollToHorizontalOffset(dictionary["x"]);
+        }
+        
+        private void OnMainMouseWheelHandle(object sender)
+        {
+            if (sender is not bool allowScroll) return;
+            _allowScroll = allowScroll;
         }
     }
 }

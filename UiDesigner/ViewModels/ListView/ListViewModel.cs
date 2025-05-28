@@ -47,6 +47,10 @@ namespace ConceptorUI.ViewModels.ListView
             var scrollView = Content.Child as ScrollViewer;
             if (IsVertical) scrollView!.ScrollToVerticalOffset(scrollView.VerticalOffset - e.Delta);
             else scrollView!.ScrollToHorizontalOffset(scrollView.HorizontalOffset - e.Delta);
+            
+            var allowScroll = scrollView.VerticalOffset == 0 ||
+                                   scrollView.VerticalOffset >= scrollView.ScrollableHeight;
+            MouseWheelCommand?.Execute(allowScroll);
         }
 
         protected override bool IsSelected(MouseButtonEventArgs e)

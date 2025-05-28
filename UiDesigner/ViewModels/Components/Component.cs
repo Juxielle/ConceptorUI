@@ -81,6 +81,7 @@ namespace ConceptorUI.ViewModels.Components
         protected Rectangle BorderContent;
 
         public ICommand? SelectedCommand;
+        public ICommand? MouseWheelCommand;
 
         public abstract void SelfConstraints();
         public abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
@@ -138,6 +139,11 @@ namespace ConceptorUI.ViewModels.Components
         public void OnSelectedHandle(object sender)
         {
             SelectedCommand?.Execute(sender);
+        }
+        
+        public void OnMouseWheelHandle(object sender)
+        {
+            MouseWheelCommand?.Execute(sender);
         }
 
         public bool OnChildSelected()
@@ -1244,6 +1250,7 @@ namespace ConceptorUI.ViewModels.Components
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
             component.Parent = this;
             component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+            component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
 
             AddIntoChildContent(component.ComponentView);
             Children.Add(component);
@@ -1271,6 +1278,7 @@ namespace ConceptorUI.ViewModels.Components
                 var component = ComponentHelper.GetComponent(name);
                 component.Parent = this;
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
 
                 if (!isComponent)
                 {
@@ -1368,6 +1376,7 @@ namespace ConceptorUI.ViewModels.Components
                     var component = ComponentHelper.GetComponent(child.Name!);
                     component.Parent = this;
                     component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                    component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
                     //component.CreateId();
 
                     component.OnDeserializer(child);

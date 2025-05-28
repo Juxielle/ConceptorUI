@@ -44,6 +44,7 @@ namespace ConceptorUI.Views.Component
         public ICommand? RefreshPropertyPanelCommand;
         public ICommand? DisplayLoadingCommand;
         public ICommand? ScrollCommand;
+        public ICommand? MainMouseWheelCommand;
 
         /*
             A. Mécanisme d'annulation et restauration des actions
@@ -137,7 +138,7 @@ namespace ConceptorUI.Views.Component
             StructuralView.Instance.BuildView(structuralElement, 0, structuralElement.IsSimpleElement);
             PanelStructuralView.Instance.Refresh();
         }
-
+        
         private async void LoadSpace()
         {
             #region Load spage
@@ -178,6 +179,7 @@ namespace ConceptorUI.Views.Component
                             else windowModel = new ComponentModel(true);
 
                             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                            windowModel.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
                             new RelayCommand(OnRefreshPropertyPanelHandle);
                             new RelayCommand(OnRefreshStructuralViewHandle);
 
@@ -248,7 +250,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         public async void NewReport(double w, double h, bool isComponent = false)
         {
             #region Adding new Report
@@ -258,6 +260,7 @@ namespace ConceptorUI.Views.Component
             else windowModel = new WindowModel();
 
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
+            windowModel.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
             new RelayCommand(OnRefreshPropertyPanelHandle);
             new RelayCommand(OnRefreshStructuralViewHandle);
 
@@ -333,9 +336,10 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         public async void DeleteReport()
         {
+            #region Deleting Report
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
             {
                 ZipPath = ComponentHelper.ProjectPath!,
@@ -372,8 +376,9 @@ namespace ConceptorUI.Views.Component
                 ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });
+            #endregion
         }
-
+        
         public void ChangeScreen(object screen)
         {
             foreach (var key in _components.Keys)
@@ -479,6 +484,11 @@ namespace ConceptorUI.Views.Component
                     TextContextMenu.IsOpen = true;
                 }
             }
+        }
+
+        private void OnComponentMouseWheel(object sender)
+        {
+            MainMouseWheelCommand?.Execute(sender);
         }
 
         private void OnChangeText(object sender)
