@@ -1345,7 +1345,7 @@ namespace ConceptorUI.ViewModels.Components
             this.AddMissingProperties(compSerializer.Properties!);
 
             HasChildren = compSerializer.HasChildren;
-            IsVertical = compSerializer.IsVertical;
+            //IsVertical = compSerializer.IsVertical;
             _addedChildrenCount = compSerializer.AddedChildrenCount;
             CanAddIntoChildContent = compSerializer.CanAddIntoChildContent;
             ChildContentLimit = compSerializer.ChildContentLimit;

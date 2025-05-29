@@ -82,7 +82,7 @@ class ExternalMetaComponent
         var interpretationFile = component.InterpretationFile;
 
         var compSerialize = component.OnSerializer();
-        var childString = new ExternalComponent().ConvertToComponent(compSerialize, space: "        ");
+        var childString = new ExternalComponent().ConvertToComponent(compSerialize, space: "    ");
         
         var jsonText = "{\n";
         jsonText += $"    \"X\": \"{x}\",\n";
@@ -108,7 +108,7 @@ class ExternalMetaComponent
             jsonText += $"    \"VerticalAlignment\": \"{vb}\",\n";
         
         jsonText += $"    \"InterpretationFile\": \"{interpretationFile}\",\n";
-        jsonText += $"    \"Component\": {childString}\n";
+        jsonText += $"    \"Component\": {childString}";
         jsonText += "}";
         
         return jsonText;
