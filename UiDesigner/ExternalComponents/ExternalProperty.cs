@@ -1,0 +1,59 @@
+namespace ConceptorUI.ExternalComponents;
+
+public class ExternalProperty
+{
+    public string? HorizontalAlignment { get; set; }
+    public string? VerticalAlignment { get; set; }
+    public string? HorizontalSelfAlignment { get; set; }
+    public string? VerticalSelfAlignment { get; set; }
+    public string? Width { get; set; }
+    public string? Height { get; set; }
+    public string? X { get; set; }
+    public string? Y { get; set; }
+    public string? Stretch { get; set; }
+    public string? Gap { get; set; }
+    public string? Text { get; set; }
+    public string? FontFamily { get; set; }
+    public string? FontWeight { get; set; }
+    public string? FontStyle { get; set; }
+    public string? FontSize { get; set; }
+    public string? TextAlign { get; set; }
+    public string? TextDecoration { get; set; }
+    public string? Foreground { get; set; }
+    public string? TextWrapping { get; set; }
+    public string? LineSpacing { get; set; }
+    public string? TextTrimming { get; set; }
+    public string? Icon { get; set; }
+    public string? Image { get; set; }
+    public string? Background { get; set; }
+    public string? Opacity { get; set; }
+    public string? Margin { get; set; }
+    public string? MarginLeft { get; set; }
+    public string? MarginRight { get; set; }
+    public string? MarginTop { get; set; }
+    public string? MarginBottom { get; set; }
+    public string? MarginHorizontal { get; set; }
+    public string? MarginVertical { get; set; }
+    public string? Padding { get; set; }
+    public string? PaddingLeft { get; set; }
+    public string? PaddingRight { get; set; }
+    public string? PaddingTop { get; set; }
+    public string? PaddingBottom { get; set; }
+    public string? PaddingHorizontal { get; set; }
+    public string? PaddingVertical { get; set; }
+    public string? BorderWidth { get; set; }
+    public string? BorderColor { get; set; }
+    public string? BorderLeftWidth { get; set; }
+    public string? BorderRightWidth { get; set; }
+    public string? BorderTopWidth { get; set; }
+    public string? BorderBottomWidth { get; set; }
+    public string? BorderRadius { get; set; }
+    public string? BorderRadiusTopLeft { get; set; }
+    public string? BorderRadiusTopRight { get; set; }
+    public string? BorderRadiusBottomLeft { get; set; }
+    public string? BorderRadiusBottomRight { get; set; }
+    public string? ShadowDepth { get; set; }
+    public string? ShadowBlurRadius { get; set; }
+    public string? ShadowDirection { get; set; }
+    public string? ShadowColor { get; set; }
+}

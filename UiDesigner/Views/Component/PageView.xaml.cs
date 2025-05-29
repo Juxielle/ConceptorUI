@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Enums;
+using ConceptorUI.ExternalComponents;
 using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUi.ViewModels;
@@ -38,6 +39,7 @@ namespace ConceptorUI.Views.Component
         private readonly Dictionary<string, ConceptorUI.ViewModels.Components.Component> _components;
         private int _selectedReport;
         private string? _selectedKey;
+        private readonly Dictionary<string, ExternalMetaComponent> _externalMetaComponents;
 
         private string _copiedComponent;
 
@@ -84,6 +86,7 @@ namespace ConceptorUI.Views.Component
 
             _components = new Dictionary<string, ConceptorUI.ViewModels.Components.Component>();
             _selectedReport = 0;
+            _externalMetaComponents = [];
 
             _copiedComponent = string.Empty;
             TextContextMenu.Command = new RelayCommand(OnChangeText);
@@ -138,7 +141,7 @@ namespace ConceptorUI.Views.Component
             StructuralView.Instance.BuildView(structuralElement, 0, structuralElement.IsSimpleElement);
             PanelStructuralView.Instance.Refresh();
         }
-        
+
         private async void LoadSpace()
         {
             #region Load spage
@@ -154,103 +157,78 @@ namespace ConceptorUI.Views.Component
             var reports = reportsResult.Value.ToList();
 
             Page.Children.Clear();
-            var counter = 0;
-            var failCounter = 0;
+            var validReports = new List<ReportUiDto>();
 
             DisplayLoadingCommand?.Execute(true);
-            for (var i = 0; i < reports.Count; i++)
+            var sc = SynchronizationContext.Current;
+            ThreadPool.QueueUserWorkItem(delegate
             {
-                var sc = SynchronizationContext.Current;
-                var j = i;
-                ThreadPool.QueueUserWorkItem(delegate
+                sc!.Post(delegate
                 {
-                    try
+                    foreach (var report in reports)
                     {
-                        var component = JsonSerializer.Deserialize<CompSerializer>(reports[j].Json)!;
+                        var externalMetaComponent = JsonSerializer.Deserialize<ExternalMetaComponent>(report.Json)!;
+                        _externalMetaComponents.Add(report.Code!, externalMetaComponent);
+                    }
 
-                        var k = j;
-                        var counter1 = failCounter;
-                        sc!.Post(delegate
+                    for (var i = 0; i < reports.Count; i++)
+                    {
+                        var component = _externalMetaComponents[reports[i].Code!].CreateComponent();
+
+                        component.SelectedCommand = new RelayCommand(OnSelectedHandle);
+                        component.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
+                        new RelayCommand(OnRefreshPropertyPanelHandle);
+                        new RelayCommand(OnRefreshStructuralViewHandle);
+
+                        _components.Add(reports[i].Code!, component);
+                        validReports.Add(reports[i]);
+                    }
+                }, null);
+                
+                sc!.Post(delegate
+                {
+                    for (var p = 0; p < validReports.Count; p++)
+                    {
+                        var externalMetaComponent = _externalMetaComponents[validReports[p].Code!];
+                        var x = Convert.ToDouble(externalMetaComponent.X);
+                        var y = Convert.ToDouble(externalMetaComponent.Y);
+                        /*var width = Convert.ToDouble(externalMetaComponent.Width);
+                        var height = Convert.ToDouble(externalMetaComponent.Height);*/
+
+                        var content = new Border
                         {
-                            ConceptorUI.ViewModels.Components.Component windowModel;
+                            Tag = reports[p].Code,
+                            Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
+                        };
+                        content.MouseDown += OnSelectedHandle;
+                        content.MouseEnter += OnMouseEnterHandle;
+                        content.PreviewMouseUp += OnPreviewMouseUp;
+                        content.MouseLeave += OnPreviewMouseLeave;
+                        content.PreviewMouseMove += OnPreviewMouseMove;
 
-                            if (component.Name == ComponentList.Window.ToString())
-                                windowModel = new WindowModel(true);
-                            else windowModel = new ComponentModel(true);
+                        _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
 
-                            windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
-                            windowModel.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
-                            new RelayCommand(OnRefreshPropertyPanelHandle);
-                            new RelayCommand(OnRefreshStructuralViewHandle);
-
-                            _components.Add(reports[k].Code!, windowModel);
-
-                            windowModel.OnDeserializer(component);
-
-                            counter++;
-                            //Récupérer uniquement les éléments bien serialisés
-                            if (counter != reports.Count - counter1) return;
-
-                            DisplayLoadingCommand?.Execute(false);
-
-                            for (var p = 0; p < reports.Count - counter1; p++)
-                            {
-                                if (!_components.ContainsKey(reports[p].Code!)) continue;
-
-                                var componentSx = _components[reports[p].Code!].GetGroupProperties(GroupNames.Transform)
-                                    .GetValue(PropertyNames.X);
-                                var componentX = 0.0;
-                                if (Helper.IsDeserializable<WindowPosition>(componentSx))
-                                    componentX = Helper.Deserialize<WindowPosition>(componentSx).ForWindow;
-                                else if (Helper.IsNumber(componentSx))
-                                    componentX = Helper.ConvertToDouble(componentSx) - 200;
-
-                                var componentSy = _components[reports[p].Code!].GetGroupProperties(GroupNames.Transform)
-                                    .GetValue(PropertyNames.Y);
-                                var componentY = 0.0;
-                                if (Helper.IsDeserializable<WindowPosition>(componentSy))
-                                    componentY = Helper.Deserialize<WindowPosition>(componentSy).ForWindow;
-                                else if (Helper.IsNumber(componentSy))
-                                    componentY = Helper.ConvertToDouble(componentSy);
-
-                                var content = new Border
-                                {
-                                    Tag = reports[p].Code,
-                                    Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
-                                };
-                                content.MouseDown += OnSelectedHandle;
-                                content.MouseEnter += OnMouseEnterHandle;
-                                content.PreviewMouseUp += OnPreviewMouseUp;
-                                content.MouseLeave += OnPreviewMouseLeave;
-                                content.PreviewMouseMove += OnPreviewMouseMove;
-
-                                _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
-
-                                var grid = new Grid
-                                {
-                                    Tag = reports[p].Code,
-                                    VerticalAlignment = VerticalAlignment.Top,
-                                    HorizontalAlignment = HorizontalAlignment.Left,
-                                    Margin = new Thickness(componentX, componentY, 0, 30),
-                                };
-                                grid.Children.Add(content);
-                                grid.Children.Add(_components[reports[p].Code!].ComponentView);
-                                Page.Children.Add(grid);
-                            }
-                        }, null);
+                        var grid = new Grid
+                        {
+                            Tag = validReports[p].Code,
+                            VerticalAlignment = VerticalAlignment.Top,
+                            HorizontalAlignment = HorizontalAlignment.Left,
+                            Margin = new Thickness(x, y, 0, 0),
+                        };
+                        grid.Children.Add(content);
+                        grid.Children.Add(_components[reports[p].Code!].ComponentView);
+                        Page.Children.Add(grid);
                     }
-                    catch (Exception)
-                    {
-                        failCounter++;
-                    }
-                });
-            }
+
+                    DisplayLoadingCommand?.Execute(false);
+                }, null);
+            });
 
             AddSizeToScroll();
 
             #endregion
         }
-        
+
         public async void NewReport(double w, double h, bool isComponent = false)
         {
             #region Adding new Report
@@ -289,15 +267,13 @@ namespace ConceptorUI.Views.Component
             content.PreviewMouseUp += OnPreviewMouseUp;
             content.MouseLeave += OnPreviewMouseLeave;
             content.PreviewMouseMove += OnPreviewMouseMove;
-            
+
             windowModel.ComponentView.Margin = new Thickness(15);
             var point = GetNewPagePosition(w, h);
-            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.X,
-                JsonSerializer.Serialize(new WindowPosition { ForMouse = 0, ForWindow = point.X }));
-            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.Y,
-                JsonSerializer.Serialize(new WindowPosition { ForMouse = 0, ForWindow = point.Y }));
+            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
+            windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
             ScrollToPosition(point.X, point.Y, w, h);
-            
+
             var grid = new Grid
             {
                 Tag = code,
@@ -309,9 +285,12 @@ namespace ConceptorUI.Views.Component
             grid.Children.Add(windowModel.ComponentView);
             Page.Children.Add(grid);
             AddSizeToScroll();
-            
-            var componentSerializer = windowModel.OnSerializer();
-            var jsonString = JsonSerializer.Serialize(componentSerializer);
+
+            /*var componentSerializer = windowModel.OnSerializer();
+            var externalComponent = new ExternalComponent();
+            var jsonText = externalComponent.ConvertToComponent(componentSerializer);*/
+            var metaComponent = new ExternalMetaComponent();
+            var jsonText = metaComponent.OnSerialize(string.Empty, windowModel);
 
             var result = await new CreateReportCommandHandler().Handle(new CreateReportCommand
             {
@@ -320,7 +299,7 @@ namespace ConceptorUI.Views.Component
                 Report = new UiDesigner.Domain.Entities.Report
                 {
                     Name = code,
-                    Json = jsonString
+                    Json = jsonText
                 }
             });
 
@@ -336,10 +315,11 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-        
+
         public async void DeleteReport()
         {
             #region Deleting Report
+
             var result = await new DeleteReportCommandHandler().Handle(new DeleteReportCommand
             {
                 ZipPath = ComponentHelper.ProjectPath!,
@@ -376,9 +356,17 @@ namespace ConceptorUI.Views.Component
                 ProjectName = _project.Id,
                 Json = JsonSerializer.Serialize(_project)
             });
+
             #endregion
         }
-        
+
+        public string GetExternalComponent(string name)
+        {
+            return _externalMetaComponents.TryGetValue(name, out var component)
+                ? JsonSerializer.Serialize(component.Component!)
+                : null!;
+        }
+
         public void ChangeScreen(object screen)
         {
             foreach (var key in _components.Keys)
@@ -526,23 +514,25 @@ namespace ConceptorUI.Views.Component
         {
             DisplayLoadingCommand?.Execute(true);
             RefreshReusableComponent();
-
+            
             var sc = SynchronizationContext.Current;
             ThreadPool.QueueUserWorkItem(delegate
             {
                 #region
-
-                var reports = new List<UiDesigner.Domain.Entities.Report>();
-                foreach (var key in _components.Keys)
-                {
-                    var componentSerializer = _components[key].OnSerializer();
-
-                    var jsonString = JsonSerializer.Serialize(componentSerializer);
-                    reports.Add(new UiDesigner.Domain.Entities.Report { Name = key, Json = jsonString });
-                }
-
                 sc!.Post(async delegate
                 {
+                    var reports = new List<UiDesigner.Domain.Entities.Report>();
+                    foreach (var key in _components.Keys)
+                    {
+                        var metaComponent = new ExternalMetaComponent();
+                        var jsonText = metaComponent.OnSerialize(string.Empty, _components[key]);
+                        reports.Add(new UiDesigner.Domain.Entities.Report
+                        {
+                            Name = key,
+                            Json = jsonText
+                        });
+                    }
+                    
                     await new SaveProjectCommandHandler().Handle(new SaveProjectCommand
                     {
                         ZipPath = ComponentHelper.ProjectPath!,
@@ -807,7 +797,7 @@ namespace ConceptorUI.Views.Component
                             found = true;
                             break;
                         }
-                        
+
                         if (((x <= dx && x + previewWidth > dx && x + previewWidth <= dx + dw) ||
                              (x >= dx && x + previewWidth <= dx + dw) ||
                              (x <= dx && x + previewWidth >= dx + dw) ||
@@ -827,6 +817,7 @@ namespace ConceptorUI.Views.Component
                         emptySpaces.Add(new Point(x, y));
                         Console.WriteLine($"x: {x} - y: {y}");
                     }
+
                     x = (j + 1) * (previewWidth + 40);
                 }
 
@@ -874,7 +865,7 @@ namespace ConceptorUI.Views.Component
         {
             ScrollCommand?.Execute(new Dictionary<string, double>
             {
-                {"x", x}, {"y", y}, {"w", w}, {"h", h},
+                { "x", x }, { "y", y }, { "w", w }, { "h", h },
             });
         }
     }

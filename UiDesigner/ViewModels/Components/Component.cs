@@ -57,6 +57,7 @@ namespace ConceptorUI.ViewModels.Components
 
         public bool Selected;
         public string? Id;
+        public string? InterpretationFile;
 
         private bool _canSelect = true;
         protected bool HasChildren = true;
