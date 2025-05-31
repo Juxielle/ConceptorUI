@@ -124,13 +124,14 @@ public class ExternalComponent
         if (propertyValue != string.Empty)
         {
             jsonText += property + propertyValue;
-            virgule = compSerializer.Children == null || compSerializer.Children.Count == 0 ? "" : ",\n";
-            jsonText += "\n" + $"{space}    " + "}" + $"{virgule}";
+            //virgule = compSerializer.Children == null || compSerializer.Children.Count == 0 ? "" : ",\n";
+            jsonText += "\n" + $"{space}    " + "},\n";
         }
 
         if (compSerializer.Children == null || compSerializer.Children.Count == 0)
         {
             virgule = isLast ? "" : ",";
+            jsonText += $"{space}    \"Children\": " + "[]";
             jsonText += "\n" + $"{space}" + "}" + $"{virgule}\n";
             return jsonText;
         }
@@ -139,8 +140,8 @@ public class ExternalComponent
         var index = 0;
         foreach (var child in compSerializer.Children)
         {
-            isLast = index == compSerializer.Children.Count - 1;
-            jsonText += ConvertToComponent(child, compSerializer.Name!, $"{space}        ", isLast);
+            var isL = index == compSerializer.Children.Count - 1;
+            jsonText += ConvertToComponent(child, compSerializer.Name!, $"{space}        ", isL);
             index++;
         }
 

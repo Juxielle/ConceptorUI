@@ -80,7 +80,7 @@ class ExternalMetaComponent
         var vb = component.GetGroupProperties(GroupNames.Alignment).GetValue(PropertyNames.Vb);
         
         var interpretationFile = component.InterpretationFile;
-
+        
         var compSerialize = component.OnSerializer();
         var childString = new ExternalComponent().ConvertToComponent(compSerialize, space: "    ");
         

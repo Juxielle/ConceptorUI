@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
@@ -910,6 +911,7 @@ namespace ConceptorUI.ViewModels.Components
 
         public void OnInitialize()
         {
+            var cMargin = this.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CMargin);
             foreach (var group in PropertyGroups!)
             {
                 //var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
@@ -1048,7 +1050,7 @@ namespace ConceptorUI.ViewModels.Components
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Opacity = ShadowContent.Opacity = vd;
                     }
-                    else if (prop.Name == PropertyNames.Margin.ToString())
+                    else if (prop.Name == PropertyNames.Margin.ToString() && cMargin == "1")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         var gap =
@@ -1059,19 +1061,19 @@ namespace ConceptorUI.ViewModels.Components
 
                         SelectedContent.Margin = new Thickness(vd, vd, marginRight, marginBottom);
                     }
-                    else if (prop.Name == PropertyNames.MarginLeft.ToString())
+                    else if (prop.Name == PropertyNames.MarginLeft.ToString() && cMargin == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         SelectedContent.Margin = new Thickness(vd, SelectedContent.Margin.Top,
                             SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.MarginTop.ToString())
+                    else if (prop.Name == PropertyNames.MarginTop.ToString() && cMargin == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, vd,
                             SelectedContent.Margin.Right, SelectedContent.Margin.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.MarginRight.ToString())
+                    else if (prop.Name == PropertyNames.MarginRight.ToString() && cMargin == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         var gap =
@@ -1082,7 +1084,7 @@ namespace ConceptorUI.ViewModels.Components
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left,
                             SelectedContent.Margin.Top, marginRight, SelectedContent.Margin.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.MarginBottom.ToString())
+                    else if (prop.Name == PropertyNames.MarginBottom.ToString() && cMargin == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         var gap =
@@ -1344,14 +1346,14 @@ namespace ConceptorUI.ViewModels.Components
             //PropertyGroups = compSerializer.Properties;
             this.AddMissingProperties(compSerializer.Properties!);
 
-            HasChildren = compSerializer.HasChildren;
-            //IsVertical = compSerializer.IsVertical;
+            /*HasChildren = compSerializer.HasChildren;
+            IsVertical = compSerializer.IsVertical;
             _addedChildrenCount = compSerializer.AddedChildrenCount;
             CanAddIntoChildContent = compSerializer.CanAddIntoChildContent;
             ChildContentLimit = compSerializer.ChildContentLimit;
             IsInComponent = compSerializer.IsInComponent;
             _isOriginalComponent = compSerializer.IsOriginalComponent;
-            IsForceAlignment = compSerializer.IsForceAlignment;
+            IsForceAlignment = compSerializer.IsForceAlignment;*/
 
             if (compSerializer.Id == null)
             {

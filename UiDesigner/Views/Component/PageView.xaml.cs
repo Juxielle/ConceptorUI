@@ -380,6 +380,7 @@ namespace ConceptorUI.Views.Component
         {
             if (!ComponentHelper.IsComponent(componentName)) return;
 
+            Console.WriteLine($"Adding {componentName}");
             var component = ComponentHelper.GetComponent(componentName);
             var compText = JsonSerializer.Serialize(component.OnSerializer());
             _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true);

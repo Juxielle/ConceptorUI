@@ -24,6 +24,7 @@ namespace ConceptorUI.ViewModels.Row
 
             Grid = new Grid();
             IsVertical = isVertical;
+            CanAddIntoChildContent = true;
 
             Content.Child = Grid;
             Name = isVertical ? ComponentList.Row : ComponentList.Column;
