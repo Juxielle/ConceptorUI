@@ -69,22 +69,24 @@ public static class TextConverter
                 }
                 else if (name is "AlignLeft" or "AlignRight" or "AlignCenter" or "AlignJustify")
                 {
+                    if(value != "1") continue;
                     var virgule = isFirst ? space : $",\n{space}";
-                    jsonText += $"{virgule}\"FontStyle\": ";
-                    value = value == "AlignLeft" ? "left" :
-                        value == "AlignRight" ? "right" :
-                        value == "AlignCenter" ? "center" : "justify";
+                    jsonText += $"{virgule}\"TextAlign\": ";
+                    value = name == "AlignLeft" ? "left" :
+                        name == "AlignRight" ? "right" :
+                        name == "AlignCenter" ? "center" : "justify";
 
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
                 else if (name is "TextUnderline" or "TextOverline" or "TextThrough")
                 {
+                    if(value != "1") continue;
                     var virgule = isFirst ? space : $",\n{space}";
-                    jsonText += $"{virgule}\"FontStyle\": ";
-                    value = value == "TextUnderline" ? "underline" :
-                        value == "TextOverline" ? "overline" :
-                        value == "TextThrough" ? "through" : "underline";
+                    jsonText += $"{virgule}\"TextDecoration\": ";
+                    value = name == "TextUnderline" ? "underline" :
+                        name == "TextOverline" ? "overline" :
+                        name == "TextThrough" ? "through" : "underline";
 
                     jsonText += $"\"{value}\"";
                     isFirst = false;

@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
@@ -912,6 +911,9 @@ namespace ConceptorUI.ViewModels.Components
         public void OnInitialize()
         {
             var cMargin = this.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CMargin);
+            var cPadding = this.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CPadding);
+            var cBorder = this.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CBorder);
+            var cBorderRadius = this.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CBorderRadius);
             foreach (var group in PropertyGroups!)
             {
                 //var groupName = (GroupNames)Enum.Parse(typeof(GroupNames), group.Name);
@@ -1036,7 +1038,7 @@ namespace ConceptorUI.ViewModels.Components
                     }
 
                     #endregion
-
+                    
                     #region Appearance
 
                     else if (prop.Name == PropertyNames.FillColor.ToString())
@@ -1095,40 +1097,40 @@ namespace ConceptorUI.ViewModels.Components
                         SelectedContent.Margin = new Thickness(SelectedContent.Margin.Left, SelectedContent.Margin.Top,
                             SelectedContent.Margin.Right, marginBottom);
                     }
-                    else if (prop.Name == PropertyNames.Padding.ToString())
+                    else if (prop.Name == PropertyNames.Padding.ToString() && cPadding == "1")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Padding = ShadowContent.Padding = new Thickness(vd);
                     }
-                    else if (prop.Name == PropertyNames.PaddingLeft.ToString())
+                    else if (prop.Name == PropertyNames.PaddingLeft.ToString() && cPadding == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Padding = ShadowContent.Padding = new Thickness(vd, Content.Padding.Top,
                             Content.Padding.Right,
                             Content.Padding.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.PaddingTop.ToString())
+                    else if (prop.Name == PropertyNames.PaddingTop.ToString() && cPadding == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left, vd,
                             Content.Padding.Right,
                             Content.Padding.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.PaddingRight.ToString())
+                    else if (prop.Name == PropertyNames.PaddingRight.ToString() && cPadding == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left,
                             Content.Padding.Top, vd,
                             Content.Padding.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.PaddingBottom.ToString())
+                    else if (prop.Name == PropertyNames.PaddingBottom.ToString() && cPadding == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.Padding = ShadowContent.Padding = new Thickness(Content.Padding.Left,
                             Content.Padding.Top,
                             Content.Padding.Right, vd);
                     }
-                    else if (prop.Name == PropertyNames.BorderWidth.ToString())
+                    else if (prop.Name == PropertyNames.BorderWidth.ToString() && cBorder == "1")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.BorderThickness = new Thickness(vd);
@@ -1139,43 +1141,43 @@ namespace ConceptorUI.ViewModels.Components
                             ? Brushes.Transparent
                             : new BrushConverter().ConvertFrom(prop.Value) as SolidColorBrush;
                     }
-                    else if (prop.Name == PropertyNames.BorderLeftWidth.ToString())
+                    else if (prop.Name == PropertyNames.BorderLeftWidth.ToString() && cBorder == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.BorderThickness = new Thickness(vd, Content.BorderThickness.Top,
                             Content.BorderThickness.Right, Content.BorderThickness.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.BorderTopWidth.ToString())
+                    else if (prop.Name == PropertyNames.BorderTopWidth.ToString() && cBorder == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.BorderThickness = new Thickness(Content.BorderThickness.Left, vd * 0.65,
                             Content.BorderThickness.Right, Content.BorderThickness.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.BorderRightWidth.ToString())
+                    else if (prop.Name == PropertyNames.BorderRightWidth.ToString() && cBorder == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.BorderThickness = new Thickness(Content.BorderThickness.Left,
                             Content.BorderThickness.Top, vd, Content.BorderThickness.Bottom);
                     }
-                    else if (prop.Name == PropertyNames.BorderBottomWidth.ToString())
+                    else if (prop.Name == PropertyNames.BorderBottomWidth.ToString() && cBorder == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.BorderThickness = new Thickness(Content.BorderThickness.Left,
                             Content.BorderThickness.Top, Content.BorderThickness.Right, vd * 0.65);
                     }
-                    else if (prop.Name == PropertyNames.BorderRadius.ToString())
+                    else if (prop.Name == PropertyNames.BorderRadius.ToString() && cBorderRadius == "1")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd);
                     }
-                    else if (prop.Name == PropertyNames.BorderRadiusTopLeft.ToString())
+                    else if (prop.Name == PropertyNames.BorderRadiusTopLeft.ToString() && cBorderRadius == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(vd,
                             Content.CornerRadius.TopRight,
                             Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                     }
-                    else if (prop.Name == PropertyNames.BorderRadiusBottomLeft.ToString())
+                    else if (prop.Name == PropertyNames.BorderRadiusBottomLeft.ToString() && cBorderRadius == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(
@@ -1183,14 +1185,14 @@ namespace ConceptorUI.ViewModels.Components
                             Content.CornerRadius.TopRight,
                             Content.CornerRadius.BottomRight, vd);
                     }
-                    else if (prop.Name == PropertyNames.BorderRadiusTopRight.ToString())
+                    else if (prop.Name == PropertyNames.BorderRadiusTopRight.ToString() && cBorderRadius == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(
                             Content.CornerRadius.TopLeft, vd,
                             Content.CornerRadius.BottomRight, Content.CornerRadius.BottomLeft);
                     }
-                    else if (prop.Name == PropertyNames.BorderRadiusBottomRight.ToString())
+                    else if (prop.Name == PropertyNames.BorderRadiusBottomRight.ToString() && cBorderRadius == "0")
                     {
                         var vd = Helper.ConvertToDouble(prop.Value);
                         Content.CornerRadius = ShadowContent.CornerRadius = new CornerRadius(
@@ -1247,7 +1249,7 @@ namespace ConceptorUI.ViewModels.Components
                 }
             }
         }
-
+        
         public void OnAdd(Component component, bool isExpanded = false)
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;

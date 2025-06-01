@@ -23,13 +23,15 @@ public static class AlignmentConverter
                     compSerializer.Properties![i].Properties[j].Value) continue;
 
                 var name = compSerializer.Properties![i].Properties[j].Name;
+                var value = compSerializer.Properties![i].Properties[j].Value;
 
                 if (name is "Hl" or "Hc" or "Hr")
                 {
+                    if(value == "0") continue;
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"HorizontalAlignment\": ";
                     
-                    var value = name == "Hl" ? "left" :
+                    value = name == "Hl" ? "left" :
                         name == "Hr" ? "right" :
                         name == "Hc" ? "center" :
                         name == "SpaceBetween" ? "between" :
@@ -41,10 +43,11 @@ public static class AlignmentConverter
                 }
                 else if (name is "Vt" or "Vc" or "Vb")
                 {
+                    if(value == "0") continue;
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"VerticalAlignment\": ";
                     
-                    var value = name == "Vt" ? "top" :
+                    value = name == "Vt" ? "top" :
                         name == "Vc" ? "center" :
                         name == "Vb" ? "bottom" :
                         name == "SpaceBetween" ? "between" :

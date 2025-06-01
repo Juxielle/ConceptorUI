@@ -1,4 +1,4 @@
-﻿namespace UiDesigner.Classes;
+﻿namespace ConceptorUI.Classes;
 
 public class WindowPosition
 {

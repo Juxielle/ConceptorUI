@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using ConceptorUI.Classes;
 using ConceptorUI.Enums;
 using ConceptorUI.ExternalComponents;
 using ConceptorUI.Models;
@@ -17,15 +18,12 @@ using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
 using ConceptorUI.Views.Modals;
-using UiDesigner;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Application.Project;
 using UiDesigner.Application.Reports;
-using UiDesigner.Classes;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
-using UiDesigner.Models;
 using UiDesigner.Utils;
 using UiDesigner.Views.Component;
 
@@ -379,8 +377,7 @@ namespace ConceptorUI.Views.Component
         public void AddComponent(string componentName)
         {
             if (!ComponentHelper.IsComponent(componentName)) return;
-
-            Console.WriteLine($"Adding {componentName}");
+            
             var component = ComponentHelper.GetComponent(componentName);
             var compText = JsonSerializer.Serialize(component.OnSerializer());
             _components[_project.ReportInfos[_selectedReport].Code!].OnCopyOrPaste(compText, true);
@@ -525,6 +522,10 @@ namespace ConceptorUI.Views.Component
                     var reports = new List<UiDesigner.Domain.Entities.Report>();
                     foreach (var key in _components.Keys)
                     {
+                        var point = ComponentHelper.GetComponentPoint(_components[key]);
+                        _components[key].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
+                        _components[key].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
+                        
                         var metaComponent = new ExternalMetaComponent();
                         var jsonText = metaComponent.OnSerialize(string.Empty, _components[key]);
                         reports.Add(new UiDesigner.Domain.Entities.Report

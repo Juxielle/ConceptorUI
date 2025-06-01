@@ -3,14 +3,13 @@ using System.Windows.Controls;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
-using UiDesigner.Models;
 
 namespace ConceptorUI.ViewModels.Row;
 
 static class ColumnRestoreProperties
 {
     public static void RestoreProperties(this Component component, bool isHorizontal, bool isVertical, PropertyNames ah,
-        PropertyNames av)
+        PropertyNames av, bool isExpand = false)
     {
         var ahc = SelfAlignment.Horizontal(component);
         var isChildHorizontal = SelfAlignment.IsHorizontal(component);
@@ -118,7 +117,7 @@ static class ColumnRestoreProperties
                 }
                 else if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
-                    Alignment.SetHorizontalValue(component.Parent, ahc, "1");
+                    if(!isExpand) Alignment.SetHorizontalValue(component.Parent, ahc, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
                 }
                 else SelfAlignment.SetHorizontalValue(component, ahc, "1");
@@ -127,13 +126,13 @@ static class ColumnRestoreProperties
             {
                 if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
-                    Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
+                    if(!isExpand) Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
                     SelfAlignment.SetHorizontalValue(component, PropertyNames.Hl, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
                 }
                 else if (widthChild != SizeValue.Expand.ToString())
                 {
-                    Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
+                    if(!isExpand) Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
                     SelfAlignment.SetHorizontalValue(component, PropertyNames.Hl, "1");
                 }
             }

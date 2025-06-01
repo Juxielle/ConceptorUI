@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Windows;
 using ConceptorUI.Classes;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
@@ -8,6 +9,7 @@ using ConceptorUI.ViewModels.Container;
 using ConceptorUI.ViewModels.Icon;
 using ConceptorUI.ViewModels.Image;
 using ConceptorUI.ViewModels.ListView;
+using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
 using ConceptorUI.ViewModels.Stack;
 using ConceptorUI.ViewModels.Text;
@@ -139,5 +141,35 @@ internal class ComponentHelper
     {
         var json = JsonSerializer.Serialize(component);
         return JsonSerializer.Deserialize<CompSerializer>(json);
+    }
+    
+    public static Point GetComponentPoint(Component component)
+    {
+        var xJson = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.X);
+        var yJson = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Y);
+        double x = 0;
+        double y = 0;
+        
+        try
+        {
+            var wpX = JsonSerializer.Deserialize<WindowPosition>(xJson);
+            x = wpX!.ForWindow;
+        }
+        catch (Exception)
+        {
+            if (double.TryParse(xJson, out var pX)) x = pX;
+        }
+        
+        try
+        {
+            var wpY = JsonSerializer.Deserialize<WindowPosition>(yJson);
+            y = wpY!.ForWindow;
+        }
+        catch (Exception)
+        {
+            if (double.TryParse(yJson, out var pY)) y = pY;
+        }
+        
+        return new Point(x, y);
     }
 }

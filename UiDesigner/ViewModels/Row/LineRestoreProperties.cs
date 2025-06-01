@@ -1,16 +1,16 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using System.Windows.Controls;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
-using UiDesigner.Models;
 
 namespace ConceptorUI.ViewModels.Row;
 
 static class LineRestoreProperties
 {
     public static void RestoreProperties(this Component component, bool isHorizontal, bool isVertical, PropertyNames ah,
-        PropertyNames av)
+        PropertyNames av, bool isExpand = false)
     {
         var ahc = SelfAlignment.Horizontal(component);
         var isChildHorizontal = SelfAlignment.IsHorizontal(component);
@@ -122,7 +122,7 @@ static class LineRestoreProperties
                 }
                 else if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
-                    Alignment.SetVerticalValue(component.Parent, avc, "1");
+                    if(!isExpand) Alignment.SetVerticalValue(component.Parent, avc, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                         SizeValue.Auto.ToString());
                 }
@@ -132,14 +132,14 @@ static class LineRestoreProperties
             {
                 if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
-                    Alignment.SetVerticalValue(component.Parent, PropertyNames.Vt, "1");
+                    if(!isExpand) Alignment.SetVerticalValue(component.Parent, PropertyNames.Vt, "1");
                     SelfAlignment.SetVerticalValue(component, PropertyNames.Vt, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
                         SizeValue.Auto.ToString());
                 }
                 else if (heightChild != SizeValue.Expand.ToString())
                 {
-                    Alignment.SetVerticalValue(component.Parent, PropertyNames.Vt, "1");
+                    if(!isExpand) Alignment.SetVerticalValue(component.Parent, PropertyNames.Vt, "1");
                     SelfAlignment.SetVerticalValue(component, PropertyNames.Vt, "1");
                 }
             }

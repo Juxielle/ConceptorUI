@@ -1,5 +1,4 @@
 ﻿using ConceptorUI.Models;
-using UiDesigner.Models;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Row;
 
@@ -28,11 +27,12 @@ static class RowRestoreProperties
             Alignment.SetVerticalOnNull(row);
         }
 
+        var isExpand = IsExpand(row);
         foreach (var child in row.Children)
         {
             if(row.IsVertical)
-                LineRestoreProperties.RestoreProperties(child, isHorizontal, isVertical, ah, av);
-            else ColumnRestoreProperties.RestoreProperties(child, isHorizontal, isVertical, ah, av);
+                LineRestoreProperties.RestoreProperties(child, isHorizontal, isVertical, ah, av, isExpand);
+            else ColumnRestoreProperties.RestoreProperties(child, isHorizontal, isVertical, ah, av, isExpand);
             
             child.Synchronize();
         }
@@ -74,5 +74,19 @@ static class RowRestoreProperties
         }
 
         row.Synchronize();
+    }
+
+    private static bool IsExpand(this RowModel row)
+    {
+        var isExpand = false;
+
+        foreach (var child in row.Children)
+        {
+            var d = child.GetGroupProperties(GroupNames.Transform)
+                .GetValue(row.IsVertical ? PropertyNames.Height : PropertyNames.Width);
+            isExpand = isExpand || d == SizeValue.Expand.ToString();
+        }
+        
+        return isExpand;
     }
 }
