@@ -47,7 +47,7 @@ public static class TransformConverter
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
-                else if (name == PropertyNames.X.ToString())
+                /*else if (name == PropertyNames.X.ToString())
                 {
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"X\": ";
@@ -62,7 +62,7 @@ public static class TransformConverter
                     
                     jsonText += $"\"{value}\"";
                     isFirst = false;
-                }
+                }*/
                 else if (name == PropertyNames.Gap.ToString())
                 {
                     var virgule = isFirst ? space : $",\n{space}";
