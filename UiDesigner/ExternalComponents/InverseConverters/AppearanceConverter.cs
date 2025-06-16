@@ -125,7 +125,8 @@ public static class AppearanceConverter
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
-                else if (name  == PropertyNames.BorderColor.ToString() && cBorder == "1")
+                else if (name  == PropertyNames.BorderColor.ToString() && 
+                         value != ColorValue.Transparent.ToString())
                 {
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"BorderColor\": ";
@@ -133,7 +134,7 @@ public static class AppearanceConverter
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
-                else if (name  == PropertyNames.BorderWidth.ToString() && cBorder == "0")
+                else if (name  == PropertyNames.BorderWidth.ToString() && cBorder == "1")
                 {
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"BorderWidth\": ";
