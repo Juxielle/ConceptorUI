@@ -95,7 +95,7 @@ namespace ConceptorUI.ViewModels.Icon
                 found = true;
             }
 
-            var myDataObject = new UiDesigner.Models.Icon { Code = found ? iValue![0] : value };
+            var myDataObject = new Models.Icon { Code = found ? iValue![0] : value };
             var myBinding = new System.Windows.Data.Binding("Code")
             {
                 Source = myDataObject

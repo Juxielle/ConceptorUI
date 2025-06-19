@@ -257,11 +257,12 @@ static class ManageShapes
         {
             var widthString = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             var heightString = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
-            var cBorderRadius = component.GetGroupProperties(GroupNames.Transform)
-                .GetValue(PropertyNames.CBorderRadius);
+            var apparentWidth = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentWidth);
+            var apparentHeight = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentHeight);
+            var cBorderRadius = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.CBorderRadius);
 
             if ((widthString == SizeValue.Expand.ToString() || widthString == SizeValue.Auto.ToString()) &&
-                !double.IsNaN(component.SelectedContent.Width))
+                !double.IsNaN(component.SelectedContent.Width) && apparentWidth == "0")
             {
                 component.SelectedContent.Width = double.NaN;
             }
@@ -272,7 +273,7 @@ static class ManageShapes
             }
 
             if ((heightString == SizeValue.Expand.ToString() || heightString == SizeValue.Auto.ToString()) &&
-                !double.IsNaN(component.SelectedContent.Height))
+                !double.IsNaN(component.SelectedContent.Height) && apparentHeight == "0")
             {
                 component.SelectedContent.Height = double.NaN;
             }

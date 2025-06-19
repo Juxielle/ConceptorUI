@@ -117,7 +117,23 @@ public class TransformGroup
                     Type = PropertyTypes.String.ToString(),
                     Value = Shapes.Rectangle.ToString(),
                     Visibility = VisibilityValue.Collapsed.ToString()
-                }
+                },
+                
+                new Property
+                {
+                    Name = PropertyNames.ApparentWidth.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = "0",
+                    Visibility = VisibilityValue.Visible.ToString()
+                },
+
+                new Property
+                {
+                    Name = PropertyNames.ApparentHeight.ToString(),
+                    Type = PropertyTypes.String.ToString(),
+                    Value = "0",
+                    Visibility = VisibilityValue.Visible.ToString()
+                },
             ]
         };
     }

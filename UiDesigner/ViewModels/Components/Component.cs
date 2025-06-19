@@ -966,7 +966,7 @@ namespace ConceptorUI.ViewModels.Components
                     }
 
                     #endregion
-
+                    
                     #region Transform
 
                     else if (prop.Name == PropertyNames.Width.ToString())

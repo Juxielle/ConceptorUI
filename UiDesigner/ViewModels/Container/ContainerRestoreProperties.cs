@@ -1,6 +1,7 @@
-﻿using ConceptorUI.Models;
+﻿using System;
+using ConceptorUI.Enums;
+using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Container;
-using UiDesigner.Models;
 using ConceptorUi.ViewModels.Operations;
 
 namespace ConceptorUi.ViewModels.Container;
@@ -9,14 +10,14 @@ static class ContainerRestoreProperties
 {
     public static void RestoreProperties(this ContainerModel container)
     {
+        Alignment.SetSeveralActivations(container);
+        Alignment.SetInvalidValues(container);
+        
         var ah = Alignment.Horizontal(container);
         var isHorizontal = Alignment.IsHorizontal(container);
 
         var av = Alignment.Vertical(container);
         var isVertical = Alignment.IsVertical(container);
-
-        Alignment.SetSeveralActivations(container);
-        Alignment.SetInvalidValues(container);
 
         if (isHorizontal && container.Children.Count == 0)
         {
@@ -38,6 +39,7 @@ static class ContainerRestoreProperties
 
             var heightChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var widthChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            var shape = container.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Shape);
 
             if (isHorizontal)
             {

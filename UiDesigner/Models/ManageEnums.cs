@@ -101,6 +101,8 @@ namespace ConceptorUI.Models
     {
         Width,
         Height,
+        ApparentWidth,
+        ApparentHeight,
         PreviewWidth,
         PreviewHeight,
         None,

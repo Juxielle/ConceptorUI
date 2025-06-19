@@ -38,6 +38,40 @@ public static class ExternalTransform
             });
         }
         
+        if (component.Property?.Shape != null)
+        {
+            var value = component.Property?.Shape;
+            value = value == "circular" ? "Circular" : value == "ellipse" ? "Ellipse" : "Rectangle";
+            group.Properties.Add(new Property
+            {
+                Name = PropertyNames.Shape.ToString(),
+                Value = value!,
+                Visibility = VisibilityValue.Visible.ToString()
+            });
+        }
+        
+        if (component.Property?.ApparentWidth != null)
+        {
+            var value = component.Property?.ApparentWidth;
+            group.Properties.Add(new Property
+            {
+                Name = PropertyNames.ApparentWidth.ToString(),
+                Value = value!,
+                Visibility = VisibilityValue.Visible.ToString()
+            });
+        }
+        
+        if (component.Property?.ApparentHeight != null)
+        {
+            var value = component.Property?.ApparentHeight;
+            group.Properties.Add(new Property
+            {
+                Name = PropertyNames.ApparentHeight.ToString(),
+                Value = value!,
+                Visibility = VisibilityValue.Visible.ToString()
+            });
+        }
+        
         if (component.Property?.X != null)
         {
             var value = component.Property?.X;

@@ -47,6 +47,23 @@ public static class TransformConverter
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
+
+                else if (name == PropertyNames.ApparentWidth.ToString() && value != "0")
+                {
+                    var virgule = isFirst ? space : $",\n{space}";
+                    jsonText += $"{virgule}\"ApparentWidth\": ";
+                    
+                    jsonText += $"\"{value}\"";
+                    isFirst = false;
+                }
+                else if (name == PropertyNames.ApparentHeight.ToString() && value != "0")
+                {
+                    var virgule = isFirst ? space : $",\n{space}";
+                    jsonText += $"{virgule}\"ApparentHeight\": ";
+                    
+                    jsonText += $"\"{value}\"";
+                    isFirst = false;
+                }
                 /*else if (name == PropertyNames.X.ToString())
                 {
                     var virgule = isFirst ? space : $",\n{space}";
@@ -78,6 +95,17 @@ public static class TransformConverter
                     
                     value = value == "Uniform" ? "contain" :
                             value == "UniformToFill" ? "cover" : "fill";
+                    
+                    jsonText += $"\"{value}\"";
+                    isFirst = false;
+                }
+                else if (name == PropertyNames.Shape.ToString() && value != "Rectangle")
+                {
+                    var virgule = isFirst ? space : $",\n{space}";
+                    jsonText += $"{virgule}\"Shape\": ";
+                    
+                    value = value == "Circular" ? "circular" :
+                        value == "Ellipse" ? "ellipse" : "rectangle";
                     
                     jsonText += $"\"{value}\"";
                     isFirst = false;

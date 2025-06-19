@@ -14,6 +14,7 @@ using ConceptorUI.Models;
 using ConceptorUI.Senders;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
+using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Window;
@@ -89,9 +90,9 @@ namespace ConceptorUI.Views.Component
             _copiedComponent = string.Empty;
             TextContextMenu.Command = new RelayCommand(OnChangeText);
         }
-
+        
         public static PageView Instance => _obj == null! ? new PageView() : _obj;
-
+        
         public async void Refresh(object projectObject)
         {
             var projectInfoUiDto = (projectObject as ProjectInfoUiDto)!;
@@ -129,7 +130,7 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         private void InitStructuralView()
         {
             var structuralElement = _components[_project.ReportInfos[_selectedReport].Code!].AddToStructuralView();
@@ -205,6 +206,8 @@ namespace ConceptorUI.Views.Component
                         content.PreviewMouseMove += OnPreviewMouseMove;
 
                         _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
+                        _components[reports[p].Code!].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
+                        _components[reports[p].Code!].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
 
                         var grid = new Grid
                         {
@@ -226,13 +229,13 @@ namespace ConceptorUI.Views.Component
 
             #endregion
         }
-
+        
         public async void NewReport(double w, double h, bool isComponent = false)
         {
             #region Adding new Report
 
             ConceptorUI.ViewModels.Components.Component windowModel;
-            if (isComponent) windowModel = new ComponentModel();
+            if (isComponent) windowModel = new ContainerModel();
             else windowModel = new WindowModel();
 
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
@@ -270,6 +273,14 @@ namespace ConceptorUI.Views.Component
             var point = GetNewPagePosition(w, h);
             windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{point.X}");
             windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{point.Y}");
+            
+            if (windowModel.Name != ComponentList.Window)
+            {
+                windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.ApparentWidth, $"{w}");
+                windowModel.SetPropertyValue(GroupNames.Transform, PropertyNames.ApparentHeight, $"{h}");
+                windowModel.OnUpdated(GroupNames.Appearance, PropertyNames.FillColor, "#FFFFFF", true);
+            }
+            
             ScrollToPosition(point.X, point.Y, w, h);
 
             var grid = new Grid

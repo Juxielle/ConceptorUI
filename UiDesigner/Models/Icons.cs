@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UiDesigner.Constants;
 
-
-namespace UiDesigner.Models
+namespace ConceptorUI.Models
 {
     public class Icon
     {

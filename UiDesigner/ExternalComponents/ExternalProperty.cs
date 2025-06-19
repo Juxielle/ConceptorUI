@@ -8,6 +8,9 @@ public class ExternalProperty
     public string? VerticalSelfAlignment { get; set; }
     public string? Width { get; set; }
     public string? Height { get; set; }
+    public string? ApparentWidth { get; set; }
+    public string? ApparentHeight { get; set; }
+    public string? Shape { get; set; }
     public string? X { get; set; }
     public string? Y { get; set; }
     public string? Stretch { get; set; }

@@ -2,7 +2,6 @@
 using System.Windows;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
-using UiDesigner.Models;
 using UiDesigner.Utils;
 
 namespace ConceptorUi.ViewModels.Operations;
@@ -27,6 +26,8 @@ static class Synchronization
 
         var height = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
         var width = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+        var apparentWidth = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentWidth);
+        var apparentHeight = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentHeight);
 
         if (hl == "1" && component.SelectedContent.HorizontalAlignment != HorizontalAlignment.Left)
             component.SelectedContent.HorizontalAlignment = HorizontalAlignment.Left;
@@ -48,12 +49,13 @@ static class Synchronization
 
         if (width == SizeValue.Expand.ToString() && (!double.IsNaN(component.SelectedContent.Width) ||
                                                      component.SelectedContent.HorizontalAlignment !=
-                                                     HorizontalAlignment.Stretch))
+                                                     HorizontalAlignment.Stretch) && apparentWidth == "0")
         {
             component.SelectedContent.Width = double.NaN;
             component.SelectedContent.HorizontalAlignment = HorizontalAlignment.Stretch;
         }
-        else if (width == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Width))
+        else if (width == SizeValue.Auto.ToString() && 
+                 !double.IsNaN(component.SelectedContent.Width) && apparentWidth == "0")
         {
             component.SelectedContent.Width = double.NaN;
         }
@@ -65,15 +67,18 @@ static class Synchronization
             var vd = Helper.ConvertToDouble(width);
             component.SelectedContent.Width = vd;
         }
+        else if(apparentWidth != "0")
+            component.SelectedContent.Width = Helper.ConvertToDouble(apparentWidth);
 
         if (height == SizeValue.Expand.ToString() && (!double.IsNaN(component.SelectedContent.Height) ||
                                                       component.SelectedContent.VerticalAlignment !=
-                                                      VerticalAlignment.Stretch))
+                                                      VerticalAlignment.Stretch) && apparentHeight == "0")
         {
             component.SelectedContent.Height = double.NaN;
             component.SelectedContent.VerticalAlignment = VerticalAlignment.Stretch;
         }
-        else if (height == SizeValue.Auto.ToString() && !double.IsNaN(component.SelectedContent.Height))
+        else if (height == SizeValue.Auto.ToString() && 
+                 !double.IsNaN(component.SelectedContent.Height) && apparentHeight == "0")
             component.SelectedContent.Height = double.NaN;
         else if (height != SizeValue.Expand.ToString() && height != SizeValue.Auto.ToString() &&
                  double.TryParse(height, out _) &&
@@ -83,5 +88,7 @@ static class Synchronization
             var vd = Helper.ConvertToDouble(height);
             component.SelectedContent.Height = vd;
         }
+        else if(apparentHeight != "0")
+            component.SelectedContent.Height = Helper.ConvertToDouble(apparentHeight);
     }
 }
