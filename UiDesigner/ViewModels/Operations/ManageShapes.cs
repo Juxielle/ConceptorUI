@@ -76,7 +76,7 @@ static class ManageShapes
             var width = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             var height = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var shape = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Shape);
-            var cBorderRadius = component.GetGroupProperties(GroupNames.Transform)
+            var cBorderRadius = component.GetGroupProperties(GroupNames.Appearance)
                 .GetValue(PropertyNames.CBorderRadius);
 
             if (shape == Shapes.Rectangle.ToString()) return;
@@ -259,7 +259,7 @@ static class ManageShapes
             var heightString = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var apparentWidth = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentWidth);
             var apparentHeight = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.ApparentHeight);
-            var cBorderRadius = component.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.CBorderRadius);
+            var cBorderRadius = component.GetGroupProperties(GroupNames.Appearance).GetValue(PropertyNames.CBorderRadius);
 
             if ((widthString == SizeValue.Expand.ToString() || widthString == SizeValue.Auto.ToString()) &&
                 !double.IsNaN(component.SelectedContent.Width) && apparentWidth == "0")

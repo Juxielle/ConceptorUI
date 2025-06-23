@@ -30,7 +30,15 @@ public static class GlobalConverter
                     var virgule = isFirst ? space : $",\n{space}";
                     jsonText += $"{virgule}\"Icon\": ";
                     
-                    jsonText += $"{System.Text.Json.JsonSerializer.Serialize(value)}";
+                    if (value.Length > 0 && value[0] == '[')
+                    {
+                        var values = System.Text.Json.JsonSerializer.Deserialize<string[]>(value);
+                        if (values == null || values.Length < 2) value = "Apple";
+                        else value = $"\"[\\\"{values![0]}\\\", \\\"{values![1]}\\\"]\"";
+                    }
+                    else value = $"\"{value}\"";
+                    
+                    jsonText += value;
                     isFirst = false;
                 }
                 else if (name == PropertyNames.FilePicker.ToString() && component.Name == ComponentList.Image)

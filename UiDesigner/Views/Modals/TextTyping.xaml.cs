@@ -228,6 +228,8 @@ public partial class TextTyping
 
     private void OnSelectedItemChanged(int index)
     {
+        if(_textItems.Count <= index) return;
+        
         foreach (var child in TextItems.Children)
         {
             var textI = child as TextItem;

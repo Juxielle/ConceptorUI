@@ -17,6 +17,7 @@ using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.ReusableComponent;
+using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 using ConceptorUI.Views.Modals;
 using UiDesigner.Application.Configs;
@@ -71,6 +72,19 @@ namespace ConceptorUI.Views.Component
             I. Remplacement des mises en page:
                 - Définir les types de composants;
                 - Définir les critères de remplacement entre mises en page;
+         */
+        
+        /*
+            Groupement des composants:
+            - Créer un bouton pour grouper les composants
+            - On groupe les composants pour pouvoir les déplacer en groupe
+            - Les pages et les composants externes sont par défaut des compsants groupés
+            - Pendant le déplacement:
+                 - Lorsque la souris est placée sur un composant groupé, c'est ce composant qui sera déplacé
+                 - Lorsque la souris est placée sur un composant non groupé,
+                   c'est le composant groupé contenant ce composant qui sera déplacé
+            - La même chose se passe lorsqu'on copie ou lorsqu'on colle le composant groupé: Ctl+Shift+C
+            - Tout composant externe est reutilisable: l'appel se fait par copier - coller
          */
         public PageView()
         {
@@ -492,7 +506,11 @@ namespace ConceptorUI.Views.Component
         {
             var infos = sender as dynamic[];
             if (infos?.Length < 3) return;
-            SetProperty((GroupNames)infos![0], (PropertyNames)infos[1], infos[2]);
+            
+            var action = (PropertyNames)infos![1];
+            if(action == PropertyNames.Add)
+                AddComponent(ComponentList.TextSingle.ToString());
+            else SetProperty((GroupNames)infos[0], action, infos[2]);
         }
 
         private void OnRefreshPropertyPanelHandle(object sender)

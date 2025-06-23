@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using ConceptorUI.ExternalComponents.InverseConverters;
@@ -67,10 +68,10 @@ public class ExternalComponent
         var globalGroup = ExternalGlobal.Convert(this);
         if (globalGroup.Properties.Count > 0)
             compSerializer.Properties.Add(globalGroup);
-
+        
         if (Children == null || Children.Count == 0)
             return compSerializer;
-
+        
         foreach (var child in Children)
         {
             var childCompSerializer = child.ConvertToCompSerializer();

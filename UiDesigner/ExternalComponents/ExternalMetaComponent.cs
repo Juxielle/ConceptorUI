@@ -1,3 +1,5 @@
+using System;
+using System.Text.Json;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
@@ -54,8 +56,8 @@ class ExternalMetaComponent
             });
         }
 
-        if (alignmentGroup.Properties.Count > 0)
-            compSerializer?.Properties?.Add(alignmentGroup);
+        /*if (alignmentGroup.Properties.Count > 0)
+            compSerializer?.Properties?.Add(alignmentGroup);*/
         
         var component = ComponentHelper.GetComponent(compSerializer?.Name!);
         component.OnDeserializer(compSerializer!);

@@ -1,5 +1,7 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
+using System.Text.Json;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
@@ -161,16 +163,15 @@ static class ManageProperties
             SetComponentVisibility(component, groupName, PropertyNames.BorderRadiusBottomRight, isVisible);
         }
     }
-
+    
     public static void AddMissingProperties(this Component component, List<GroupProperties> groups)
     {
         for (var i = 0; i < component.PropertyGroups!.Count; i++)
         {
             var group = groups.Find(g => g.Name == component.PropertyGroups[i].Name);
             if (group == null) continue;
-
+            
             component.PropertyGroups[i].Visibility = group.Visibility;
-
             for (var j = 0; j < component.PropertyGroups[i].Properties.Count; j++)
             {
                 var property = group.Properties.Find(p => p.Name == component.PropertyGroups[i].Properties[j].Name);

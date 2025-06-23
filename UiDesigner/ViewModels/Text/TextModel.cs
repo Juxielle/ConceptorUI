@@ -427,7 +427,8 @@ namespace ConceptorUI.ViewModels.Text
                 typeface,
                 textBlock.FontSize,
                 Brushes.Black,
-                VisualTreeHelper.GetDpi(textBlock).PixelsPerDip);
+                VisualTreeHelper.GetDpi(textBlock).PixelsPerDip
+            );
 
             return formattedLine.Height;
         }
@@ -441,7 +442,8 @@ namespace ConceptorUI.ViewModels.Text
                 typeface,
                 targetBlock.FontSize,
                 Brushes.Black,
-                VisualTreeHelper.GetDpi(targetBlock).PixelsPerDip);
+                VisualTreeHelper.GetDpi(targetBlock).PixelsPerDip
+            );
 
             return formattedLine.Height;
         }

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Text.Json;
@@ -1420,10 +1421,10 @@ namespace ConceptorUI.ViewModels.Components
                 Children = [],
                 IsSimpleElement = HasChildren
             };
-
+            
             foreach (var child in Children)
                 structuralElement.Children.Add(child.AddToStructuralView());
-
+            
             return structuralElement;
         }
 
