@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text.Json;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
@@ -176,6 +174,42 @@ static class ManageProperties
             {
                 var property = group.Properties.Find(p => p.Name == component.PropertyGroups[i].Properties[j].Name);
                 if (property == null) continue;
+                
+                if ((property.Name == PropertyNames.Hl.ToString() || 
+                    property.Name == PropertyNames.Hc.ToString() || 
+                    property.Name == PropertyNames.Hr.ToString()) && 
+                    group.Name == GroupNames.Alignment.ToString() &&
+                    property.Value == "1")
+                {
+                    Alignment.SetHorizontalOnNull(component);
+                }
+                
+                if ((property.Name == PropertyNames.Vt.ToString() || 
+                     property.Name == PropertyNames.Vc.ToString() || 
+                     property.Name == PropertyNames.Vb.ToString()) && 
+                    group.Name == GroupNames.Alignment.ToString() &&
+                    property.Value == "1")
+                {
+                    Alignment.SetVerticalOnNull(component);
+                }
+                
+                if ((property.Name == PropertyNames.Hl.ToString() || 
+                     property.Name == PropertyNames.Hc.ToString() || 
+                     property.Name == PropertyNames.Hr.ToString()) && 
+                    group.Name == GroupNames.SelfAlignment.ToString() &&
+                    property.Value == "1")
+                {
+                    SelfAlignment.SetHorizontalOnNull(component);
+                }
+                
+                if ((property.Name == PropertyNames.Vt.ToString() || 
+                     property.Name == PropertyNames.Vc.ToString() || 
+                     property.Name == PropertyNames.Vb.ToString()) && 
+                    group.Name == GroupNames.SelfAlignment.ToString() &&
+                    property.Value == "1")
+                {
+                    SelfAlignment.SetVerticalOnNull(component);
+                }
                 
                 component.PropertyGroups[i].Properties[j] = property;
             }

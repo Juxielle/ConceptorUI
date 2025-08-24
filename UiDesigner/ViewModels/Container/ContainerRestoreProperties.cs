@@ -1,6 +1,4 @@
-﻿using System;
-using ConceptorUI.Enums;
-using ConceptorUI.Models;
+﻿using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 
@@ -117,7 +115,7 @@ static class ContainerRestoreProperties
                 }
                 else
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded(false))
                     {
                         Alignment.SetVerticalOnNull(container);
                     }

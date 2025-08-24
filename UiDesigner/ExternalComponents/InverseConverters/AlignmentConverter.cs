@@ -1,4 +1,3 @@
-using System;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Models;
@@ -12,16 +11,16 @@ public static class AlignmentConverter
         var component = ComponentHelper.GetComponent(compSerializer.Name!);
         var jsonText = string.Empty;
 
-        for (var i = 0; i < component.PropertyGroups!.Count; i++)
+        for (var i = 0; i < compSerializer.Properties!.Count; i++)
         {
             if (compSerializer.Properties![i].Name != GroupNames.Alignment.ToString()) continue;
             
-            for (var j = 0; j < component.PropertyGroups[i].Properties.Count; j++)
+            for (var j = 0; j < compSerializer.Properties[i].Properties.Count; j++)
             {
-                if (component.PropertyGroups[i].Properties[j].Name !=
+                /*if (component.PropertyGroups[i].Properties[j].Name !=
                     compSerializer.Properties![i].Properties[j].Name ||
                     component.PropertyGroups[i].Properties[j].Value ==
-                    compSerializer.Properties![i].Properties[j].Value) continue;
+                    compSerializer.Properties![i].Properties[j].Value) continue;*/
 
                 var name = compSerializer.Properties![i].Properties[j].Name;
                 var value = compSerializer.Properties![i].Properties[j].Value;

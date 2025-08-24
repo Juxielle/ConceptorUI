@@ -1348,6 +1348,18 @@ namespace ConceptorUI.ViewModels.Components
         {
             //PropertyGroups = compSerializer.Properties;
             this.AddMissingProperties(compSerializer.Properties!);
+            
+            if (compSerializer.Name == ComponentList.Container.ToString() && compSerializer.Children?.Count > 0)
+            {
+                if (compSerializer.Children[0].Name == ComponentList.Text.ToString())
+                {
+                    var group = compSerializer.GetGroup(GroupNames.Alignment);
+                    var vt = group.GetValue(PropertyNames.Vt);
+                    var vc = group.GetValue(PropertyNames.Vc);
+                    var vb = group.GetValue(PropertyNames.Vb);
+                    Console.WriteLine($"vt = {vt} - vc = {vc} - vb = {vb}");
+                }
+            }
 
             /*HasChildren = compSerializer.HasChildren;
             IsVertical = compSerializer.IsVertical;
@@ -1402,7 +1414,7 @@ namespace ConceptorUI.ViewModels.Components
             }
 
             #endregion
-
+            
             if (Name == ComponentList.Text && Children.Count == 0)
                 (this as TextModel)?.AddFirstChild();
 

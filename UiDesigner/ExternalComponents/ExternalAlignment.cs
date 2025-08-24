@@ -1,4 +1,3 @@
-using System;
 using ConceptorUI.Models;
 using UiDesigner.Models;
 
@@ -46,10 +45,25 @@ public static class ExternalAlignment
         {
             var value = component.Property?.VerticalAlignment;
             var alignmentName = value == "top" ? "Vt" : value == "bottom" ? "Vb" : "Vc";
+            
             group.Properties.Add(new Property
             {
-                Name = alignmentName,
-                Value = "1",
+                Name = PropertyNames.Vt.ToString(),
+                Value = alignmentName == "Vt" ? "1" : "0",
+                Visibility = VisibilityValue.Visible.ToString()
+            });
+            
+            group.Properties.Add(new Property
+            {
+                Name = PropertyNames.Vc.ToString(),
+                Value = alignmentName == "Vc" ? "1" : "0",
+                Visibility = VisibilityValue.Visible.ToString()
+            });
+            
+            group.Properties.Add(new Property
+            {
+                Name = PropertyNames.Vb.ToString(),
+                Value = alignmentName == "Vb" ? "1" : "0",
                 Visibility = VisibilityValue.Visible.ToString()
             });
         }

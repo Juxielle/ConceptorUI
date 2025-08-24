@@ -94,11 +94,11 @@ namespace ConceptorUI.ViewModels.Container
             /* Appearance */
             /* Shadow */
 
-            var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
+            /*var w = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
             if (w != SizeValue.Expand.ToString() &&
                 Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Horizontal"))
             {
-                WhenAlignmentChanged(PropertyNames.Hl, "1");
+                //WhenAlignmentChanged(PropertyNames.Hl, "1");
             }
             else
             {
@@ -117,7 +117,9 @@ namespace ConceptorUI.ViewModels.Container
 
             var h = Children[id].GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             if (h != SizeValue.Expand.ToString() && Children[id].IsNullAlignment(GroupNames.SelfAlignment, "Vertical"))
-                WhenAlignmentChanged(PropertyNames.Vt, "1"); //Démander la permission du parent avant
+            {
+                //WhenAlignmentChanged(PropertyNames.Vt, "1"); //Démander la permission du parent avant
+            }
             else
             {
                 var vc = Children[id].GetGroupProperties(GroupNames.SelfAlignment).GetValue(PropertyNames.Vc);
@@ -128,11 +130,11 @@ namespace ConceptorUI.ViewModels.Container
                 {
                     var vertical = vb == "1" ? PropertyNames.Vb : vc == "1" ? PropertyNames.Vc : PropertyNames.Vt;
                     this.SetPropertyValue(GroupNames.Alignment, vertical, "1");
-                    WhenAlignmentChanged(vertical, "1");
+                    //WhenAlignmentChanged(vertical, "1");
                 }
                 else if (h != SizeValue.Expand.ToString())
                     this.SetPropertyValue(GroupNames.Alignment, PropertyNames.Vt, "1");
-            }
+            }*/
         }
 
         public override void WhenAlignmentChanged(PropertyNames propertyName, string value)

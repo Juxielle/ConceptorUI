@@ -2,9 +2,9 @@ using System;
 using System.Collections.Generic;
 using System.Text.Json;
 using ConceptorUI.ExternalComponents.InverseConverters;
+using ConceptorUI.ExternalComponents.PropertySettings;
 using ConceptorUI.Models;
 using ConceptorUI.Views.Component;
-using DesignForge.ExternalComponents.PropertySettings;
 using UiDesigner.Models;
 
 namespace ConceptorUI.ExternalComponents;

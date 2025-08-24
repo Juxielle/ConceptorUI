@@ -1,6 +1,4 @@
-﻿using ConceptorUI.ExternalComponents;
-
-namespace DesignForge.ExternalComponents.PropertySettings;
+﻿namespace ConceptorUI.ExternalComponents.PropertySettings;
 
 public static class CheckProperty
 {

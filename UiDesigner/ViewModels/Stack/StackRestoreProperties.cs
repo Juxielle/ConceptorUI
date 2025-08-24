@@ -1,9 +1,7 @@
 ﻿using ConceptorUI.Models;
 using ConceptorUi.ViewModels.Operations;
-using ConceptorUI.ViewModels.Stack;
-using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Stack;
+namespace ConceptorUI.ViewModels.Stack;
 
 static class StackRestoreProperties
 {
@@ -39,111 +37,45 @@ static class StackRestoreProperties
             var heightChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Height);
             var widthChild = child.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Width);
 
-            if (isHorizontal && stack.IsVertical)
+            if (isChildHorizontal)
             {
-                if (isChildHorizontal)
+                if (widthChild == SizeValue.Expand.ToString())
                 {
-                    if (widthChild == SizeValue.Expand.ToString())
-                    {
-                        SelfAlignment.SetHorizontalValue(child, ah, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-                    }
-                    else if (ah != ahc)
-                        SelfAlignment.SetHorizontalValue(child, ah, "1");
-                }
-                else
-                {
-                    if (widthChild == SizeValue.Expand.ToString() && child.AllowExpanded())
-                    {
-                        SelfAlignment.SetHorizontalValue(child, ah, "1");
-                    }
-                    else if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        SelfAlignment.SetHorizontalValue(child, ah, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-                    }
-                    else SelfAlignment.SetHorizontalValue(child, ah, "1");
+                    //SelfAlignment.SetHorizontalValue(child, ah, "1");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
                 }
             }
-            else if (stack.IsVertical)
+            else
             {
-                if (isChildHorizontal)
+                if (widthChild != SizeValue.Expand.ToString() && widthChild != SizeValue.Auto.ToString())
                 {
-                    if (widthChild == SizeValue.Expand.ToString() && child.AllowExpanded())
-                    {
-                        SelfAlignment.SetHorizontalOnNull(child);
-                    }
-                    else if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-                    }
-                    else SelfAlignment.SetHorizontalValue(child, ahc, "1");
+                    SelfAlignment.SetHorizontalValue(child, ah, "1");
                 }
-                else
+                else if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
                 {
-                    if (widthChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
-                    }
-                    else if (widthChild != SizeValue.Expand.ToString())
-                    {
-                        SelfAlignment.SetHorizontalValue(child, PropertyNames.Hl, "1");
-                    }
+                    SelfAlignment.SetHorizontalValue(child, ah, "1");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
                 }
             }
 
-            if (isVertical && !stack.IsVertical)
+            if (isChildVertical)
             {
-                if (isChildVertical)
+                if (heightChild == SizeValue.Expand.ToString())
                 {
-                    if (heightChild == SizeValue.Expand.ToString())
-                    {
-                        SelfAlignment.SetVerticalValue(child, av, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-                    }
-                    else if (av != avc)
-                        SelfAlignment.SetVerticalValue(child, av, "1");
-                }
-                else
-                {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
-                    {
-                        SelfAlignment.SetVerticalValue(child, av, "1");
-                    }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        SelfAlignment.SetVerticalValue(child, av, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-                    }
-                    else SelfAlignment.SetVerticalValue(child, av, "1");
+                    //SelfAlignment.SetVerticalValue(child, av, "1");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
                 }
             }
-            else if (!stack.IsVertical)
+            else
             {
-                if (isChildHorizontal)
+                if (heightChild != SizeValue.Expand.ToString() && heightChild != SizeValue.Auto.ToString())
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
-                    {
-                        SelfAlignment.SetVerticalOnNull(child);
-                    }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-                    }
-                    else SelfAlignment.SetVerticalValue(child, avc, "1");
+                    SelfAlignment.SetVerticalValue(child, av, "1");
                 }
-                else
+                else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
-                    {
-                        SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");
-                        child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
-                    }
-                    else if (heightChild != SizeValue.Expand.ToString())
-                    {
-                        SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");
-                    }
+                    SelfAlignment.SetVerticalValue(child, av, "1");
+                    child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
                 }
             }
 
@@ -167,7 +99,7 @@ static class StackRestoreProperties
                 stack.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
             }
         }
-        
+
         if (isSelfVertical)
         {
             if (height == SizeValue.Expand.ToString())
@@ -175,7 +107,7 @@ static class StackRestoreProperties
                 stack.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
             }
         }
-        
+
         stack.Synchronize();
     }
 }

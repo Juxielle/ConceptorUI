@@ -1,5 +1,4 @@
 using System;
-using System.Text.Json;
 using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
@@ -24,40 +23,6 @@ class ExternalMetaComponent
     public Component CreateComponent()
     {
         var compSerializer = Component?.ConvertToCompSerializer();
-        
-        var alignmentGroup = new GroupProperties
-        {
-            Name = GroupNames.Alignment.ToString(),
-            Visibility = VisibilityValue.Visible.ToString(),
-            Properties = []
-        };
-        
-        if (HorizontalAlignment != null)
-        {
-            var value = HorizontalAlignment;
-            var alignmentName = value == "left" ? "Hl" : value == "right" ? "Hr" : "Hc";
-            alignmentGroup.Properties.Add(new Property
-            {
-                Name = alignmentName,
-                Value = "1",
-                Visibility = VisibilityValue.Visible.ToString()
-            });
-        }
-        
-        if (VerticalAlignment != null)
-        {
-            var value = VerticalAlignment;
-            var alignmentName = value == "top" ? "Vt" : value == "bottom" ? "Vb" : "Vc";
-            alignmentGroup.Properties.Add(new Property
-            {
-                Name = alignmentName,
-                Value = "1",
-                Visibility = VisibilityValue.Visible.ToString()
-            });
-        }
-
-        /*if (alignmentGroup.Properties.Count > 0)
-            compSerializer?.Properties?.Add(alignmentGroup);*/
         
         var component = ComponentHelper.GetComponent(compSerializer?.Name!);
         component.OnDeserializer(compSerializer!);

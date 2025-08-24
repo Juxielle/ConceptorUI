@@ -7,7 +7,6 @@ using ConceptorUI.Models;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Stack;
 
 namespace ConceptorUI.ViewModels.Stack
 {

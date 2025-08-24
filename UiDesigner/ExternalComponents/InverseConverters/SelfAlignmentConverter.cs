@@ -25,12 +25,12 @@ public static class SelfAlignmentConverter
                 var name = compSerializer.Properties![i].Properties[j].Name;
                 var value = compSerializer.Properties![i].Properties[j].Value;
 
-                if ((name is "Hl" or "Hc" or "Hr") && parentName == ComponentList.Row.ToString() &&
-                    parentName == ComponentList.ListV.ToString() && parentName == ComponentList.Stack.ToString())
+                if ((name is "Hl" or "Hc" or "Hr") && (parentName == ComponentList.Row.ToString() ||
+                    parentName == ComponentList.ListV.ToString() || parentName == ComponentList.Stack.ToString()))
                 {
                     if(value == "0") continue;
                     var virgule = isFirst ? space : $",\n{space}";
-                    jsonText += $"{virgule}\"SelfHorizontalAlignment\": ";
+                    jsonText += $"{virgule}\"HorizontalSelfAlignment\": ";
                     
                     value = name == "Hl" ? "left" :
                         name == "Hr" ? "right" :
@@ -39,12 +39,12 @@ public static class SelfAlignmentConverter
                     jsonText += $"\"{value}\"";
                     isFirst = false;
                 }
-                else if ((name is "Vt" or "Vc" or "Vb") && parentName == ComponentList.Column.ToString() &&
-                         parentName == ComponentList.ListH.ToString() && parentName == ComponentList.Stack.ToString())
+                else if ((name is "Vt" or "Vc" or "Vb") && (parentName == ComponentList.Column.ToString() ||
+                         parentName == ComponentList.ListH.ToString() || parentName == ComponentList.Stack.ToString()))
                 {
                     if(value == "0") continue;
                     var virgule = isFirst ? space : $",\n{space}";
-                    jsonText += $"{virgule}\"SelfVerticalAlignment\": ";
+                    jsonText += $"{virgule}\"VerticalSelfAlignment\": ";
                     
                     value = name == "Vt" ? "top" :
                         name == "Vc" ? "center" :
