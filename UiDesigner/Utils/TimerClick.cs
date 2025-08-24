@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Timers;
 
-namespace UiDesigner.Utils;
+namespace ConceptorUI.Utils;
 
 public static class TimerClick
 {

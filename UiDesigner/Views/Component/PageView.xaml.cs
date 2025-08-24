@@ -12,6 +12,7 @@ using ConceptorUI.Enums;
 using ConceptorUI.ExternalComponents;
 using ConceptorUI.Models;
 using ConceptorUI.Senders;
+using ConceptorUI.Utils;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUI.ViewModels.Container;
@@ -26,7 +27,6 @@ using UiDesigner.Application.Project;
 using UiDesigner.Application.Reports;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
-using UiDesigner.Utils;
 using UiDesigner.Views.Component;
 
 namespace ConceptorUI.Views.Component

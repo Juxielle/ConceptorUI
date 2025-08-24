@@ -12,13 +12,13 @@ using System.Windows.Shapes;
 using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Senders;
+using ConceptorUI.Utils;
 using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
-using UiDesigner.Utils;
 using TransformGroup = ConceptorUI.ViewModels.Components.GroupProperty.TransformGroup;
 
 namespace ConceptorUI.ViewModels.Components

@@ -10,10 +10,10 @@ using System.Windows.Media;
 using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Senders;
+using ConceptorUI.Utils;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.Utils;
 
 namespace ConceptorUI.ViewModels.Text
 {
@@ -464,10 +464,12 @@ namespace ConceptorUI.ViewModels.Text
 
         protected override void RestoreProperties()
         {
+            TextRestoreProperties.RestoreProperties(this);
         }
 
         protected override void CheckVisibilities()
         {
+            this.SetVisibilities();
         }
     }
 }

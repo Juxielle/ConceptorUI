@@ -3,10 +3,10 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using ConceptorUI.Models;
+using ConceptorUI.Utils;
 using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Models;
-using UiDesigner.Utils;
 
 namespace ConceptorUI.ViewModels.Text
 {

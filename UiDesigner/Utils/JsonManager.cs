@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
-namespace UiDesigner.Utils;
+
+namespace ConceptorUI.Utils;
 
 public class JsonManager
 {
