@@ -62,6 +62,7 @@
 
     <Grid x:Name="Content"
           Background="#e4e4e4"
+          PreviewMouseMove="ContentMouseMove"
           PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
         <DockPanel>
             <propertyPanel1:PanelActionButtons Height="40"

@@ -119,7 +119,7 @@ static class ContainerRestoreProperties
                     {
                         Alignment.SetVerticalOnNull(container);
                     }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalValue(child, av, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
@@ -132,11 +132,11 @@ static class ContainerRestoreProperties
             {
                 if (isChildVertical)
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalOnNull(child);
                     }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         Alignment.SetVerticalValue(container, avc, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
@@ -146,7 +146,7 @@ static class ContainerRestoreProperties
                 }
                 else
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         Alignment.SetVerticalValue(container, PropertyNames.Vt, "1");
                         SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");

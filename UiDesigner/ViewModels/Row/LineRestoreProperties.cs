@@ -116,7 +116,7 @@ static class LineRestoreProperties
         {
             if (isChildVertical)
             {
-                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded())
+                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded(false))
                 {
                     SelfAlignment.SetVerticalOnNull(component);
                 }

@@ -10,7 +10,6 @@ using ConceptorUI.ViewModels.Components;
 using ConceptorUi.ViewModels.Operations;
 using UiDesigner.Enums;
 using UiDesigner.Models;
-using UiDesigner.ViewModels.Image;
 
 namespace ConceptorUI.ViewModels.Image
 {

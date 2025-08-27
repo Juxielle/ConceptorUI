@@ -35,11 +35,11 @@ static class ColumnRestoreProperties
             }
             else
             {
-                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded())
+                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded(false))
                 {
                     SelfAlignment.SetVerticalValue(component, av, "1");
                 }
-                else if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
+                else if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
                     SelfAlignment.SetVerticalValue(component, av, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height,
@@ -52,11 +52,11 @@ static class ColumnRestoreProperties
         {
             if (isChildVertical)
             {
-                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded())
+                if (heightChild == SizeValue.Expand.ToString() && component.AllowExpanded(false))
                 {
                     SelfAlignment.SetVerticalOnNull(component);
                 }
-                else if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
+                else if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
                 }
@@ -64,7 +64,7 @@ static class ColumnRestoreProperties
             }
             else
             {
-                if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
+                if (heightChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
                 {
                     SelfAlignment.SetVerticalValue(component, PropertyNames.Vt, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
@@ -95,11 +95,11 @@ static class ColumnRestoreProperties
             }
             else
             {
-                if (widthChild == SizeValue.Expand.ToString() && component.AllowExpanded(false))
+                if (widthChild == SizeValue.Expand.ToString() && component.AllowExpanded())
                 {
                     Alignment.SetHorizontalOnNull(component.Parent);
                 }
-                else if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
+                else if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
                 {
                     SelfAlignment.SetHorizontalValue(component, ah, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
@@ -115,7 +115,7 @@ static class ColumnRestoreProperties
                 {
                     SelfAlignment.SetHorizontalOnNull(component);
                 }
-                else if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
+                else if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
                 {
                     if(!isExpand) Alignment.SetHorizontalValue(component.Parent, ahc, "1");
                     component.SetPropertyValue(GroupNames.Transform, PropertyNames.Width, SizeValue.Auto.ToString());
@@ -124,7 +124,7 @@ static class ColumnRestoreProperties
             }
             else
             {
-                if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded(false))
+                if (widthChild == SizeValue.Expand.ToString() && !component.AllowExpanded())
                 {
                     if(!isExpand) Alignment.SetHorizontalValue(component.Parent, PropertyNames.Hl, "1");
                     SelfAlignment.SetHorizontalValue(component, PropertyNames.Hl, "1");

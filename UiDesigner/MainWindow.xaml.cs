@@ -21,6 +21,7 @@ namespace ConceptorUI
         private bool _isHorizontalScroll;
         private bool _allowMove;
         private bool _allowScroll;
+        private Point _lastMousePosition;
 
         public MainWindow()
         {
@@ -149,6 +150,7 @@ namespace ConceptorUI
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
+            _lastMousePosition = e.GetPosition((IInputElement)sender);
             if (!e.OriginalSource.Equals(Content) && !e.OriginalSource.Equals(ContentPages) &&
                 !e.OriginalSource.Equals(Pages)) return;
             PageView.OnUnSelect();
@@ -288,6 +290,18 @@ namespace ConceptorUI
         {
             if (sender is not bool allowScroll) return;
             _allowScroll = allowScroll;
+        }
+        
+        private void ContentMouseMove(object sender, MouseEventArgs e)
+        {
+            if (e.LeftButton != MouseButtonState.Pressed) return;
+            var position = e.GetPosition((IInputElement)sender);
+            
+            var dx = position.X - _lastMousePosition.X;
+            var dy = position.Y - _lastMousePosition.Y;
+            Pages.ScrollToVerticalOffset(Pages.VerticalOffset - dy);
+            Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - dx);
+            _lastMousePosition = position;
         }
     }
 }

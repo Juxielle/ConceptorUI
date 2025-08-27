@@ -1,9 +1,7 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.ViewModels.Image;
 using ConceptorUi.ViewModels.Operations;
-using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.Image;
+namespace ConceptorUI.ViewModels.Image;
 
 static class ImageRestoreProperties
 {

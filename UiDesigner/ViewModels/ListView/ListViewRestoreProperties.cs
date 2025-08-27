@@ -1,9 +1,7 @@
 ﻿using ConceptorUI.Models;
-using ConceptorUI.ViewModels.ListView;
 using ConceptorUi.ViewModels.Operations;
-using UiDesigner.Models;
 
-namespace UiDesigner.ViewModels.ListView;
+namespace ConceptorUI.ViewModels.ListView;
 
 static class ListViewRestoreProperties
 {
@@ -107,11 +105,11 @@ static class ListViewRestoreProperties
                 }
                 else
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalValue(child, av, "1");
                     }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalValue(child, av, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
@@ -123,11 +121,11 @@ static class ListViewRestoreProperties
             {
                 if (isChildHorizontal)
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalOnNull(child);
                     }
-                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    else if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
                     }
@@ -135,7 +133,7 @@ static class ListViewRestoreProperties
                 }
                 else
                 {
-                    if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded())
+                    if (heightChild == SizeValue.Expand.ToString() && !child.AllowExpanded(false))
                     {
                         SelfAlignment.SetVerticalValue(child, PropertyNames.Vt, "1");
                         child.SetPropertyValue(GroupNames.Transform, PropertyNames.Height, SizeValue.Auto.ToString());
