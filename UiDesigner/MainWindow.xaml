@@ -62,7 +62,6 @@
 
     <Grid x:Name="Content"
           Background="#e4e4e4"
-          PreviewMouseMove="ContentMouseMove"
           PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
         <DockPanel>
             <propertyPanel1:PanelActionButtons Height="40"
@@ -95,6 +94,8 @@
 
             <Grid Margin="0 0 0 2"
                   x:Name="ContentPages"
+                  PreviewMouseMove="ContentMouseMove"
+                  PreviewMouseUp="ContentMouseUp"
                   PreviewMouseLeftButtonDown="OnMouseLeftButtonDown">
                 <ScrollViewer HorizontalScrollBarVisibility="Hidden"
                               VerticalScrollBarVisibility="Hidden"

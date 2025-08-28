@@ -20,6 +20,7 @@ namespace ConceptorUI
         private readonly List<ProjectInfoUiDto> _projects;
         private bool _isHorizontalScroll;
         private bool _allowMove;
+        private bool _allowMouseMove;
         private bool _allowScroll;
         private Point _lastMousePosition;
 
@@ -30,6 +31,7 @@ namespace ConceptorUI
             _obj = this;
             _projects = [];
             _allowMove = true;
+            _allowMouseMove = true;
             _allowScroll = true;
             _isHorizontalScroll = false;
             Pages.Focus();
@@ -294,6 +296,11 @@ namespace ConceptorUI
         
         private void ContentMouseMove(object sender, MouseEventArgs e)
         {
+            /*if (_allowMouseMove)
+            {
+                _allowMouseMove = true;
+                return;
+            }*/
             if (e.LeftButton != MouseButtonState.Pressed) return;
             var position = e.GetPosition((IInputElement)sender);
             
@@ -302,6 +309,11 @@ namespace ConceptorUI
             Pages.ScrollToVerticalOffset(Pages.VerticalOffset - dy);
             Pages.ScrollToHorizontalOffset(Pages.HorizontalOffset - dx);
             _lastMousePosition = position;
+        }
+
+        private void ContentMouseUp(object sender, MouseEventArgs e)
+        {
+            _allowMouseMove = false;
         }
     }
 }
