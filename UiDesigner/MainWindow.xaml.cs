@@ -23,6 +23,7 @@ namespace ConceptorUI
         private bool _allowMouseMove;
         private bool _allowScroll;
         private Point _lastMousePosition;
+        private KeyType _lastKeyType;
 
         public MainWindow()
         {
@@ -34,6 +35,7 @@ namespace ConceptorUI
             _allowMouseMove = true;
             _allowScroll = true;
             _isHorizontalScroll = false;
+            _lastKeyType = KeyType.None;
             Pages.Focus();
 
             ComponentButtons.OnPreMouseDownEvent += OnComponentButtonMouseClick!;
@@ -106,10 +108,12 @@ namespace ConceptorUI
                     break;
                 case Key.LeftCtrl:
                     ComponentHelper.IsMultiSelectionEnable = true;
+                    _lastKeyType = KeyType.LeftCtl;
                     Console.WriteLine("LeftCtrl is pressed.");
                     break;
                 case Key.RightCtrl:
                     ComponentHelper.IsMultiSelectionEnable = true;
+                    _lastKeyType = KeyType.RightCtl;
                     Console.WriteLine("RightCtrl is pressed.");
                     break;
             }
@@ -148,6 +152,7 @@ namespace ConceptorUI
             {
                 ComponentHelper.IsMultiSelectionEnable = false;
             }
+            _lastKeyType = KeyType.None;
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -301,7 +306,7 @@ namespace ConceptorUI
                 _allowMouseMove = true;
                 return;
             }*/
-            if (e.LeftButton != MouseButtonState.Pressed) return;
+            if (e.LeftButton != MouseButtonState.Pressed || _lastKeyType != KeyType.None) return;
             var position = e.GetPosition((IInputElement)sender);
             
             var dx = position.X - _lastMousePosition.X;

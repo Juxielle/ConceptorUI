@@ -27,31 +27,41 @@ namespace ConceptorUI.ViewModels.Components
     {
         /*
          * ------------------------------------
-         * Mettre en place un système de remplacement de composants -> 1
-         * Donner une mise en page à un composant -> 2
-         * Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
-         * Multi selections - En cours
-         * Annuler et Restaurer -> En cours
-         * Composant reutilisable -> En cours
-         * Zoom de l'écran -> En cours
-         * Margin horizontal
-         * ------------------------------------
-         * Système de dimensions apparentes
-         * - C'est un problème qui se pose lorsqu'on crée un composant
-         * qui n'est pas une page, de façon indépendante;
-         * - Ces dimensions ne sont pas visibles à l'utilisateur, mais sont définies directement sur
-         * les controls du composant le plus externe;
-         * - Ces dimensions doivent être détruites lors de l'appel du composant;
-         * - Eviter tout simplement que ces dimensions soient completement nulles,
-         * sinon le composant sera invisivible à l'utilisateur;
-         * ------------------------------------
-         * Ctrl + Deplacement de la souris ou Ctrl + Fleches de direction, permet de
-         * déplacer le composant sélectionné;
-         * ------------------------------------
-         * - Mettre en place un algorithme de placement automatique des composants dans des zones
-         * disponibles pour éviter le chevauchement;
-         * - Mettre en place un algorithme de réarrangement automatique des composants dans des zones
-         * disponibles pour éviter le chevauchement;
+            1. Mettre en place un système de remplacement de composants -> 1
+            2. Donner une mise en page à un composant -> 2
+            3. Mettre en place le mécanisme du glisser déposer des composants -> implique le 1 et 2.
+            4. Multi selections - En cours
+            5. Annuler et Restaurer -> En cours
+            6. Composant reutilisable -> En cours
+            7. Zoom de l'écran -> En cours
+            8. Margin horizontal
+            ------------------------------------
+            9. Système de dimensions apparentes
+                - C'est un problème qui se pose lorsqu'on crée un composant
+                  qui n'est pas une page, de façon indépendante;
+                - Ces dimensions ne sont pas visibles à l'utilisateur, mais sont définies directement sur
+                  les controls du composant le plus externe;
+                - Ces dimensions doivent être détruites lors de l'appel du composant;
+                - Eviter tout simplement que ces dimensions soient completement nulles,
+                  sinon le composant sera invisivible à l'utilisateur;
+                - Grâce à ces dimensions, les composants reutilisables n'auront une classe propre.
+                  Mais seront simplement des composants classiques.
+                  Ce système va permettre de sortir les composants des pages, pour qu'ils deviennent des composants
+                  indépendants.
+                - RQ1: Un composant sorti de page à pour dimensions soient ses dimenssions définies ou ses dimensions
+                  natives.
+                - RQ2: Les composants layout doivent un bouton add (mouse hover) pour ajouter les enfants. Une fénêtre
+                  s'ouvre pour sélectionner un enfant.
+                - RQ3: On peut glisser un enfant directement dans son parent. Si la taille du parent n'est pas infinie
+                  et que l'espace disponible du parent est inférieur à la taille de l'enfant, alors l'ajout de ce dernier doit échouer.
+            ------------------------------------
+            10. Ctrl + Deplacement de la souris ou Ctrl + Fleches de direction, permet de
+                déplacer le composant sélectionné;
+            ------------------------------------
+            11. Mettre en place un algorithme de placement automatique des composants dans des zones
+                disponibles pour éviter le chevauchement;
+            12. Mettre en place un algorithme de réarrangement automatique des composants dans des zones
+                disponibles pour éviter le chevauchement;
          */
         public ComponentList Name { get; set; }
         public List<GroupProperties>? PropertyGroups { get; set; }
