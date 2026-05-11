@@ -289,31 +289,64 @@
                     </StackPanel>
                 </StackPanel>
 
-                <StackPanel Grid.Column="1" Margin="10 0" x:Name="SBorderRad">
-                    <TextBlock Text="Border Radius" Foreground="#666666" FontSize="10"
-                               FontWeight="Bold" Grid.ColumnSpan="2" VerticalAlignment="Bottom" />
+                <StackPanel Grid.Column="1" 
+                            Margin="10 0" 
+                            x:Name="SBorderRad">
+                    <TextBlock Text="Border Radius" 
+                               Foreground="#666666" 
+                               FontSize="10"
+                               FontWeight="Bold" 
+                               Grid.ColumnSpan="2" 
+                               VerticalAlignment="Bottom" />
                     <DockPanel>
-                        <Grid DockPanel.Dock="Right" Width="15" x:Name="GSetValueBR">
+                        <Grid DockPanel.Dock="Right" 
+                              Width="15" 
+                              x:Name="GSetValueBR">
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="*" />
                                 <RowDefinition Height="*" />
                             </Grid.RowDefinitions>
-                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 0"
-                                    Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="UpValueBR">
-                                <materialDesign:PackIcon Kind="ArrowUpBold" Width="8" Height="8" Foreground="#8c8c8a" />
+                            <Button Background="Transparent" 
+                                    BorderBrush="#8c8c8a" 
+                                    BorderThickness="0.5 0.5 0.5 0"
+                                    Cursor="Hand" 
+                                    DockPanel.Dock="Right" 
+                                    Click="BtnClick" 
+                                    Tag="UpValueBR">
+                                <materialDesign:PackIcon Kind="ArrowUpBold" 
+                                                         Width="8" 
+                                                         Height="8" 
+                                                         Foreground="#8c8c8a" />
                             </Button>
-                            <Button Background="Transparent" BorderBrush="#8c8c8a" BorderThickness="0.5 0.5 0.5 2"
-                                    Cursor="Hand" DockPanel.Dock="Right" Click="BtnClick" Tag="DownValueBR"
+                            <Button Background="Transparent" 
+                                    BorderBrush="#8c8c8a" 
+                                    BorderThickness="0.5 0.5 0.5 2"
+                                    Cursor="Hand" 
+                                    DockPanel.Dock="Right" 
+                                    Click="BtnClick" 
+                                    Tag="DownValueBR"
                                     Grid.Row="1">
-                                <materialDesign:PackIcon Kind="ArrowDownBold" Width="8" Height="8" Foreground="#8c8c8a" />
+                                <materialDesign:PackIcon Kind="ArrowDownBold" 
+                                                         Width="8" 
+                                                         Height="8" 
+                                                         Foreground="#8c8c8a" />
                             </Button>
                         </Grid>
-                        <TextBox BorderBrush="#8c8c8a" BorderThickness="0 0 0 2" TextChanged="OnTextChanged"
-                                 Foreground="#8c8c8a" Height="23" VerticalAlignment="Bottom" x:Name="TBorderRad"
+                        
+                        <TextBox BorderBrush="#8c8c8a" 
+                                 BorderThickness="0 0 0 2" 
+                                 TextChanged="OnTextChanged"
+                                 Foreground="#8c8c8a" 
+                                 Height="23" 
+                                 VerticalAlignment="Bottom" 
+                                 x:Name="TBorderRad"
                                  Tag="BorderRad"
-                                 Text="0" FontSize="14" FontWeight="Bold" />
+                                 Text="0" 
+                                 FontSize="14" 
+                                 FontWeight="Bold" />
                     </DockPanel>
                 </StackPanel>
+                
                 <StackPanel Grid.Column="2" Width="30" Height="30" Orientation="Horizontal" Margin="-6 0 0 0"
                             x:Name="SBorderRadBtn">
                     <StackPanel Width="14">

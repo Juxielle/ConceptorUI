@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text.Json;
 using System.Windows;
 using ConceptorUI.Classes;
+using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUi.ViewModels;
 using ConceptorUI.ViewModels.Container;
@@ -26,6 +27,7 @@ internal class ComponentHelper
     public static string? FilePath;
 
     public static bool IsMultiSelectionEnable = false;
+    public static KeyType CurrentKeyType = KeyType.None;
     
     public static readonly List<UndoRedoAction> UndoActions = [];
     public static readonly List<UndoRedoAction> RedoActions = [];

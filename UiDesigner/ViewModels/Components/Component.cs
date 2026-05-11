@@ -17,6 +17,7 @@ using ConceptorUI.ViewModels.Components.GroupProperty;
 using ConceptorUI.ViewModels.Container;
 using ConceptorUi.ViewModels.Operations;
 using ConceptorUI.ViewModels.Text;
+using ConceptorUI.Views.Component;
 using UiDesigner.Inputs;
 using UiDesigner.Models;
 using TransformGroup = ConceptorUI.ViewModels.Components.GroupProperty.TransformGroup;
@@ -44,13 +45,13 @@ namespace ConceptorUI.ViewModels.Components
                 - Ces dimensions doivent être détruites lors de l'appel du composant;
                 - Eviter tout simplement que ces dimensions soient completement nulles,
                   sinon le composant sera invisivible à l'utilisateur;
-                - Grâce à ces dimensions, les composants reutilisables n'auront une classe propre.
+                - Grâce à ces dimensions, les composants reutilisables n'auront plus une classe propre.
                   Mais seront simplement des composants classiques.
                   Ce système va permettre de sortir les composants des pages, pour qu'ils deviennent des composants
                   indépendants.
                 - RQ1: Un composant sorti de page à pour dimensions soient ses dimenssions définies ou ses dimensions
                   natives.
-                - RQ2: Les composants layout doivent un bouton add (mouse hover) pour ajouter les enfants. Une fénêtre
+                - RQ2: Les composants layout doivent avoir un bouton add (mouse hover) pour ajouter les enfants. Une fénêtre
                   s'ouvre pour sélectionner un enfant.
                 - RQ3: On peut glisser un enfant directement dans son parent. Si la taille du parent n'est pas infinie
                   et que l'espace disponible du parent est inférieur à la taille de l'enfant, alors l'ajout de ce dernier doit échouer.
@@ -94,6 +95,7 @@ namespace ConceptorUI.ViewModels.Components
 
         public ICommand? SelectedCommand;
         public ICommand? MouseWheelCommand;
+        public ICommand? MouseMoveCommand;
 
         public abstract void SelfConstraints();
         public abstract void LayoutConstraints(int id, bool isDeserialize = false, bool existExpand = false);
@@ -152,10 +154,15 @@ namespace ConceptorUI.ViewModels.Components
         {
             SelectedCommand?.Execute(sender);
         }
-        
+
         public void OnMouseWheelHandle(object sender)
         {
             MouseWheelCommand?.Execute(sender);
+        }
+
+        public void OnMouseMoveHandle(object sender)
+        {
+            MouseMoveCommand?.Execute(sender);
         }
 
         public bool OnChildSelected()
@@ -205,17 +212,49 @@ namespace ConceptorUI.ViewModels.Components
             OnSelected(e.ClickCount);
         }
 
-        private void OnMouseEnter(object sender, MouseEventArgs e)
+        private void OnMouseMove(object sender, MouseEventArgs e)
         {
+            if (!Selected) return;
+            if (ComponentHelper.CurrentKeyType != KeyType.LeftCtl) return;
+            var point = e.GetPosition(PageView.Instance);
+            MouseMoveCommand?.Execute(
+                new MoveComponentSender
+                {
+                    Id = Id!,
+                    X = point.X,
+                    Y = point.Y,
+                    IsMove = true,
+                    PropertyGroups = GetPropertyGroups(),
+                    ComponentName = Name
+                }
+            );
+        }
+
+        private void OnMouseUp(object sender, MouseEventArgs e)
+        {
+            if (!Selected) return;
+            if (ComponentHelper.CurrentKeyType != KeyType.LeftCtl) return;
+            var point = e.GetPosition(PageView.Instance);
+            MouseMoveCommand?.Execute(
+                new MoveComponentSender
+                {
+                    Id = Id!,
+                    X = point.X,
+                    Y = point.Y,
+                    IsMove = false,
+                    PropertyGroups = GetPropertyGroups(),
+                    ComponentName = Name
+                }
+            );
         }
 
         private void OnSizeChanged(object sender, SizeChangedEventArgs e)
         {
             if (GetType().Name != nameof(ContainerModel) || !IsAllowSizeChange) return;
-            
+
             IsAllowSizeChange = false;
             var shape = this.GetGroupProperties(GroupNames.Transform).GetValue(PropertyNames.Shape);
-            if(shape == Shapes.Rectangle.ToString()) return;
+            if (shape == Shapes.Rectangle.ToString()) return;
             this.RestoreShape();
         }
 
@@ -977,7 +1016,7 @@ namespace ConceptorUI.ViewModels.Components
                     }
 
                     #endregion
-                    
+
                     #region Transform
 
                     else if (prop.Name == PropertyNames.Width.ToString())
@@ -1049,7 +1088,7 @@ namespace ConceptorUI.ViewModels.Components
                     }
 
                     #endregion
-                    
+
                     #region Appearance
 
                     else if (prop.Name == PropertyNames.FillColor.ToString())
@@ -1260,13 +1299,14 @@ namespace ConceptorUI.ViewModels.Components
                 }
             }
         }
-        
+
         public void OnAdd(Component component, bool isExpanded = false)
         {
             if (!HasChildren || Children.Count >= ChildContentLimit) return;
             component.Parent = this;
             component.SelectedCommand = new RelayCommand(OnSelectedHandle);
             component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
+            component.MouseMoveCommand = new RelayCommand(OnMouseMoveHandle);
 
             AddIntoChildContent(component.ComponentView);
             Children.Add(component);
@@ -1295,6 +1335,7 @@ namespace ConceptorUI.ViewModels.Components
                 component.Parent = this;
                 component.SelectedCommand = new RelayCommand(OnSelectedHandle);
                 component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
+                component.MouseMoveCommand = new RelayCommand(OnMouseMoveHandle);
 
                 if (!isComponent)
                 {
@@ -1358,7 +1399,7 @@ namespace ConceptorUI.ViewModels.Components
         {
             //PropertyGroups = compSerializer.Properties;
             this.AddMissingProperties(compSerializer.Properties!);
-            
+
             if (compSerializer.Name == ComponentList.Container.ToString() && compSerializer.Children?.Count > 0)
             {
                 if (compSerializer.Children[0].Name == ComponentList.Text.ToString())
@@ -1405,6 +1446,7 @@ namespace ConceptorUI.ViewModels.Components
                     component.Parent = this;
                     component.SelectedCommand = new RelayCommand(OnSelectedHandle);
                     component.MouseWheelCommand = new RelayCommand(OnMouseWheelHandle);
+                    component.MouseMoveCommand = new RelayCommand(OnMouseMoveHandle);
                     //component.CreateId();
 
                     component.OnDeserializer(child);
@@ -1424,7 +1466,7 @@ namespace ConceptorUI.ViewModels.Components
             }
 
             #endregion
-            
+
             if (Name == ComponentList.Text && Children.Count == 0)
                 (this as TextModel)?.AddFirstChild();
 
@@ -1443,10 +1485,10 @@ namespace ConceptorUI.ViewModels.Components
                 Children = [],
                 IsSimpleElement = HasChildren
             };
-            
+
             foreach (var child in Children)
                 structuralElement.Children.Add(child.AddToStructuralView());
-            
+
             return structuralElement;
         }
 
@@ -1566,7 +1608,8 @@ namespace ConceptorUI.ViewModels.Components
 
             ComponentView = SelectedContent;
             ComponentView.PreviewMouseLeftButtonDown += OnMouseDown;
-            ComponentView.MouseEnter += OnMouseEnter;
+            ComponentView.PreviewMouseMove += OnMouseMove;
+            ComponentView.PreviewMouseLeftButtonUp += OnMouseUp;
             ComponentView.SizeChanged += OnSizeChanged;
 
             Children = [];

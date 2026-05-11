@@ -6,6 +6,7 @@ using System.Windows.Input;
 using ConceptorUI.Enums;
 using ConceptorUI.Models;
 using ConceptorUI.Senders;
+using ConceptorUI.Utils;
 using ConceptorUI.ViewModels.Components;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Enums;
@@ -109,11 +110,13 @@ namespace ConceptorUI
                 case Key.LeftCtrl:
                     ComponentHelper.IsMultiSelectionEnable = true;
                     _lastKeyType = KeyType.LeftCtl;
+                    ComponentHelper.CurrentKeyType = KeyType.LeftCtl;
                     Console.WriteLine("LeftCtrl is pressed.");
                     break;
                 case Key.RightCtrl:
                     ComponentHelper.IsMultiSelectionEnable = true;
                     _lastKeyType = KeyType.RightCtl;
+                    ComponentHelper.CurrentKeyType = KeyType.LeftCtl;
                     Console.WriteLine("RightCtrl is pressed.");
                     break;
             }
@@ -153,6 +156,7 @@ namespace ConceptorUI
                 ComponentHelper.IsMultiSelectionEnable = false;
             }
             _lastKeyType = KeyType.None;
+            ComponentHelper.CurrentKeyType = KeyType.None;
         }
 
         private void OnMouseLeftButtonDown(object sender, MouseButtonEventArgs e)

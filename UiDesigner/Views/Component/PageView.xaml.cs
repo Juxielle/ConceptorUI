@@ -21,12 +21,14 @@ using ConceptorUI.ViewModels.ReusableComponent;
 using ConceptorUI.ViewModels.Text;
 using ConceptorUI.ViewModels.Window;
 using ConceptorUI.Views.Modals;
+using Syncfusion.Windows.Shared;
 using UiDesigner.Application.Configs;
 using UiDesigner.Application.Dto.UiDto;
 using UiDesigner.Application.Project;
 using UiDesigner.Application.Reports;
 using UiDesigner.Enums;
 using UiDesigner.Inputs;
+using UiDesigner.Models;
 using UiDesigner.Views.Component;
 
 namespace ConceptorUI.Views.Component
@@ -42,6 +44,7 @@ namespace ConceptorUI.Views.Component
         private readonly Dictionary<string, ExternalMetaComponent> _externalMetaComponents;
 
         private string _copiedComponent;
+        private string _drawingComponentId;
 
         public ICommand? RefreshPropertyPanelCommand;
         public ICommand? DisplayLoadingCommand;
@@ -190,6 +193,7 @@ namespace ConceptorUI.Views.Component
 
                         component.SelectedCommand = new RelayCommand(OnSelectedHandle);
                         component.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
+                        component.MouseMoveCommand = new RelayCommand(OnComponentMouseMove);
                         new RelayCommand(OnRefreshPropertyPanelHandle);
                         new RelayCommand(OnRefreshStructuralViewHandle);
 
@@ -208,31 +212,7 @@ namespace ConceptorUI.Views.Component
                         /*var width = Convert.ToDouble(externalMetaComponent.Width);
                         var height = Convert.ToDouble(externalMetaComponent.Height);*/
 
-                        var content = new Border
-                        {
-                            Tag = reports[p].Code,
-                            Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
-                        };
-                        content.MouseDown += OnSelectedHandle;
-                        content.MouseEnter += OnMouseEnterHandle;
-                        content.PreviewMouseUp += OnPreviewMouseUp;
-                        content.MouseLeave += OnPreviewMouseLeave;
-                        content.PreviewMouseMove += OnPreviewMouseMove;
-
-                        _components[reports[p].Code!].ComponentView.Margin = new Thickness(15);
-                        _components[reports[p].Code!].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
-                        _components[reports[p].Code!].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
-
-                        var grid = new Grid
-                        {
-                            Tag = validReports[p].Code,
-                            VerticalAlignment = VerticalAlignment.Top,
-                            HorizontalAlignment = HorizontalAlignment.Left,
-                            Margin = new Thickness(x, y, 0, 0),
-                        };
-                        grid.Children.Add(content);
-                        grid.Children.Add(_components[reports[p].Code!].ComponentView);
-                        Page.Children.Add(grid);
+                        AddComponentToView(reports[p].Code!, x, y);
                     }
 
                     DisplayLoadingCommand?.Execute(false);
@@ -242,6 +222,35 @@ namespace ConceptorUI.Views.Component
             AddSizeToScroll();
 
             #endregion
+        }
+
+        private void AddComponentToView(string key, double x, double y)
+        {
+            var content = new Border
+            {
+                Tag = key,
+                Background = new BrushConverter().ConvertFrom("#e4e4e4") as SolidColorBrush,
+            };
+            content.MouseDown += OnSelectedHandle;
+            content.MouseEnter += OnMouseEnterHandle;
+            content.PreviewMouseUp += OnPreviewMouseUp;
+            content.MouseLeave += OnPreviewMouseLeave;
+            content.PreviewMouseMove += OnPreviewMouseMove;
+
+            _components[key].ComponentView.Margin = new Thickness(15);
+            _components[key].SetPropertyValue(GroupNames.Transform, PropertyNames.X, $"{x}");
+            _components[key].SetPropertyValue(GroupNames.Transform, PropertyNames.Y, $"{y}");
+
+            var grid = new Grid
+            {
+                Tag = key,
+                VerticalAlignment = VerticalAlignment.Top,
+                HorizontalAlignment = HorizontalAlignment.Left,
+                Margin = new Thickness(x, y, 0, 0),
+            };
+            grid.Children.Add(content);
+            grid.Children.Add(_components[key].ComponentView);
+            Page.Children.Add(grid);
         }
         
         public async void NewReport(double w, double h, bool isComponent = false)
@@ -254,6 +263,7 @@ namespace ConceptorUI.Views.Component
 
             windowModel.SelectedCommand = new RelayCommand(OnSelectedHandle);
             windowModel.MouseWheelCommand = new RelayCommand(OnComponentMouseWheel);
+            windowModel.MouseMoveCommand = new RelayCommand(OnComponentMouseMove);
             new RelayCommand(OnRefreshPropertyPanelHandle);
             new RelayCommand(OnRefreshStructuralViewHandle);
 
@@ -500,6 +510,28 @@ namespace ConceptorUI.Views.Component
         private void OnComponentMouseWheel(object sender)
         {
             MainMouseWheelCommand?.Execute(sender);
+        }
+
+        private void OnComponentMouseMove(object sender)
+        {
+            if(sender is not MoveComponentSender moveSender) return;
+            Console.WriteLine($@"x:  {moveSender.X}, y: {moveSender.Y}, isMove: {moveSender.IsMove}");
+            
+            if(moveSender.IsMove) return;
+            foreach (var key in _components.Keys)
+            {
+                var componentStr = _components[key].OnCopyOrPaste();
+                if(componentStr.IsNullOrWhiteSpace()) continue;
+                
+                var compSerializer = Helper.Deserialize<CompSerializer>(componentStr);
+                var component = ComponentHelper.GetComponent(compSerializer?.Name!);
+                component.OnDeserializer(compSerializer!);
+
+                _drawingComponentId = $"component_{((DateTimeOffset)DateTime.UtcNow).ToUnixTimeMilliseconds()}";
+                _components.Add(_drawingComponentId, component);
+                AddComponentToView(_drawingComponentId, moveSender.X, moveSender.Y);
+                break;
+            }
         }
 
         private void OnChangeText(object sender)
